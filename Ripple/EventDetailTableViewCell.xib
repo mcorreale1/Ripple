@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="EventDetailTableViewCell" customModule="Ripple" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="320" height="72.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calander_icon_event" translatesAutoresizingMaskIntoConstraints="NO" id="i85-hA-u4a">
+                        <constraints>
+                            <constraint firstAttribute="height" priority="500" id="lje-42-GUD"/>
+                            <constraint firstAttribute="width" priority="500" id="wtc-0V-ivh"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dB-Kc-WB0">
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="accessory_cell_big_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="AGE-EB-2p3">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="IXX-To-zZi"/>
+                            <constraint firstAttribute="width" constant="8" id="ziA-rw-yRU"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="AGE-EB-2p3" firstAttribute="leading" secondItem="8dB-Kc-WB0" secondAttribute="trailing" constant="10" id="6Bz-Ih-cRy"/>
+                    <constraint firstItem="AGE-EB-2p3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="EnJ-z7-JDo"/>
+                    <constraint firstAttribute="trailing" secondItem="AGE-EB-2p3" secondAttribute="trailing" constant="16" id="JCi-Wh-vjO"/>
+                    <constraint firstItem="8dB-Kc-WB0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="97" id="hWi-4B-IPh"/>
+                    <constraint firstItem="i85-hA-u4a" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="jG8-Fg-WvO"/>
+                    <constraint firstItem="8dB-Kc-WB0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="osP-CO-8OC"/>
+                    <constraint firstItem="i85-hA-u4a" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wId-jQ-qhb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="iconImageView" destination="i85-hA-u4a" id="DOk-5H-M4w"/>
+                <outlet property="layoutWidthAccessory" destination="ziA-rw-yRU" id="CxF-xT-9Zd"/>
+                <outlet property="nameDetailLabel" destination="8dB-Kc-WB0" id="K7f-Xa-uBJ"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="accessory_cell_big_arrow" width="8" height="20"/>
+        <image name="calander_icon_event" width="39" height="40"/>
+    </resources>
+</document>

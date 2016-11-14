@@ -1,0 +1,152 @@
+/* 
+  Localizable.strings
+  Ripple
+
+  Created by HeroinoOp on 27.09.16.
+  Copyright © 2016 Adam Gluck. All rights reserved.
+*/
+
+// LoginViewController
+"Email" = "Email";
+"Password" = "Password";
+"SignUpWithFacebook" = "Sign up with Facebook";
+"Register" = "Register";
+
+// API
+"FailedLogin" = "Error";
+"Invalidloginparameters" = "Please, enter valid credentials";
+"Pleaseentervalidcredentials" = "Please, enter valid credentials";
+"Your password must contain at least 6 characters" = "Your password must contain at least 6 characters";
+"Pleasetryagainlater" = "Please, try again later";
+"Couldnotcreateevent.Pleasetryagainlater" = "Could not create event. Please, try again later";
+
+// RegistrationViewController
+"FirstNameLastName" = "First Name Last Name";
+"Registration" = "Registration";
+"Done" = "Done";
+"Back" = "Back";
+
+// SearchViewController
+"Search" = "Search";
+"NoResults" = "No results";
+"SuggestedFriends" = "Suggested Friends";
+"Organizations" = "Organizations";
+
+// OrganizationProfileViewController
+"Events" = "Events";
+"Members" = "Members";
+"About" = "About";
+"AddEvents" = "Add Events";
+"AddMembers" = "Add Members";
+"Organization Name" = "Organization Name";
+"Please, enter organization name" = "Please, enter organization name";
+
+// InviteUsersViewController
+
+// SettingsMain
+"Settings" = "Settings";
+"Accountprivacy" = "Account Privacy";
+"Pushnotification" = "Push Notifications";
+"Language" = "Language";
+"ChangePassword" = "Change Password";
+"TermsofUse" = "Terms of Use";
+"ContactUs" = "Contact Us";
+"LofOut" = "Log Out";
+
+// SettingsTheLanguageViewController
+
+
+// SettingsTermofUse
+
+
+// SettingsChangePasswordViewController
+"OldPassword" = "Old Password";
+"NewPassword" = "New Password";
+"ConfirmNewPassword" = "Confirm New Password";
+"Edit" = "Edit";
+"Passwordhasbeenchanged" = "Password has been changed";
+"Error" = "Error";
+"Your password was not updated in the database" = "Your password was not updated in the database";
+"This account was not registered in the database" = "This account was not registered in the database";
+"Your password must contain at least 6 characters" = "Your password must contain at least 6 characters";
+"Your old password is incorrect" = "Your old password is incorrect";
+"Confirm password failed" = "Confirm password failed";
+
+// SettingsContactUsViewController
+
+//EventParticipantsViewController
+
+// EventDescriptionViewController
+"Going" = "Going";
+"Hosted by" = "Hosted by";
+"This event will now be added to your Calendar and Plans" = "This event will now be added to your Calendar and Plans";
+"To remove this event from your schedule, just press the 'Going' button" = "To remove this event from your schedule, just press the 'Going' button";
+"Are you sure you want to remove this event from your Calendar and Plans?" = "Are you sure you want to remove this event from your Calendar and Plans?";
+"Go" = "Go";
+
+// WhatsPulsingViewController
+"What's Pulsing" = "What's Pulsing";
+"Following" = "Following";
+"Pulsing" = "Pulsing";
+"All" = "All";
+
+// MapViewController
+"Location" = "Location";
+"miles" = "miles";
+
+// ProfileViewController
+"Plans" = "Plans";
+"Orgs" = "Orgs";
+"Failed to upload avatar" = "Failed to upload avatar";
+"Image URL is lost" = "Image URL is lost";
+"Find people and organizations!" = "Find people and organizations!";
+"Create Organization" = "Create Organization";
+"Unfollow" = "Unfollow";
+"Image is lost" = "Image is lost";
+"Failed to crop image!" = "Failed to crop image!";
+"Fail" = "Fail";
+
+//ProfileFriendsViewController
+
+// ScheduleViewController
+"Invitations" = "Invitations";
+"Calendar" = "Calendar";
+
+// EventsInDayViewController
+"You have no events for this date" = "You have no events for this date";
+
+// AddFriendsViewController
+"Add Friends" = "Add Friends";
+
+// CreateEventViewController
+"You can write a description up to 250 characters." = "You can write a description up to 250 characters.";
+"Event Name" = "Event Name";
+"Choose a Date" = "Choose a Date";
+"You can write a description up to 250 characters." = "You can write a description up to 250 characters.";
+"Choose a Time" = "Choose the Time";
+"Upload Image" = "Upload Image";
+"Choose Price" = "Choose a Price";
+"Choose Privacy" = "Choose Privacy";
+"Choose an Address" = "Choose an Address";
+"Selected date must be after the current date" = "Selected date must be after the current date";
+"Please, choose another date for this event" = "Please, choose another date for this event";
+"Please, choose a valid period of time for this event." = "Please, choose a valid period of time for this event.";
+"Please, select type privacy" = "Please, choose the privacy type";
+"Privacy" = "Privacy";
+"Public" = "Public";
+"Public event" = "Public event";
+"Private" = "Private";
+"Private event" = "Private event";
+"Cancel" = "Cancel";
+"Price" = "Price";
+"Select image source"= "Select image source";
+"Camera" = "Camera";
+"Album" ="Album";
+"Please, write the event name" = "Please, write the event name";
+"Library"= "Library";
+"You can post private events" = "You can post private events";
+"The event was not created. Please, try again later" = "The event was not created. Please, try again later";
+
+// ChooseAddressViewController
+"Place Not Found" = "The place was not found";
+"Dismiss" = "Dismiss";

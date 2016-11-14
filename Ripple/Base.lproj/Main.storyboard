@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Quicksand Book.otf">
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+            <string>QuicksandBook-Regular</string>
+        </mutableArray>
+        <mutableArray key="Quicksand Light.otf">
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+            <string>QuicksandLight-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="NZb-7m-jsL">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="VNf-ie-RKL">
+                                <rect key="frame" x="106" y="47" width="163" height="152"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ripple" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsu-rE-K9h">
+                                <rect key="frame" x="111" y="221" width="152" height="49"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="48"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="p4o-vT-Ctq">
+                                <rect key="frame" x="57" y="307" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="dc4-fR-tPY">
+                                <rect key="frame" x="57" y="373" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hd0-4f-fH8">
+                                <rect key="frame" x="72" y="449" width="89" height="30"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="20"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMw-rD-h1V">
+                                <rect key="frame" x="215" y="449" width="89" height="30"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="20"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="439.5" y="428.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="jkZ-Wk-Dr5">
+            <objects>
+                <viewController id="X41-hQ-PzE" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L5Q-48-CEu"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZyD-Nt-2U0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="P04-iI-mSE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="eQ3-xC-3Lj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ripple" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="863-zA-JcA">
+                                <rect key="frame" x="111" y="46" width="152" height="49"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="48"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Registration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCT-m4-Cy7">
+                                <rect key="frame" x="120" y="103" width="134" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="First Name" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="PdW-WO-sHL">
+                                <rect key="frame" x="57" y="174" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Last Name" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="YjI-bf-THh">
+                                <rect key="frame" x="57" y="233" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Username" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="zEw-tn-pui">
+                                <rect key="frame" x="57" y="303" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password " textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="Hp4-nE-6Vs">
+                                <rect key="frame" x="57" y="433" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49F-WS-e0E">
+                                <rect key="frame" x="68" y="501" width="89" height="30"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="20"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pxj-Pf-f9F">
+                                <rect key="frame" x="211" y="501" width="91" height="30"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="20"/>
+                                <state key="normal" title="Continue">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" textAlignment="center" minimumFontSize="17" background="text box.png" translatesAutoresizingMaskIntoConstraints="NO" id="IrR-PB-mLd">
+                                <rect key="frame" x="57" y="362" width="260" height="39"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DSg-6B-9BW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="925.5" y="428.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JxL-Go-m9C">
+            <objects>
+                <viewController id="QlE-b2-U8Y" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Na-XF-tcg"/>
+                        <viewControllerLayoutGuide type="bottom" id="aJJ-gI-F4c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JiS-mm-8or">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="g2k-pL-sUU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Upload a Profile Picture" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n1i-Kh-s6Y">
+                                <rect key="frame" x="43" y="134" width="289" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="24"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFP-hE-fVx">
+                                <rect key="frame" x="112" y="436" width="150" height="46"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="30"/>
+                                <state key="normal" title="Continue">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXo-I4-PF8">
+                                <rect key="frame" x="94" y="204" width="186" height="186"/>
+                                <state key="normal" image="Oval 210.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="Imported Layers.png" translatesAutoresizingMaskIntoConstraints="NO" id="hJf-1I-3rR">
+                                <rect key="frame" x="142" y="252" width="91" height="90"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e9A-Xe-zrG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1367.5" y="428.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="VmN-Pg-OLO">
+            <objects>
+                <viewController id="2hv-9S-QOi" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sUu-Fz-vr5"/>
+                        <viewControllerLayoutGuide type="bottom" id="O1G-cd-zEJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YNG-p1-ZpF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="LCY-IS-Dmh">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XwT-r4-TL5">
+                                <rect key="frame" x="216" y="468" width="82" height="82"/>
+                                <state key="normal" image="cash stash.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBU-9N-vR2">
+                                <rect key="frame" x="73" y="66" width="81" height="81"/>
+                                <state key="normal" image="home1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhu-L5-esa">
+                                <rect key="frame" x="217" y="66" width="81" height="81"/>
+                                <state key="normal" image="profile1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byb-RY-ZwO">
+                                <rect key="frame" x="217" y="202" width="81" height="81"/>
+                                <state key="normal" image="messages1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f1L-kN-eW8">
+                                <rect key="frame" x="217" y="334" width="81" height="81"/>
+                                <state key="normal" image="events1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvv-ar-MYy">
+                                <rect key="frame" x="73" y="202" width="81" height="81"/>
+                                <state key="normal" image="invintations1.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ft7-Cm-XcZ">
+                                <rect key="frame" x="73" y="468" width="81" height="81"/>
+                                <state key="normal" image="settings.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jq-2x-nsh">
+                                <rect key="frame" x="73" y="334" width="81" height="81"/>
+                                <state key="normal" image="vote booth.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyD-PT-PAg">
+                                <rect key="frame" x="89" y="35" width="49" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yys-Tu-bR3">
+                                <rect key="frame" x="233" y="35" width="49" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Messages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oua-KP-Sd8">
+                                <rect key="frame" x="221" y="171" width="73" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Invitations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhi-go-V31">
+                                <rect key="frame" x="76" y="171" width="78" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vote Booth" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDe-Mt-iPA">
+                                <rect key="frame" x="73" y="305" width="81" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Events" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8W-6S-S1L">
+                                <rect key="frame" x="228" y="305" width="58" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shy-H5-TYb">
+                                <rect key="frame" x="73" y="437" width="81" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZC8-fy-DZX">
+                                <rect key="frame" x="217" y="437" width="81" height="23"/>
+                                <fontDescription key="fontDescription" name="QuicksandLight-Regular" family="Quicksand" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iao-i6-HNb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1805.5" y="428.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="YVv-tH-J3y">
+            <objects>
+                <viewController id="Wp7-V8-G0c" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dnt-AP-DKN"/>
+                        <viewControllerLayoutGuide type="bottom" id="L3p-Ly-W8R"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fNK-Hb-xhE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="oh2-s3-hM3">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="top and bottom bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="FYL-FT-GRs">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="News Feed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTu-TF-O2e">
+                                <rect key="frame" x="121" y="23" width="132" height="21"/>
+                                <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="24"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W69-tJ-j77">
+                                <rect key="frame" x="340" y="23" width="24" height="22"/>
+                                <state key="normal" image="hamburger menu.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIh-qI-Ltq">
+                                <rect key="frame" x="16" y="22" width="24" height="23"/>
+                                <state key="normal" image="message-post icon.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RE5-Vg-B1O">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="contentStretch" x="0.0" y="1" width="0.94999999999999996" height="1"/>
+                                <items>
+                                    <barButtonItem title="oo" style="plain" id="SSK-3H-Da5">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="Recent + Imported Layers.png" id="OIP-BJ-dyS"/>
+                                    <barButtonItem title="ooo" style="plain" id="5x2-Gh-wpw">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="Posts + Imported Layers.png" id="gta-R0-0wA"/>
+                                    <barButtonItem title="ooo" style="plain" id="ugy-sk-9ob">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="Events + Imported Layers.png" id="8Uk-Rl-lkw"/>
+                                    <barButtonItem title="ooo" style="plain" id="yZR-Rm-Osh">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem image="-Votes + Imported Layers.png" id="0hC-D7-d1s"/>
+                                    <barButtonItem title="oo" style="plain" id="4IP-XD-ORO">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                </items>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="58k-7s-xVE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2231.5" y="428.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="BMa-6O-0mX">
+            <objects>
+                <viewController id="I8P-kw-YGd" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Vk1-Ac-Pe7"/>
+                        <viewControllerLayoutGuide type="bottom" id="PQ5-m5-fvW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9Hf-nJ-qUG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dka-rL-oxi">
+                                <rect key="frame" x="0.0" y="11" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nnR-NH-AE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2677.5" y="428.5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="-Votes + Imported Layers.png" width="32" height="40"/>
+        <image name="Events + Imported Layers.png" width="38" height="40"/>
+        <image name="Imported Layers.png" width="91" height="90"/>
+        <image name="Oval 210.png" width="186" height="186"/>
+        <image name="Posts + Imported Layers.png" width="31" height="41"/>
+        <image name="Recent + Imported Layers.png" width="39" height="40"/>
+        <image name="background.png" width="375" height="667"/>
+        <image name="cash stash.png" width="82" height="82"/>
+        <image name="events1.png" width="81" height="81"/>
+        <image name="hamburger menu.png" width="24" height="15"/>
+        <image name="home1.png" width="81" height="81"/>
+        <image name="invintations1.png" width="82" height="82"/>
+        <image name="logo.png" width="163" height="152"/>
+        <image name="message-post icon.png" width="27" height="26"/>
+        <image name="messages1.png" width="81" height="81"/>
+        <image name="profile1.png" width="81" height="81"/>
+        <image name="settings.png" width="81" height="81"/>
+        <image name="text box.png" width="261" height="39"/>
+        <image name="top and bottom bar.png" width="375" height="54"/>
+        <image name="vote booth.png" width="81" height="81"/>
+    </resources>
+</document>

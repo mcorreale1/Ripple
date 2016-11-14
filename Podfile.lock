@@ -1,0 +1,210 @@
+PODS:
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - commoncode-ios (0.0.2):
+    - commoncode-ios/BarButtonWithImageAndTitleFactory (= 0.0.2)
+    - commoncode-ios/BundleHelper (= 0.0.2)
+    - commoncode-ios/CommonHelpers (= 0.0.2)
+    - commoncode-ios/FileHelper (= 0.0.2)
+    - commoncode-ios/GraphicHelpers (= 0.0.2)
+    - commoncode-ios/HorizontalSeparator (= 0.0.2)
+    - commoncode-ios/Macro (= 0.0.2)
+    - commoncode-ios/NSArray+Extended (= 0.0.2)
+    - commoncode-ios/NSDate+Extended (= 0.0.2)
+    - commoncode-ios/NSString+EmailValidator (= 0.0.2)
+    - commoncode-ios/NSString+Extended (= 0.0.2)
+    - commoncode-ios/NSString+Youtube (= 0.0.2)
+    - commoncode-ios/TopAlignedLabel (= 0.0.2)
+    - commoncode-ios/UIGroup (= 0.0.2)
+    - commoncode-ios/UIImage+ImageWithAlpha (= 0.0.2)
+    - commoncode-ios/UIImageView+MediaThumbnail (= 0.0.2)
+    - commoncode-ios/UINavigationController+Fade (= 0.0.2)
+    - commoncode-ios/UIScrollView+DisableDelaysContentTouches (= 0.0.2)
+    - commoncode-ios/UITextView+Extended (= 0.0.2)
+    - commoncode-ios/UIView+Extended (= 0.0.2)
+    - commoncode-ios/UIView+IBDesignable (= 0.0.2)
+    - commoncode-ios/UIView+Mask (= 0.0.2)
+    - commoncode-ios/UserDefaultsManager (= 0.0.2)
+  - commoncode-ios/BarButtonWithImageAndTitleFactory (0.0.2):
+    - commoncode-ios/UIImage+ImageWithAlpha
+  - commoncode-ios/BundleHelper (0.0.2)
+  - commoncode-ios/CommonHelpers (0.0.2)
+  - commoncode-ios/FileHelper (0.0.2)
+  - commoncode-ios/GraphicHelpers (0.0.2)
+  - commoncode-ios/HorizontalSeparator (0.0.2)
+  - commoncode-ios/Macro (0.0.2)
+  - commoncode-ios/NSArray+Extended (0.0.2):
+    - commoncode-ios/Macro
+  - commoncode-ios/NSDate+Extended (0.0.2)
+  - commoncode-ios/NSString+EmailValidator (0.0.2)
+  - commoncode-ios/NSString+Extended (0.0.2)
+  - commoncode-ios/NSString+Youtube (0.0.2):
+    - commoncode-ios/NSString+Extended
+  - commoncode-ios/TopAlignedLabel (0.0.2)
+  - commoncode-ios/UIGroup (0.0.2)
+  - commoncode-ios/UIImage+ImageWithAlpha (0.0.2)
+  - commoncode-ios/UIImageView+MediaThumbnail (0.0.2)
+  - commoncode-ios/UINavigationController+Fade (0.0.2)
+  - commoncode-ios/UIScrollView+DisableDelaysContentTouches (0.0.2)
+  - commoncode-ios/UITextView+Extended (0.0.2)
+  - commoncode-ios/UIView+Extended (0.0.2)
+  - commoncode-ios/UIView+IBDesignable (0.0.2)
+  - commoncode-ios/UIView+Mask (0.0.2)
+  - commoncode-ios/UserDefaultsManager (0.0.2)
+  - Crashlytics (3.8.2):
+    - Fabric (~> 1.6.3)
+  - CVCalendar (1.3.1)
+  - Fabric (1.6.9)
+  - FBSDKCoreKit (4.15.1):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.15.1):
+    - FBSDKCoreKit
+  - Firebase/AdMob (3.6.0):
+    - Firebase/Analytics
+    - Google-Mobile-Ads-SDK (= 7.11.0)
+  - Firebase/Analytics (3.6.0):
+    - FirebaseAnalytics (= 3.4.2)
+  - Firebase/Auth (3.6.0):
+    - Firebase/Analytics
+    - FirebaseAuth (= 3.0.5)
+  - Firebase/Crash (3.6.0):
+    - Firebase/Analytics
+    - FirebaseCrash (= 1.0.7)
+  - Firebase/Database (3.6.0):
+    - Firebase/Analytics
+    - FirebaseDatabase (= 3.0.3)
+  - Firebase/RemoteConfig (3.6.0):
+    - Firebase/Analytics
+    - FirebaseRemoteConfig (= 1.3.0)
+  - Firebase/Storage (3.6.0):
+    - Firebase/Analytics
+    - FirebaseStorage (= 1.0.3)
+  - FirebaseAnalytics (3.4.2):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseAuth (3.0.5):
+    - FirebaseAnalytics (~> 3.3)
+    - GoogleNetworkingUtilities (~> 1.2)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseCrash (1.0.7):
+    - FirebaseAnalytics (~> 3.2)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseDatabase (3.0.3):
+    - FirebaseAnalytics (~> 3.3)
+  - FirebaseInstanceID (1.0.8)
+  - FirebaseRemoteConfig (1.3.0):
+    - FirebaseAnalytics (~> 3.3)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleIPhoneUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseStorage (1.0.3):
+    - FirebaseAnalytics (~> 3.3)
+    - GoogleNetworkingUtilities (~> 1.2)
+  - Google-Mobile-Ads-SDK (7.11.0)
+  - GoogleInterchangeUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleIPhoneUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.1.1)
+  - GoogleUtilities (1.3.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - JTCalendar (2.1.9)
+  - ORCommonCode-Swift (0.7.0)
+  - ORCommonUI-Swift (1.0.0)
+  - ORCropImageController (0.1.2)
+  - ORLocalizationSystem (0.5.0)
+  - Parse (1.14.2):
+    - Bolts/Tasks (~> 1.8)
+  - ParseCrashReporting (1.9.2):
+    - Bolts/Tasks (~> 1.5)
+    - Parse (~> 1.9)
+  - ParseFacebookUtilsV4 (1.11.1):
+    - Bolts/Tasks (>= 1.6)
+    - FBSDKCoreKit (~> 4.10)
+    - FBSDKLoginKit (~> 4.10)
+    - FBSDKTVOSKit (~> 4.10)
+    - Parse (~> 1.12)
+  - ParseUI (1.2.0):
+    - Bolts/Tasks (~> 1.3)
+    - Parse (~> 1.9)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - UITextView+Placeholder (1.2.0)
+
+DEPENDENCIES:
+  - commoncode-ios
+  - Crashlytics
+  - CVCalendar (~> 1.3.1)
+  - Fabric
+  - FBSDKCoreKit (~> 4.15)
+  - FBSDKLoginKit (~> 4.15)
+  - Firebase/AdMob
+  - Firebase/Auth
+  - Firebase/Crash
+  - Firebase/Database
+  - Firebase/RemoteConfig
+  - Firebase/Storage
+  - JTCalendar (~> 2.0)
+  - ORCommonCode-Swift (= 0.7.0)
+  - ORCommonUI-Swift (= 1.0.0)
+  - ORCropImageController
+  - ORLocalizationSystem
+  - Parse
+  - ParseCrashReporting
+  - ParseFacebookUtilsV4
+  - ParseUI
+  - SDWebImage (~> 3.8)
+  - UITextView+Placeholder (~> 1.2)
+
+SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  commoncode-ios: 6eedc9807c82a063e14a4811f0bdba4c9496d9a6
+  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  CVCalendar: 7ed8a9cb7cd62c9fffc05ac92201d82b93e1546a
+  Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
+  FBSDKCoreKit: fc7fa53d16b095ee3fd53f0cd59f1df8bcbb634d
+  FBSDKLoginKit: 073f79b3b2e762fc6f54a283fe15f45372d59f5f
+  Firebase: 34187200ef4979dbd485c7aa685ef078bf587c86
+  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  FirebaseAuth: 75a062bbf2d3c97d1e6e55bbc110e13a6853e25d
+  FirebaseCrash: 2efeb3715b76ac843b841529ce413efb67e5fd4d
+  FirebaseDatabase: 750a4a0fe18ef114318876fd654b2d9c671e0992
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseRemoteConfig: 981f45d4278281cfefa8f48a6f5c566f2c95ac5a
+  FirebaseStorage: 3992817bf405f5c1a4f8349678d22724cd0ef509
+  Google-Mobile-Ads-SDK: 0e864ab93ba1ff8afe92e16de0e4e883f581ed33
+  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
+  GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
+  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
+  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
+  ORCommonCode-Swift: ba4220d4780d50aa78799bc6858fe533a77ba555
+  ORCommonUI-Swift: 5d7c048c182bc6a442cfa2ddcdb709363629786e
+  ORCropImageController: 88def7734821a462b0a08ec37149095c3b1c23a1
+  ORLocalizationSystem: 7fa40694e019e58e16f11f8c7a87e6284e385a15
+  Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
+  ParseCrashReporting: 33b760facc649d4fd99eef8f35dcda6a406099e5
+  ParseFacebookUtilsV4: 2f30c2b7021c8005d3042781da7ef87d06589421
+  ParseUI: af2eba584799da4a9fbdac0e178662d7438b502e
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
+
+PODFILE CHECKSUM: 02a10b6ffad7a36965233689225de1373e6c2c68
+
+COCOAPODS: 1.0.1

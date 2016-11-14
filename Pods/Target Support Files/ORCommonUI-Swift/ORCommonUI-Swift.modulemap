@@ -1,0 +1,6 @@
+framework module ORCommonUI_Swift {
+  umbrella header "ORCommonUI-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}
