@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="15G1108" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="Event" representedClassName="CDEvent" syncable="YES">
+        <attribute name="adderess" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="invitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="event" inverseEntity="Invitation" syncable="YES"/>
+        <relationship name="organization" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Organization" inverseName="events" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="event" inverseEntity="Picture" syncable="YES"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="event" inverseEntity="Report" syncable="YES"/>
+        <relationship name="usersBlacklisted" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="eventsBlackList" inverseEntity="User" syncable="YES"/>
+        <relationship name="usersEvent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="events" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="FollowingRequest" representedClassName="CDFollowingRequest" syncable="YES">
+        <attribute name="isConfirmed" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <relationship name="fromUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="outcomingRequests" inverseEntity="User" syncable="YES"/>
+        <relationship name="toUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="incomingRequests" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Invitation" representedClassName="CDInvitation" syncable="YES">
+        <attribute name="accept" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="invitations" inverseEntity="Event" syncable="YES"/>
+        <relationship name="fromUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="outcomingInvitations" inverseEntity="User" syncable="YES"/>
+        <relationship name="organization" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Organization" inverseName="invitations" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="toUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="incomingInvitations" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Organization" representedClassName="CDOrganization" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="greekLife" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="admins" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="adminedOrganizations" inverseEntity="User" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="organization" inverseEntity="Event" syncable="YES"/>
+        <relationship name="invitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="organization" inverseEntity="Invitation" syncable="YES"/>
+        <relationship name="leader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="leadingOrganizations" inverseEntity="User" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="organizations" inverseEntity="User" syncable="YES"/>
+        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="owner" inverseEntity="Picture" syncable="YES"/>
+        <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="organization" inverseEntity="Report" syncable="YES"/>
+    </entity>
+    <entity name="Picture" representedClassName="CDPicture" syncable="YES">
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="storagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="picture" inverseEntity="Event" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Organization" inverseName="picture" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="picture" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Report" representedClassName="CDReport" syncable="YES">
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="reports" inverseEntity="Event" syncable="YES"/>
+        <relationship name="fromUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="outcomingReports" inverseEntity="User" syncable="YES"/>
+        <relationship name="organization" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Organization" inverseName="reports" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="toUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="incomingReports" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="CDUser" syncable="YES">
+        <attribute name="authData" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="college" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverID" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="adminedOrganizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="admins" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="usersEvent" inverseEntity="Event" syncable="YES"/>
+        <relationship name="eventsBlackList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="usersBlacklisted" inverseEntity="Event" syncable="YES"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="friends" inverseEntity="User" syncable="YES"/>
+        <relationship name="incomingInvitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="toUser" inverseEntity="Invitation" syncable="YES"/>
+        <relationship name="incomingReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="toUser" inverseEntity="Report" syncable="YES"/>
+        <relationship name="incomingRequests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FollowingRequest" inverseName="toUser" inverseEntity="FollowingRequest" syncable="YES"/>
+        <relationship name="leadingOrganizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="leader" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="organizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="members" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="outcomingInvitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="fromUser" inverseEntity="Invitation" syncable="YES"/>
+        <relationship name="outcomingReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="fromUser" inverseEntity="Report" syncable="YES"/>
+        <relationship name="outcomingRequests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FollowingRequest" inverseName="fromUser" inverseEntity="FollowingRequest" syncable="YES"/>
+        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Event" positionX="-315" positionY="527" width="128" height="285"/>
+        <element name="FollowingRequest" positionX="-531" positionY="50" width="128" height="105"/>
+        <element name="Invitation" positionX="-72" positionY="495" width="128" height="150"/>
+        <element name="Organization" positionX="349" positionY="-82" width="128" height="255"/>
+        <element name="Picture" positionX="-515" positionY="315" width="128" height="150"/>
+        <element name="Report" positionX="396" positionY="342" width="128" height="135"/>
+        <element name="User" positionX="-306" positionY="-112" width="128" height="390"/>
+    </elements>
+</model>

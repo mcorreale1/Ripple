@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ORCropImageViewController" customModule="ORCropImageController" customModuleProvider="target">
+            <connections>
+                <outlet property="btnCancel" destination="kzm-Ej-9sN" id="yfi-R6-rcw"/>
+                <outlet property="btnSubmit" destination="7D5-QM-Oiz" id="UyK-vi-Fa8"/>
+                <outlet property="circleFrameView" destination="6EY-Pr-n4K" id="qLd-Pt-sjM"/>
+                <outlet property="lyocCursorViewHeight" destination="yTi-i9-2ck" id="vD1-V9-ISc"/>
+                <outlet property="lyocCursorViewWidth" destination="da7-E5-4RT" id="VaS-9J-aYE"/>
+                <outlet property="lyocScrollViewBottomOffset" destination="OEo-e6-Hkv" id="aFt-76-z9t"/>
+                <outlet property="scrollView" destination="ZUg-ql-5qN" id="A9G-vb-ctl"/>
+                <outlet property="shadeView" destination="aNk-c5-Pgs" id="9u8-PP-y9w"/>
+                <outlet property="view" destination="iN0-l3-epB" id="8qT-TP-9bX"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" maximumZoomScale="5" translatesAutoresizingMaskIntoConstraints="NO" id="ZUg-ql-5qN">
+                    <frame key="frameInset" width="320" height="516"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="XDD-Ip-OlX"/>
+                    </connections>
+                </scrollView>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aNk-c5-Pgs">
+                    <frame key="frameInset" width="320" height="568"/>
+                    <subviews>
+                        <view contentMode="scaleAspectFit" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6EY-Pr-n4K">
+                            <frame key="frameInset" minX="8" minY="106" width="304" height="304"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="304" id="da7-E5-4RT"/>
+                                <constraint firstAttribute="height" constant="304" id="yTi-i9-2ck"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="6EY-Pr-n4K" firstAttribute="centerX" secondItem="aNk-c5-Pgs" secondAttribute="centerX" id="25N-Mb-F2V"/>
+                        <constraint firstItem="6EY-Pr-n4K" firstAttribute="centerY" secondItem="aNk-c5-Pgs" secondAttribute="centerY" constant="-26" id="Sdh-ac-40j"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzm-Ej-9sN">
+                    <frame key="frameInset" minX="8" minY="524" width="80" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="7LC-Nf-Sp2"/>
+                        <constraint firstAttribute="height" constant="36" id="Z6P-00-xEr"/>
+                    </constraints>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="onCancelButtonTouchUp:" destination="-1" eventType="touchUpInside" id="fOU-7l-1i5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7D5-QM-Oiz">
+                    <frame key="frameInset" minX="232" minY="524" width="80" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="FjT-0y-RT9"/>
+                        <constraint firstAttribute="height" constant="36" id="bjC-Wa-uhP"/>
+                    </constraints>
+                    <state key="normal" title="Choose">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="onChooseButtonTouchUp:" destination="-1" eventType="touchUpInside" id="4pe-bZ-nKa"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ZUg-ql-5qN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="23h-RT-pjQ"/>
+                <constraint firstAttribute="trailing" secondItem="aNk-c5-Pgs" secondAttribute="trailing" id="BVu-3G-Q4h"/>
+                <constraint firstAttribute="trailing" secondItem="ZUg-ql-5qN" secondAttribute="trailing" id="Eh0-wW-xEx"/>
+                <constraint firstItem="aNk-c5-Pgs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GN2-FF-l77"/>
+                <constraint firstAttribute="trailing" secondItem="7D5-QM-Oiz" secondAttribute="trailing" constant="8" id="KGL-Db-Ntt"/>
+                <constraint firstAttribute="bottom" secondItem="ZUg-ql-5qN" secondAttribute="bottom" constant="52" id="OEo-e6-Hkv"/>
+                <constraint firstAttribute="bottom" secondItem="aNk-c5-Pgs" secondAttribute="bottom" id="Wjx-8q-S2W"/>
+                <constraint firstAttribute="bottom" secondItem="kzm-Ej-9sN" secondAttribute="bottom" constant="8" id="a1p-8c-Nhm"/>
+                <constraint firstItem="aNk-c5-Pgs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eUg-6W-YvP"/>
+                <constraint firstAttribute="bottom" secondItem="7D5-QM-Oiz" secondAttribute="bottom" constant="8" id="gXG-3D-71E"/>
+                <constraint firstItem="kzm-Ej-9sN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="icb-rD-Fap"/>
+                <constraint firstItem="ZUg-ql-5qN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rl4-1l-Ayq"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

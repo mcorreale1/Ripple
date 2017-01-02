@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomTableHeaderView" customModule="Ripple" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19e-IA-FCB">
+                    <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rol-TA-PHO">
+                    <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="QXM-yI-6UZ"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKs-Rn-NvP">
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.71372549019607845" green="0.71372549019607845" blue="0.71372549019607845" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="19e-IA-FCB" secondAttribute="bottom" id="4Lh-Kn-x9V"/>
+                <constraint firstItem="tKs-Rn-NvP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Epv-kD-teI"/>
+                <constraint firstItem="Rol-TA-PHO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HXl-Mm-7vR"/>
+                <constraint firstAttribute="trailing" secondItem="Rol-TA-PHO" secondAttribute="trailing" id="PMx-TY-OIx"/>
+                <constraint firstAttribute="bottom" secondItem="tKs-Rn-NvP" secondAttribute="bottom" id="Q5a-dn-joc"/>
+                <constraint firstItem="tKs-Rn-NvP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QLn-oi-D0S"/>
+                <constraint firstAttribute="trailing" secondItem="tKs-Rn-NvP" secondAttribute="trailing" id="Yek-o9-vDf"/>
+                <constraint firstItem="19e-IA-FCB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Zxv-Ip-8aj"/>
+                <constraint firstAttribute="trailing" secondItem="19e-IA-FCB" secondAttribute="trailing" id="gYp-Ea-yzj"/>
+                <constraint firstItem="19e-IA-FCB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kRH-Aq-3uZ"/>
+                <constraint firstAttribute="bottom" secondItem="Rol-TA-PHO" secondAttribute="bottom" id="pBY-nU-cGo"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleHeader" destination="tKs-Rn-NvP" id="gp6-Tw-9zv"/>
+            </connections>
+        </view>
+    </objects>
+</document>

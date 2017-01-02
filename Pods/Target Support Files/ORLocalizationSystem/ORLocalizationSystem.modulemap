@@ -1,0 +1,6 @@
+framework module ORLocalizationSystem {
+  umbrella header "ORLocalizationSystem-umbrella.h"
+
+  export *
+  module * { export * }
+}
