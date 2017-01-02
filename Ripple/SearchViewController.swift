@@ -303,6 +303,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             }
         } else {
             if (filteredUsers.count != 0) {
+                print("User count: \(filteredUsers.count)")
+                print("indexPath: \(indexPath.row)")
                 showProfileViewController(filteredUsers[indexPath.row], delegate: self)
             } else {
                 showProfileViewController(users[indexPath.row], delegate: self)
