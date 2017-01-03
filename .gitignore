@@ -1,1 +1,3 @@
-Ripple.xcworkspace/
+Ripple.xcworkspace/*
+Pods/Pods.xcodeproj/*
+Ripple.xcodeproj/*
