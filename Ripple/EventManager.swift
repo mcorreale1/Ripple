@@ -12,6 +12,7 @@ enum TypeEventsSection: String {
     case Today = "Today"
     case ThisWeek = "This Week"
     case Future = "Future"
+    //case Now = "Now"
 }
 
 class EventManager: NSObject {
@@ -19,10 +20,15 @@ class EventManager: NSObject {
     private struct EventParticipants {
         var event: RippleEvent
         var participantsCount: Int
+        //var hasQRCode: Bool
     }
 
     static var sharedInstance = EventManager()
     
+    /*
+        Assembles a list of events for the given user for Today, This Week, and Future
+        runs completion function on this list
+    */
     func eventPlansForUser(user: Users, isMe: Bool, completion:([Dictionary<String, AnyObject>]) -> Void)  {
         
         let query = BackendlessDataQuery()

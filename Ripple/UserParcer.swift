@@ -9,6 +9,12 @@
 import Foundation
 
 class UserParcer : NSObject {
+
+    /*  Converts BackEndless user class to CoreData user class
+    *   Fetches a user from local storage in CoreData
+    *   Gets CoreData storage from path, if no data exists it creates an entry
+    *   Then assembles all the info for the user, and returns it
+    */
     
     func fetchCoreDataEntity(fromUser user: Users, withContext context: NSManagedObjectContext) -> CDUser? {
         var cdUser = CDUser.MR_findFirstByAttribute(Constants.EntityParcing.serverIDAttribute, withValue: user.objectId, inContext: context)
@@ -70,6 +76,12 @@ class UserParcer : NSObject {
         return cdUser
 
     }
+    
+    /*  Converts CoreData user class into Backendless user class
+     *  Fetches data from backendless
+     *
+     *
+     */
     
     func fetchBackendlessEntity(fromCDUser cdUser: CDUser) -> Users {
         let user = Users()

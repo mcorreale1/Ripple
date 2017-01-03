@@ -746,7 +746,6 @@
 				TargetAttributes = {
 					7C4CCB3D1B790E67002C1E2D = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = NWAXZVJAA5;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -1127,7 +1126,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ripple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Evgeny Ivanov (LAAKUA9BKK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = NWAXZVJAA5;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -1140,8 +1139,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.omega-r.PulseOmega";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "008c55f0-5656-4eff-8f01-ed9df26bcd60";
-				PROVISIONING_PROFILE_SPECIFIER = "Pulse Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
 			};
@@ -1157,7 +1156,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ripple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Evgeny Ivanov (LAAKUA9BKK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = NWAXZVJAA5;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -1169,8 +1168,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.omega-r.PulseOmega";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "008c55f0-5656-4eff-8f01-ed9df26bcd60";
-				PROVISIONING_PROFILE_SPECIFIER = "Pulse Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
