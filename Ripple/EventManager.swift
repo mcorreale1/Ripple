@@ -26,7 +26,7 @@ class EventManager: NSObject {
     static var sharedInstance = EventManager()
     
     /*
-        Assembles a list of events for the given user for Today, This Week, and Future
+        Gets a list of events for the given user coorisponding to the TypeEventsSection enum
         runs completion function on this list
     */
     func eventPlansForUser(user: Users, isMe: Bool, completion:([Dictionary<String, AnyObject>]) -> Void)  {
@@ -71,6 +71,9 @@ class EventManager: NSObject {
         })
     }
     
+    /*
+        Gets a list of events for the given organization, then runs completion on them
+    */
     func eventOrganization(organization: Organizations, completion:([RippleEvent]) -> Void) {
         guard organization.objectId != nil else {
             completion([RippleEvent]())
@@ -116,7 +119,11 @@ class EventManager: NSObject {
         })
     }
     
-   
+    /*
+        Gets the list of events that the current user is following
+        Saves them in a list coorisponding to the TypeEventsSection enum
+        Runs completion on the list after it is assembled
+    */
     func followingEvents(completion:([Dictionary<String, AnyObject>]) -> Void) {
         guard UserManager().currentUser().organizations.count > 0 else {
             completion([Dictionary<String, AnyObject>]())
@@ -186,6 +193,10 @@ class EventManager: NSObject {
         })
     }
     
+    /*
+        Gets the information from the passed in event 
+        Saves this data in a dictionary array, and then returns that array
+    */
     func eventInformation(event: RippleEvent) -> [Dictionary<String, AnyObject>] {
         var information = [Dictionary<String, AnyObject>]()
         let eventStartDate = event.startDate!
@@ -228,6 +239,11 @@ class EventManager: NSObject {
         return information
     }
     
+    /*
+        Gets the list of users attending an event
+        Saves into a list of LocalUsers (Core data user classes)
+        Runs completion function on the list of local users
+     */
     func eventParticipants(event: RippleEvent, completion: ([Users]?, NSError?, RippleEvent?) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
