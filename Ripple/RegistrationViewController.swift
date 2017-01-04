@@ -38,7 +38,7 @@ class RegistrationViewController: BaseViewController, UITextFieldDelegate {
         let maxLength = 30
         guard let text = textField.text else { return true }
         let newLength = text.characters.count + string.characters.count - range.length
-        return newLength <= maxLength
+        return newLength <=	 maxLength
     }
     
     func keyboardWillShow(sender: NSNotification) {
