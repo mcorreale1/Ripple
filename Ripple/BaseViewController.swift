@@ -11,6 +11,8 @@ import commoncode_ios
 import ORCropImageController
 
 class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ORCropImageViewControllerDelegate {
+    
+    //Controls the other view controllers, methods are created in this baseviewcontroller to be used to segue and prepare other view controllers
 
     var chatSegueIdentifier: String { return "chat" }
     
@@ -121,6 +123,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     // MARK: - Helpers
     
+    
     private func prepareActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
         activityIndicator.center = view.center
@@ -132,6 +135,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         activityIndicator.alpha = 0
     }
     
+    //should ignore interaction events while it is on or else people will be able to use the app while the wheel spins
     func showActivityIndicator() {
         //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
         activityIndicator.hidden = false
@@ -142,7 +146,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 self.activityIndicator.color = UIColor.grayColor()
         }
     }
-    
+   //should end interaction events
     func hideActivityIndicator() {
         
         UIView.animateWithDuration(0.3, animations: {
@@ -195,6 +199,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
+    //allows manipulation of chosen photo
     func showImageEditScreen(withImage image: UIImage, frameType: ORCropImageViewController.CursorType, maxSize: CGSize? = nil) {
         let bundle: NSBundle = NSBundle(forClass: ORCropImageViewController.self)
         let vc = ORCropImageViewController(nibName: "ORCropImageViewController", bundle: bundle, image: image)
@@ -218,6 +223,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         showAlert("Fail".localized(), message: "Failed to crop image!".localized())
     }
     
+    //SHOULD RETURN A CROPPED IMAGE
     func cropVCDidFinishCrop(withImage image: UIImage?) {
         // TODO Use edited image
     }

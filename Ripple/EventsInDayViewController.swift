@@ -16,6 +16,7 @@ class EventsInDayViewController: BaseViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var tableView: UITableView!
     
+    //shows the name of the event if there is an event scheduled on the specific date chosen
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibEventCell = UINib(nibName: "EventTableViewCell", bundle: nil)
@@ -42,7 +43,7 @@ class EventsInDayViewController: BaseViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
     }
-    
+    //sets up the individual cell to have the name, picture, date, and description of that specific event
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(eventCellIdentifier) as! EventTableViewCell
         let event = events[indexPath.row]
@@ -64,10 +65,14 @@ class EventsInDayViewController: BaseViewController, UITableViewDataSource, UITa
     
     // MARK: - UITableViewDelegate
     
+    /*just sets the tableviewcell at a cgfloat of 101
+    i.e. kcellheight is a static 101 
+ */
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return EventTableViewCell.kCellHeight
     }
 
+    //when something is selected the event description view controller is shown
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let event = events[indexPath.row]
         showEventDescriptionViewController(event)

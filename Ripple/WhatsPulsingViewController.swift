@@ -17,7 +17,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var noEventLabel: UITextView!
     
-    
+    // the dictionaries to hold the events
     var followingPlan = [Dictionary<String, AnyObject>]()
     var allEventsPlan = [Dictionary<String, AnyObject>]()
     var sortedByGeolocationAllEventsPlan = [Dictionary<String, AnyObject>]()
@@ -81,6 +81,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
     }
     
+    //why does it hide the activity indicator when loading the following events but not for pulsing events?
     func prepareData() {
         self.showActivityIndicator()
         
@@ -112,6 +113,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
     }
     
+    //checks to see if the event is within your radius
     func isLocationEvents(event: RippleEvent) -> Bool {
         let eventLocation = CLLocation(latitude: event.latitude , longitude: event.longitude)
         
@@ -126,6 +128,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         userLocation = locations.last!
     }
     
+    //sorts the events and appends the ones in the radius to then be loaded
     private func sortedGeolocationAllEvents() {
         var tmpEvents = [RippleEvent]()
         var plan = [Dictionary<String, AnyObject>]()
@@ -154,6 +157,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         tableView.reloadData()
     }
     
+    // called in viewdidload, used to see what events are happening with orgs followed (seems to be in location radius as well)
     private func updateEvents(plan: [Dictionary<String, AnyObject>], withLocale: Bool? = false) -> [RippleEvent] {
         var resultEvents = [RippleEvent]()
         for sectionObject in plan {
@@ -250,6 +254,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         noEventLabel.hidden = true
         noEventLabel.sizeToFit()
     }
+    //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if searchBar.text != "" {

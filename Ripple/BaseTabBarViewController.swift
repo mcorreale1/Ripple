@@ -10,6 +10,9 @@ import UIKit
 
 class BaseTabBarViewController: UITabBarController {
 
+    
+    //Look into what the tabbar view controller does
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

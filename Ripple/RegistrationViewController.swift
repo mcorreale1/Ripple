@@ -11,6 +11,9 @@ import ORLocalizationSystem
 
 class RegistrationViewController: BaseViewController, UITextFieldDelegate {
     
+    
+    //THIS FILE IS DEPRECATED, USED TO REGISTER USERS NOT THROUGH FACEBOOK
+    
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!

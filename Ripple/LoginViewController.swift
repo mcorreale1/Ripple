@@ -12,15 +12,20 @@ import QuickLook
 
 class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewControllerDataSource,QLPreviewControllerDelegate {
     
+    // Creates variables for the text fields and the buttons
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signFBButton: UIButton!
 
+    /* 
+       used as the title of the documents for Terms of Use and Privacy Policy
+       for first login by user
+    */
     var docName: String = ""
 
-     weak var whaitView: UIImageView? = nil
+     weak var waitView: UIImageView? = nil
 
     // MARK: - View lifecycle
     
@@ -33,24 +38,31 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
     }
     
+    /*The first time a user uses the app they are forced to
+    look at the privacy policy/terms of use
+    */
     override func viewWillAppear(animated: Bool) {
         self.showUserAgree()
     }
     
-    func showWhaitView() {
+    //User is on "wait" i.e. loading screen
+    func showWaitView() {
         self.usernameTextField.enabled = false
         self.passwordTextField.enabled = false
         self.registerButton.enabled = false
         self.loginButton.enabled = false
         self.signFBButton.enabled = false
-        let whaitView = UIImageView(frame: view.bounds)
-        whaitView.image = UIImage(named: "headpiece")
-        self.whaitView = whaitView
-        self.view.addSubview(self.whaitView!)
+        let waitViewImage = UIImageView(frame: view.bounds)
+        waitViewImage.image = UIImage(named: "headpiece")
+        self.waitView = waitViewImage
+        self.view.addSubview(self.waitView!)
     }
     
-    func hideWhaitView() {
-        self.whaitView?.removeFromSuperview()
+    /*can interact again with the loginView controller page after accepting
+    the privacy policy and terms of use for the first time
+     */
+    func hideWaitView() {
+        self.waitView?.removeFromSuperview()
         self.usernameTextField.enabled = true
         self.passwordTextField.enabled = true
         self.registerButton.enabled = true
@@ -61,6 +73,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     func keyboardWillShow(sender: NSNotification) {
         self.view.frame.origin.y = -200
     }
+    
     
     func login() {
         showActivityIndicator()
@@ -79,7 +92,9 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }
         })
     }
-    
+        /*Only happens the first time a user uses the app,
+        forces the user to accept privacy policy/terms of use
+        */
     func showUserAgree() {
         if UserManager().launchedBefore == false {
             let title = "Welcome to Pulse!"
@@ -161,9 +176,10 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         self.login()
     }
     
+    //FB login
     @IBAction func facebookLoginTouched(sender: AnyObject) {
         self.view.endEditing(false)
-        self.showWhaitView()
+        self.showWaitView()
         API().loginWithFacebook(fromViewController: self, completion: { [weak self] (user, error) in
             if error != nil {
                 self?.showAlert("Error".localized(), message: error?.localizedDescription)
@@ -173,7 +189,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                 
                 currentUser.save( { [weak self] (success, error) in
                     if !success && error != nil {
-                        self?.hideWhaitView()
+                        self?.hideWaitView()
                         self?.showAlert("Error".localized(), message: "Failed to save user profile".localized())
                         return
                     }
@@ -181,14 +197,15 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                     appDelegate.loginComplete()
                 })
             } else {
-                self?.hideWhaitView()
+                self?.hideWaitView()
             }
         } , onCancel: { [weak self] () in
-            self?.hideWhaitView()
+            self?.hideWaitView()
             self?.hideActivityIndicator()
         })
     }
     
+    //(DEPRECATED)
     @IBAction func forgotPasswordTouch(sender: UIButton) {
         let title = "Your password will be sent to you email."
         let message = ""
@@ -203,10 +220,12 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
 
     }
     
+    //Makes one item for the preview view controller (privacy policy/terms of use documentation)
     func numberOfPreviewItemsInPreviewController(controller: QLPreviewController) -> Int {
         return 1
     }
     
+    //Creates the view controller for the policy documentation
     func previewController(controller: QLPreviewController, previewItemAtIndex index: Int) -> QLPreviewItem {
         let path = NSBundle.mainBundle().pathForResource(docName, ofType: "docx")
         let url = NSURL.fileURLWithPath(path!)

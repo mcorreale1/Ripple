@@ -23,6 +23,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     let latitudeDelta = 0.112872
     let longitudeDelta = 0.109863
     
+    //the annotations contains a title, subtitle, coordinates and the event that is there, will add in categories in the future
     var allEvents = [RippleEvent]()
     var filterEvents = [RippleEvent]()
     var locationManager = CLLocationManager()
@@ -70,6 +71,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         let epsilon = 0.0001
         userLocation = newLocation.coordinate
         
+        // fabs takes absolute value of a float
         if fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude) >= epsilon && fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude) >= epsilon {
             mapView.setRegion(newRegion, animated: true)
             filteredEvents()
@@ -93,13 +95,14 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         filterEvents = (allEvents as NSArray).filteredArrayUsingPredicate(searchPredicate) as! [RippleEvent]
     }
     
+    //this is where the pins are added, most likely can seperate the pins into their categories here to make things easy
     func showPins() {
         mapView.removeAnnotations(annotations)
         annotations.removeAll()
         for event in filterEvents {
             let annotation = EventAnnotation()
-            var latitude = event.latitude
-            var longitude = event.longitude
+            let latitude = event.latitude
+            let longitude = event.longitude
             
             if let title = event.name {
                 annotation.title = title
@@ -145,6 +148,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     
     // MARK: - Actions
     
+    //not connected or called anywhere, supposed to be used whenever the radius is changed, not sure how radius can be changed in this VC though
     @IBAction func sliderMilesValueChanged(sender: UISlider) {
         let roundedValue = round(sender.value / stepSlider) * stepSlider
         sender.value = roundedValue

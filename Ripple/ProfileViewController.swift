@@ -16,6 +16,7 @@ protocol ProfileViewControllerDelegate {
 
 class ProfileViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
 
+    //segue used to move to an individual chat
     override var chatSegueIdentifier: String { return "startChatWithUser" }
     
     @IBOutlet weak var followersLabel: UILabel!
@@ -31,14 +32,21 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     @IBOutlet weak var userDescription: UILabel!
     
+    //dictionary that holds a users plans
     var plans = [Dictionary<String, AnyObject>]()
+    
+    //arrays that holds organizations you are apart of
     var organizationArray = [Organizations]()
+    
+    //orgs you follow
     var followingArray = [Dictionary<String, AnyObject>]()
+    
+    //users you follow
     var followingUsers = [Users]()
     
     var selectedUser: Users?
     
-    var  delegate: ProfileViewControllerDelegate?
+    var delegate: ProfileViewControllerDelegate?
     
     
     let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)

@@ -45,7 +45,8 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     }
     
     // MARK: - Helpers
-
+    
+    //Prepares the calendar view and sets it to current date
     func prepareCalndar() {
         calendarManager.delegate = self
         calendarManager.menuView = calendarMenuView
@@ -53,6 +54,13 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         calendarManager.setDate(NSDate())
     }
     
+    /*
+     stores the users events in an array (allEvents) and then reloads
+    the calendar so the user can see the events
+     
+     -also stores the following requests and any invitations the user has
+     in the respective arrays
+    */
     func prepareData() {
         showActivityIndicator()
         EventManager().allEventsForUser(UserManager().currentUser()) {[weak self] (events) in
@@ -78,6 +86,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
             self.tableView.reloadData()
         }
     }
+    
     
     func prepareTableView() {
         let nibEventCell = UINib(nibName: "EventTableViewCell", bundle: nil)
@@ -117,6 +126,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         performSegueWithIdentifier(showEventsInDayId, sender: self)
     }
     
+    //Formats the date for people to read easily
     func calendar(calendar: JTCalendarManager!, prepareMenuItemView menuItemView: UIView!, date: NSDate!) {
         if let label = menuItemView as? UILabel {
             let dateFormatter = NSDateFormatter()
@@ -154,6 +164,8 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         }
         
         let invitation = invitations[indexPath.row]
+        
+        /* determines which invitation it is and will do something based upon that information */
         
         if let typeInvitation = invitation.type {
             switch typeInvitation {
@@ -210,6 +222,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         return UITableViewCell()
     }
     
+    //gives the user an option to say yes or no to an invite
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         
         let trashButton = UITableViewRowAction(style: .Normal, title: "Trash") {[weak self] action, indexPath in
@@ -279,6 +292,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         return FollowingTableViewCell.kCellHeight
     }
     
+    //sends the user to the page he was invited too
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard indexPath.section != 1 else {
             return
@@ -299,6 +313,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     
     // MARK: - Actions
     
+    //deletes the invitation/following request
     func trashInvitationTouched(indexPath: NSIndexPath) {
         if indexPath.section == 1 {
             let requestDetails = followingRequests[indexPath.row]
@@ -309,12 +324,13 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
                     self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                     self.tableView.reloadData()
                 } else {
-                    self.showAlert("Fail".localized(), message: "Failed to accept following request. Please try later.")
+                    self.showAlert("Fail".localized(), message: "Failed to decline following request. Please try later.")
                 }
             })
             return
         }
         
+        //removes invitation from user invitation list
         let invitation = invitations[indexPath.row]
         showActivityIndicator()
         InvitationManager().trashInvitation(invitation) {[weak self] (success) in
@@ -331,13 +347,14 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         return UserManager()
     }()
     
+    //accepts the invitation and then removes it from the invitation list
     func acceptInvitationTouched(indexPath: NSIndexPath) {
         if indexPath.section == 1 {
             let requestDetails = followingRequests[indexPath.row]
             
             userManager.confirmFollowingRequest(withID: requestDetails.requestID, withCompletion: { [weak self] (success) in
                 if success {
-                    self?.showAlert("Success".localized(), message: "You have new follower now!".localized())
+                    self?.showAlert("Success".localized(), message: "You have a new follower!".localized())
                     self?.followingRequests.removeAtIndex(indexPath.row)
                     self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                 } else {
