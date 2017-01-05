@@ -17,8 +17,11 @@ typealias FollowingRequestDetails = (fromUser: Users, requestID: String)
 
 class UserManager: NSObject {
     
+    //keeps track of currently logged in user
     private static var me: Users? = nil
     
+    // Returns the Current User from either this class, or sets it from backendless
+    // If no current user is set at all, returns a default user class to set current user to
     func currentUser() -> Users {
         if UserManager.me != nil {
             return UserManager.me!
@@ -29,6 +32,9 @@ class UserManager: NSObject {
         }
     }
     
+    /*  Initiates the "me" variable
+     *  After getting info, calls (completion) function
+     */
     func initMe(completion: () -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
         
@@ -46,6 +52,10 @@ class UserManager: NSObject {
             completion()
         })
     }
+    
+    /*
+     *  All setters call .syncronize() after setting to ensure entire app is up to date
+     */
     
     var userPassword :String{
         set {
@@ -80,6 +90,8 @@ class UserManager: NSObject {
         }
     }
     
+    
+    //Adds user to "going" to event
     func goOnEvent(event: RippleEvent, completion: (Bool) -> Void) {
         
         var contains = false
@@ -93,7 +105,7 @@ class UserManager: NSObject {
             currentUser().events.append(event)
         }
         
-        //проверка на инвайты
+        //Check for invites
         InvitationManager().invateThisEventDelete(event)
         currentUser().save( { (success, _) in
             completion(success)
@@ -108,7 +120,7 @@ class UserManager: NSObject {
             eventsBlackList.append(event)
         }
         
-        //проверка на инвайты
+        //check for invites
         InvitationManager().invateThisEventDelete(event)
         user.eventsBlackList = eventsBlackList
         user.save( { (success, _) in
@@ -116,7 +128,7 @@ class UserManager: NSObject {
         })
     }
     
-    
+    //Removes the user from Going to an event
     func unGoOnEvent(event: RippleEvent, completion: (Bool) -> Void)  {
         // hate this part
         Backendless.sharedInstance().persistenceService.of(BackendlessUser.ofClass()).findID(currentUser().objectId, relationsDepth: 2, response: { (cUser) in
@@ -150,6 +162,7 @@ class UserManager: NSObject {
         }
     }
     
+    //Checks if user is already going to an event
     func alreadyGoOnEvent(event: RippleEvent) -> Bool {
         let events = currentUser().events
         for userEvent in events {
@@ -160,6 +173,10 @@ class UserManager: NSObject {
         return false
     }
     
+    /*
+     *  Returns a dictionary of orgs and users the requested user is following
+     *  After populating list, it calls the completion function on it with no return value
+    */
     func followingForUser(user: Users, completion:([Dictionary<String, AnyObject>]) -> Void) {
         var following = [Dictionary<String, AnyObject>]()
         
@@ -194,6 +211,7 @@ class UserManager: NSObject {
         }
     }
     
+    //Checks if Current user is already following the user
     func alreadyFollowOnUser(user: Users) -> Bool {
         let friends = currentUser().friends
         for friend in friends {
@@ -204,6 +222,10 @@ class UserManager: NSObject {
         return false
     }
     
+    /*  Called when the current user follows a user
+     *  Adds to users friends list if not there already
+     *  Calls completion with a pass/fail parameter on following user
+    */
     func followUser(user: Users, fromUser userFollower: Users? = UserManager().currentUser(), withCompletion completion: (Bool) -> Void) {
         guard let follower = userFollower else {
             completion(false)
@@ -248,6 +270,7 @@ class UserManager: NSObject {
         })
     }
     
+    //Unfollows an organization
     func unfollowOnOrganization(organization: Organizations, withCompletion completion: (Bool) -> Void) {
         
         // TODO make it(and unfollow() and ungo()) func with generic type sometime
@@ -286,7 +309,8 @@ class UserManager: NSObject {
             completion(false)
         }
     }
-    
+    // Gets the list of following requests to current user, then runs the 
+    // completion function on that list. If fails, runs completion with error
     func followingRequests(withCompletion completion: ([FollowingRequestDetails]?, NSError?) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
@@ -314,6 +338,7 @@ class UserManager: NSObject {
         })
     }
     
+    // Removes a user from Current Users follow list
     func unfollow(user: Users, completion: (Bool) -> Void) {
         Backendless.sharedInstance().persistenceService.of(BackendlessUser.ofClass()).findID(currentUser().objectId, relationsDepth: 2, response: { (cUser) in
             let fullCurrentUser = cUser as! BackendlessUser
@@ -352,6 +377,8 @@ class UserManager: NSObject {
         }
     }
     
+    // Loads a list of 30 users that are not being followed
+    // runs completion on these users
     func loadUnfollowUsers(collection: BackendlessCollection?, completion: ([Users]?, BackendlessCollection?, NSError?) -> Void) {
         if collection != nil {
             collection?.nextPageAsync({ (backendlessCollection) in
@@ -389,7 +416,7 @@ class UserManager: NSObject {
         })
     }
     
-    
+    //Searches for users then runs completion on it
     func searchUsers(searchString: String, completion: ([Users]?, NSError?) -> Void) {
         var friendIds = [String]()
         let userFriends = currentUser().friends
@@ -421,6 +448,8 @@ class UserManager: NSObject {
         })
     }
     
+    // Used to follow a user
+    // Follows is user is public, sends request if user is private
     func followingOnUser(user: Users, completion: (Bool) -> Void) {
         if !user.isPrivate {
             followUser(user, withCompletion: completion)
@@ -429,6 +458,7 @@ class UserManager: NSObject {
         }
     }
     
+    //Declines following requrest
     func declineFollowingRequest(withID requestID: String, withCompletion completion: (Bool) -> Void) {
         FollowingRequest().dataStore().removeID(requestID, response: { (_) in
             completion(true)
@@ -437,6 +467,7 @@ class UserManager: NSObject {
         })
     }
     
+    //Confirms following request
     func confirmFollowingRequest(withID requestID: String, withCompletion completion: (Bool) -> Void) {
         FollowingRequest().dataStore().findID(requestID, response: { (request) in
             if let followingRequest = request as? FollowingRequest {
@@ -456,6 +487,7 @@ class UserManager: NSObject {
         })
     }
     
+    //Follows user after confirming request
     func followUsersWithConfirmedRequest(withCompletion completion: () -> Void) {
         let query = BackendlessDataQuery()
         query.whereClause = "isConfirmed = 'true' and fromUser.objectId = '\(currentUser().objectId)'"
@@ -711,7 +743,7 @@ class UserManager: NSObject {
             return name1?.lowercaseString < name2?.lowercaseString
         }
     }
-    
+    //Converts backendless user types to local, core data user types
     func backendlessUsersToLocalUsers(bUsers: [BackendlessUser]) -> [Users] {
         var users = [Users]()
         for bUser in bUsers {
