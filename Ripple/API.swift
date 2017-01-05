@@ -61,6 +61,7 @@ class API: NSObject {
     
     func loginToApp(withFacebookToken token: FBSDKAccessToken, completion: (Users!, NSError?) -> Void) {
         
+        print("Token string: \(token.expirationDate)")
         func tryToUseFacebookProfileAvatar(forUser user: Users) {
             let params = ["redirect" : false, "type" : "normal"]
             let request = FBSDKGraphRequest(graphPath: "me/picture", parameters: params)
@@ -107,6 +108,9 @@ class API: NSObject {
             }
         }
         
+        //WHAT ENABLES AUTO LOGIN
+        Backendless.sharedInstance().userService.setStayLoggedIn(true)
+        //Only gets first name, fix later
         backendless.userService.loginWithFacebookSDK(token, fieldsMapping: ["email" : "email", "first_name": "fullName"], response: { (user: BackendlessUser!) -> Void in
             guard let currentUser = user else {
                 completion(nil, ErrorHelper().getNSError(withMessage: "Failed to fetch user".localized()))
@@ -115,6 +119,7 @@ class API: NSObject {
             tryToUseFacebookProfileAvatar(forUser: Users.userFromBackendlessUser(currentUser))
         }, error: { (fault: Fault!) -> Void in
                 completion(nil, ErrorHelper().convertFaultToNSError(fault))
+            
         })
     }
     
@@ -175,6 +180,18 @@ class API: NSObject {
             Backendless.sharedInstance().userService.logout()
         }) { (fault) in
             Backendless.sharedInstance().userService.logout()
+        }
+    }
+    
+    func autoLogin() -> Bool {
+        
+        let user = Backendless.sharedInstance().userService.getPersistentUser()
+        if  user {
+            print( "auto logged in \(Backendless.sharedInstance().userService.currentUser.name)")
+            return true
+        } else {
+            print("Auto login failed")
+            return false
         }
     }
 }

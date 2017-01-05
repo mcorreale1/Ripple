@@ -24,6 +24,15 @@ class Users: BackendlessUser {
         case picture = "picture"
     }
     
+    var authData:FBSDKAccessToken? {
+        get {
+            return self.getProperty(propertyName.authData.rawValue) as? FBSDKAccessToken ?? nil
+        }
+        set {
+            self.setProperty(propertyName.authData.rawValue, object: newValue)
+        }
+    }
+    
     var organizations: [Organizations] {
         get {
             return self.getProperty(propertyName.organizations.rawValue) as? [Organizations] ?? [Organizations]()
@@ -147,7 +156,19 @@ class Users: BackendlessUser {
         if let bPicture = backendlessUser.getProperty(propertyName.picture.rawValue) {
             self.picture = bPicture as? Pictures ?? nil
         }
+        
+        if let bAuthDat = backendlessUser.getProperty(propertyName.authData.rawValue) {
+            self.authData = bAuthDat as? FBSDKAccessToken ?? nil
+            
+            // - DEBUG
+            if self.authData != nil {
+                print(self.authData)
+            } else {
+                print("Auth data is null")
+            }
+        }
     }
+    
     
     func save(completion: (Bool, NSError?) -> Void) {
         dataStore().save(self, response: { (_) in
