@@ -45,15 +45,8 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     override func viewWillAppear(animated: Bool) {
         self.showUserAgree()
     }
-    
-<<<<<<< HEAD
     //User is on "wait" i.e. loading screen
     func showWaitView() {
-=======
-
-    
-    func showWhaitView() {
->>>>>>> mike-tests
         self.usernameTextField.enabled = false
         self.passwordTextField.enabled = false
         self.registerButton.enabled = false
@@ -241,7 +234,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     }
     func autoLogin() {
         if (API().autoLogin()) {
-            self.showWhaitView()
+            self.showWaitView()
             print("Auto login worked")
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             appDelegate.loginComplete()
