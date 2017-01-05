@@ -29,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
+        print("Registering remote notifications")
+        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
@@ -99,7 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
-        
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
             print("Push registration service: deviceToken = " + deviceTokenStr + ", deviceRegistrationId = " + result)
         }) { (fault) in
