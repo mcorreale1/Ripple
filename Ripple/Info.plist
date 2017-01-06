@@ -29,7 +29,7 @@
 			<string>Facebook</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb348169625525482</string>
+				<string>fb145754419248122</string>
 			</array>
 		</dict>
 	</array>
@@ -50,7 +50,7 @@
 		</array>
 	</dict>
 	<key>FacebookAppID</key>
-	<string>348169625525482</string>
+	<string>145754419248122</string>
 	<key>FacebookDisplayName</key>
 	<string>Pulse</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
