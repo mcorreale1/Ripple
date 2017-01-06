@@ -148,7 +148,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     
     // MARK: - Actions
     
-    //not connected or called anywhere, supposed to be used whenever the radius is changed, not sure how radius can be changed in this VC though
+    //not connected or called anywhere, supposed to be used whenever the radius is changed the map will update
     @IBAction func sliderMilesValueChanged(sender: UISlider) {
         let roundedValue = round(sender.value / stepSlider) * stepSlider
         sender.value = roundedValue

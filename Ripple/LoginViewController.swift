@@ -12,6 +12,27 @@ import QuickLook
 
 class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewControllerDataSource,QLPreviewControllerDelegate {
     
+    
+    
+    /* code for ignoring events while wheel spins
+     
+     wheel = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50)) //makes a spinner on the screen
+     wheel.center = self.view.center // puts spinner in middle of screen
+     wheel.hidesWhenStopped = true //self explanatory
+     wheel.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray // sets the color
+     view.addSubview(wheel) // adds activity indicator to the view
+     wheel.startAnimating() // starts the acitivty indicator
+     UIApplication.sharedApplication().beginIgnoringInteractionEvents() // pauses the app when the spinner appears
+     
+     
+     
+     self.wheel.stopAnimating()
+     
+     UIApplication.sharedApplication().endIgnoringInteractionEvents()
+ 
+ 
+ */
+    
     // Creates variables for the text fields and the buttons
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!

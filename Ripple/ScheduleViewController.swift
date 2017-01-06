@@ -64,7 +64,6 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     func prepareData() {
         showActivityIndicator()
         EventManager().allEventsForUser(UserManager().currentUser()) {[weak self] (events) in
-            self?.hideActivityIndicator()
             self?.allEvents = events
             self?.calendarManager.reload()
         }
@@ -85,6 +84,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
             self.invitations = result!
             self.tableView.reloadData()
         }
+        hideActivityIndicator()
     }
     
     
