@@ -158,14 +158,7 @@ class Users: BackendlessUser {
         }
         
         if let bAuthDat = backendlessUser.getProperty(propertyName.authData.rawValue) {
-            self.authData = bAuthDat as? FBSDKAccessToken ?? nil
-            
-            // - DEBUG
-            if self.authData != nil {
-                print(self.authData)
-            } else {
-                print("Auth data is null")
-            }
+            self.authData = bAuthDat as? FBSDKAccessToken ?? nil    
         }
     }
     

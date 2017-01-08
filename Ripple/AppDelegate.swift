@@ -106,6 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }) { (fault) in
             print("Push registration service error: deviceToken = " + deviceTokenStr + ", FAULT = " + fault.message)
         }
+        Backendless.sharedInstance().messaging.registerDevice(["test"], expiration: NSDate().addYear())
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -117,7 +118,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {

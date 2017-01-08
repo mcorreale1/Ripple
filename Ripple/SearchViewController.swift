@@ -128,6 +128,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             self?.organizationsCollection = collection
             
             if organizations != nil && organizations!.count > 0 {
+                print(organizations?.description)
                 self?.organizations.appendContentsOf(organizations!)
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.tableView.reloadData()
@@ -163,14 +164,16 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         tableView.userInteractionEnabled = false
         filteredUsers.removeAll()
         filteredOrganizations.removeAll()
-        
+    
         if (searchBar.text != nil && searchBar.text!.characters.count > 0) {
             UserManager().searchUsers(searchBar.text!, completion: {[weak self] (users, error) in
                 if (users != nil) {
                     self?.filteredUsers = users!
                 }
-                
+                print("User results: \(users?.debugDescription)")
                 OrganizationManager().searchUnfollowOrganizations(searchBar.text!, completion: { (organizations, error) in
+                    print("Org results: \(organizations?.debugDescription)")
+                        
                     self?.hideActivityIndicator()
                     self?.tableView.userInteractionEnabled = true
                     
@@ -209,11 +212,10 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             return allOrganizationsLoaded || !allUsersLoaded ? organizations.count : organizations.count + 1
         }
     }
-    
+    //Not here
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
         cell.descriptionLabel.text = ""
-        
         if indexPath.section == 0 {
             if (indexPath.row >= users.count) {
                 loadUnfollowUsers()
@@ -221,7 +223,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 cell.activityIndicator.startAnimating()
                 return cell
             }
-            
             let user = searchMode ? filteredUsers[indexPath.row] : users[indexPath.row]
             cell.titleLabel.text = user.fullName
             if let picture = user.picture {
