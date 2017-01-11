@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
-        print("Registering remote notifications")
-        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
+//        print("Registering remote notifications")
+//        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
@@ -51,7 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.registerForRemoteNotifications()
             MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
+            if (UserManager().currentUser().authData != nil) {
+                print("Token in login: " + UserManager().currentUser().authData!)
+            } else {
+                print("Token is null")
+            }
+            Backendless.sharedInstance().userService.setPersistentUser()
+            UserManager().prepareData()
         }
+        
     }
     
     func changeLaguageApp() {
@@ -106,7 +114,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }) { (fault) in
             print("Push registration service error: deviceToken = " + deviceTokenStr + ", FAULT = " + fault.message)
         }
-        Backendless.sharedInstance().messaging.registerDevice(["test"], expiration: NSDate().addYear())
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

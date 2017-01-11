@@ -14,7 +14,7 @@ import CoreData
 
 extension CDUser {
 
-    @NSManaged var authData: FBSDKAccessToken?
+    @NSManaged var authData: String?
     @NSManaged var college: String?
     @NSManaged var descr: String?
     @NSManaged var distance: NSNumber?

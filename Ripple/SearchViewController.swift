@@ -171,7 +171,9 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     self?.filteredUsers = users!
                 }
                 print("User results: \(users?.debugDescription)")
-                OrganizationManager().searchUnfollowOrganizations(searchBar.text!, completion: { (organizations, error) in
+                OrganizationManager().searchOrgs(searchBar.text!, completion: { (organizations, error) in
+                //OrganizationManager().searchUnfollowOrganizations(searchBar.text!, completion: { (organizations, error) in
+                    
                     print("Org results: \(organizations?.debugDescription)")
                         
                     self?.hideActivityIndicator()

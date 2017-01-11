@@ -24,9 +24,9 @@ class Users: BackendlessUser {
         case picture = "picture"
     }
     
-    var authData:FBSDKAccessToken? {
+    var authData:String? {
         get {
-            return self.getProperty(propertyName.authData.rawValue) as? FBSDKAccessToken ?? nil
+            return self.getProperty(propertyName.authData.rawValue) as? String ?? nil
         }
         set {
             self.setProperty(propertyName.authData.rawValue, object: newValue)
@@ -158,7 +158,7 @@ class Users: BackendlessUser {
         }
         
         if let bAuthDat = backendlessUser.getProperty(propertyName.authData.rawValue) {
-            self.authData = bAuthDat as? FBSDKAccessToken ?? nil    
+            self.authData = bAuthDat as? String ?? nil
         }
     }
     
