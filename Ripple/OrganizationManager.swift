@@ -130,17 +130,20 @@ class OrganizationManager: NSObject {
             completion(nil, nil, ErrorHelper().convertFaultToNSError(fault))
         })
     }
-    
+
     func searchUnfollowOrganizations(searchString: String, completion: ([Organizations]?, NSError?) -> Void) {
+        searchOrgs(searchString, completion: completion)
         let query = BackendlessDataQuery()
         query.whereClause = "'\(UserManager().currentUser().objectId)' not in members and name LIKE '%" + searchString + "%'"
         let options = QueryOptions()
         options.related = ["picture"]
         options.sortBy = ["name"]
         query.queryOptions = options
+        print("Test HERE")
         
         Organizations().dataStore().find(query, response: { (collection) in
             var organizations = collection.data as? [Organizations] ?? [Organizations]()
+            print("Org manager result: \(organizations.debugDescription)")
             collection.loadOtherPages({ (otherPageCollection) -> Void in
                 if otherPageCollection != nil {
                     organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
@@ -151,6 +154,39 @@ class OrganizationManager: NSObject {
         }, error: { (fault) in
             completion(nil, ErrorHelper().convertFaultToNSError(fault))
         })
+    }
+    
+    func searchOrgs(searchString:String, completion: ([Organizations]?, NSError?) -> Void) {
+        var userOrgIds = [String]()
+        print("searching orgs")
+        print(UserManager().currentUser().organizations.count)
+        for org in UserManager().currentUser().organizations {
+            print("User org name \(org.name)")
+        }
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        query.whereClause = "name LIKE '%\(searchString)%'"
+        options.sortBy = ["name"]
+        query.queryOptions = options
+        Organizations().dataStore().find(query, response: { (collection) in
+            print("Collection data: " + collection.data.debugDescription)
+            var orgs = collection.data as? [Organizations] ?? [Organizations]()
+            collection.loadOtherPages({ (otherPageCollection) -> Void in
+                if otherPageCollection != nil {
+                    orgs.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
+                } else {
+                    completion(orgs, nil)
+                }
+            })
+        }, error: { (fault) in
+            completion(nil, ErrorHelper().convertFaultToNSError(fault))
+        })
+    
+                
+    
+//        var org = Organizations().dataStore().findFirst() as? [Organizations] ?? [Organizations]()
+//        print("Org data :\(org.description))")
+        
     }
     
     func joinOrganization(organization: Organizations, completion: (Bool) -> Void) {

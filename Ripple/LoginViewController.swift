@@ -52,12 +52,13 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         usernameTextField.placeholder = NSLocalizedString("Email", comment: "Email")
         passwordTextField.placeholder = NSLocalizedString("Password", comment: "Password")
         registerButton.titleLabel?.text = NSLocalizedString("Register", comment: "Register")
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
-        autoLogin()
+       
     }
     
     /*The first time a user uses the app they are forced to
@@ -207,7 +208,12 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }
             if let currentUser = user {
                 currentUser.isPrivate = false
-                
+//                // --DEBUG
+//                print("Saving access token")
+//                if(FBSDKAccessToken.currentAccessToken() != nil) {
+//                    print("Token In controller" + FBSDKAccessToken.currentAccessToken().tokenString   )
+//                }
+                currentUser.authData = FBSDKAccessToken.currentAccessToken().tokenString
                 currentUser.save( { [weak self] (success, error) in
                     if !success && error != nil {
                         self?.hideWaitView()
@@ -254,11 +260,15 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         return url
     }
     func autoLogin() {
-        if (API().autoLogin()) {
-            self.showWaitView()
-            print("Auto login worked")
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.loginComplete()
+        do {
+            if (API().autoLogin()) {
+                self.showWaitView()
+                print("Auto login worked")
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                appDelegate.loginComplete()
+            }
+        } catch {
+            print("Error caught")
         }
     }
 }

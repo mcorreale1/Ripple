@@ -112,6 +112,9 @@ class API: NSObject {
         Backendless.sharedInstance().userService.setStayLoggedIn(true)
         //Only gets first name, fix later
         backendless.userService.loginWithFacebookSDK(token, fieldsMapping: ["email" : "email", "first_name": "fullName"], response: { (user: BackendlessUser!) -> Void in
+            
+
+            
             guard let currentUser = user else {
                 completion(nil, ErrorHelper().getNSError(withMessage: "Failed to fetch user".localized()))
                 return
@@ -184,10 +187,21 @@ class API: NSObject {
     }
     
     func autoLogin() -> Bool {
+    
+        
         
         let user = Backendless.sharedInstance().userService.getPersistentUser()
+        if let current = Backendless.sharedInstance().userService.currentUser as? Users ?? nil {
+            print("there is a current user " + current.name)
+        } else {
+            print("No user found")
+        }
+        
+            return false
+        
         if  user {
             print( "auto logged in \(Backendless.sharedInstance().userService.currentUser.name)")
+            //print( "Access token: " + FBSDKAccessToken.currentAccessToken().tokenString)
             return true
         } else {
             print("Auto login failed")

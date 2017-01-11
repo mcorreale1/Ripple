@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 enum TypeFollowingSection: String {
     case Friends = "Friends"
@@ -37,7 +38,6 @@ class UserManager: NSObject {
      */
     func initMe(completion: () -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
-        
         let query = BackendlessDataQuery()
         let queryOptions = QueryOptions()
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
@@ -51,6 +51,13 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
+        //let authData = FBSDKAccessToken.currentAccessToken()
+        //print(authData.description)
+        
+    }
+    
+    func prepareData() {
+
     }
     
     /*
