@@ -17,9 +17,10 @@ extension CDUser {
     @NSManaged var authData: String?
     @NSManaged var college: String?
     @NSManaged var descr: String?
-    @NSManaged var distance: NSNumber?
     @NSManaged var email: String?
     @NSManaged var fullName: String?
+    @NSManaged var name: String?
+    @NSManaged var lastName: String?
     @NSManaged var isPrivate: NSNumber?
     @NSManaged var password: String?
     @NSManaged var serverID: String?

@@ -102,7 +102,7 @@ class MessagingViewController: BaseViewController, UITableViewDataSource, UITabl
         let channel = channels[indexPath.row]
         
         if let user = channel.userAddressee() {
-            cell.chatNameLabel.text = user.getProperty("fullName") as? String
+            cell.chatNameLabel.text = user.getProperty("name") as? String
             
             if let picture = user.getProperty("picture") as? Pictures {
                 PictureManager().loadPicture(picture, inImageView: cell.profileImage)

@@ -146,7 +146,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         let requestDetails = followingRequests[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
         let fromUser =  requestDetails.fromUser
-        cell.titleLabel.text = fromUser.fullName
+        cell.titleLabel.text = fromUser.name
         cell.descriptionLabel.text = "wants to follow you on Pulse"
         if let picture = fromUser.picture {
             PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)

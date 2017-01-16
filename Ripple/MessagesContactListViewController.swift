@@ -48,7 +48,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
         let user = searchBar.text == "" ? self.users[indexPath.row] : filteredUsers[indexPath.row]
         
-        cell.titleLabel.text = user.fullName
+        cell.titleLabel.text = user.name
         cell.descriptionLabel.text = nil
         
         if let picture = user.picture {
@@ -82,7 +82,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
             let user = sender as! Users
             let destinationVC = segue.destinationViewController as! ChatViewController
             destinationVC.user = user
-            destinationVC.title = user.fullName
+            destinationVC.title = user.name
         }
     }
     

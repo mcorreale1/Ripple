@@ -38,7 +38,7 @@ class EventParticipantsViewController : BaseViewController, UITableViewDataSourc
         let cell = tableView.dequeueReusableCellWithIdentifier(EventParticipantsViewController.cellId) as! FollowingTableViewCell
         let user = self.participants![indexPath.row]
         
-        cell.titleLabel.text = user.fullName
+        cell.titleLabel.text = user.name
         cell.descriptionLabel.text = nil
         let picture = user.picture
         PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)

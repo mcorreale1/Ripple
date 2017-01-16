@@ -22,6 +22,10 @@ class Users: BackendlessUser {
         case fullName = "fullName"
         case descr = "descr"
         case picture = "picture"
+        case name = "name"
+        case lastName = "lastName"
+        case firstName = "firstName"
+    
     }
     
     var authData:String? {
@@ -33,6 +37,25 @@ class Users: BackendlessUser {
         }
     }
     
+    override var name:String? {
+        get {
+            return self.getProperty(propertyName.name.rawValue) as? String ?? nil
+        }
+        set {
+            //print("setting name to" + newValue!)
+            self.setProperty(propertyName.name.rawValue, object: newValue)
+        }
+    }
+    
+    var lastName:String? {
+        get {
+            return self.getProperty(propertyName.lastName.rawValue) as? String ?? nil
+        }
+        set {
+            //print("Setting last name to" + newValue!)
+            self.setProperty(propertyName.lastName.rawValue, object: newValue)
+        }
+    }
     var organizations: [Organizations] {
         get {
             return self.getProperty(propertyName.organizations.rawValue) as? [Organizations] ?? [Organizations]()
@@ -146,7 +169,14 @@ class Users: BackendlessUser {
         
         if let bFullName = backendlessUser.getProperty(propertyName.fullName.rawValue) {
             self.fullName = bFullName as? String ?? ""
-            self.name = bFullName as? String ?? ""
+            //self.name = bFullName as? String ?? ""
+        }
+        if let bName = backendlessUser.getProperty(propertyName.name.rawValue) {
+            self.name = bName as? String ?? ""
+        }
+        //Last name tests
+        if let bLastName = backendlessUser.getProperty(propertyName.lastName.rawValue) {
+            self.lastName = bLastName as? String ?? nil
         }
         
         if let bDescr = backendlessUser.getProperty(propertyName.descr.rawValue) {
