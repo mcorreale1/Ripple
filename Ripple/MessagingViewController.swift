@@ -8,7 +8,7 @@
 
 import Photos
 import UIKit
-import GoogleMobileAds
+//import GoogleMobileAds
 
 
 let KBannerAdUnitID = "ca-app-pub-3940256099942544/2934735716"

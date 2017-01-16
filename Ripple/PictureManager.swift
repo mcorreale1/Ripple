@@ -4,7 +4,7 @@
 //
 //  Created by evgeny on 29.07.16.
 //  Copyright © 2016 Adam Gluck. All rights reserved.
-//
+//com
 
 import UIKit
 import SDWebImage

@@ -1,0 +1,6 @@
+framework module ORCropImageController {
+  umbrella header "ORCropImageController-umbrella.h"
+
+  export *
+  module * { export * }
+}
