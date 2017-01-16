@@ -1,0 +1,21 @@
+{
+  "name": "ORCommonCode-Swift",
+  "version": "0.7.1",
+  "summary": "ORCommonCode-Swift - extensions, helpers.",
+  "description": "String+Extended, Array+Extended, NSAttributedString+Extended, NSDate+ISOString, dispatching and notification helpers, ORMath, etc.",
+  "homepage": "https://bitbucket.org/omegarinc/orcommoncode-swift",
+  "license": "MIT",
+  "authors": {
+    "Maxim Soloviev": "maxim@omega-r.com"
+  },
+  "source": {
+    "git": "https://bitbucket.org/omegarinc/orcommoncode-swift.git",
+    "tag": "0.7.1"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "frameworks": "Foundation"
+}

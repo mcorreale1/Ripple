@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4D014A3255CDBE00CF94F0A0E95890EB"
+               BlueprintIdentifier = "560A1FCA763F31C1549A4AC6AB824566"
                BuildableName = "Pods_Ripple.framework"
                BlueprintName = "Pods-Ripple"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4D014A3255CDBE00CF94F0A0E95890EB"
+            BlueprintIdentifier = "560A1FCA763F31C1549A4AC6AB824566"
             BuildableName = "Pods_Ripple.framework"
             BlueprintName = "Pods-Ripple"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4D014A3255CDBE00CF94F0A0E95890EB"
-            BuildableName = "Pods_Ripple.framework"
-            BlueprintName = "Pods-Ripple"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

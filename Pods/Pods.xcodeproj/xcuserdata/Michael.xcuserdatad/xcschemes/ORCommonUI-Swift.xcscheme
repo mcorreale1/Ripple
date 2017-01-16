@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B85CA4DE4F5AC25325AD1071F84A40BD"
+               BlueprintIdentifier = "F6448E4E314BB8DA992E8122B7711210"
                BuildableName = "ORCommonUI_Swift.framework"
                BlueprintName = "ORCommonUI-Swift"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B85CA4DE4F5AC25325AD1071F84A40BD"
+            BlueprintIdentifier = "F6448E4E314BB8DA992E8122B7711210"
             BuildableName = "ORCommonUI_Swift.framework"
             BlueprintName = "ORCommonUI-Swift"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B85CA4DE4F5AC25325AD1071F84A40BD"
-            BuildableName = "ORCommonUI_Swift.framework"
-            BlueprintName = "ORCommonUI-Swift"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
