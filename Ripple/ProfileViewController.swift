@@ -716,7 +716,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let user = sender as! Users
             let destinationViewController = segue.destinationViewController as! ChatViewController
             destinationViewController.user = user 
-            destinationViewController.title = user.fullName
+            destinationViewController.title = user.name
         }
     }
     

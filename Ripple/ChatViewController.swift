@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMobileAds
+//import GoogleMobileAds
 
 let kBannerAdUnitID = "ca-app-pub-3940256099942544/2934735716"
 
@@ -58,7 +58,7 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
         showActivityIndicator()
         
         if channel.users?.count < 1 {
-            title = user?.fullName
+            title = user?.name
             
             ChatChannel().channelForUser(user!, completion: {[weak self] (channel) in
                 self?.channel = channel
@@ -74,7 +74,7 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
                 }
             })
         } else {
-            title = channel.userAddressee()?.getProperty("fullName") as? String
+            title = channel.userAddressee()?.getProperty("name") as? String
             loadMessages()
         }
     }

@@ -1,0 +1,19 @@
+{
+  "name": "ORCropImageController",
+  "version": "0.1.2",
+  "summary": "ORCropImageController allows user to perform crop of the image.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://bitbucket.org/omegarinc/orcropimagecontroller",
+  "license": "MIT",
+  "authors": {
+    "Nikita Egoshin": "nikita.egoshin@omega-r.com"
+  },
+  "source": {
+    "git": "https://NikitaEgoshin@bitbucket.org/omegarinc/orcropimagecontroller.git",
+    "tag": "0.1.2"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "ORCropImageController/Classes/**/*"
+}

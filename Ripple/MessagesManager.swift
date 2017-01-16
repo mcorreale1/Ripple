@@ -92,7 +92,7 @@ class MessagesManager: NSObject {
         let publishOptions = PublishOptions()
         publishOptions.addHeader("ios-sound", value: "default")
         
-        let message = (UserManager().currentUser().fullName ?? "") + ": " + textMessage
+        let message = (UserManager().currentUser().name ?? "") + ": " + textMessage
         
         Backendless.sharedInstance().messaging.publish(objectId, message: message, publishOptions: publishOptions, response: { (status) in
             

@@ -180,8 +180,8 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 if result != nil {
                     self?.orgMembers = result!
                     self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
-                        let name1 = user1.fullName
-                        let name2 = user2.fullName
+                        let name1 = user1.name
+                        let name2 = user2.name
                         return name1?.lowercaseString < name2?.lowercaseString
                     }
                     self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
@@ -663,7 +663,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
             let picture = user.picture
             PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
-            cell.titleLabel.text = user.fullName
+            cell.titleLabel.text = user.name 
             cell.descriptionLabel.text = ""
             return cell
         }

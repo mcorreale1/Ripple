@@ -6,88 +6,73 @@
 	<dict>
 		<key>Bolts.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>CVCalendar.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FBSDKCoreKit.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FBSDKLoginKit.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
-		<key>GTMSessionFetcher.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
-		</dict>
-		<key>GoogleToolboxForMac.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>JTCalendar.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>MagicalRecord.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>ORCommonCode-Swift.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>ORCommonUI-Swift.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>11</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>ORCropImageController.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
-		</dict>
-		<key>ORLocalizationSystem-ORLocalizationSystem.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>14</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>ORLocalizationSystem.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>13</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-Ripple.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>16</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>UITextView+Placeholder.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>17</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>commoncode-ios.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -112,12 +97,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>44CAD6CE523055ED339E87154473A254</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4D014A3255CDBE00CF94F0A0E95890EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5902731A91F73F703BF7398052BE8695</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>67452A9A202FC2529FD183F29A2F4D46</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -132,12 +132,37 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>7077FDA9B448C38C3F15AF27E44B35FC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7D9AB0039D5F128BC53B9A3D28B016F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>856686484CFF1762E9755D60396A1056</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>91D0AFD51BF2D04784321D0DCD086326</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>96D028D8410E9A401CDCEFD40406EEC0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ABAF2D3317E5D14956B0EFF709D642EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,6 +177,21 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>BC5000D645EEAF961C85907CDC796FE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BEF7E6E85DB5CDE5D7A18F4F2EB8494B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C063CB1557EB72CD5E188FA9AACF160D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D212C90570AAD93F7736F21B46F475F7</key>
 		<dict>
 			<key>primary</key>
@@ -162,7 +202,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>E2EF0A874A01FFC4D77FBAEED4802A12</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E5AB88E8333B9568826C9AA252037278</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EFECD968A39EFA5C5689D3995239C63E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -173,6 +223,11 @@
 			<true/>
 		</dict>
 		<key>F30E0942DD6789F0C10B5DB975614A4B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F6448E4E314BB8DA992E8122B7711210</key>
 		<dict>
 			<key>primary</key>
 			<true/>

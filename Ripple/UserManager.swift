@@ -745,8 +745,8 @@ class UserManager: NSObject {
     
     func sortUsersByFullName(inout users: [Users]) {
         users.sortInPlace { (user1: Users, user2: Users) -> Bool in
-            let name1 = user1.fullName
-            let name2 = user2.fullName
+            let name1 = user1.name
+            let name2 = user2.name
             return name1?.lowercaseString < name2?.lowercaseString
         }
     }

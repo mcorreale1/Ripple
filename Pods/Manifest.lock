@@ -6,56 +6,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - commoncode-ios (0.0.2):
-    - commoncode-ios/BarButtonWithImageAndTitleFactory (= 0.0.2)
-    - commoncode-ios/BundleHelper (= 0.0.2)
-    - commoncode-ios/CommonHelpers (= 0.0.2)
-    - commoncode-ios/FileHelper (= 0.0.2)
-    - commoncode-ios/GraphicHelpers (= 0.0.2)
-    - commoncode-ios/HorizontalSeparator (= 0.0.2)
-    - commoncode-ios/Macro (= 0.0.2)
-    - commoncode-ios/NSArray+Extended (= 0.0.2)
-    - commoncode-ios/NSDate+Extended (= 0.0.2)
-    - commoncode-ios/NSString+EmailValidator (= 0.0.2)
-    - commoncode-ios/NSString+Extended (= 0.0.2)
-    - commoncode-ios/NSString+Youtube (= 0.0.2)
-    - commoncode-ios/TopAlignedLabel (= 0.0.2)
-    - commoncode-ios/UIGroup (= 0.0.2)
-    - commoncode-ios/UIImage+ImageWithAlpha (= 0.0.2)
-    - commoncode-ios/UIImageView+MediaThumbnail (= 0.0.2)
-    - commoncode-ios/UINavigationController+Fade (= 0.0.2)
-    - commoncode-ios/UIScrollView+DisableDelaysContentTouches (= 0.0.2)
-    - commoncode-ios/UITextView+Extended (= 0.0.2)
-    - commoncode-ios/UIView+Extended (= 0.0.2)
-    - commoncode-ios/UIView+IBDesignable (= 0.0.2)
-    - commoncode-ios/UIView+Mask (= 0.0.2)
-    - commoncode-ios/UserDefaultsManager (= 0.0.2)
-  - commoncode-ios/BarButtonWithImageAndTitleFactory (0.0.2):
-    - commoncode-ios/UIImage+ImageWithAlpha
-  - commoncode-ios/BundleHelper (0.0.2)
-  - commoncode-ios/CommonHelpers (0.0.2)
-  - commoncode-ios/FileHelper (0.0.2)
-  - commoncode-ios/GraphicHelpers (0.0.2)
-  - commoncode-ios/HorizontalSeparator (0.0.2)
-  - commoncode-ios/Macro (0.0.2)
-  - commoncode-ios/NSArray+Extended (0.0.2):
-    - commoncode-ios/Macro
-  - commoncode-ios/NSDate+Extended (0.0.2)
-  - commoncode-ios/NSString+EmailValidator (0.0.2)
-  - commoncode-ios/NSString+Extended (0.0.2)
-  - commoncode-ios/NSString+Youtube (0.0.2):
-    - commoncode-ios/NSString+Extended
-  - commoncode-ios/TopAlignedLabel (0.0.2)
-  - commoncode-ios/UIGroup (0.0.2)
-  - commoncode-ios/UIImage+ImageWithAlpha (0.0.2)
-  - commoncode-ios/UIImageView+MediaThumbnail (0.0.2)
-  - commoncode-ios/UINavigationController+Fade (0.0.2)
-  - commoncode-ios/UIScrollView+DisableDelaysContentTouches (0.0.2)
-  - commoncode-ios/UITextView+Extended (0.0.2)
-  - commoncode-ios/UIView+Extended (0.0.2)
-  - commoncode-ios/UIView+IBDesignable (0.0.2)
-  - commoncode-ios/UIView+Mask (0.0.2)
-  - commoncode-ios/UserDefaultsManager (0.0.2)
+  - commoncode-ios (0.0.1)
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - CVCalendar (1.3.1)
@@ -64,82 +15,12 @@ PODS:
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.18.0):
     - FBSDKCoreKit
-  - Firebase/AdMob (3.10.0):
-    - Firebase/Core
-    - Google-Mobile-Ads-SDK (= 7.15.0)
-  - Firebase/Auth (3.10.0):
-    - Firebase/Core
-    - FirebaseAuth (= 3.0.6)
-  - Firebase/Core (3.10.0):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.5)
-  - Firebase/Crash (3.10.0):
-    - Firebase/Core
-    - FirebaseCrash (= 1.1.4)
-  - Firebase/Database (3.10.0):
-    - Firebase/Core
-    - FirebaseDatabase (= 3.1.1)
-  - Firebase/RemoteConfig (3.10.0):
-    - Firebase/Core
-    - FirebaseRemoteConfig (= 1.3.1)
-  - Firebase/Storage (3.10.0):
-    - Firebase/Core
-    - FirebaseStorage (= 1.0.5)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseAuth (3.0.6):
-    - FirebaseAnalytics (~> 3.4)
-    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.4.5):
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCrash (1.1.4):
-    - FirebaseAnalytics (~> 3.5)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (3.1.1):
-    - FirebaseAnalytics (~> 3.5)
-  - FirebaseInstanceID (1.0.8)
-  - FirebaseRemoteConfig (1.3.1):
-    - FirebaseAnalytics (~> 3.4)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseStorage (1.0.5):
-    - FirebaseAnalytics (~> 3.5)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - Google-Mobile-Ads-SDK (7.15.0)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/DebugUtils (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/Logger (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.0):
-    - GoogleToolboxForMac/DebugUtils (= 2.1.0)
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.0)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.0)
-  - GTMSessionFetcher/Core (1.1.7)
   - JTCalendar (2.1.9)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - ORCommonCode-Swift (0.7.0)
-  - ORCommonUI-Swift (1.0.0)
+  - ORCommonCode-Swift (0.7.1)
+  - ORCommonUI-Swift (1.0.1)
   - ORCropImageController (0.1.2)
   - ORLocalizationSystem (0.5.0)
   - SDWebImage (3.8.2):
@@ -149,59 +30,68 @@ PODS:
 
 DEPENDENCIES:
   - Backendless
-  - commoncode-ios
+  - commoncode-ios (from `https://github.com/mcorreale1/commoncode-ios.git`)
   - Crashlytics
   - CVCalendar (~> 1.3.1)
   - Fabric
   - FBSDKCoreKit (~> 4.15)
   - FBSDKLoginKit (~> 4.15)
-  - Firebase/AdMob
-  - Firebase/Auth
-  - Firebase/Crash
-  - Firebase/Database
-  - Firebase/RemoteConfig
-  - Firebase/Storage
   - JTCalendar (~> 2.0)
   - MagicalRecord
-  - ORCommonCode-Swift (= 0.7.0)
-  - ORCommonUI-Swift (= 1.0.0)
-  - ORCropImageController
-  - ORLocalizationSystem
+  - ORCommonCode-Swift (from `https://jettiapps@bitbucket.org/omegarinc/orcommoncode-swift.git`)
+  - ORCommonUI-Swift (from `https://jettiapps@bitbucket.org/omegarinc/orcommonui-swift.git`)
+  - ORCropImageController (from `https://jettiapps@bitbucket.org/omegarinc/orcropimagecontroller.git`)
+  - ORLocalizationSystem (from `https://jettiapps@bitbucket.org/omegarinc/orlocalizationsystem.git`)
   - SDWebImage (~> 3.8)
   - UITextView+Placeholder (~> 1.2)
+
+EXTERNAL SOURCES:
+  commoncode-ios:
+    :git: https://github.com/mcorreale1/commoncode-ios.git
+  ORCommonCode-Swift:
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcommoncode-swift.git
+  ORCommonUI-Swift:
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcommonui-swift.git
+  ORCropImageController:
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcropimagecontroller.git
+  ORLocalizationSystem:
+    :git: https://jettiapps@bitbucket.org/omegarinc/orlocalizationsystem.git
+
+CHECKOUT OPTIONS:
+  commoncode-ios:
+    :commit: 477ab9a3f1c45a58c7ac53cad5e1c1a156402b41
+    :git: https://github.com/mcorreale1/commoncode-ios.git
+  ORCommonCode-Swift:
+    :commit: 3e2581ab571f36a9008b8c3876706ff094f53f51
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcommoncode-swift.git
+  ORCommonUI-Swift:
+    :commit: ee15e07817d157fea01f6a35c097b30c170f3f13
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcommonui-swift.git
+  ORCropImageController:
+    :commit: 1a227a83f74fb549d428adfdf59e57ad54c23a39
+    :git: https://jettiapps@bitbucket.org/omegarinc/orcropimagecontroller.git
+  ORLocalizationSystem:
+    :commit: 3503888b28aa3729f5a3d0b67569124bc3acb925
+    :git: https://jettiapps@bitbucket.org/omegarinc/orlocalizationsystem.git
 
 SPEC CHECKSUMS:
   Backendless: bd77ad90cbd16fbd85fda03b3659b46a2c8f3179
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  commoncode-ios: 6eedc9807c82a063e14a4811f0bdba4c9496d9a6
+  commoncode-ios: d1a266c192ae734ca7e6ab81fb81e13a25bc10f6
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   CVCalendar: 7ed8a9cb7cd62c9fffc05ac92201d82b93e1546a
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
   FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
-  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseAuth: 96e9674ff31d6e1f826d53e26aa003a57cab0295
-  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
-  FirebaseCrash: 34f0349908ec87945a5ae96c402e7201a3f3aede
-  FirebaseDatabase: 6de92187481ff0e8e124064f21742e95ee883b02
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  FirebaseRemoteConfig: 383a9afe0a9291ada949e3f615257928a823b594
-  FirebaseStorage: 5738284835edb57f0e81d4ae5832bb17c1e4b5fa
-  Google-Mobile-Ads-SDK: 75d41dfcf06f7666ab211573d212768b0f766c5d
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
-  GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
   JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  ORCommonCode-Swift: ba4220d4780d50aa78799bc6858fe533a77ba555
-  ORCommonUI-Swift: 5d7c048c182bc6a442cfa2ddcdb709363629786e
-  ORCropImageController: 88def7734821a462b0a08ec37149095c3b1c23a1
-  ORLocalizationSystem: 7fa40694e019e58e16f11f8c7a87e6284e385a15
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  ORCommonCode-Swift: 24c9998ddcad090b4bb3bc0be806975cd003b460
+  ORCommonUI-Swift: ffd83d06dd6f8c08de6b3842302913e204add2ba
+  ORCropImageController: de2e14b17b81198040bb4064a8cf5517d9e1b051
+  ORLocalizationSystem: c6fb691f80378fff0419ddcf3bb74bb1f4338aaf
+  SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
 
-PODFILE CHECKSUM: 8d15f52383c8e7b2ef7deaa4e33cc6f2a86f5ae8
+PODFILE CHECKSUM: 3dcff2a1667cbb75e04abb06b22f5de28e1a0443
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

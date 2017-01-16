@@ -95,7 +95,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
         
         if indexPath.section == 1 {
             let user = searchBar.text == "" ? users[indexPath.row] : filteredUsers[indexPath.row]
-            cell.titleLabel.text = user.fullName ?? ""
+            cell.titleLabel.text = user.name ?? ""
             if let picture = user.picture {
                 PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
             } else {

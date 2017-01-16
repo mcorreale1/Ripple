@@ -2,8 +2,8 @@
 //  ORKeyboardLayoutConstraint.swift
 //  Pods
 //
-//  Created by Alexander Kurbanov on 4/5/16.
-//  
+//  Created by Maxim Soloviev on 10/08/16.
+//  Copyright © 2016 Maxim Soloviev. All rights reserved.
 //
 
 import UIKit
@@ -12,16 +12,19 @@ public class ORKeyboardLayoutConstraint: NSLayoutConstraint {
     
     private var originalOffset: CGFloat = 0
     
+    @IBInspectable var useCustomOffsetWhenKeyboardIsShown: Bool = false
+    @IBInspectable var customOffset: CGFloat = 0
+    
     // MARK: - Object lifecycle
     
     override public func awakeFromNib() {
         super.awakeFromNib()
         
-        self.originalOffset = self.constant
+        originalOffset = constant
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(notificationKeyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(notificationKeyboardWillHide), name: UIKeyboardWillHideNotification, object: nil)
     }
- 
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -32,18 +35,19 @@ public class ORKeyboardLayoutConstraint: NSLayoutConstraint {
         if let userInfo = notification.userInfo {
             if let frameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
                 let frame = frameValue.CGRectValue()
-                self.constant = frame.size.height + self.originalOffset
+                let offset = useCustomOffsetWhenKeyboardIsShown ? customOffset : originalOffset
+                constant = frame.size.height + offset
                 
-                self.updateLayout(userInfo)
+                updateLayout(userInfo)
             }
         }
     }
     
     func notificationKeyboardWillHide(notification: NSNotification) {
-        self.constant = self.originalOffset
+        constant = originalOffset
         
         if let userInfo = notification.userInfo {
-            self.updateLayout(userInfo)
+            updateLayout(userInfo)
         }
     }
     

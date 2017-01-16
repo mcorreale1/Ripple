@@ -1,0 +1,24 @@
+{
+  "name": "commoncode-ios",
+  "version": "0.0.1",
+  "summary": "A short description of commoncode-ios.",
+  "description": "Commoncode",
+  "homepage": "https://github.com/mcorreale1/commoncode-ios.git",
+  "license": "MIT",
+  "authors": {
+    "Michael Correale": "Mcorreale1@gmail.com"
+  },
+  "platforms": {
+    "ios": null
+  },
+  "source": {
+    "git": "https://github.com/mcorreale1/commoncode-ios.git"
+  },
+  "source_files": [
+    "Pod/Classes",
+    "Pod/Classes/**/*"
+  ],
+  "exclude_files": "Classes/Exclude",
+  "frameworks": "UIKit",
+  "requires_arc": true
+}

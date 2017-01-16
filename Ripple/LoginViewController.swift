@@ -208,11 +208,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }
             if let currentUser = user {
                 currentUser.isPrivate = false
-//                // --DEBUG
-//                print("Saving access token")
-//                if(FBSDKAccessToken.currentAccessToken() != nil) {
-//                    print("Token In controller" + FBSDKAccessToken.currentAccessToken().tokenString   )
-//                }
                 currentUser.authData = FBSDKAccessToken.currentAccessToken().tokenString
                 currentUser.save( { [weak self] (success, error) in
                     if !success && error != nil {

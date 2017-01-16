@@ -1,0 +1,22 @@
+{
+  "name": "ORLocalizationSystem",
+  "version": "0.5.0",
+  "summary": "ORLocalizationSystem - helpers.",
+  "description": "Helper for dynamic change app localization",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/ORLocalizationSystem",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Ivanov Evgeny": "evgeny.ivanov@omega-r.com"
+  },
+  "source": {
+    "git": "https://bitbucket.org/omegarinc/orlocalizationsystem.git",
+    "tag": "0.5.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "ORLocalizationSystem/Classes/**/*"
+}

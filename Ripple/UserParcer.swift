@@ -86,7 +86,7 @@ class UserParcer : NSObject {
     func fetchBackendlessEntity(fromCDUser cdUser: CDUser) -> Users {
         let user = Users()
         user.objectId = cdUser.serverID
-        user.name = cdUser.username
+        user.name = cdUser.name
         user.isPrivate = cdUser.isPrivate?.boolValue ?? false
         user.fullName = cdUser.fullName
         user.descr = cdUser.descr
