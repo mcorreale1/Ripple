@@ -48,7 +48,7 @@ class OrganizationParcer : NSObject {
         cdOrganization!.events = cdEvents
         
         
-        var cdMembers = Set<CDUser>()
+        let cdMembers = Set<CDUser>()
 //        for member in organization.members {
 //            if let cdMember = UserParcer().fetchCoreDataEntity(fromUser: member, withContext: context) {
 //                cdMembers.insert(cdMember)
@@ -56,7 +56,7 @@ class OrganizationParcer : NSObject {
 //        }
         cdOrganization!.members = cdMembers
         
-        var cdAdmins = Set<CDUser>()
+        let cdAdmins = Set<CDUser>()
 //        for admin in organization.admins {
 //            if let cdAdmin = UserParcer().fetchCoreDataEntity(fromUser: admin, withContext: context) {
 //                cdAdmins.insert(cdAdmin)

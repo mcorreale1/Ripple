@@ -156,7 +156,8 @@ class OrganizationManager: NSObject {
     }
     
     func searchOrgs(searchString:String, completion: ([Organizations]?, NSError?) -> Void) {
-        var userOrgIds = [String]()
+        // --REMOVE
+        // var userOrgIds = [String]()
         print("searching orgs")
         print(UserManager().currentUser().organizations.count)
         for org in UserManager().currentUser().organizations {

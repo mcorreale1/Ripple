@@ -21,6 +21,7 @@ extension CDUser {
     @NSManaged var fullName: String?
     @NSManaged var name: String?
     @NSManaged var lastName: String?
+    @NSManaged var firstName: String?
     @NSManaged var isPrivate: NSNumber?
     @NSManaged var password: String?
     @NSManaged var serverID: String?

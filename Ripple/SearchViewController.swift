@@ -226,7 +226,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 return cell
             }
             let user = searchMode ? filteredUsers[indexPath.row] : users[indexPath.row]
-            cell.titleLabel.text = user.fullName
+            cell.titleLabel.text = user.name
             if let picture = user.picture {
                 PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
             } else {
