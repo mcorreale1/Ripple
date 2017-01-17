@@ -32,6 +32,7 @@ class API: NSObject {
         });
     }
     
+    // --DEPRECATED
     func signUp(password: String, email: String, fullName: String, completion: (Bool, NSError?) -> Void) {
         if password == "" || email == "" || fullName.characters.count > 30 || fullName.characters.count < 3 {
             let fault = Fault(message: NSLocalizedString("Pleaseentervalidcredentials", comment: "Pleaseentervalidcredentials"))
@@ -111,7 +112,7 @@ class API: NSObject {
         //WHAT ENABLES AUTO LOGIN
         Backendless.sharedInstance().userService.setStayLoggedIn(true)
         //Only gets first name, fix later
-        backendless.userService.loginWithFacebookSDK(token, fieldsMapping: ["email" : "email", "first_name": "fullName", "name" : "name", "last_name":"lastName"], response: { (user: BackendlessUser!) -> Void in
+        backendless.userService.loginWithFacebookSDK(token, fieldsMapping: ["email" : "email", "first_name": "firstName", "name" : "name", "last_name":"lastName"], response: { (user: BackendlessUser!) -> Void in
             guard let currentUser = user else {
                 completion(nil, ErrorHelper().getNSError(withMessage: "Failed to fetch user".localized()))
                 return
@@ -186,17 +187,19 @@ class API: NSObject {
     func autoLogin() -> Bool {
     
         
-        
-        let user = Backendless.sharedInstance().userService.getPersistentUser()
-        if let current = Backendless.sharedInstance().userService.currentUser as? Users ?? nil {
+        /*
+            if let current = Backendless.sharedInstance().userService.currentUser as? Users ?? nil {
             print("there is a current user " + current.name!)
         } else {
             print("No user found")
         }
+        */
+        let userFound = Backendless.sharedInstance().userService.getPersistentUser()
+
         
-        if  user {
-            print( "auto logged in \(Backendless.sharedInstance().userService.currentUser.name)")
-            //print( "Access token: " + FBSDKAccessToken.currentAccessToken().tokenString)
+        if  userFound {
+            print("auto logged in \(Backendless.sharedInstance().userService.currentUser.name)")
+
             return true
         } else {
             print("Auto login failed")

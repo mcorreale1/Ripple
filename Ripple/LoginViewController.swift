@@ -208,7 +208,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }
             if let currentUser = user {
                 currentUser.isPrivate = false
-                currentUser.authData = FBSDKAccessToken.currentAccessToken().tokenString
+                currentUser.authData = self!.generateAuthData(FBSDKAccessToken.currentAccessToken())
                 currentUser.save( { [weak self] (success, error) in
                     if !success && error != nil {
                         self?.hideWaitView()
@@ -251,19 +251,23 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     func previewController(controller: QLPreviewController, previewItemAtIndex index: Int) -> QLPreviewItem {
         let path = NSBundle.mainBundle().pathForResource(docName, ofType: "docx")
         let url = NSURL.fileURLWithPath(path!)
-        
         return url
     }
+    
+    //Formates the AuthData string into a json-like format
+    func generateAuthData(token: FBSDKAccessToken) -> String {
+        return "{\"facebook\":{\"access_token\":\"\(token.tokenString)\",\"expiration_date\":\"\(token.expirationDate)\",\"id\":\"\(token.userID)\"}}"
+        
+    }
+    
+    //Calls auto login from API class
     func autoLogin() {
-        do {
-            if (API().autoLogin()) {
-                self.showWaitView()
-                print("Auto login worked")
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                appDelegate.loginComplete()
-            }
-        } catch {
-            print("Error caught")
+        if (API().autoLogin()) {
+            self.showWaitView()
+            print("Auto login worked")
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.loginComplete()
         }
+        
     }
 }

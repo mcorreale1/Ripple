@@ -51,9 +51,6 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
-        //let authData = FBSDKAccessToken.currentAccessToken()
-        //print(authData.description)
-        
     }
     
     func prepareData() {
@@ -412,7 +409,7 @@ class UserManager: NSObject {
         options.related = ["picture"]
         query.whereClause = query.getFieldInArraySQLQuery(field: "objectid", array: friendIds, notModifier: true)
         options.pageSize = 30
-        options.sortBy(["fullName"])
+        options.sortBy(["name"])
         query.queryOptions = options
         
         Users().dataStore().find(query, response: { (collection) in
@@ -436,9 +433,9 @@ class UserManager: NSObject {
         let options = QueryOptions()
         options.related = ["organizations", "friends", "events", "picture"]
         query.queryOptions = options
-        query.whereClause = "objectId not in ( '" + friendIds.joinWithSeparator("', '") + "') and fullName LIKE '%" + searchString + "%'"
+        query.whereClause = "objectId not in ( '" + friendIds.joinWithSeparator("', '") + "') and name LIKE '%" + searchString + "%'"
         let queryOptions = QueryOptions()
-        queryOptions.sortBy(["fullName"])
+        queryOptions.sortBy(["name"])
         query.queryOptions = queryOptions
         
         Users().dataStore().find(query, response: { (collection) in
@@ -574,9 +571,9 @@ class UserManager: NSObject {
         completion(user.friends)
     }
     
-    func findUsersByFullName(fullName: String, completion: ([Users]?, NSError?) -> Void) {
+    func findUsersByFullName(name: String, completion: ([Users]?, NSError?) -> Void) {
         let query = BackendlessDataQuery()
-        query.whereClause = "fullName = '\(fullName)'"
+        query.whereClause = "name = '\(name)'"
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
@@ -630,7 +627,7 @@ class UserManager: NSObject {
         query.whereClause = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: ignores, notModifier: true)
         let queryOptions = QueryOptions()
         queryOptions.related = ["picture"]
-        queryOptions.sortBy(["fullName"])
+        queryOptions.sortBy(["name"])
         query.queryOptions = queryOptions
         
         Users().dataStore().find(query, response: { (collection) in
@@ -685,7 +682,7 @@ class UserManager: NSObject {
         
         let options = QueryOptions()
         options.related = ["picture", "events"]
-        options.sortBy(["fullName"])
+        options.sortBy(["name"])
         query.queryOptions = options
         
         Users().dataStore().find(query, response: { (collection) in
@@ -722,7 +719,7 @@ class UserManager: NSObject {
         query.whereClause = query.getFieldInArraySQLQuery(field: "objectId", array: ids)
         let options = QueryOptions()
         options.related = ["events", "eventsBlackList", "friends", "organizations", "picture"]
-        options.sortBy(["fullName"])
+        options.sortBy(["name"])
         query.queryOptions = options
         
         Users().dataStore().find(query, response: { (collection) in

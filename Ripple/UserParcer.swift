@@ -36,6 +36,8 @@ class UserParcer : NSObject {
         cdUser!.password = user.password
         cdUser!.serverID = user.objectId
         cdUser!.username = user.name
+        cdUser!.firstName = user.firstName
+        cdUser!.lastName = user.lastName
         
         if user.picture != nil {
             cdUser!.picture = PictureParcer().fetchCoreDataEntity(fromPicture: user.picture!, withContext: context)
@@ -89,6 +91,8 @@ class UserParcer : NSObject {
         user.name = cdUser.name
         user.isPrivate = cdUser.isPrivate?.boolValue ?? false
         user.fullName = cdUser.fullName
+        user.firstName = cdUser.firstName
+        user.lastName = cdUser.lastName
         user.descr = cdUser.descr
         
         if let cdPicture = cdUser.picture {

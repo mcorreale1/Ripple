@@ -127,7 +127,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         }
         self.userDescription.sizeToFit()
         self.userDescription.textAlignment = .Center
-        navigationItem.title = selectedUser!.fullName
+        navigationItem.title = selectedUser!.name
         
         if isMe() {
             let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(ProfileViewController.editProfileTouched(_:)))
@@ -395,7 +395,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 let item = isMe() && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
                 
                 if sectionTitle == TypeFollowingSection.Friends.rawValue {
-                    cell.titleLabel.text = item.fullName
+                    cell.titleLabel.text = item.name
                 } else {
                     cell.titleLabel.text = item.name
                 }

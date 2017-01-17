@@ -172,7 +172,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
             case Invitation.typeInvitation.user.rawValue:
                 let user = invitation.fromUser!
                 let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
-                cell.titleLabel.text = user.fullName
+                cell.titleLabel.text = user.name
                 cell.descriptionLabel.text = "Has sent you follow request"
                 if let picture = user.picture {
                     PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)

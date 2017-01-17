@@ -52,10 +52,19 @@ class Users: BackendlessUser {
             return self.getProperty(propertyName.lastName.rawValue) as? String ?? nil
         }
         set {
-            //print("Setting last name to" + newValue!)
             self.setProperty(propertyName.lastName.rawValue, object: newValue)
         }
     }
+    
+    var firstName:String? {
+        get {
+            return self.getProperty(propertyName.firstName.rawValue) as? String ?? nil
+        }
+        set {
+            self.setProperty(propertyName.firstName.rawValue, object: newValue)
+        }
+    }
+    
     var organizations: [Organizations] {
         get {
             return self.getProperty(propertyName.organizations.rawValue) as? [Organizations] ?? [Organizations]()
@@ -171,16 +180,16 @@ class Users: BackendlessUser {
         
         if let bFullName = backendlessUser.getProperty(propertyName.fullName.rawValue) {
             self.fullName = bFullName as? String ?? ""
-            //self.name = bFullName as? String ?? ""
         }
         if let bName = backendlessUser.getProperty(propertyName.name.rawValue) {
             self.name = bName as? String ?? ""
         }
-        //Last name tests
         if let bLastName = backendlessUser.getProperty(propertyName.lastName.rawValue) {
             self.lastName = bLastName as? String ?? nil
         }
-        
+        if let bFirstName = backendlessUser.getProperty(propertyName.firstName.rawValue) {
+            self.firstName = bFirstName as? String ?? nil
+        }
         if let bDescr = backendlessUser.getProperty(propertyName.descr.rawValue) {
             self.descr = bDescr as? String ?? nil
         }

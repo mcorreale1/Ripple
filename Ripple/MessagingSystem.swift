@@ -104,8 +104,9 @@ class MessagingSystem : NSObject {
     }
     
     private func makeChats(messages: [Message]) -> [Chat] {
-        let myId = UserManager().currentUser().objectId
-        var chatPairs = [String: [Message]]()
+        //let myId = UserManager().currentUser().objectId
+        let chatPairs = [String: [Message]]()
+        /*
         for message in messages {
             //let interlocutorId = message.senderId == myId ? message.recipentId : message.senderId
             
@@ -115,6 +116,7 @@ class MessagingSystem : NSObject {
                 chatPairs[interlocutorId!] = [message]
             }*/
         }
+        */
         
         var chats = [Chat]()
         for (interlocutor, messages) in chatPairs {

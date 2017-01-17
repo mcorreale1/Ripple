@@ -25,7 +25,7 @@ class BackendlessMessaging : NSObject {
     private let messaging = Backendless.sharedInstance().messaging
     
     func notifyMessageSent(bMessage: ChatMessage, completion: (Bool, NSError?) -> Void) {
-        let msg = RippleMessage(messagesDBId: bMessage.objectId)
+        _ = RippleMessage(messagesDBId: bMessage.objectId)
         
         /*let publishOptions = PublishOptions()
         publishOptions.publisherId = bMessage.senderId

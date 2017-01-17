@@ -109,7 +109,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
     // MARK: - UISearchBarDelegate
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchUserPredicate = NSPredicate(format: "fullName CONTAINS[c] %@", searchText)
+        let searchUserPredicate = NSPredicate(format: "name CONTAINS[c] %@", searchText)
         filteredUsers = (users as NSArray).filteredArrayUsingPredicate(searchUserPredicate) as! [Users]
         tableView.reloadData()
     }
