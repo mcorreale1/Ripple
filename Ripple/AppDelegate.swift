@@ -14,14 +14,16 @@ import FBSDKLoginKit
 import Fabric
 import Crashlytics
 import SDWebImage
+import UserNotifications
 import MagicalRecord
 
 let backendlessIDApp = "DF3A760C-9D03-A752-FF65-8BB1D7690900"
 let backendlessSecretKey = "D2BF03BC-6005-0614-FF4E-2EDC549F8C00"
 let backendlessVersionNumber = "v1"
 
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
     
@@ -30,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
 //        print("Registering remote notifications")
-//        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
+        Backendless.sharedInstance().messaging.registerForRemoteNotifications() //uncommented
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
@@ -39,8 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
+        registerForRemoteNotifications()
+        
         return true
     }
+    
+    
     
     func loginComplete() {
         UserManager().initMe {
@@ -48,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController")
             self.window?.rootViewController = mainTabBarController
             self.tabBarSelectIndex(2)
-            self.registerForRemoteNotifications()
+           // self.registerForRemoteNotifications()
             MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             if (UserManager().currentUser().authData != nil) {
@@ -100,20 +106,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Push notifications
     
+    
     func registerForRemoteNotifications() {
-        let userNotificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
-        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        if #available(iOS 10.0, *)
+        {
+           let center = UNUserNotificationCenter.currentNotificationCenter()
+            center.delegate = self
+            center.requestAuthorizationWithOptions([.Sound,.Alert,.Badge], completionHandler: { (granted, error) in
+                if error == nil{
+                    UIApplication.sharedApplication().registerForRemoteNotifications()
+                }
+            })
+        }
+        
+        else {
+            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
+            
+        //DEPRECATED Russian Method
+        
+//        let userNotificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+//        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+//        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+//        UIApplication.sharedApplication().registerForRemoteNotifications()
+ 
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
+        Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+        
+        //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
+       /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
             print("Push registration service: deviceToken = " + deviceTokenStr + ", deviceRegistrationId = " + result)
         }) { (fault) in
             print("Push registration service error: deviceToken = " + deviceTokenStr + ", FAULT = " + fault.message)
-        }
+        } */
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
