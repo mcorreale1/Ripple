@@ -390,16 +390,16 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
             let sectionItem = followingArray[indexPath.section]
             let sectionTitle = sectionItem["title"] as! String
-            
             if let following = sectionItem["items"] as? [AnyObject] {
                 let item = isMe() && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
                 
-                if sectionTitle == TypeFollowingSection.Friends.rawValue {
-                    cell.titleLabel.text = item.name
+                if let isUser:Users = item as! Users {
+                    //print("item is a user")
+                    //print("Item name \(isUser.name)")
+                    cell.titleLabel.text = isUser.name
                 } else {
                     cell.titleLabel.text = item.name
                 }
-                
                 cell.descriptionLabel.text = ""
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
 

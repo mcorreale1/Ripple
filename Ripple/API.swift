@@ -62,7 +62,6 @@ class API: NSObject {
     
     func loginToApp(withFacebookToken token: FBSDKAccessToken, completion: (Users!, NSError?) -> Void) {
         
-        print("Token string: \(token.expirationDate)")
         func tryToUseFacebookProfileAvatar(forUser user: Users) {
             let params = ["redirect" : false, "type" : "normal"]
             let request = FBSDKGraphRequest(graphPath: "me/picture", parameters: params)
