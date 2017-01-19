@@ -150,11 +150,13 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             if self.isMe() || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
                 EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe(), completion: {[weak self] (plan) in
                     self?.plans = plan
+                    print("\(plan)")
                     self?.tableView.reloadData()
                 })
                 
                 OrganizationManager().organizationForUser(self.selectedUser!, completion: {[weak self] (org) in
                     self?.organizationArray = org
+                    print("\(org)")
                     self?.organizationArray.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                         let name1 = org1.name
                         let name2 = org2.name
@@ -348,11 +350,12 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if plansButton.selected {
-            
             let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
             let sectionData = plans[indexPath.section]
             let events = sectionData["events"] as! [RippleEvent]
             let event = events[indexPath.row]
+            print("\(organizationArray)")
+           let organizations = isMe() ? organizationArray[indexPath.row - 1] : organizationArray[indexPath.row]
             
             cell.eventNameLabel.text = event.name
             
@@ -362,7 +365,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             
             cell.eventDescriptionLabel.text = event.descr
             
-            let picture = event.picture
+            let picture = organizations.picture
             PictureManager().loadPicture(picture, inImageView: cell.eventPictureImageView)
             cell.eventPictureImageView.cornerRadius = cell.eventPictureImageView.frame.width / 2
             var dateFormat = "dd MMM h:mm a"

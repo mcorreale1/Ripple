@@ -33,10 +33,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var organizationNameLabel: UILabel!
     @IBOutlet weak var countGoingLabel: UILabel!
     
-    @IBOutlet weak var uploadImageButton: UIButton!
+    //@IBOutlet weak var uploadImageButton: UIButton!
     
-    @IBOutlet weak var uploadImageLabel: UILabel!
-    @IBOutlet weak var eventPictureImageView: ProfilePictureImageView!
+    //@IBOutlet weak var uploadImageLabel: UILabel!
+    //@IBOutlet weak var eventPictureImageView: ProfilePictureImageView!
     
     @IBOutlet weak var eventPriceLabel: UILabel!
     @IBOutlet weak var eventPrivacyLabel: UILabel!
@@ -53,7 +53,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var checkMarkImageView: UIImageView!
     @IBOutlet weak var postPulsingButton: UIButton!
     @IBOutlet weak var heughtPostPulse: NSLayoutConstraint!
-    @IBOutlet weak var hostedBy: UILabel!
+   // @IBOutlet weak var hostedBy: UILabel!
     
     let warningColor = UIColor.init(red: 210/255, green: 36/255, blue: 22/255, alpha: 0.7)
     
@@ -98,7 +98,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         self.organizationNameLabel.text = organization!.name
         
         if event?.name != nil {
-            uploadImageButton.enabled = false
+            //uploadImageButton.enabled = false
             buttonChooseDate.enabled = false
             buttonChooseDateEnd.enabled = false
             buttonChooseTime.enabled = false
@@ -121,7 +121,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 
             self.eventDescriptionTextView.text = event!.descr
             self.labelTimeEvent.text = startTime!.formatEventTime() + "-" + finishTime!.formatEventTime()
-            uploadImageLabel.hidden = true
+            //uploadImageLabel.hidden = true
             self.eventPriceLabel.text = "$" + String(event!.cost)
             
             if event!.isPrivate == true {
@@ -132,13 +132,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                 self.isPrivateEvent = false
             }
             
-            PictureManager().loadPicture(event!.picture, inImageView: eventPictureImageView)
-            eventPictureImageView.layer.cornerRadius = eventPictureImageView.frame.width / 2
-            eventPictureImageView.layer.masksToBounds = true
+//            PictureManager().loadPicture(event!.picture, inImageView: eventPictureImageView)
+//            eventPictureImageView.layer.cornerRadius = eventPictureImageView.frame.width / 2
+//            eventPictureImageView.layer.masksToBounds = true
             
             eventAddressLabel.text = event!.address
             eventAddress = eventAddressLabel.text!
-            hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
+            //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
             if PulseNotification.PulseNotificationIsEveentCreate.rawValue != "" && isPrivateEvent == false {
                 checkMarkImageView.hidden = false
                 postPulsingButton.enabled = false
@@ -151,11 +151,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             eventDescriptionTextView.placeholder = NSLocalizedString(eventDescriptionText, comment: eventDescriptionText)
             eventDescriptionTextView.placeholderColor = UIColor.lightGrayColor()
             labelTimeEvent.text = NSLocalizedString("Choose a Time", comment: "Choose a Time")
-            uploadImageLabel.text = NSLocalizedString("Upload Image", comment: "Upload Image")
+            //uploadImageLabel.text = NSLocalizedString("Upload Image", comment: "Upload Image")
             eventPriceLabel.text = NSLocalizedString("Choose Price", comment: "Choose Price")
             eventPrivacyLabel.text = NSLocalizedString("Choose Privacy", comment: "Choose Privacy")
             eventAddressLabel.text = NSLocalizedString("Choose an Address", comment: "Choose an Address")
-            hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
+            //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
         }
         
         scrollView.or_enableKeyboardInsetHandling()
@@ -279,13 +279,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             })
         }
         
-        if eventPictureImageView.image == nil {
-            emptyFields = true
-            eventPictureImageView.backgroundColor = warningColor
-            UIView.animateWithDuration(0.35, animations: {
-                self.eventPictureImageView.backgroundColor = UIColor.whiteColor()
-            })
-        }
+//        if eventPictureImageView.image == nil {
+//            emptyFields = true
+//            eventPictureImageView.backgroundColor = warningColor
+//            UIView.animateWithDuration(0.35, animations: {
+//                self.eventPictureImageView.backgroundColor = UIColor.whiteColor()
+//            })
+//        }
         
         if emptyFields == true {
             self.titleMessage = NSLocalizedString("Error", comment: "Error")
@@ -374,21 +374,21 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             
             self!.showImageEditScreen(withImage: image, frameType: .Circle, maxSize: CGSize(width: 320.0, height: 320.0))
         }
-        uploadImageLabel.hidden = true
+        //uploadImageLabel.hidden = true
     }
     
     // ORCropImageControllerDelegate
     
-    override func cropVCDidFinishCrop(withImage image: UIImage?) {
-        guard let img = image else {
-            titleMessage = NSLocalizedString("Fail", comment: "Fail")
-            message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
-            showAlert("Fail".localized(), message: "Failed to crop image!".localized())
-            return
-        }
-        
-        refreshAvatarImage(withImage: img)
-    }
+//    override func cropVCDidFinishCrop(withImage image: UIImage?) {
+//        guard let img = image else {
+//            titleMessage = NSLocalizedString("Fail", comment: "Fail")
+//            message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
+//            showAlert("Fail".localized(), message: "Failed to crop image!".localized())
+//            return
+//        }
+//        
+//        refreshAvatarImage(withImage: img)
+//    }
 
     
     // MARK: - Actions
@@ -618,7 +618,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     }
     
     func editNameTouched(sender: AnyObject) {
-        uploadImageButton.enabled = true
+        //uploadImageButton.enabled = true
         buttonChooseDate.enabled = true
         buttonChooseDateEnd.enabled = true
         buttonChooseTime.enabled = true
@@ -654,7 +654,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     
     func doneNameTouched(sender: AnyObject) {
-        uploadImageButton.enabled = false
+        //uploadImageButton.enabled = false
         buttonChooseDate.enabled = false
         buttonChooseDateEnd.enabled = false
         buttonChooseTime.enabled = false
@@ -693,10 +693,12 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         }
                         
                         self.eventCreating = true
-                        EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, picture: self.eventPictureImageView.image!, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) {[weak self] (success, event) in
+                        print("creating event")
+                        EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) {[weak self] (success, event) in
                             self?.eventCreating = false
                             
                             if success {
+                                print("event was created")
                                 self?.event = newEvent
                             }
                             self?.hideActivityIndicator()
@@ -709,7 +711,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         
                         self.eventCreating = true
                         self.postPulsingButton.enabled = false
-                        EventManager().updateEvent(self.event!, organization: self.organization!, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, picture: self.eventPictureImageView.image!, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) { (success, event) in
+                        EventManager().updateEvent(self.event!, organization: self.organization!, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) { (success, event) in
                             self.eventCreating = false
                             self.hideActivityIndicator()
                             self.postPulsingButton.enabled = true
@@ -721,7 +723,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                     }
                 }
             }
-
+            //hideActivityIndicator()
         }
         self.navigationItem.rightBarButtonItem?.enabled = true
         self.view.endEditing(true)
@@ -753,7 +755,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         coordinate.latitude = (placemarks?.first?.location?.coordinate.latitude)!
                         coordinate.longitude = (placemarks?.first?.location?.coordinate.longitude)!
                     }
-                    
                     if coordinate.latitude == 0 || coordinate.longitude == 0 {
                         self?.hideActivityIndicator()
                         self?.titleMessage = NSLocalizedString("Error", comment: "Error")
@@ -779,6 +780,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         }
                     }
                 }
+                hideActivityIndicator()
             }
         }
     }
@@ -840,7 +842,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                     return
                 }
                 self.eventCreating = true
-                EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, picture: self.eventPictureImageView.image!, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) {[weak self] (success, event) in
+                EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, description: self.eventDescriptionTextView.text, address: self.eventAddress, coordinate: coordinate) {[weak self] (success, event) in
                     self?.hideActivityIndicator()
                     self?.eventCreating = false
                     
@@ -883,13 +885,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     // MARK: - Internal operations
     
-    func updateAvatar(withNewAvatarURL avatarURL: String, storagePath: String, completion: ((Bool, NSError?) -> Void)?) {
-        let picture = event?.picture ?? Pictures()
-        picture.imageURL = avatarURL
-        picture.save { (_, _) in }
-    }
-    
-    func refreshAvatarImage(withImage image: UIImage) {
-        self.eventPictureImageView.image = image
-    }
+//    func updateAvatar(withNewAvatarURL avatarURL: String, storagePath: String, completion: ((Bool, NSError?) -> Void)?) {
+//        let picture = event?.picture ?? Pictures()
+//        picture.imageURL = avatarURL
+//        picture.save { (_, _) in }
+//    }
+//    
+//    func refreshAvatarImage(withImage image: UIImage) {
+//        self.eventPictureImageView.image = image
+//    }
 }
