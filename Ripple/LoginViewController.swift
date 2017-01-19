@@ -245,7 +245,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             self.showWaitView()
             print("Auto login worked")
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.loginComplete()
+            //appDelegate.loginComplete()
         }
         
     }
