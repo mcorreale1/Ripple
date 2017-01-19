@@ -52,7 +52,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        autoLogin()
+        //autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         usernameTextField.placeholder = NSLocalizedString("Email", comment: "Email")
         passwordTextField.placeholder = NSLocalizedString("Password", comment: "Password")

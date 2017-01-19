@@ -354,8 +354,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionData = plans[indexPath.section]
             let events = sectionData["events"] as! [RippleEvent]
             let event = events[indexPath.row]
-            print("\(organizationArray)")
-           let organizations = isMe() ? organizationArray[indexPath.row - 1] : organizationArray[indexPath.row]
             
             cell.eventNameLabel.text = event.name
             
@@ -365,7 +363,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             
             cell.eventDescriptionLabel.text = event.descr
             
-            let picture = organizations.picture
+            let picture = event.picture
             PictureManager().loadPicture(picture, inImageView: cell.eventPictureImageView)
             cell.eventPictureImageView.cornerRadius = cell.eventPictureImageView.frame.width / 2
             var dateFormat = "dd MMM h:mm a"
