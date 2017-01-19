@@ -326,6 +326,7 @@ class EventManager: NSObject {
         event.longitude = coordinate.longitude
         event.descr = description
         event.organization = organization
+        event.picture = event.organization?.picture
         
         event.save({ (entity, error) in
             guard error == nil else {
@@ -383,6 +384,7 @@ class EventManager: NSObject {
         event.longitude = coordinate.longitude
         event.descr = description
         event.organization = organization
+        event.picture = event.organization?.picture
         
 //        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
 //            guard error == nil else {
