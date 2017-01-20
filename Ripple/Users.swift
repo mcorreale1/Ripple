@@ -145,12 +145,14 @@ class Users: BackendlessUser {
         }
     }
     
+    //populates the users from backendless
     static func userFromBackendlessUser(backendlessUser: BackendlessUser) -> Users {
         let user = Users()
         user.populateFromBackendlessUser(backendlessUser)
         return user
     }
     
+    //popultes all information on backendlessUsers
     func populateFromBackendlessUser(backendlessUser: BackendlessUser) {
         self.objectId = backendlessUser.objectId
         self.email = backendlessUser.email;

@@ -95,15 +95,18 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
     }
-    
+    //added loadunfolloworg and hide activity indicator
     func prepareData() {
         showActivityIndicator()
         loadUnfollowUsers()
+        loadUnfollowOrganizations()
+        hideActivityIndicator()
+        
     }
     
     private func loadUnfollowUsers() {
         UserManager().loadUnfollowUsers(usersCollection) { (users, collection, error) in
-            self.hideActivityIndicator()
+            
             
             if users != nil && users!.count > 0 {
                 self.usersCollection = collection
@@ -121,11 +124,11 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             }
         }
     }
-    
+    //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
         OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (organizations, collection, error) in
-            self?.hideActivityIndicator()
-            self?.organizationsCollection = collection
+           
+            
             
             if organizations != nil && organizations!.count > 0 {
                 print(organizations?.description)
@@ -134,7 +137,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     self?.tableView.reloadData()
                 }
             } else {
-                self?.allOrganizationsLoaded = true
+                self!.allOrganizationsLoaded = true
+                self!.organizationsCollection = nil //added
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.tableView.reloadData()
                 }

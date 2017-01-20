@@ -38,6 +38,7 @@ class UserParcer : NSObject {
         cdUser!.username = user.name
         cdUser!.firstName = user.firstName
         cdUser!.lastName = user.lastName
+        cdUser!.name = user.name
         
         if user.picture != nil {
             cdUser!.picture = PictureParcer().fetchCoreDataEntity(fromPicture: user.picture!, withContext: context)

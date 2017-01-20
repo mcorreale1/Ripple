@@ -97,6 +97,7 @@ class OrganizationManager: NSObject {
         })
     }
     
+    //what does this do? supposed to grab all unfollowed organizations, compare it to loadunfollowusers in usermanager.swift to fix
     func allUnfollowOrganizations(collection: BackendlessCollection?, completion: ([Organizations]?, BackendlessCollection?, NSError?) -> Void) {
         if collection != nil {
             collection?.nextPageAsync({ (backendlessCollection) in

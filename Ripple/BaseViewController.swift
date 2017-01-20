@@ -135,9 +135,10 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         activityIndicator.alpha = 0
     }
     
-    //should ignore interaction events while it is on or else people will be able to use the app while the wheel spins
+    //test ignoring interactions
     func showActivityIndicator() {
-        //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
         activityIndicator.hidden = false
         activityIndicator.alpha = 0
         
@@ -148,6 +149,10 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
    //should end interaction events
     func hideActivityIndicator() {
+        
+        activityIndicator.stopAnimating()
+        
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
         
         UIView.animateWithDuration(0.3, animations: {
             self.activityIndicator.alpha = 0.0
