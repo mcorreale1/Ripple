@@ -12,7 +12,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
 
     @IBOutlet weak var tableView: UITableView!
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     override var chatSegueIdentifier: String { return "chat" }
     var users = [Users]()
     var filteredUsers = [Users]()

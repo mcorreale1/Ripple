@@ -883,7 +883,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
     }
     
-    // MARK: - Internal operations
+     //MARK: - Internal operations
     
 //    func updateAvatar(withNewAvatarURL avatarURL: String, storagePath: String, completion: ((Bool, NSError?) -> Void)?) {
 //        let picture = event?.picture ?? Pictures()

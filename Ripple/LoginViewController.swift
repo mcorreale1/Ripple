@@ -34,10 +34,8 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
  */
     
     // Creates variables for the text fields and the buttons
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var loginButton: UIButton!
+    
+    
     @IBOutlet weak var signFBButton: UIButton!
 
     /* 
@@ -54,10 +52,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         super.viewDidLoad()
         //autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
-        usernameTextField.placeholder = NSLocalizedString("Email", comment: "Email")
-        passwordTextField.placeholder = NSLocalizedString("Password", comment: "Password")
-        registerButton.titleLabel?.text = NSLocalizedString("Register", comment: "Register")
-        signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
+               signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
        
     }
     
@@ -69,10 +64,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     }
     //User is on "wait" i.e. loading screen
     func showWaitView() {
-        self.usernameTextField.enabled = false
-        self.passwordTextField.enabled = false
-        self.registerButton.enabled = false
-        self.loginButton.enabled = false
+       
         self.signFBButton.enabled = false
         let waitViewImage = UIImageView(frame: view.bounds)
         waitViewImage.image = UIImage(named: "headpiece")
@@ -85,35 +77,31 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
      */
     func hideWaitView() {
         self.waitView?.removeFromSuperview()
-        self.usernameTextField.enabled = true
-        self.passwordTextField.enabled = true
-        self.registerButton.enabled = true
-        self.loginButton.enabled = true
-        self.signFBButton.enabled = true
+                self.signFBButton.enabled = true
     }
     
     func keyboardWillShow(sender: NSNotification) {
         self.view.frame.origin.y = -200
     }
     
-    
-    func login() {
-        showActivityIndicator()
-        UserManager().userPassword = passwordTextField.text!
-        API().loginToApp(usernameTextField.text!, password: passwordTextField.text!, completion:  { (onLogin, error) in
-            self.hideActivityIndicator()
-            
-            if onLogin {
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                appDelegate.loginComplete()
-            } else {
-                self.view.endEditing(true)
-                self.view.frame.origin.y = 0
-                self.view.userInteractionEnabled = true
-                self.showAlert(NSLocalizedString("FailedLogin", comment: "FailedLogin"), message: error?.localizedDescription)
-            }
-        })
-    }
+// DEPRECATED
+//    func login() {
+//        showActivityIndicator()
+//        UserManager().userPassword = passwordTextField.text!
+//        API().loginToApp(usernameTextField.text!, password: passwordTextField.text!, completion:  { (onLogin, error) in
+//            self.hideActivityIndicator()
+//            
+//            if onLogin {
+//                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//                appDelegate.loginComplete()
+//            } else {
+//                self.view.endEditing(true)
+//                self.view.frame.origin.y = 0
+//                self.view.userInteractionEnabled = true
+//                self.showAlert(NSLocalizedString("FailedLogin", comment: "FailedLogin"), message: error?.localizedDescription)
+//            }
+//        })
+//    }
         /*Only happens the first time a user uses the app,
         forces the user to accept privacy policy/terms of use
         */
@@ -168,35 +156,30 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     }
     
     // MARK: - UITextFieldDelegate
-    
-    func textFieldShouldReturn(textField:UITextField) -> Bool {
-        textField.resignFirstResponder()
-        if textField == usernameTextField {
-            passwordTextField.becomeFirstResponder()
-        }
-        else if textField == passwordTextField {
-            if (usernameTextField.text == "")
-            {
-                usernameTextField.becomeFirstResponder()
-                self.view.frame.origin.y = 0
-                self.login()
-            }
-            else
-            {
-                self.view.frame.origin.y = 0
-                self.login()
-            }
-        }
-        return true
-    }
+//DEPRECATED
+//    func textFieldShouldReturn(textField:UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        if textField == usernameTextField {
+//            passwordTextField.becomeFirstResponder()
+//        }
+//        else if textField == passwordTextField {
+//            if (usernameTextField.text == "")
+//            {
+//                usernameTextField.becomeFirstResponder()
+//                self.view.frame.origin.y = 0
+//                self.login()
+//            }
+//            else
+//            {
+//                self.view.frame.origin.y = 0
+//                self.login()
+//            }
+//        }
+//        return true
+//    }
 
     // MARK: - Actions
     
-    @IBAction func loginTouched(sender: UIButton) {
-        self.view.frame.origin.y = 0
-        self.view.endEditing(true)
-        self.login()
-    }
     
     //FB login
     @IBAction func facebookLoginTouched(sender: AnyObject) {
@@ -228,19 +211,19 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     }
     
     //(DEPRECATED)
-    @IBAction func forgotPasswordTouch(sender: UIButton) {
-        let title = "Your password will be sent to you email."
-        let message = ""
-        let refreshAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        refreshAlert.addAction(UIAlertAction(title: "Don't allow", style: .Default, handler: { (action: UIAlertAction!) in
-        }))
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default   , handler: { (action: UIAlertAction!) in
-            API().resetPassword(self.usernameTextField.text!)
-        }))
-        
-        presentViewController(refreshAlert, animated: true, completion: nil)
-
-    }
+//    @IBAction func forgotPasswordTouch(sender: UIButton) {
+//        let title = "Your password will be sent to you email."
+//        let message = ""
+//        let refreshAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+//        refreshAlert.addAction(UIAlertAction(title: "Don't allow", style: .Default, handler: { (action: UIAlertAction!) in
+//        }))
+//        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default   , handler: { (action: UIAlertAction!) in
+//            API().resetPassword(self.usernameTextField.text!)
+//        }))
+//        
+//        presentViewController(refreshAlert, animated: true, completion: nil)
+//
+//    }
     
     //Makes one item for the preview view controller (privacy policy/terms of use documentation)
     func numberOfPreviewItemsInPreviewController(controller: QLPreviewController) -> Int {
@@ -265,8 +248,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         if (API().autoLogin()) {
             self.showWaitView()
             print("Auto login worked")
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.loginComplete()
         }
         
     }
