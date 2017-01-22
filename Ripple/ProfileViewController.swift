@@ -49,7 +49,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     var delegate: ProfileViewControllerDelegate?
     
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     
     var lengthEventDescription = 61
     var titleMessage :String = ""

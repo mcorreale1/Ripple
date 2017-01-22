@@ -18,6 +18,8 @@ class RippleEvent: BackendlessEntity {
     var endDate: NSDate?
     var organization: Organizations?
     var address: String?
+    var city: String?
+    var location: String?
     var isPrivate = false
     var picture: Pictures?
 }

@@ -315,13 +315,15 @@ class EventManager: NSObject {
         })
     }
 
-    func createEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double,  description: String, address: String, coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
+    func createEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double,  description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
         event.name = name
         event.startDate = start
         event.endDate = end
         event.isPrivate = isPrivate
         event.cost = cost
         event.address = address
+        event.city = city
+        event.location = location
         event.latitude = coordinate.latitude
         event.longitude = coordinate.longitude
         event.descr = description
@@ -373,13 +375,15 @@ class EventManager: NSObject {
 //                    }
     }
     
-    func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
+    func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
         event.name = name
         event.startDate = start
         event.endDate = end
         event.isPrivate = isPrivate
         event.cost = cost
         event.address = address
+        event.city = city
+        event.location = location
         event.latitude = coordinate.latitude
         event.longitude = coordinate.longitude
         event.descr = description

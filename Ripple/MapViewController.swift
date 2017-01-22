@@ -43,8 +43,8 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
             self?.showPins()
         }
         self.navigationItem.title = NSLocalizedString("Location", comment: "Location")
-        let backButton = UIBarButtonItem(image: UIImage(named: "back white"), style: .Plain, target: self, action: #selector(goBack))
-        navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(goBack))
+        //navigationItem.leftBarButtonItem = backButton
     }
     
     func prepareLocationManager() {
