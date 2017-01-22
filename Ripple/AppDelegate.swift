@@ -132,13 +132,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        print("registering device")
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
-        }
+        print("registering device with token \(deviceToken)")
+//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+//        }
 
-        
+        let responder = Responder.init(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+        Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
+        print("device registered")
+
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in

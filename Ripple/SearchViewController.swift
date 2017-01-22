@@ -110,8 +110,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     private func loadUnfollowUsers() {
         UserManager().loadUnfollowUsers(usersCollection) { (users, collection, error) in
-            
-            
             if users != nil && users!.count > 0 {
                 self.usersCollection = collection
                 self.users.appendContentsOf(users!)
@@ -130,13 +128,21 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
-        OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (organizations, collection, error) in
-           
-            
-            
-            if organizations != nil && organizations!.count > 0 {
-                print(organizations?.description)
-                self?.organizations.appendContentsOf(organizations!)
+        print("still loading orgs")
+        OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (orgs, collection, error) in
+            if orgs != nil && orgs!.count > 0 {
+                //print(orgs?.description)
+                //print(self?.organizations.description)
+                for newOrg in orgs! {
+                    for currentOrg in (self?.organizations)! {
+                        if (newOrg.name == currentOrg.name) {
+                            print("org found")
+                            self?.allOrganizationsLoaded = true
+                            return
+                        }
+                    }
+                }
+                self?.organizations.appendContentsOf(orgs!)
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.tableView.reloadData()
                 }
@@ -224,7 +230,11 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     //Not here
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if(allOrganizationsLoaded) {
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
+        //Possible memory leak here?
         cell.descriptionLabel.text = ""
         if indexPath.section == 0 {
             if (indexPath.row >= users.count) {
