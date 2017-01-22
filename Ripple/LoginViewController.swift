@@ -58,7 +58,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         passwordTextField.placeholder = NSLocalizedString("Password", comment: "Password")
         registerButton.titleLabel?.text = NSLocalizedString("Register", comment: "Register")
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
-       
     }
     
     /*The first time a user uses the app they are forced to
