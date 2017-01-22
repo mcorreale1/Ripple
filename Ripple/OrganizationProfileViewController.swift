@@ -24,7 +24,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     @IBOutlet weak var membersButton: UIButton!
     @IBOutlet weak var aboutButton: UIButton!
     
-    @IBOutlet weak var bottonLCDescrTextView: NSLayoutConstraint!
+    //@IBOutlet weak var bottonLCDescrTextView: NSLayoutConstraint!
     
     var fromInviteScreen = false
     var editOrganization = false
@@ -297,7 +297,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 picture?.userId = self?.organization?.objectId
                 picture?.owner = self?.organization
             }
-            
             changeImageURL(forPicture: picture)
         }
     }
@@ -452,7 +451,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         organization?.save({[weak self] (entity, error) in
             if error == nil {
                 self?.organization = entity as? Organizations
+                print("saving picture")
                 self?.savePicture({ (success, error) in
+                    print("picture saved")
                     self?.hideActivityIndicator()
                     UIApplication.sharedApplication().endIgnoringInteractionEvents()
                     
@@ -595,7 +596,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         
         let frame = frameValue.CGRectValue()
-        bottonLCDescrTextView.constant = frame.size.height - heighTabBar - 80
+        
+        //Here
+        //bottonLCDescrTextView.constant = frame.size.height - heighTabBar - 80
         
         UIView.animateWithDuration(NSTimeInterval(duration), animations: {
             self.view.layoutIfNeeded()
@@ -608,7 +611,8 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         guard  let userInfo = sender.userInfo, let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber else {
             return
         }
-        bottonLCDescrTextView.constant = 0
+        
+        //bottonLCDescrTextView.constant = 0
         
         UIView.animateWithDuration(NSTimeInterval(duration), animations: {
             self.view.layoutIfNeeded()

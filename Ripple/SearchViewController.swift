@@ -170,6 +170,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         tableView.hidden = false
         label.hidden = true
         tableView.reloadData()
+        
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

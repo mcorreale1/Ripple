@@ -181,6 +181,9 @@ class API: NSObject {
         }) { (fault) in
             Backendless.sharedInstance().userService.logout()
         }
+        FBSDKLoginManager().logOut()
+        Backendless.sharedInstance().userService.setStayLoggedIn(false)
+        Backendless.sharedInstance().userService.logout()
     }
     
     func autoLogin() -> Bool {
