@@ -42,7 +42,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
 
     var locationManager: CLLocationManager!
     var userLocation:CLLocation = CLLocation()
