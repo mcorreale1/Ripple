@@ -11,7 +11,7 @@ import ORLocalizationSystem
 
 class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate, ProfileViewControllerDelegate {
     
-    let backgroundColor = UIColor.init(red: 59/255, green: 59/255, blue: 59/255, alpha: 1)
+    let backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,7 +23,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     var searchBar: UISearchBar = UISearchBar()
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
     
     var allUsersLoaded = false
     var allOrganizationsLoaded = false
@@ -64,7 +64,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         self.view.userInteractionEnabled = false
         let navigationController = self.navigationController?.navigationBar
         navigationController?.barTintColor = UIColor.whiteColor()
-        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)]
+        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)]
         hideActivityIndicator()
     }
     
@@ -265,7 +265,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         let followButton = UITableViewRowAction(style: .Normal, title: "Follow") {[weak self] action, indexPath in
                 self?.followingOnObject(indexPath)
         }
-        followButton.backgroundColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
+        followButton.backgroundColor = UIColor.init(red: 0/255, green: 255/255, blue: 0/255, alpha: 1)
         return [followButton]
     }
     
@@ -286,7 +286,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = UIView()
-        footer.backgroundColor = UIColor.clearColor()
+        footer.backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
         return footer
     }
     
