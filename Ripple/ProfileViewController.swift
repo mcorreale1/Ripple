@@ -393,11 +393,14 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionTitle = sectionItem["title"] as! String
             if let following = sectionItem["items"] as? [AnyObject] {
                 let item = isMe() && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
-                
-                if let isUser:Users = item as! Users {
-                    //print("item is a user")
-                    //print("Item name \(isUser.name)")
-                    cell.titleLabel.text = isUser.name
+                print("Number of items" + following.count.description)
+                if item is Users {
+                    print("Is user")
+                    let user = item as! Users
+                    cell.titleLabel.text = user.name
+                } else if item is Organizations {
+                    let org = item as! Organizations
+                    cell.titleLabel.text = org.name
                 } else {
                     cell.titleLabel.text = item.name
                 }

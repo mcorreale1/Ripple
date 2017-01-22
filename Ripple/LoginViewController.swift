@@ -52,7 +52,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         super.viewDidLoad()
         //autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
-               signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
+        signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
        
     }
     
@@ -151,6 +151,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("Here")
         self.view.endEditing(true)
         self.view.frame.origin.y = 0
     }
