@@ -57,7 +57,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
 
         
-       self.navigationItem.title = NSLocalizedString("Search", comment: "Search")
+       //self.navigationItem.title = NSLocalizedString("Search", comment: "Search")
         let title1 = NSLocalizedString("Following", comment: "Following")
         let title2 = NSLocalizedString("Pulsing", comment: "Pulsing")
         let title3 = "Nearby"
