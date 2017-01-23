@@ -12,12 +12,8 @@ import ORCommonCode_Swift
 import ORCommonUI_Swift
 
 extension UIImage {
-    var uncompressedPNGData: NSData?      { return UIImagePNGRepresentation(self)        }
-    var highestQualityJPEGNSData: NSData? { return UIImageJPEGRepresentation(self, 1.0)  }
-    var highQualityJPEGNSData: NSData?    { return UIImageJPEGRepresentation(self, 0.75) }
-    var mediumQualityJPEGNSData: NSData?  { return UIImageJPEGRepresentation(self, 0.5)  }
-    var lowQualityJPEGNSData: NSData?     { return UIImageJPEGRepresentation(self, 0.25) }
-    var lowestQualityJPEGNSData:NSData?   { return UIImageJPEGRepresentation(self, 0.0)  }
+    var uncompressedPNGData: NSData     { return UIImagePNGRepresentation(self)!        }
+    var smallestJPEG:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
 }
 
 
@@ -589,15 +585,10 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             return
         }
         
-        if let smallerImage = image!.lowestQualityJPEGNSData {
-            orgPicture = smallerImage
+         let smallerImage = image!.smallestJPEG
+        let tinyImage : UIImage = UIImage(data: smallerImage)!
+            orgPicture = tinyImage
             profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
-                    }
-        else
-        {
-            print("this image can be smaller")
-        }
-        
         
     }
     
