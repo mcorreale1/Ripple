@@ -105,7 +105,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         eventPrivacy.on = true
         isFreeSwitch.on = true
         or_addObserver(self, selector: #selector(onEventSendInvitationsNotification), name: PulseNotification.PulseNotificationEventSendInvitations.rawValue)
-        
         eventDescriptionTextView.delegate = self
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(CreateEventViewController.editNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = editButton
@@ -353,7 +352,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         {
             event?.isPrivate = false
         }
-        
     }
     @IBAction func priceOfEventTouched(sender: AnyObject) {
         
