@@ -1460,7 +1460,7 @@ your face off.</string>
             <objects>
                 <navigationController id="LJF-ji-hyG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="WhatsPulsingIcon" id="v1p-Xa-kON"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ZR5-es-BoN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="ZR5-es-BoN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -2120,7 +2120,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="mgt-km-EmT"/>
                         <viewControllerLayoutGuide type="bottom" id="22o-eZ-NiZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2N0-Pn-78G">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="2N0-Pn-78G">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2512,7 +2512,7 @@ your face off.</string>
         <!--View Controller-->
         <scene sceneID="ocu-mE-UaI">
             <objects>
-                <viewController storyboardIdentifier="CreateEventViewController" hidesBottomBarWhenPushed="YES" id="aqO-y6-kTy" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="aqO-y6-kTy" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mgl-TA-aG1"/>
                         <viewControllerLayoutGuide type="bottom" id="D54-d1-w9K"/>
@@ -3213,7 +3213,7 @@ your face off.</string>
         <!--Create Event View Controller-->
         <scene sceneID="988-5h-oBt">
             <objects>
-                <viewController id="EE2-q6-v1p" customClass="CreateEventViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" id="EE2-q6-v1p" customClass="CreateEventViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pUm-p2-IKl"/>
                         <viewControllerLayoutGuide type="bottom" id="ZTg-Bh-o9l"/>
