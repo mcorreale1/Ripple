@@ -94,6 +94,7 @@ class PictureManager: NSObject {
     func uploadImage(image: UIImage, withCompletion completion: (String?, String?, NSError?) -> Void) {
         let imgData = UIImagePNGRepresentation(image)
         let path = "images/\(NSUUID().UUIDString)"
+        print("Size of image: \(malloc_size((imgData?.bytes)!))")
         
         Backendless.sharedInstance().fileService.upload(path, content: imgData, overwrite: true, response: { (backendlessFile) in
             completion(backendlessFile.fileURL, path, nil)

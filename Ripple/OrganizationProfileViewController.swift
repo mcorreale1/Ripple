@@ -571,13 +571,14 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     // MARK: - ORCropImageViewControllerDelegate
     
     override func cropVCDidFinishCrop(withImage image: UIImage?) {
+        
         guard let img = image else {
             self.titleMessage = NSLocalizedString("Fail", comment: "Fail")
             self.message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
             showAlert(self.titleMessage, message: self.message)
             return
         }
-        
+    
         orgPicture = img
         profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
     }
