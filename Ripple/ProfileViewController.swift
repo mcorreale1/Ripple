@@ -405,7 +405,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                   	cell.titleLabel.text = item.name
                 }
  
-                */
+                
                 cell.descriptionLabel.text = ""
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
 
