@@ -13,14 +13,16 @@ import CoreLocation
 class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var noEventLabel: UITextView!
+    
     
     // the dictionaries to hold the events
     var followingPlan = [Dictionary<String, AnyObject>]()
     var allEventsPlan = [Dictionary<String, AnyObject>]()
     var sortedByGeolocationAllEventsPlan = [Dictionary<String, AnyObject>]()
+    
+    var selectedUser: Users?
     
     var following = [RippleEvent]()
     var pulsing = [RippleEvent]()
@@ -39,6 +41,8 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
+    
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
 
     var locationManager: CLLocationManager!
     var userLocation:CLLocation = CLLocation()
@@ -48,7 +52,12 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         prepareData()
         prepareLocationManager()
         prepareTableView()
-        self.navigationItem.title = NSLocalizedString("What's Pulsing", comment: "What's Pulsing")
+        if selectedUser == nil {
+            selectedUser = UserManager().currentUser()
+        }
+
+        
+       self.navigationItem.title = NSLocalizedString("Search", comment: "Search")
         let title1 = NSLocalizedString("Following", comment: "Following")
         let title2 = NSLocalizedString("Pulsing", comment: "Pulsing")
         let title3 = "Nearby"
@@ -58,6 +67,26 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         segmentedControl.setTitle(title3, forSegmentAtIndex: 2)
         UserManager().radiusSearch = 50.0
     }
+   
+    private func prepareNavigationBar() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        
+        let searchbarbutton = UIBarButtonItem(image: UIImage(named: "SearchBar"), style: .Plain, target: self, action: #selector(WhatsPulsingViewController.seguetoSearch(_:)))
+        searchbarbutton.tintColor = titleColor
+        navigationItem.rightBarButtonItem = searchbarbutton
+        navigationController?.navigationBar.tintColor = titleColor
+    }
+
+    func seguetoSearch(sender: AnyObject) {
+        self.showSearchVIewController()
+        //performSegueWithIdentifier("SegueToSearchVC", sender: self)
+    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+//    {
+//        let destinationViewController = segue.destinationViewController as! SearchViewController
+//        destinationViewController.selectedUser = selectedUser
+//        
+//    }
     
     func prepaireView() {
         noEventLabel.hidden = true
@@ -70,6 +99,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         super.viewWillAppear(animated)
         self.sortedGeolocationAllEvents()
         tableView.reloadData()
+        prepareNavigationBar()
     }
     
 
@@ -210,9 +240,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     // MARK: - UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if searchBar.text != "" {
-            return 1
-        }
+        //deprecated
+//        if searchBar.text != "" {
+//            return 1
+//        }
         
         if segmentedControl.selectedSegmentIndex == 0 {
             if followingPlan.count == 0 {
@@ -257,14 +288,14 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if searchBar.text != "" {
+        
+        
             if segmentedControl.selectedSegmentIndex == 0 {
                 return filteredFollowing.count
             } else if segmentedControl.selectedSegmentIndex == 1 {
                 return filteredPulsing.count
             } else if segmentedControl.selectedSegmentIndex == 2 {
                 return filteredGeologicEvents.count
-            }
         }
         
         var sectionData = Dictionary<String, AnyObject>()
@@ -289,7 +320,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         var dateFormat = "dd MMM h:mm a"
         
         
-        if searchBar.text == "" && !(segmentedControl.selectedSegmentIndex == 1) {
+        if  !(segmentedControl.selectedSegmentIndex == 1) {
             if segmentedControl.selectedSegmentIndex == 0 {
                 sectionData = followingPlan[indexPath.section]
             } else if segmentedControl.selectedSegmentIndex == 2 {
@@ -305,15 +336,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             }
             let events = sectionData["events"] as! [RippleEvent]
             event = events[indexPath.row]
-        } else if searchBar.text != "" {
-            if segmentedControl.selectedSegmentIndex == 0 {
-                event = filteredFollowing[indexPath.row]
-            } else if segmentedControl.selectedSegmentIndex == 1 {
-                event = filteredPulsing[indexPath.row]
-            } else if segmentedControl.selectedSegmentIndex == 2 {
-                event = filteredGeologicEvents[indexPath.row]
-            }
-        } else if segmentedControl.selectedSegmentIndex == 1 {
+        }  else if segmentedControl.selectedSegmentIndex == 1 {
             event = pulsing[indexPath.row]
             dateFormat = "dd MMM h:mm a"
         }
@@ -339,9 +362,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     // MARK: - UIScrollViewDelegate
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        searchBar.resignFirstResponder()
-    }
+    //DEPRECATED
+//    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+//        searchBar.resignFirstResponder()
+//    }
     
     // MARK: - UITableViewDelegate
  
@@ -383,9 +407,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if searchBar.text != "" {
-            return UIView()
-        }
+        //DEPRECATED
+//        if searchBar.text != "" {
+//            return UIView()
+//        }
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
         var sectionData = Dictionary<String, AnyObject>()
         
@@ -406,21 +431,19 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         footer.backgroundColor = UIColor.clearColor()
         return footer
     }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return searchBar.text == "" ? 9 : 0
-    }
+    //DEPRECATED
+//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return searchBar.text == "" ? 9 : 0
+//    }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if searchBar.text == "" {
+        //DEPRECATED
+
             if segmentedControl.selectedSegmentIndex == 1 {
                 return 0
             }
             return 32
-        } else {
-            return 0
         }
-    }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return EventTableViewCell.kCellHeight
@@ -564,10 +587,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         tableView.reloadData()
         UserManager().addEventInBlackList(event) { (success) in }
     }
-    
     @IBAction func segmentedControlValueChaged(sender: AnyObject) {
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
         tableView.reloadData()
     }
 }

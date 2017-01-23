@@ -11,7 +11,7 @@ import ORLocalizationSystem
 
 class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate, ProfileViewControllerDelegate {
     
-    let backgroundColor = UIColor.init(red: 59/255, green: 59/255, blue: 59/255, alpha: 1)
+    let backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,6 +22,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     var label = UILabel()
     
     var searchBar: UISearchBar = UISearchBar()
+    
+    let titleColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
     
     var allUsersLoaded = false
     var allOrganizationsLoaded = false
@@ -43,7 +45,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         label.center.y = (tableView.superview?.center.y)!
         self.view.addSubview(label)
         label.hidden = true
-        searchBar.placeholder = NSLocalizedString("Search", comment: "Search")
+        //searchBar.placeholder = NSLocalizedString("Search", comment: "Search")
         
         prepareData()
     }
@@ -52,9 +54,9 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         self.view.userInteractionEnabled = true
         super.viewWillAppear(animated)
         let nav = self.navigationController?.navigationBar
-        nav?.tintColor = UIColor.whiteColor()
-        nav?.barTintColor = UIColor.blackColor()
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        nav?.tintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1) //back button color
+        nav?.barTintColor = UIColor.whiteColor()
+       // nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
      }
     
     override func viewWillDisappear(animated: Bool) {
@@ -62,27 +64,29 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         self.view.userInteractionEnabled = false
         let navigationController = self.navigationController?.navigationBar
         navigationController?.barTintColor = UIColor.whiteColor()
-        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)]
+        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)]
         hideActivityIndicator()
     }
     
+    
     func prepareSearchBar() {
-        searchBar.sizeToFit()
+        //searchBar.sizeToFit()
         searchBar.delegate = self
-        searchBar.tintColor = UIColor.whiteColor()
+        //searchBar.tintColor = UIColor.whiteColor()
         searchBar.searchBarStyle = .Minimal
-        searchBar.setImage(UIImage(named: "search_icon"), forSearchBarIcon: .Search, state: .Normal)
+        //searchBar.setImage(UIImage(named: "SearchBarSearchController"), forSearchBarIcon: .Search, state: .Normal)
         
         if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
-            textFieldInsideSearchBar.textColor = UIColor.whiteColor()
-            textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
-            textFieldInsideSearchBar.layer.borderWidth = 1
-            textFieldInsideSearchBar.layer.cornerRadius = 6
-            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search", attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
+            textFieldInsideSearchBar.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            //textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
+            textFieldInsideSearchBar.backgroundColor = UIColor.clearColor()
+//            textFieldInsideSearchBar.layer.borderWidth = 1
+//            textFieldInsideSearchBar.layer.cornerRadius = 6
+            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search Events, Orgs and Friends!", attributes:[NSForegroundColorAttributeName: UIColor.init(red: 150/255, green: 150/255, blue: 150/255, alpha:1)])
         }
         navigationItem.titleView = searchBar
         
-        navigationController?.navigationBar.barTintColor = backgroundColor
+        navigationController?.navigationBar.barTintColor = titleColor
         navigationController?.navigationBar.translucent = false
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
@@ -106,8 +110,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     private func loadUnfollowUsers() {
         UserManager().loadUnfollowUsers(usersCollection) { (users, collection, error) in
-            
-            
             if users != nil && users!.count > 0 {
                 self.usersCollection = collection
                 self.users.appendContentsOf(users!)
@@ -126,13 +128,21 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
-        OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (organizations, collection, error) in
-           
-            
-            
-            if organizations != nil && organizations!.count > 0 {
-                print(organizations?.description)
-                self?.organizations.appendContentsOf(organizations!)
+        print("still loading orgs")
+        OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (orgs, collection, error) in
+            if orgs != nil && orgs!.count > 0 {
+                //print(orgs?.description)
+                //print(self?.organizations.description)
+                for newOrg in orgs! {
+                    for currentOrg in (self?.organizations)! {
+                        if (newOrg.name == currentOrg.name) {
+                            print("org found")
+                            self?.allOrganizationsLoaded = true
+                            return
+                        }
+                    }
+                }
+                self?.organizations.appendContentsOf(orgs!)
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.tableView.reloadData()
                 }
@@ -160,6 +170,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         tableView.hidden = false
         label.hidden = true
         tableView.reloadData()
+        
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -220,7 +231,11 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     //Not here
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if(allOrganizationsLoaded) {
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
+        //Possible memory leak here?
         cell.descriptionLabel.text = ""
         if indexPath.section == 0 {
             if (indexPath.row >= users.count) {
@@ -261,7 +276,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         let followButton = UITableViewRowAction(style: .Normal, title: "Follow") {[weak self] action, indexPath in
                 self?.followingOnObject(indexPath)
         }
-        followButton.backgroundColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
+        followButton.backgroundColor = UIColor.init(red: 0/255, green: 255/255, blue: 0/255, alpha: 1)
         return [followButton]
     }
     
@@ -282,7 +297,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = UIView()
-        footer.backgroundColor = UIColor.clearColor()
+        footer.backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
         return footer
     }
     

@@ -12,7 +12,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
 
     @IBOutlet weak var tableView: UITableView!
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     override var chatSegueIdentifier: String { return "chat" }
     var users = [Users]()
     var filteredUsers = [Users]()
@@ -31,10 +31,10 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
         tableView.registerNib(nibFollowingCell, forCellReuseIdentifier: "FollowingCell")
         // Do any additional setup after loading the view.
         prepareSearchBar()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(goBack))
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(MessagesContactListViewController.goBack))
         
-        let button = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(MessagesContactListViewController.goBack))
-        self.navigationItem.leftBarButtonItem = button
-        navigationItem.leftBarButtonItem?.image = UIImage(named: "back 1")
+        
         
     }
 
@@ -87,18 +87,19 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
     }
     
     func prepareSearchBar() {
-        searchBar.sizeToFit()
+        //searchBar.sizeToFit()
         searchBar.delegate = self
-        searchBar.tintColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+        //searchBar.tintColor = UIColor.whiteColor()
         searchBar.searchBarStyle = .Minimal
-        searchBar.setImage(UIImage(named: "search_icon"), forSearchBarIcon: .Search, state: .Normal)
+        //searchBar.setImage(UIImage(named: "SearchBarSearchController"), forSearchBarIcon: .Search, state: .Normal)
         
         if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
-            textFieldInsideSearchBar.textColor = titleColor
-            textFieldInsideSearchBar.layer.borderColor = titleColor.CGColor
-            textFieldInsideSearchBar.layer.borderWidth = 1
-            textFieldInsideSearchBar.layer.cornerRadius = 6
-            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search", attributes:[NSForegroundColorAttributeName: titleColor])
+            textFieldInsideSearchBar.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            //textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
+            textFieldInsideSearchBar.backgroundColor = UIColor.clearColor()
+            //            textFieldInsideSearchBar.layer.borderWidth = 1
+            //            textFieldInsideSearchBar.layer.cornerRadius = 6
+            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search", attributes:[NSForegroundColorAttributeName: UIColor.init(red: 150/255, green: 150/255, blue: 150/255, alpha:1)])
         }
         navigationItem.titleView = searchBar
         

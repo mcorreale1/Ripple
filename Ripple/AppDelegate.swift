@@ -31,22 +31,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Fabric.with([Crashlytics.self])
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
-//        print("Registering remote notifications")
         Backendless.sharedInstance().messaging.registerForRemoteNotifications() //uncommented
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
+            if(Backendless.sharedInstance().userService.currentUser.name != nil) {
+                print("Logging in" + Backendless.sharedInstance().userService.currentUser.name)
+            }
             loginComplete()
         }
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         registerForRemoteNotifications()
-        
+        print("App did finish with options")
         return true
     }
     
-    
+
     
     func loginComplete() {
         UserManager().initMe {
@@ -54,16 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController")
             self.window?.rootViewController = mainTabBarController
             self.tabBarSelectIndex(2)
-           // self.registerForRemoteNotifications()
             MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
-            if (UserManager().currentUser().authData != nil) {
-                print("Token in login: " + UserManager().currentUser().authData!)
-            } else {
-                print("Token is null")
-            }
             Backendless.sharedInstance().userService.setPersistentUser()
             UserManager().prepareData()
+            print("login complete finished")
         }
         
     }
@@ -108,6 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func registerForRemoteNotifications() {
+        print("In register for remote")
         if #available(iOS 10.0, *)
         {
            let center = UNUserNotificationCenter.currentNotificationCenter()
@@ -118,12 +116,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             })
         }
-        
         else {
             UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
             UIApplication.sharedApplication().registerForRemoteNotifications()
         }
-            
+//        Backendless.sharedInstance().messaging.registerForRemoteNotifications() //uncommented
+        
         //DEPRECATED Russian Method
         
 //        let userNotificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
@@ -134,8 +132,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
-        
+        print("registering device with token \(deviceToken)")
+//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+//        }
+
+        let responder = Responder.init(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+        Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
+        print("device registered")
+
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
@@ -161,7 +167,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        print("activating app")
         FBSDKAppEvents.activateApp()
+        print("App activated")
     }
 
     func applicationWillResignActive(application: UIApplication) {

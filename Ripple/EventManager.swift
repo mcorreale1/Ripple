@@ -315,106 +315,114 @@ class EventManager: NSObject {
         })
     }
 
-    func createEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, picture: UIImage, description: String, address: String, coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
+    func createEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double,  description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
         event.name = name
         event.startDate = start
         event.endDate = end
         event.isPrivate = isPrivate
         event.cost = cost
         event.address = address
+        event.city = city
+        event.location = location
         event.latitude = coordinate.latitude
         event.longitude = coordinate.longitude
         event.descr = description
         event.organization = organization
+        event.picture = event.organization?.picture
         
-        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
+        event.save({ (entity, error) in
             guard error == nil else {
                 completion(false, nil)
                 return
             }
             
-            guard imageURL != nil else {
-                completion(false, nil)
-                return
-            }
-            
-            let eventPicture = event.picture ?? Pictures()
-            eventPicture.imageURL = imageURL
-            eventPicture.storagePath = storagePath
-            event.picture = eventPicture
-            
-            event.save({ (entity, error) in
-                guard error == nil else {
-                    completion(false, nil)
-                    return
-                }
+            if let eventEntity = entity as? RippleEvent {
+                UserManager().goOnEvent(eventEntity, completion: { (success) in
+                    if success == false{
+                        print("Error add user")
+                    }
+                })
                 
-                if let eventEntity = entity as? RippleEvent {
-                    UserManager().goOnEvent(eventEntity, completion: { (success) in
-                        if success == false{
-                            print("Error add user")
-                        }
-                    })
-                    
-                    OrganizationManager().addEvent(organization, event: eventEntity, completion: { (entity, error) in
-                        if entity == nil {
-                            print("Error add org")
-                        }
-                    })
-                    
-                    completion(true, eventEntity)
-                } else {
-                    completion(false, nil)
-                }
-            })
-        }
+                OrganizationManager().addEvent(organization, event: eventEntity, completion: { (entity, error) in
+                    if entity == nil {
+                        print("Error add org")
+                    }
+                })
+                
+                completion(true, eventEntity)
+            } else {
+                completion(false, nil)
+            }
+        })
+
+        
+//        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
+//            guard error == nil else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            guard imageURL != nil else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            let eventPicture = event.picture ?? Pictures()
+//            eventPicture.imageURL = imageURL
+//            eventPicture.storagePath = storagePath
+//            event.picture = eventPicture
+//            
+//                    }
     }
     
-    func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, picture: UIImage, description: String, address: String, coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
+    func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
         event.name = name
         event.startDate = start
         event.endDate = end
         event.isPrivate = isPrivate
         event.cost = cost
         event.address = address
+        event.city = city
+        event.location = location
         event.latitude = coordinate.latitude
         event.longitude = coordinate.longitude
         event.descr = description
         event.organization = organization
+        event.picture = event.organization?.picture
         
-        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
-            guard error == nil else {
-                completion(false, nil)
-                return
-            }
-            
-            guard imageURL != nil else {
-                completion(false, nil)
-                return
-            }
-            
-            let eventPicture = event.picture ?? Pictures()
-            eventPicture.imageURL = imageURL
-            eventPicture.storagePath = storagePath
-            
-            eventPicture.save({ (savedPicture, error) in
-                guard error == nil else {
-                    completion(false, nil)
-                    return
-                }
-                
-                event.picture = savedPicture as? Pictures
-                
-                event.save({ (entity, error) in
-                    guard error == nil else {
-                        completion(false, nil)
-                        return
-                    }
-                    
-                    completion(true, entity as? RippleEvent)
-                })
-            })
-        }
+//        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
+//            guard error == nil else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            guard imageURL != nil else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            let eventPicture = event.picture ?? Pictures()
+//            eventPicture.imageURL = imageURL
+//            eventPicture.storagePath = storagePath
+//            
+//            eventPicture.save({ (savedPicture, error) in
+//                guard error == nil else {
+//                    completion(false, nil)
+//                    return
+//                }
+//                
+//                event.picture = savedPicture as? Pictures
+//                
+//                event.save({ (entity, error) in
+//                    guard error == nil else {
+//                        completion(false, nil)
+//                        return
+//                    }
+//                    
+//                    completion(true, entity as? RippleEvent)
+//                })
+//            })
+//        }
     }
     
     func pulsingEvents(completion: ([Dictionary<String, AnyObject>]) -> Void) {

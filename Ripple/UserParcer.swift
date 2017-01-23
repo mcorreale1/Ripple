@@ -31,7 +31,7 @@ class UserParcer : NSObject {
         
         cdUser!.descr = user.descr
         cdUser!.email = user.email
-        cdUser!.fullName = user.fullName
+        cdUser!.fullName = user.name
         cdUser!.isPrivate = user.isPrivate
         cdUser!.password = user.password
         cdUser!.serverID = user.objectId
@@ -91,7 +91,7 @@ class UserParcer : NSObject {
         user.objectId = cdUser.serverID
         user.name = cdUser.name
         user.isPrivate = cdUser.isPrivate?.boolValue ?? false
-        user.fullName = cdUser.fullName
+        user.fullName = cdUser.name
         user.firstName = cdUser.firstName
         user.lastName = cdUser.lastName
         user.descr = cdUser.descr

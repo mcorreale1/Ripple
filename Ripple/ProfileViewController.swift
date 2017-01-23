@@ -49,7 +49,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     var delegate: ProfileViewControllerDelegate?
     
     
-    let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     
     var lengthEventDescription = 61
     var titleMessage :String = ""
@@ -150,11 +150,13 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             if self.isMe() || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
                 EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe(), completion: {[weak self] (plan) in
                     self?.plans = plan
+                    print("\(plan)")
                     self?.tableView.reloadData()
                 })
                 
                 OrganizationManager().organizationForUser(self.selectedUser!, completion: {[weak self] (org) in
                     self?.organizationArray = org
+                    print("\(org)")
                     self?.organizationArray.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                         let name1 = org1.name
                         let name2 = org2.name
@@ -348,7 +350,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if plansButton.selected {
-            
             let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
             let sectionData = plans[indexPath.section]
             let events = sectionData["events"] as! [RippleEvent]
@@ -392,16 +393,16 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionTitle = sectionItem["title"] as! String
             if let following = sectionItem["items"] as? [AnyObject] {
                 let item = isMe() && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
-                
-                cell.titleLabel.text = item.name
-                /*
-                if let isUser:Users = item as! Users {
-                    //print("item is a user")
-                    //print("Item name \(isUser.name)")
-                    cell.titleLabel.text = isUser.name
+                print("Number of items" + following.count.description)
+                if item is Users {
+                    print("Is user")
+                    let user = item as! Users
+                    cell.titleLabel.text = user.name
+                } else if item is Organizations {
+                    let org = item as! Organizations
+                    cell.titleLabel.text = org.name
                 } else {
-                    let isOrg = item as! Organizations
-                    cell.titleLabel.text = isOrg.name
+                  	cell.titleLabel.text = item.name
                 }
  
                 */

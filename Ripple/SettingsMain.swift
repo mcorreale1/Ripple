@@ -34,7 +34,7 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
     func prepareView() {
         let nav = self.navigationController?.navigationBar
         nav?.barTintColor = UIColor.whiteColor()
-        let titleColor = UIColor.init(red: 46/255, green:49/255, blue: 146/255, alpha: 1)
+        let titleColor = UIColor.init(red: 0/255, green:0/255, blue: 0/255, alpha: 1)
         nav?.tintColor = titleColor
         nav?.titleTextAttributes = ([NSForegroundColorAttributeName: titleColor])
         privacySwitch.on = UserManager().currentUser().isPrivate
