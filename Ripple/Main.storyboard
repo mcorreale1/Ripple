@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Tog-yn-M03">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Tog-yn-M03">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -3252,7 +3252,6 @@ your face off.</string>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nsE-LI-yCB">
                                                 <rect key="frame" x="307" y="10" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="isEventPrivate:" destination="EE2-q6-v1p" eventType="valueChanged" id="vgc-da-6kr"/>
                                                     <action selector="isPrivateEvent:" destination="EE2-q6-v1p" eventType="valueChanged" id="6dQ-Tc-Jsu"/>
                                                 </connections>
                                             </switch>
@@ -3357,9 +3356,6 @@ your face off.</string>
                                                 <date key="date" timeIntervalSinceReferenceDate="506647796.618007">
                                                     <!--2017-01-20 23:29:56 +0000-->
                                                 </date>
-                                                <connections>
-                                                    <action selector="saveEventDayTouched:" destination="EE2-q6-v1p" eventType="valueChanged" id="hdf-ar-Y9B"/>
-                                                </connections>
                                             </datePicker>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ia0-Tm-4E1">
                                                 <rect key="frame" x="308" y="-3" width="67" height="30"/>
@@ -3370,7 +3366,7 @@ your face off.</string>
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="saveEventDayEndTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="f00-qF-kcd"/>
+                                                    <action selector="saveEventDayTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="3pN-d5-qfy"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K5x-BY-eFT">
@@ -3380,9 +3376,6 @@ your face off.</string>
                                                 </constraints>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Edit"/>
-                                                <connections>
-                                                    <action selector="showEventDayEndViewTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="0Ip-5Y-pJf"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3422,9 +3415,6 @@ your face off.</string>
                                                 <date key="date" timeIntervalSinceReferenceDate="506647796.618007">
                                                     <!--2017-01-20 23:29:56 +0000-->
                                                 </date>
-                                                <connections>
-                                                    <action selector="saveEventDayEndTouched:" destination="EE2-q6-v1p" eventType="valueChanged" id="1ZH-dt-4qA"/>
-                                                </connections>
                                             </datePicker>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JZH-TF-oFH">
                                                 <rect key="frame" x="276" y="-3" width="30" height="30"/>
@@ -3433,9 +3423,6 @@ your face off.</string>
                                                 </constraints>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Edit"/>
-                                                <connections>
-                                                    <action selector="showEventDayEndViewTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="0hj-hl-XrW"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ay-GE-1n6">
                                                 <rect key="frame" x="308" y="-3" width="67" height="30"/>
@@ -3571,7 +3558,11 @@ your face off.</string>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="F8y-KP-f7r"/>
-                                            <barButtonItem title="Done" id="7dK-iC-F3G"/>
+                                            <barButtonItem title="Done" id="7dK-iC-F3G">
+                                                <connections>
+                                                    <action selector="doneNameTouched:" destination="EE2-q6-v1p" id="oXm-7c-v1d"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </items>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                     </toolbar>
@@ -3588,13 +3579,13 @@ your face off.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="dEs-bS-FVu">
-                                                <rect key="frame" x="0.0" y="32" width="375" height="101"/>
+                                                <rect key="frame" x="0.0" y="32" width="188" height="101"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="188" id="JTg-5G-ckw"/>
+                                                </constraints>
                                                 <date key="date" timeIntervalSinceReferenceDate="506647796.618007">
                                                     <!--2017-01-20 23:29:56 +0000-->
                                                 </date>
-                                                <connections>
-                                                    <action selector="saveEventTimeTouched:" destination="EE2-q6-v1p" eventType="valueChanged" id="WJV-O2-h8q"/>
-                                                </connections>
                                             </datePicker>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-NV-Mgv">
                                                 <rect key="frame" x="308" y="-3" width="67" height="30"/>
@@ -3605,7 +3596,7 @@ your face off.</string>
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="saveEventDayEndTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="7FH-62-XMn"/>
+                                                    <action selector="saveEventTimeTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="pMy-Yj-lZd"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9in-Be-0A1">
@@ -3615,28 +3606,34 @@ your face off.</string>
                                                 </constraints>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Edit"/>
-                                                <connections>
-                                                    <action selector="showEventDayEndViewTouched:" destination="EE2-q6-v1p" eventType="touchUpInside" id="RI8-Cw-XIE"/>
-                                                </connections>
                                             </button>
+                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Qby-y3-HHf">
+                                                <rect key="frame" x="196" y="8" width="183" height="121"/>
+                                                <date key="date" timeIntervalSinceReferenceDate="506822420.16849202">
+                                                    <!--2017-01-23 00:00:20 +0000-->
+                                                </date>
+                                            </datePicker>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="ihr-WD-4MH" firstAttribute="leading" secondItem="dEs-bS-FVu" secondAttribute="leading" id="1fQ-zn-VBk"/>
                                             <constraint firstItem="9in-Be-0A1" firstAttribute="top" secondItem="HDL-NV-Mgv" secondAttribute="top" id="ImR-Qz-u6k"/>
                                             <constraint firstItem="9in-Be-0A1" firstAttribute="leading" secondItem="FFk-SK-Arr" secondAttribute="trailing" constant="70" id="K3P-FR-M5j"/>
+                                            <constraint firstItem="Qby-y3-HHf" firstAttribute="top" secondItem="TWs-bZ-bYc" secondAttribute="topMargin" id="LW6-QE-d9a"/>
                                             <constraint firstItem="FFk-SK-Arr" firstAttribute="leading" secondItem="TWs-bZ-bYc" secondAttribute="leading" constant="27" id="LzN-iX-sbv"/>
-                                            <constraint firstItem="dEs-bS-FVu" firstAttribute="top" secondItem="ihr-WD-4MH" secondAttribute="bottom" constant="5" id="Spj-1q-Qdb"/>
+                                            <constraint firstAttribute="trailing" secondItem="Qby-y3-HHf" secondAttribute="trailing" constant="-4" id="TJt-k7-5ap"/>
+                                            <constraint firstItem="dEs-bS-FVu" firstAttribute="leading" secondItem="ihr-WD-4MH" secondAttribute="leading" id="WuU-vx-Ljm"/>
+                                            <constraint firstItem="Qby-y3-HHf" firstAttribute="bottom" secondItem="TWs-bZ-bYc" secondAttribute="bottomMargin" id="Ygp-aF-jw2"/>
                                             <constraint firstItem="ihr-WD-4MH" firstAttribute="leading" secondItem="TWs-bZ-bYc" secondAttribute="leading" id="dAf-IY-tqy"/>
-                                            <constraint firstAttribute="bottom" secondItem="dEs-bS-FVu" secondAttribute="bottom" constant="4" id="e1b-yH-Dvz"/>
                                             <constraint firstItem="FFk-SK-Arr" firstAttribute="top" secondItem="TWs-bZ-bYc" secondAttribute="top" constant="2" id="ejf-ox-Cv7"/>
                                             <constraint firstItem="9in-Be-0A1" firstAttribute="baseline" secondItem="HDL-NV-Mgv" secondAttribute="firstBaseline" id="ewI-3O-UQQ"/>
                                             <constraint firstItem="ihr-WD-4MH" firstAttribute="bottom" secondItem="9in-Be-0A1" secondAttribute="bottom" id="gXK-dQ-kkg"/>
                                             <constraint firstItem="HDL-NV-Mgv" firstAttribute="trailing" secondItem="ihr-WD-4MH" secondAttribute="trailing" id="hmv-k5-DvK"/>
+                                            <constraint firstAttribute="bottom" secondItem="dEs-bS-FVu" secondAttribute="bottom" constant="4" id="i9t-Nm-Ye9"/>
                                             <constraint firstItem="9in-Be-0A1" firstAttribute="top" secondItem="TWs-bZ-bYc" secondAttribute="top" constant="-3" id="iYP-kz-EOw"/>
-                                            <constraint firstItem="ihr-WD-4MH" firstAttribute="trailing" secondItem="dEs-bS-FVu" secondAttribute="trailing" id="lw8-dJ-ClZ"/>
+                                            <constraint firstItem="dEs-bS-FVu" firstAttribute="top" secondItem="ihr-WD-4MH" secondAttribute="bottom" constant="5" id="kH8-ER-Aae"/>
                                             <constraint firstItem="FFk-SK-Arr" firstAttribute="centerY" secondItem="9in-Be-0A1" secondAttribute="centerY" id="nWD-dL-H1y"/>
                                             <constraint firstItem="HDL-NV-Mgv" firstAttribute="baseline" secondItem="9in-Be-0A1" secondAttribute="firstBaseline" id="ngI-vz-iyb"/>
+                                            <constraint firstItem="Qby-y3-HHf" firstAttribute="leading" secondItem="dEs-bS-FVu" secondAttribute="trailing" constant="8" symbolic="YES" id="s55-FQ-hwq"/>
                                             <constraint firstItem="HDL-NV-Mgv" firstAttribute="leading" secondItem="9in-Be-0A1" secondAttribute="trailing" constant="2" id="xpR-wQ-qma"/>
                                         </constraints>
                                     </view>
@@ -3776,12 +3773,12 @@ your face off.</string>
                         <outlet property="cityStateZipText" destination="enT-hd-Gwj" id="eg8-yb-fJJ"/>
                         <outlet property="dataPickerEndEvent" destination="VFu-vG-yfj" id="6V4-Eb-z65"/>
                         <outlet property="datePickerDateEvent" destination="cDz-9Q-329" id="2In-pY-5Z2"/>
+                        <outlet property="datePickerFinishTime" destination="Qby-y3-HHf" id="wTT-H6-EKG"/>
                         <outlet property="datePickerStartTime" destination="dEs-bS-FVu" id="WO1-Am-eSa"/>
                         <outlet property="eventDescriptionTextView" destination="hsr-cs-zZ2" id="FCQ-4m-5Q0"/>
                         <outlet property="eventNameTextField" destination="AtZ-k0-DJ6" id="GGs-OZ-DTX"/>
                         <outlet property="eventPrivacy" destination="nsE-LI-yCB" id="DNx-Q0-CA5"/>
                         <outlet property="isFreeSwitch" destination="vfN-x4-6dz" id="KDE-LU-nq1"/>
-                        <outlet property="isPrivateEvent" destination="nsE-LI-yCB" id="j8D-aR-XNo"/>
                         <outlet property="locationTextField" destination="lBB-vh-Hnc" id="uN9-tN-7hx"/>
                         <outlet property="postPulsingButton" destination="r4m-cG-oZL" id="8kn-SL-XdJ"/>
                         <outlet property="priceOfEvent" destination="1gU-y4-lSQ" id="0i9-O6-K3x"/>
@@ -3790,7 +3787,7 @@ your face off.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="92a-P7-DE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3046" y="-1476"/>
+            <point key="canvasLocation" x="3045.5999999999999" y="-1476.1619190404799"/>
         </scene>
         <!--Address-->
         <scene sceneID="aV8-td-u3Q">

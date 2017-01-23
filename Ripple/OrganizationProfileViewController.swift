@@ -11,6 +11,16 @@ import ORLocalizationSystem
 import ORCommonCode_Swift
 import ORCommonUI_Swift
 
+extension UIImage {
+    var uncompressedPNGData: NSData?      { return UIImagePNGRepresentation(self)        }
+    var highestQualityJPEGNSData: NSData? { return UIImageJPEGRepresentation(self, 1.0)  }
+    var highQualityJPEGNSData: NSData?    { return UIImageJPEGRepresentation(self, 0.75) }
+    var mediumQualityJPEGNSData: NSData?  { return UIImageJPEGRepresentation(self, 0.5)  }
+    var lowQualityJPEGNSData: NSData?     { return UIImageJPEGRepresentation(self, 0.25) }
+    var lowestQualityJPEGNSData:NSData?   { return UIImageJPEGRepresentation(self, 0.0)  }
+}
+
+
 class OrganizationProfileViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -568,19 +578,27 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
     }
     
+    
     // MARK: - ORCropImageViewControllerDelegate
     
     override func cropVCDidFinishCrop(withImage image: UIImage?) {
-        
         guard let img = image else {
             self.titleMessage = NSLocalizedString("Fail", comment: "Fail")
             self.message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
             showAlert(self.titleMessage, message: self.message)
             return
         }
-    
-        orgPicture = img
-        profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
+        
+        if let smallerImage = image!.lowestQualityJPEGNSData {
+            orgPicture = smallerImage
+            profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
+                    }
+        else
+        {
+            print("this image can be smaller")
+        }
+        
+        
     }
     
     //MARK: - Notifications
