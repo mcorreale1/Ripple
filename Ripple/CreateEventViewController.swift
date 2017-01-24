@@ -96,12 +96,16 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 
     var eventCreating = false
     
+    var scrollView: UIScrollView!
+    
     deinit {
         or_removeObserver(self)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        
         eventPrivacy.on = true
         isFreeSwitch.on = true
         or_addObserver(self, selector: #selector(onEventSendInvitationsNotification), name: PulseNotification.PulseNotificationEventSendInvitations.rawValue)
@@ -110,7 +114,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(CreateEventViewController.editNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = editButton
        // self.organizationNameLabel.text = organization!.name
-        
         if event?.name != nil {
             //uploadImageButton.enabled = false
 //            buttonChooseDate.enabled = false
@@ -118,7 +121,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //            buttonChooseTime.enabled = false
 //            buttonChoosePrivacy.enabled = false
 //            buttonChoosePrice.enabled = false
-            eventDescriptionTextView.editable = false
+            //eventDescriptionTextView.isEditable = false
             eventName = event!.name!
             startTime =  event!.startDate
             finishTime = event!.endDate
@@ -153,7 +156,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //            eventAddressLabel.text = event!.address
 //            eventAddress = eventAddressLabel.text!
             //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
-            if PulseNotification.PulseNotificationIsEveentCreate.rawValue != "" && isPrivateEvent == false {
+            if PulseNotification.PulseNotificationIsEventCreate.rawValue != "" && isPrivateEvent == false {
                // checkMarkImageView.hidden = false
                 postPulsingButton.enabled = false
             }
@@ -163,7 +166,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
       //      labelDateEventEnd.text = NSLocalizedString("Choose an End Date", comment: "Choose an End Date")
             let eventDescriptionText = "You can write a description up to 250 characters."
             eventDescriptionTextView.placeholder = NSLocalizedString(eventDescriptionText, comment: eventDescriptionText)
-            eventDescriptionTextView.placeholderColor = UIColor.lightGrayColor()
+            //eventDescriptionTextView.placeholderColor = UIColor.lightGrayColor()
+            
 //            labelTimeEvent.text = NSLocalizedString("Choose a Time", comment: "Choose a Time")
 //            //uploadImageLabel.text = NSLocalizedString("Upload Image", comment: "Upload Image")
 //            eventPriceLabel.text = NSLocalizedString("Choose Price", comment: "Choose Price")
@@ -513,6 +517,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        }
 //    }
 //    
+    
+    @IBAction func saveEventNameTouched(sender: AnyObject) {
+        hideKeyboard()
+        if(eventNameTextField.text != nil) {
+            eventName = eventNameTextField.text!
+        }
+    }
+    
     @IBAction func saveEventDayTouched(sender: AnyObject) {
         hideKeyboard()
         let currentDate: NSDate = NSDate()
@@ -765,7 +777,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        buttonChooseAddress.enabled = false
 //        buttonChoosePrivacy.enabled = false
 //        buttonChoosePrice.enabled = false
-        eventDescriptionTextView.editable = false
+        //eventDescriptionTextView.editable = false
 //        let rightButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(self.editNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = rightButton
         navigationItem.rightBarButtonItem?.enabled = false
@@ -874,7 +886,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                 self?.postPulsingButton.enabled = false
                             }
                                 
-                            or_postNotification(PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+                            or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
                             self?.postPulsingButton.enabled = true
                         } else {
                             self?.postPulsingButton.enabled = false
@@ -959,7 +971,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         }
                         
                         self?.event = event
-                        or_postNotification(PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+                        or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
                         completion(success: true)
                     } else {
                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")

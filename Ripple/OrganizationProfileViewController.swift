@@ -61,7 +61,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        or_addObserver(self, selector: #selector(onEventIsCreate), name: PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+        or_addObserver(self, selector: #selector(onEventIsCreate), name: PulseNotification.PulseNotificationIsEventCreate.rawValue)
         prepareTableView()
         
         prepareNavigationBar()
