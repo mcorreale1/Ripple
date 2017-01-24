@@ -11,6 +11,12 @@ import ORLocalizationSystem
 import ORCommonCode_Swift
 import ORCommonUI_Swift
 
+extension UIImage {
+    var uncompressedPNGData: NSData     { return UIImagePNGRepresentation(self)!        }
+    var smallestJPEG:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+}
+
+
 class OrganizationProfileViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -55,7 +61,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        or_addObserver(self, selector: #selector(onEventIsCreate), name: PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+        or_addObserver(self, selector: #selector(onEventIsCreate), name: PulseNotification.PulseNotificationIsEventCreate.rawValue)
         prepareTableView()
         
         prepareNavigationBar()
@@ -568,19 +574,22 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
     }
     
+    
     // MARK: - ORCropImageViewControllerDelegate
     
     override func cropVCDidFinishCrop(withImage image: UIImage?) {
-        
         guard let img = image else {
             self.titleMessage = NSLocalizedString("Fail", comment: "Fail")
             self.message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
             showAlert(self.titleMessage, message: self.message)
             return
         }
-    
-        orgPicture = img
-        profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
+        
+         let smallerImage = image!.smallestJPEG
+        let tinyImage : UIImage = UIImage(data: smallerImage)!
+            orgPicture = tinyImage
+            profilePictureButton.setBackgroundImage(orgPicture, forState: .Normal)
+        
     }
     
     //MARK: - Notifications

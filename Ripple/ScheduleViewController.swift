@@ -18,7 +18,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
     let calendarManager = JTCalendarManager()
-    let todayColor = UIColor.init(red: 216/255, green: 92/255, blue: 94/255, alpha: 1)
+    let todayColor = UIColor.init(red: 97/255, green: 19/255, blue: 255/255, alpha: 1)
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
     
