@@ -56,12 +56,17 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let coordinate:CLLocationCoordinate2D
         // Do any additional setup after loading the view.
         
         
         // Init the zoom level
-        let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+        if(event != nil && event!.location != nil) {
+            coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+        } else {
+            let locationManager = CLLocationManager()
+            coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
+        }
         let span = MKCoordinateSpanMake(0.075, 0.075)
         let region = MKCoordinateRegionMake(coordinate, span)
         self.mapView.setRegion(region, animated: true)
