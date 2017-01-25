@@ -3456,7 +3456,7 @@ your face off.</string>
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="5OV-KQ-rzj" kind="showDetail" id="3fO-hD-YZ2"/>
+                                                            <action selector="addressButtonClicked:" destination="EE2-q6-v1p" eventType="touchUpInside" id="Se9-3r-rWc"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -3666,6 +3666,7 @@ your face off.</string>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="1120"/>
                     <connections>
+                        <outlet property="addressButton" destination="CbG-2n-5r7" id="f7j-bm-h0S"/>
                         <outlet property="buttonSendInvitation" destination="TlH-mU-i0R" id="74Q-aW-4at"/>
                         <outlet property="datePickerDateEvent" destination="cDz-9Q-329" id="2In-pY-5Z2"/>
                         <outlet property="datePickerFinishTime" destination="Qby-y3-HHf" id="wTT-H6-EKG"/>
@@ -3683,7 +3684,7 @@ your face off.</string>
             </objects>
             <point key="canvasLocation" x="3045.5999999999999" y="-1476.1619190404799"/>
         </scene>
-        <!--Choose Address View Controller-->
+        <!--Choose an address-->
         <scene sceneID="aV8-td-u3Q">
             <objects>
                 <viewController storyboardIdentifier="ChooseAddressViewController" id="5OV-KQ-rzj" customClass="ChooseAddressViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
@@ -3695,40 +3696,48 @@ your face off.</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Search a location" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uqg-Pr-ZPi">
-                                <rect key="frame" x="16" y="20" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GP7-E1-hGb">
-                                <rect key="frame" x="0.0" y="63" width="375" height="604"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="648"/>
                             </mapView>
+                            <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-SQ-nOw">
+                                <rect key="frame" x="0.0" y="65" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="GP7-E1-hGb" firstAttribute="top" secondItem="pbF-vH-Epu" secondAttribute="bottom" constant="43" id="3Yi-wv-z4b"/>
-                            <constraint firstAttribute="trailing" secondItem="GP7-E1-hGb" secondAttribute="trailing" id="9b6-qv-6NX"/>
-                            <constraint firstItem="Aos-6h-SPj" firstAttribute="top" secondItem="GP7-E1-hGb" secondAttribute="bottom" constant="-44" id="Q7F-eo-uZi"/>
-                            <constraint firstItem="GP7-E1-hGb" firstAttribute="leading" secondItem="Tvm-Vc-Agp" secondAttribute="leading" id="pTg-xj-qfj"/>
-                            <constraint firstAttribute="trailing" secondItem="GP7-E1-hGb" secondAttribute="trailing" id="rhG-vj-u4x"/>
+                            <constraint firstItem="GP7-E1-hGb" firstAttribute="top" secondItem="pbF-vH-Epu" secondAttribute="bottom" id="38h-I0-IZo"/>
+                            <constraint firstAttribute="trailing" secondItem="Skb-SQ-nOw" secondAttribute="trailing" id="UtC-Lh-AH0"/>
+                            <constraint firstItem="Skb-SQ-nOw" firstAttribute="leading" secondItem="Tvm-Vc-Agp" secondAttribute="leading" id="aAv-FM-suW"/>
+                            <constraint firstItem="Skb-SQ-nOw" firstAttribute="centerX" secondItem="Tvm-Vc-Agp" secondAttribute="centerX" id="g4Z-my-zi7"/>
+                            <constraint firstItem="Skb-SQ-nOw" firstAttribute="top" secondItem="pbF-vH-Epu" secondAttribute="bottom" id="nMz-ca-jNC"/>
+                            <constraint firstItem="Skb-SQ-nOw" firstAttribute="leading" secondItem="GP7-E1-hGb" secondAttribute="leading" id="oxE-nK-5q3"/>
+                            <constraint firstItem="Skb-SQ-nOw" firstAttribute="trailing" secondItem="GP7-E1-hGb" secondAttribute="trailing" id="suV-Kf-j1v"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="GP7-E1-hGb" secondAttribute="bottom" constant="-1" id="v3t-t7-ltb"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="rhG-vj-u4x"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Choose an address" id="yzT-s2-BkA">
+                        <barButtonItem key="leftBarButtonItem" width="44" style="plain" id="04d-Op-qJi">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4AB-J5-lqe">
+                                <rect key="frame" x="16" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonClicked:" destination="5OV-KQ-rzj" eventType="touchUpInside" id="gH4-0L-uhK"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="doneButton" destination="4AB-J5-lqe" id="jJP-Lk-nTg"/>
                         <outlet property="mapView" destination="GP7-E1-hGb" id="yJr-kM-vfu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAV-Ij-Yl1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4261.6000000000004" y="-1696.1019490254873"/>
+            <point key="canvasLocation" x="5096.8000000000002" y="-1710.4947526236883"/>
         </scene>
     </scenes>
     <resources>

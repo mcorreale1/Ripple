@@ -67,6 +67,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     //@IBOutlet weak var heughtPostPulse: NSLayoutConstraint!
    // @IBOutlet weak var hostedBy: UILabel!
     
+    @IBOutlet weak var addressButton: UIButton!
     let warningColor = UIColor.init(red: 210/255, green: 36/255, blue: 22/255, alpha: 0.7)
     
     var organization: Organizations?
@@ -198,6 +199,12 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         buttonSendInvitation.enabled = true
+    }
+    
+    @IBAction func addressButtonClicked(sender: AnyObject) {
+        let chooseAddressView = self.storyboard?.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
+        chooseAddressView.event = self.event
+        self.navigationController?.pushViewController(chooseAddressView, animated: true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
