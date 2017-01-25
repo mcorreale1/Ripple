@@ -198,6 +198,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        print("View appearing")
         buttonSendInvitation.enabled = true
     }
     

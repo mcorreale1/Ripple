@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import ORLocalizationSystem
 
-class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate {
+class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var titleMessage :String = ""
     var message :String = ""
@@ -31,6 +31,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
+    
     
     func chooseAddress(address: String, coordinate: CLLocationCoordinate2D){
         localSearchRequest = MKLocalSearchRequest()
@@ -59,35 +60,35 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var doneButton:UIButton!
+    @IBOutlet weak var searchBar:UISearchBar!
     
-    var searchBar = UISearchBar()
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+        searchBar.delegate = self
+        mapView.delegate = self
+        mapView.showsBuildings = true
+        
         
         if(event != nil && event!.location != nil) {
             coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
         } else {
             coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
         }
-        let span = MKCoordinateSpanMake(0.075, 0.075)
-        let region = MKCoordinateRegionMake(coordinate, span)
-        self.mapView.setRegion(region, animated: true)
         centerAnnotation = MKPointAnnotation()
         centerAnnotation.coordinate = coordinate
         mapView.addAnnotation(centerAnnotation)
+        let span = MKCoordinateSpanMake(0.075, 0.075)
+        let region = MKCoordinateRegionMake(coordinate, span)
+        self.mapView.setRegion(region, animated: true)
         //self.chooseAddress(address, coordinate: coordinate)
     }
     
     
     @IBAction func doneButtonClicked(sender:AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        centerAnnotation.coordinate = mapView.centerCoordinate
     }
 
     func prepareSearchBar() {
@@ -110,12 +111,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         let nav = self.navigationController?.navigationBar
         nav?.tintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1) //back button color
         nav?.barTintColor = UIColor.whiteColor()
-        
-        
         
     }
 
@@ -123,7 +123,23 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    // MARK: - MapView functions
     
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        centerAnnotation.coordinate = mapView.centerCoordinate
+    }
+
+    // MARK: - searchbar functions
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        let localSearch = MKLocalSearchRequest()
+        localSearch.region = mapView.region
+        localSearch.naturalLanguageQuery = searchText
+    }
 
     /*
     // MARK: - Navigation
