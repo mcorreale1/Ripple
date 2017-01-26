@@ -201,6 +201,25 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
         return [removeButton]
     }
     
+    func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
+        
+        let deliveryOptions = DeliveryOptions()
+        deliveryOptions.pushSinglecast = [deviceId]
+        
+        let publishOptions = PublishOptions()
+        publishOptions.assignHeaders(["ios-text":"You have receieved a new message from"])
+        var error: Fault?
+        let messageStatus = Backendless.sharedInstance().messaging.publish("default", message: message,publishOptions:publishOptions,deliveryOptions:deliveryOptions,error: &error)
+        if error == nil {
+            print("MessageStatus = \(messageStatus.status) ['\(messageStatus.messageId)']")
+            return messageStatus
+        }
+        else {
+            print("Server reported an error: \(error)")
+            return nil
+        }
+    }
+    
     // UITextViewDelegate protocol methods
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -219,6 +238,7 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
             if channel != nil {
                 self?.channel = channel!
                 self?.prepareData()
+                
             }
         }
     }

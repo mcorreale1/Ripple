@@ -137,7 +137,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }))
             
             presentViewController(refreshAlert, animated: true, completion: nil)
-            self.subscribe()
         }
         
     }
