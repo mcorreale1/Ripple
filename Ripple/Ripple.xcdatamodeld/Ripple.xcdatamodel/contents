@@ -70,6 +70,7 @@
         <attribute name="authData" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="college" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
@@ -100,6 +101,6 @@
         <element name="Organization" positionX="349" positionY="-82" width="128" height="255"/>
         <element name="Picture" positionX="-515" positionY="315" width="128" height="150"/>
         <element name="Report" positionX="396" positionY="342" width="128" height="135"/>
-        <element name="User" positionX="-306" positionY="-112" width="128" height="420"/>
+        <element name="User" positionX="-306" positionY="-112" width="128" height="433"/>
     </elements>
 </model>

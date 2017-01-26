@@ -25,6 +25,7 @@ class Users: BackendlessUser {
         case name = "name"
         case lastName = "lastName"
         case firstName = "firstName"
+        case deviceID = "deviceID"
     
     }
     
@@ -37,6 +38,14 @@ class Users: BackendlessUser {
         }
     }
     
+    var deviceID:String? {
+        get {
+            return self.getProperty(propertyName.authData.rawValue) as? String ?? nil
+        }
+        set {
+            self.setProperty(propertyName.deviceID.rawValue, object: newValue)
+        }
+    }
     override var name:String? {
         get {
             return self.getProperty(propertyName.name.rawValue) as? String ?? nil
@@ -183,6 +192,9 @@ class Users: BackendlessUser {
         }
         if let bName = backendlessUser.getProperty(propertyName.name.rawValue) {
             self.name = bName as? String ?? ""
+        }
+        if let bDeviceID = backendlessUser.getProperty(propertyName.deviceID.rawValue) {
+            self.deviceID = bDeviceID as? String ?? nil
         }
         if let bLastName = backendlessUser.getProperty(propertyName.lastName.rawValue) {
             self.lastName = bLastName as? String ?? nil

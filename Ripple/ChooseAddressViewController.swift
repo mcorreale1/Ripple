@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import ORLocalizationSystem
 
-class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
+class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate{
     
     var titleMessage :String = ""
     var message :String = ""
@@ -25,12 +25,12 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     var pinAnnotationView:MKPinAnnotationView!
     
     var centerAnnotation:MKPointAnnotation!
-    
     var address: String = ""
     var event: RippleEvent?
     
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
+    var createEventDelegate:CreateEventViewDelegate?
     
     
     func chooseAddress(address: String, coordinate: CLLocationCoordinate2D){
@@ -88,6 +88,17 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     
     @IBAction func doneButtonClicked(sender:AnyObject) {
+        
+        let count = (self.navigationController?.viewControllers)!.count
+        let prevVC = self.navigationController!.viewControllers[count-2] as! CreateEventViewController
+        print(prevVC.description)
+        
+        createEventDelegate?.writeBackEventLocation(mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
+        
+//        prevVC.event?.latitude = mapView.centerCoordinate.latitude
+//        prevVC.event?.longitude = mapView.centerCoordinate.longitude
+        event?.latitude = mapView.centerCoordinate.latitude as! Double
+        event?.longitude = mapView.centerCoordinate.longitude as! Double
         self.navigationController?.popViewControllerAnimated(true)
     }
 
@@ -140,6 +151,9 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         localSearch.region = mapView.region
         localSearch.naturalLanguageQuery = searchText
     }
+    
+        
+
 
     /*
     // MARK: - Navigation
