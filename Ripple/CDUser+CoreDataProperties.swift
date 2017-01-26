@@ -39,5 +39,6 @@ extension CDUser {
     @NSManaged var outcomingReports: NSSet?
     @NSManaged var outcomingRequests: NSSet?
     @NSManaged var picture: CDPicture?
+    @NSManaged var deviceID: String?
 
 }

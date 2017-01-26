@@ -136,7 +136,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("registering device with token \(deviceToken)")
-        Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+        //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+        
 //        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 //        dispatch_async(dispatch_get_global_queue(priority, 0)) {
 //            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)

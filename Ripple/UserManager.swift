@@ -51,6 +51,12 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
+        
+        UserManager.me?.deviceID = Backendless.sharedInstance().messaging.getRegistration().deviceId
+        
+        print("dev id: "+(UserManager.me?.deviceID)!)
+        
+        UserManager.me?.save({(success, error) in })
     }
     
     func prepareData() {
