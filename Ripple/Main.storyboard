@@ -1793,9 +1793,11 @@ your face off.</string>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="PyU-q4-esM" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="20" id="3I2-QA-Owe"/>
+                                    <constraint firstAttribute="trailing" secondItem="88v-q6-vcJ" secondAttribute="trailing" id="44U-fy-vrh"/>
                                     <constraint firstItem="88v-q6-vcJ" firstAttribute="leading" secondItem="Iv3-B4-wtv" secondAttribute="trailing" constant="61.5" id="9e7-be-89H"/>
                                     <constraint firstAttribute="height" constant="189" id="CP2-BC-oxx"/>
                                     <constraint firstAttribute="bottom" secondItem="4m5-D6-f71" secondAttribute="bottom" constant="-55" id="HNa-BA-pQp"/>
+                                    <constraint firstItem="Y4U-Mo-fPf" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="1" id="HaN-bY-Xoe"/>
                                     <constraint firstItem="AMw-TL-ECA" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="59" id="Itx-bj-T3C"/>
                                     <constraint firstItem="Y4U-Mo-fPf" firstAttribute="centerY" secondItem="Iv3-B4-wtv" secondAttribute="centerY" constant="88.5" id="Jrv-je-cDg"/>
                                     <constraint firstItem="AMw-TL-ECA" firstAttribute="top" secondItem="Iv3-B4-wtv" secondAttribute="bottom" constant="8" symbolic="YES" id="Lm9-sK-5Y5"/>
