@@ -16,7 +16,11 @@ import ORLocalizationSystem
 import UITextView_Placeholder
 import ORCommonCode_Swift
 
-class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate, UIScrollViewDelegate {
+protocol CreateEventViewDelegate {
+    func writeBackEventLocation(latitude: Double,  longitude:Double)
+}
+
+class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, CreateEventViewDelegate {
 
     @IBOutlet weak var cityStateZipText: UITextField!
     @IBOutlet weak var streetAddressText: UITextField!
@@ -79,6 +83,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var priceEvent = Double()
     var isPrivateEvent = true
     var eventAddress = ""
+    var coordinate:CLLocationCoordinate2D!
     var event: RippleEvent?
     var wereInvitationsSent = false
     var zero = 0.0
@@ -199,13 +204,18 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         print("View appearing")
+        if event?.latitude != nil {
+            print("event lat: \(event!.latitude)")
+        }
         buttonSendInvitation.enabled = true
     }
     
     @IBAction func addressButtonClicked(sender: AnyObject) {
         let chooseAddressView = self.storyboard?.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
         chooseAddressView.event = self.event
+        chooseAddressView.createEventDelegate = self
         self.navigationController?.pushViewController(chooseAddressView, animated: true)
+        print("Returned to createEvent")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -1008,6 +1018,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
     }
     
+    func writeBackEventLocation(latitude: Double,  longitude:Double) {
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        print("coordinate: \(coordinate.latitude.description)  \(coordinate.longitude.description)")
+        
+    }
      //MARK: - Internal operations
     
 //    func updateAvatar(withNewAvatarURL avatarURL: String, storagePath: String, completion: ((Bool, NSError?) -> Void)?) {
@@ -1020,3 +1035,5 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        self.eventPictureImageView.image = image
 //    }
 }
+
+
