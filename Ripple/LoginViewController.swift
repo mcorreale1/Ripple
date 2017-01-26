@@ -104,6 +104,15 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         /*Only happens the first time a user uses the app,
         forces the user to accept privacy policy/terms of use
         */
+//    func subscribe() {
+//        do {
+//            let responder = Responder(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+//            let subscriptionOptions = SubscriptionOptions()
+//            let subscription = Backendless.sharedInstance().messagingService.subscribe("Messages", subscriptionResponder: responder, subscriptionOptions: subscriptionOptions)
+//            print("SUBSCRIPTION: \(subscription)")
+//        }
+//    }
+    
     func showUserAgree() {
         if UserManager().launchedBefore == false {
             let title = "Welcome to Pulse!"
@@ -128,6 +137,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             }))
             
             presentViewController(refreshAlert, animated: true, completion: nil)
+            self.subscribe()
         }
         
     }
