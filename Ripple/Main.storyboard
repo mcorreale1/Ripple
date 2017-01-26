@@ -310,10 +310,8 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHs-Cu-CSB">
                                         <rect key="frame" x="0.0" y="139" width="50" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="D27-xL-Hmg"/>
-                                            <constraint firstAttribute="height" constant="50" id="EPy-zQ-608"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="Me1-4k-WON"/>
-                                            <constraint firstAttribute="width" constant="50" id="zLH-3M-yHt"/>
+                                            <constraint firstAttribute="height" constant="50" id="U3R-hU-68P"/>
+                                            <constraint firstAttribute="width" constant="50" id="yD5-ew-L6j"/>
                                         </constraints>
                                         <state key="normal" image="follow_button_profile"/>
                                         <connections>
@@ -325,15 +323,14 @@
                                 <constraints>
                                     <constraint firstItem="cbK-R8-jIK" firstAttribute="top" secondItem="Y4g-04-eto" secondAttribute="bottom" constant="23" id="0bj-y8-b44"/>
                                     <constraint firstAttribute="bottom" secondItem="r7o-9D-elj" secondAttribute="bottom" constant="-55" id="Giq-iC-r7t"/>
-                                    <constraint firstItem="Y4g-04-eto" firstAttribute="leading" secondItem="oHs-Cu-CSB" secondAttribute="trailing" constant="61.5" id="Nbn-iD-JJa"/>
-                                    <constraint firstItem="oHs-Cu-CSB" firstAttribute="centerY" secondItem="BGJ-Kp-6Sd" secondAttribute="centerY" constant="69.5" id="NyP-5x-Woh"/>
                                     <constraint firstItem="cbK-R8-jIK" firstAttribute="centerX" secondItem="BGJ-Kp-6Sd" secondAttribute="centerX" id="Pgo-t7-evb"/>
                                     <constraint firstItem="r7o-9D-elj" firstAttribute="leading" secondItem="BGJ-Kp-6Sd" secondAttribute="leading" id="SqU-hO-rw7"/>
+                                    <constraint firstAttribute="bottom" secondItem="oHs-Cu-CSB" secondAttribute="bottom" id="TLh-IR-ZFZ"/>
                                     <constraint firstAttribute="height" constant="189" id="Tdg-rt-Clo"/>
                                     <constraint firstItem="Y4g-04-eto" firstAttribute="centerX" secondItem="BGJ-Kp-6Sd" secondAttribute="centerX" id="VVx-8v-1ad"/>
                                     <constraint firstAttribute="trailing" secondItem="r7o-9D-elj" secondAttribute="trailing" id="aL1-6C-X2h"/>
                                     <constraint firstItem="cbK-R8-jIK" firstAttribute="centerX" secondItem="BGJ-Kp-6Sd" secondAttribute="centerX" id="kTt-4L-xM8"/>
-                                    <constraint firstItem="oHs-Cu-CSB" firstAttribute="leading" secondItem="BGJ-Kp-6Sd" secondAttribute="leading" id="nH6-tL-DN3"/>
+                                    <constraint firstItem="oHs-Cu-CSB" firstAttribute="leading" secondItem="BGJ-Kp-6Sd" secondAttribute="leading" id="nGs-YI-aNm"/>
                                     <constraint firstItem="r7o-9D-elj" firstAttribute="top" secondItem="BGJ-Kp-6Sd" secondAttribute="top" id="rUX-O0-NBx"/>
                                     <constraint firstAttribute="bottom" secondItem="cbK-R8-jIK" secondAttribute="bottom" constant="25" id="tv0-U1-8bw"/>
                                     <constraint firstItem="Y4g-04-eto" firstAttribute="centerY" secondItem="BGJ-Kp-6Sd" secondAttribute="centerY" constant="-19" id="vu2-WA-Itp"/>
@@ -605,8 +602,25 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="cZ0-qE-M1F">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="hUq-iz-ON0">
                                         <rect key="frame" x="0.0" y="155" width="320" height="40"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hUq-iz-ON0" id="e2x-PW-cbs">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgQ-fG-asl">
+                                                    <rect key="frame" x="27" y="8" width="138" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="cZ0-qE-M1F">
+                                        <rect key="frame" x="0.0" y="195" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cZ0-qE-M1F" id="7A6-pU-2qt">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -623,7 +637,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="VRq-ge-AU8">
-                                        <rect key="frame" x="0.0" y="195" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="235" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VRq-ge-AU8" id="ry5-Jl-1xc">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -640,7 +654,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="P38-0F-u49">
-                                        <rect key="frame" x="0.0" y="235" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="275" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P38-0F-u49" id="JZP-Ce-Deg">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -661,7 +675,7 @@
                             <tableViewSection id="P3V-ct-mKH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="60" id="lHM-2t-ECc">
-                                        <rect key="frame" x="0.0" y="288" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="328" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lHM-2t-ECc" id="oMk-bE-V4Y">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -694,6 +708,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="hal-Fb-pDK"/>
                     <connections>
                         <outlet property="accountPrivacyLabel" destination="RqN-8N-6mX" id="6zD-iJ-To0"/>
+                        <outlet property="changePassword" destination="qgQ-fG-asl" id="dV0-ra-Cgv"/>
                         <outlet property="contactUsLabel" destination="Vfw-aX-uQY" id="Klz-Cp-EDx"/>
                         <outlet property="languageLabel" destination="rnl-H0-edg" id="mL9-LE-iel"/>
                         <outlet property="logOutLabel" destination="j32-HV-aqj" id="nmR-Dk-zMt"/>
@@ -1513,6 +1528,7 @@ your face off.</string>
                                             <constraint firstAttribute="height" constant="30" id="gUW-mU-bWs"/>
                                             <constraint firstAttribute="width" constant="30" id="qNz-5e-kkE"/>
                                         </constraints>
+                                        <state key="normal" image="CreateEventWp"/>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="YOb-zb-BEY">
                                         <rect key="frame" x="7" y="54" width="307" height="29"/>
@@ -1760,7 +1776,7 @@ your face off.</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88v-q6-vcJ">
-                                        <rect key="frame" x="270" y="138" width="50" height="50"/>
+                                        <rect key="frame" x="270" y="136" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2SI-HE-hSp"/>
                                             <constraint firstAttribute="width" constant="50" id="2s2-VO-nOz"/>
@@ -1774,16 +1790,14 @@ your face off.</string>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="PyU-q4-esM" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="20" id="3I2-QA-Owe"/>
-                                    <constraint firstAttribute="trailing" secondItem="88v-q6-vcJ" secondAttribute="trailing" id="44U-fy-vrh"/>
-                                    <constraint firstItem="88v-q6-vcJ" firstAttribute="leading" secondItem="Iv3-B4-wtv" secondAttribute="trailing" constant="61.5" id="9e7-be-89H"/>
                                     <constraint firstAttribute="height" constant="189" id="CP2-BC-oxx"/>
                                     <constraint firstAttribute="bottom" secondItem="4m5-D6-f71" secondAttribute="bottom" constant="-55" id="HNa-BA-pQp"/>
-                                    <constraint firstItem="Y4U-Mo-fPf" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="1" id="HaN-bY-Xoe"/>
                                     <constraint firstItem="AMw-TL-ECA" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="59" id="Itx-bj-T3C"/>
+                                    <constraint firstAttribute="trailing" secondItem="88v-q6-vcJ" secondAttribute="trailing" id="JeG-gt-fp6"/>
                                     <constraint firstItem="Y4U-Mo-fPf" firstAttribute="centerY" secondItem="Iv3-B4-wtv" secondAttribute="centerY" constant="88.5" id="Jrv-je-cDg"/>
+                                    <constraint firstItem="Y4U-Mo-fPf" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" constant="1" id="Kke-An-dWQ"/>
                                     <constraint firstItem="AMw-TL-ECA" firstAttribute="top" secondItem="Iv3-B4-wtv" secondAttribute="bottom" constant="8" symbolic="YES" id="Lm9-sK-5Y5"/>
                                     <constraint firstAttribute="trailing" secondItem="PyU-q4-esM" secondAttribute="trailing" constant="20" id="P2P-vZ-beu"/>
-                                    <constraint firstItem="Iv3-B4-wtv" firstAttribute="leading" secondItem="Y4U-Mo-fPf" secondAttribute="trailing" constant="60.5" id="S6T-px-6Hv"/>
                                     <constraint firstItem="Iv3-B4-wtv" firstAttribute="centerX" secondItem="ZkC-qe-o2P" secondAttribute="centerX" id="WWq-ob-onz"/>
                                     <constraint firstAttribute="trailing" secondItem="4m5-D6-f71" secondAttribute="trailing" id="aI6-sk-2x2"/>
                                     <constraint firstItem="AMw-TL-ECA" firstAttribute="bottom" secondItem="ZkC-qe-o2P" secondAttribute="bottomMargin" id="kGt-xP-EhD"/>
@@ -1792,7 +1806,7 @@ your face off.</string>
                                     <constraint firstItem="4m5-D6-f71" firstAttribute="leading" secondItem="ZkC-qe-o2P" secondAttribute="leading" id="vsh-lh-2JP"/>
                                     <constraint firstAttribute="trailing" secondItem="AMw-TL-ECA" secondAttribute="trailing" constant="58" id="vwv-gg-2Cm"/>
                                     <constraint firstAttribute="bottom" secondItem="PyU-q4-esM" secondAttribute="bottom" id="xtd-He-exc"/>
-                                    <constraint firstItem="88v-q6-vcJ" firstAttribute="centerY" secondItem="Iv3-B4-wtv" secondAttribute="centerY" constant="88.5" id="zCp-aV-K2I"/>
+                                    <constraint firstItem="88v-q6-vcJ" firstAttribute="centerY" secondItem="Iv3-B4-wtv" secondAttribute="centerY" constant="86.5" id="zCp-aV-K2I"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HWo-fM-zjf">
@@ -3756,6 +3770,7 @@ your face off.</string>
     <resources>
         <image name="BackgroundEvent" width="375" height="212"/>
         <image name="CellLineSpacer" width="375" height="2"/>
+        <image name="CreateEventWp" width="19" height="19"/>
         <image name="FacebookButton" width="229" height="45"/>
         <image name="GlobalIconMore" width="25" height="18"/>
         <image name="GlobalIconsMessages" width="27" height="25"/>
