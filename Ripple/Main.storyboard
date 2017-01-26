@@ -605,25 +605,8 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="hUq-iz-ON0">
-                                        <rect key="frame" x="0.0" y="155" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hUq-iz-ON0" id="e2x-PW-cbs">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgQ-fG-asl">
-                                                    <rect key="frame" x="27" y="8" width="138" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="cZ0-qE-M1F">
-                                        <rect key="frame" x="0.0" y="195" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="155" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cZ0-qE-M1F" id="7A6-pU-2qt">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -640,7 +623,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="VRq-ge-AU8">
-                                        <rect key="frame" x="0.0" y="235" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="195" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VRq-ge-AU8" id="ry5-Jl-1xc">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -657,7 +640,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" id="P38-0F-u49">
-                                        <rect key="frame" x="0.0" y="275" width="320" height="40"/>
+                                        <rect key="frame" x="0.0" y="235" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P38-0F-u49" id="JZP-Ce-Deg">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="39"/>
@@ -678,7 +661,7 @@
                             <tableViewSection id="P3V-ct-mKH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="60" id="lHM-2t-ECc">
-                                        <rect key="frame" x="0.0" y="328" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="288" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lHM-2t-ECc" id="oMk-bE-V4Y">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -711,7 +694,6 @@
                     <navigationItem key="navigationItem" title="Settings" id="hal-Fb-pDK"/>
                     <connections>
                         <outlet property="accountPrivacyLabel" destination="RqN-8N-6mX" id="6zD-iJ-To0"/>
-                        <outlet property="changePassword" destination="qgQ-fG-asl" id="dV0-ra-Cgv"/>
                         <outlet property="contactUsLabel" destination="Vfw-aX-uQY" id="Klz-Cp-EDx"/>
                         <outlet property="languageLabel" destination="rnl-H0-edg" id="mL9-LE-iel"/>
                         <outlet property="logOutLabel" destination="j32-HV-aqj" id="nmR-Dk-zMt"/>
@@ -1531,7 +1513,6 @@ your face off.</string>
                                             <constraint firstAttribute="height" constant="30" id="gUW-mU-bWs"/>
                                             <constraint firstAttribute="width" constant="30" id="qNz-5e-kkE"/>
                                         </constraints>
-                                        <state key="normal" image="CreateEventWp"/>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="YOb-zb-BEY">
                                         <rect key="frame" x="7" y="54" width="307" height="29"/>
@@ -3775,7 +3756,6 @@ your face off.</string>
     <resources>
         <image name="BackgroundEvent" width="375" height="212"/>
         <image name="CellLineSpacer" width="375" height="2"/>
-        <image name="CreateEventWp" width="19" height="19"/>
         <image name="FacebookButton" width="229" height="45"/>
         <image name="GlobalIconMore" width="25" height="18"/>
         <image name="GlobalIconsMessages" width="27" height="25"/>
