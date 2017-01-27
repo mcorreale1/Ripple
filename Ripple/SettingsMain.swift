@@ -15,7 +15,6 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
     @IBOutlet weak var accountPrivacyLabel: UILabel!
     @IBOutlet weak var pushNotificationLabel: UILabel!
     @IBOutlet weak var languageLabel: UILabel!
-    @IBOutlet weak var changePassword: UILabel!
     @IBOutlet weak var privacyPolicyLabel: UILabel!
     @IBOutlet weak var termsOfUseLabel: UILabel!
     @IBOutlet weak var contactUsLabel: UILabel!
@@ -42,7 +41,6 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
         accountPrivacyLabel.text = NSLocalizedString("Accountprivacy", comment: "Accountprivacy")
         pushNotificationLabel.text = NSLocalizedString("Pushnotification", comment: "Pushnotification")
         languageLabel.text = NSLocalizedString("Language", comment: "Language")
-        changePassword.text = NSLocalizedString("ChangePassword", comment: "ChangePassword")
         termsOfUseLabel.text = NSLocalizedString("TermsofUse", comment: "TermsofUse")
         contactUsLabel.text = NSLocalizedString("ContactUs", comment: "ContactUs")
         logOutLabel.text = NSLocalizedString("LofOut", comment: "LofOut")

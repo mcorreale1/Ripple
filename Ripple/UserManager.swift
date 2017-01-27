@@ -104,14 +104,12 @@ class UserManager: NSObject {
     
     //Adds user to "going" to event
     func goOnEvent(event: RippleEvent, completion: (Bool) -> Void) {
-        
         var contains = false
         for ev in currentUser().events {
             if ev.objectId == event.objectId {
                 contains = true
             }
         }
-        
         if !contains {
             currentUser().events.append(event)
         }

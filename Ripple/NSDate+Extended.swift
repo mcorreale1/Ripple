@@ -112,4 +112,10 @@ extension NSDate
         dateComponents.day = components.day
         return calendar.dateFromComponents(dateComponents)!
     }
+    
+    func modifyHour(hour:Int) -> NSDate {
+        let calender = NSCalendar.currentCalendar()
+        let newDate:NSDate = calender.dateByAddingUnit(.Hour, value: hour, toDate: self, options: NSCalendarOptions())!
+        return newDate
+    }
 }
