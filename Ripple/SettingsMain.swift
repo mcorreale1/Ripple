@@ -9,8 +9,9 @@
 import UIKit
 import ORLocalizationSystem
 import QuickLook
+import UserNotifications
 
-class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPreviewControllerDelegate {
+class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPreviewControllerDelegate, UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var accountPrivacyLabel: UILabel!
     @IBOutlet weak var pushNotificationLabel: UILabel!
@@ -21,6 +22,7 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
     @IBOutlet weak var logOutLabel: UILabel!
    
     var docName: String = ""
+    var PushNotificationStatus = true
     
     
     override func viewDidLoad() {
@@ -29,6 +31,10 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
         
     }
     
+    func cancelDeviceRegistration() {
+        Backendless.sharedInstance().messaging.unregisterDevice()
+          }
+    
     func prepareView() {
         let nav = self.navigationController?.navigationBar
         nav?.barTintColor = UIColor.whiteColor()
@@ -36,6 +42,7 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
         nav?.tintColor = titleColor
         nav?.titleTextAttributes = ([NSForegroundColorAttributeName: titleColor])
         privacySwitch.on = UserManager().currentUser().isPrivate
+        pushNotificationSwitch.on = PushNotificationStatus
         self.title = NSLocalizedString("Settings", comment: "Settings")
         accountPrivacyLabel.text = NSLocalizedString("Accountprivacy", comment: "Accountprivacy")
         pushNotificationLabel.text = NSLocalizedString("Pushnotification", comment: "Pushnotification")
@@ -47,6 +54,7 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
     
 
 
+    @IBOutlet weak var pushNotificationSwitch: UISwitch!
     @IBOutlet weak var privacySwitch: UISwitch!
     
     override func didReceiveMemoryWarning() {
@@ -117,11 +125,29 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
          tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
   
+    
     @IBAction func privacyChanged(sender: AnyObject) {
         UserManager().currentUser().isPrivate = privacySwitch.on
         UserManager().currentUser().save { (_, _) in }
     }
     
+    @IBAction func pushNotificationChanged(sender: AnyObject) {
+        if pushNotificationSwitch.on == true
+        {
+            PushNotificationStatus = false
+            cancelDeviceRegistration()
+        }
+        else if pushNotificationSwitch.on == false
+        {
+            PushNotificationStatus = true
+            Backendless.sharedInstance().messaging.registerForRemoteNotifications()
+//            if #available(iOS 10.0, *)
+//            {
+//                //this might be double registering
+//            UIApplication.sharedApplication().registerForRemoteNotifications()
+//            }
+        }
+    }
     func showChangeLanguageViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let changeLanguageViewController = storyboard.instantiateViewControllerWithIdentifier("ChangeLanguageViewController") as! SettingsTheLanguageViewController
