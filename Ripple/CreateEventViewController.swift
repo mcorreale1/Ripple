@@ -57,6 +57,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var location = ""
     var address = ""
     var city = ""
+    var eventDescription:String?
     
     
     let heightEventDateView: CGFloat = 180
@@ -72,6 +73,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var message :String = ""
 
     var eventCreating = false
+    var editingEvent = false
     
     deinit {
         or_removeObserver(self)
@@ -86,50 +88,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(CreateEventViewController.editNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = editButton
        // self.organizationNameLabel.text = organization!.name
-        if event?.name != nil {
-            //uploadImageButton.enabled = false
-//            buttonChooseDate.enabled = false
-//            buttonChooseDateEnd.enabled = false
-//            buttonChooseTime.enabled = false
-//            buttonChoosePrivacy.enabled = false
-//            buttonChoosePrice.enabled = false
-            //eventDescriptionTextView.isEditable = false
-            eventName = event!.name!
-            startTime =  event!.startDate
-            finishTime = event!.endDate
-            title = event!.name!
-            priceEvent = event!.cost
-            dayEvent = startTime
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "EEEE\nLLLL, dd"
-            //self.labelDateEvent.text = dateFormatter.stringFromDate(startTime!)
-           // self.labelDateEventEnd.text = dateFormatter.stringFromDate(finishTime!)
-           // self.organizationNameLabel.text = event?.organization?.name ?? ""
-
-            self.eventDescriptionTextView.text = event!.descr
-//            self.labelTimeEvent.text = startTime!.formatEventTime() + "-" + finishTime!.formatEventTime()
-//            //uploadImageLabel.hidden = true
-//            self.eventPriceLabel.text = "$" + String(event!.cost)
-            
-//            if event!.isPrivate == true {
-//                self.eventPrivacyLabel.text = NSLocalizedString("Private event", comment: "Private event")
-//                self.isPrivateEvent = true
-//            } else {
-//                self.eventPrivacyLabel.text = NSLocalizedString("Public event", comment: "Public event")
-//                self.isPrivateEvent = false
-//            }
-            
-//            PictureManager().loadPicture(event!.picture, inImageView: eventPictureImageView)
-//            eventPictureImageView.layer.cornerRadius = eventPictureImageView.frame.width / 2
-//            eventPictureImageView.layer.masksToBounds = true
-            
-//            eventAddressLabel.text = event!.address
-//            eventAddress = eventAddressLabel.text!
-            //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
-            if PulseNotification.PulseNotificationIsEventCreate.rawValue != "" && isPrivateEvent == false {
-               // checkMarkImageView.hidden = false
-                postPulsingButton.enabled = false
-            }
+        if (event != nil) {
+            editingEvent = true
+            preparePageWithEvent()
         } else {
             title = NSLocalizedString("Event Name", comment: "Event Name")
             //labelDateEvent.text = NSLocalizedString("Choose a Start Date", comment: "Choose a Start Date")
@@ -140,9 +101,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         
         //scrollView.or_enableKeyboardInsetHandling()
-        
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(handleTap(_:)))
         view.addGestureRecognizer(recognizer)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -159,6 +120,39 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
     }
     
+    func preparePageWithEvent() {
+    
+        //Prepare local vars
+        eventName = event!.name!
+        startTime =  event!.startDate
+        finishTime = event!.endDate
+        title = event!.name!
+        priceEvent = event!.cost
+        dayEvent = startTime
+        eventDescription = event!.descr
+        location = event!.location!
+        coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+        address = event!.address!
+        city = event!.city!
+        priceEvent = event!.cost
+        
+        //Prepare views
+        eventNameTextField.text = eventName
+        eventDescriptionTextView.text = eventDescription!
+        datePickerStartTime.date = startTime!
+        datePickerFinishTime.date = finishTime!
+        datePickerDateEvent.date = startTime!
+        eventPrivacy.on = event!.isPrivate
+        
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "EEEE\nLLLL, dd"
+        if PulseNotification.PulseNotificationIsEventCreate.rawValue != "" && isPrivateEvent == false {
+            // checkMarkImageView.hidden = false
+            postPulsingButton.enabled = false
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         eventPrivacy.on = false
@@ -169,6 +163,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         let chooseAddressView = self.storyboard?.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
         chooseAddressView.event = self.event
         chooseAddressView.createEventDelegate = self
+        if(editingEvent == true) {
+            chooseAddressView.coordinate = coordinate
+        }
         self.navigationController?.pushViewController(chooseAddressView, animated: true)
         print("Returned to createEvent")
     }
@@ -242,16 +239,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             textView.text = defaultEventDescirption
             textView.textColor = UIColor.lightGrayColor()
         }
-        //should this be saved there
-        if self.eventNameTextField.text != ""
-        {
-           self.eventName = self.eventNameTextField.text!
-        }
-        if self.eventDescriptionTextView.text != ""
-        {
-             event!.descr = self.eventDescriptionTextView.text
-        }
-
+        eventDescription = textView.text
+        
               return true
     }
     
@@ -587,13 +576,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     //MARK: - New functions for creating event
     
     func postEvent() {
-        if validateFields() {
-            createEvent() { (success) in
-                if(success) {
-                    self.eventCreating = false
-                    self.navigationController!.popViewControllerAnimated(true)
-                }
+        let completion = { (success:Bool) in
+            if(success) {
+                self.eventCreating = false
+                self.navigationController!.popViewControllerAnimated(true)
             }
+        }
+        if validateFields() {
+            editingEvent ? updateEvent(completion) : createEvent(completion)
         }
     }
     
@@ -618,6 +608,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             }
         }
         
+        if(editingEvent == true && event == nil) {
+            postEmptyFieldMessage("There is an error with your event. Please try again later", comment: "There is an error with your event. Please try again later")
+        }
+        
         //Refactor this eventually
         let calender = NSCalendar(calendarIdentifier: "gregorian")
         calender?.timeZone = NSTimeZone.systemTimeZone()
@@ -631,11 +625,20 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             return false
         }
         self.finishTime = startTime!.copy() as! NSDate
-        if(startTimeComponents.hour < endTimeComponents.hour) {
+        if(startTimeComponents.hour > endTimeComponents.hour) {
             self.finishTime? = self.finishTime!.tomorrow()
         }
         self.finishTime = calender!.dateBySettingHour(endTimeComponents.hour, minute: endTimeComponents.minute, second: 0, ofDate: self.finishTime!, options: NSCalendarOptions())
         
+        //Try to find address twice, if not just continue
+        lookupLocation()
+        if(self.city.isEmpty) {
+            lookupLocation()
+        }
+        return true
+    }
+    
+    func lookupLocation() {
         let geoLocation = CLGeocoder()
         let location = CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
         geoLocation.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
@@ -649,7 +652,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                 self?.address = address
             }
         }
-        return true
+        
     }
     
     func createEvent(completion: (success:Bool) -> Void) {
@@ -679,15 +682,40 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     self?.eventCreating = false
                                     if (success) {
                                         self?.event = rippleEvent
-                                        or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
+                                        or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
                                     } else {
                                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")
                                         self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
                                         self?.showAlert(self?.titleMessage, message: self?.message)
+                                        return
                                     }
-                                    self?.navigationController?.popViewControllerAnimated(true)
-                                    
+                                    completion(success: true)
+                                    //May need to uncomment
+                                    //self?.navigationController?.popViewControllerAnimated(true)
         })
+        
+    }
+    
+    func updateEvent(completion: (success:Bool) -> Void) {
+        if(self.eventCreating) {
+            return
+        }
+        self.eventCreating = true
+        self.showActivityIndicator()
+        EventManager().updateEvent(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in
+            self?.hideActivityIndicator()
+            self?.eventCreating = false
+            if(success) {
+                self?.event = rippleEvent
+                or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
+            } else {
+                self!.titleMessage = NSLocalizedString("Error", comment: "Error")
+                self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
+                self?.showAlert(self?.titleMessage, message: self?.message)
+                return
+            }
+            completion(success: true)
+        }
     }
 
     //MARK: - SOON TO BE DEPRECATED

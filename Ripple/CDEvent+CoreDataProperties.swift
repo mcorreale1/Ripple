@@ -14,7 +14,7 @@ import CoreData
 
 extension CDEvent {
 
-    @NSManaged var adderess: String?
+    @NSManaged var address: String?
     @NSManaged var cost: NSNumber?
     @NSManaged var descr: String?
     @NSManaged var endDate: NSDate?
@@ -30,5 +30,7 @@ extension CDEvent {
     @NSManaged var reports: NSSet?
     @NSManaged var usersBlacklisted: NSSet?
     @NSManaged var usersEvent: NSSet?
+    @NSManaged var location:String?
+    @NSManaged var city:String?
 
 }

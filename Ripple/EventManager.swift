@@ -125,11 +125,12 @@ class EventManager: NSObject {
         Runs completion on the list after it is assembled
     */
     func followingEvents(completion:([Dictionary<String, AnyObject>]) -> Void) {
+        print("in following")
         guard UserManager().currentUser().organizations.count > 0 else {
             completion([Dictionary<String, AnyObject>]())
             return
         }
-        
+        print("Continuing")
         var userOrgIds = [String]()
         for org in UserManager().currentUser().organizations {
             userOrgIds.append(org.objectId)
@@ -225,7 +226,7 @@ class EventManager: NSObject {
                             "needShowAccessory" : true])
         
         information.append(["icon" : "map_icon_event",
-                            "value" : event.address!,
+                            "value" : event.location!,
                             "needShowAccessory" : true])
         
         information.append(["icon" : "lock_icon_event",
@@ -299,7 +300,7 @@ class EventManager: NSObject {
         let options = QueryOptions()
         options.related = ["organization"]
         query.queryOptions = options
-        query.whereClause = "startDate > '\(NSDate())' and isPrivate = 'false'"
+        query.whereClause = "endDate > '\(NSDate())' and isPrivate = 'false'"
         
         RippleEvent().dataStore().find(query, response: { (collection) in
             var events = collection.data as? [RippleEvent] ?? [RippleEvent]()

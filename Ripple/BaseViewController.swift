@@ -46,9 +46,10 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func showOrganizationProfileViewController(organization: Organizations?, isNewOrg: Bool, fromInvite: Bool) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let orgProfileViewController = storyboard.instantiateViewControllerWithIdentifier("OrganizationProfileViewController") as! OrganizationProfileViewController
-        orgProfileViewController.organization = organization
         orgProfileViewController.editOrganization = isNewOrg
         orgProfileViewController.fromInviteScreen = fromInvite
+        orgProfileViewController.organization = organization
+        //navigationController?.presentViewController(orgProfileViewController, animated: true, completion: nil)
         navigationController?.showViewController(orgProfileViewController, sender: self)
     }
     

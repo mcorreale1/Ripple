@@ -12,6 +12,7 @@ import ORLocalizationSystem
 class EventDescriptionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     var event: RippleEvent?
+    var org: Organizations?
     var participants: [Users]?
     let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
     
@@ -20,8 +21,10 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     @IBOutlet weak var countGoingButton: UIButton!
     @IBOutlet weak var eventDescriptionLabel: UILabel!
     @IBOutlet weak var goButton: UIButton!
-    @IBOutlet weak var eventPictureImageView: ProfilePictureImageView!
-    @IBOutlet weak var hostedByLabel: UILabel!
+    @IBOutlet weak var eventNameLabel: UILabel!
+    @IBOutlet weak var viewOrgButton: UIButton!
+    @IBOutlet weak var startDate: UILabel!
+    @IBOutlet weak var startDay: UILabel!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -29,14 +32,17 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     var okText  :String = ""
     var goText  :String = ""
     var cancelText  :String = ""
-    
-    var eventInformation = [Dictionary<String, AnyObject>]()
+   
+    var tempEventInformation = [Dictionary<String, AnyObject>]()
+    var eventInformationTable = [Dictionary<String, AnyObject>]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         goingText = NSLocalizedString("Going", comment: "Going")
-        eventInformation = EventManager().eventInformation(event!)
+        tempEventInformation = EventManager().eventInformation(event!)
+        tempEventInformation.removeAtIndex(0)
+        tempEventInformation.removeAtIndex(0)
+        eventInformationTable = tempEventInformation
         self.countGoingButton.setTitle(nil, forState: .Normal)
         EventManager().eventParticipants(event!) {(users, error, event) in
             let title = String(users?.count ?? 0) + " " + (self.goingText ?? "")
@@ -63,6 +69,61 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         prepareViews()
     }
     
+    func monthNumberToName() -> String
+    {
+        let value = event!.startDate?.monthNumber()
+        var name = ""
+        if value == "01"
+        {
+            name = "Jan"
+        }
+        if value == "02"
+        {
+         name = "Feb"
+        }
+        if value == "03"
+        {
+            name = "Mar"
+        }
+        if value == "04"
+        {
+            name = "Apr"
+        }
+        if value == "05"
+        {
+            name = "May"
+        }
+        if value == "06"
+        {
+            name = "Jun"
+        }
+        if value == "07"
+        {
+            name = "Jul"
+        }
+        if value == "08"
+        {
+            name = "Aug"
+        }
+        if value == "09"
+        {
+            name = "Sep"
+        }
+        if value == "10"
+        {
+            name = "Oct"
+        }
+        if value == "11"
+        {
+            name = "Nov"
+        }
+        if value == "12"
+        {
+            name = "Dec"
+        }
+        return name
+    }
+    
     // MARK: - Helpers
     
     func prepareViews() {
@@ -72,10 +133,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
+        self.startDay.text = event?.startDate?.day()
+        self.startDate.text = monthNumberToName()
         self.eventDescriptionLabel.sizeToFit()
-        self.nameOrganizationLabel.text = event?.organization?.name
+        self.nameOrganizationLabel.text = event!.organization?.name!
+        self.nameOrganizationLabel.sizeToFit()
+        self.eventNameLabel.text = event!.name!
         
-        PictureManager().loadPicture(event?.picture, inImageView: eventPictureImageView)
         let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(sendReport))
         rightButton.tintColor = titleColor
         navigationItem.rightBarButtonItem = rightButton
@@ -162,12 +226,12 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return eventInformation.count
+        return eventInformationTable.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EventDetailCell") as! EventDetailTableViewCell
-        let partInformation = eventInformation[indexPath.row]
+        let partInformation = eventInformationTable[indexPath.row]
         
         cell.iconImageView.image = UIImage(named: partInformation["icon"] as! String)
         let needShowAccessory = partInformation["needShowAccessory"] as! Bool
@@ -188,7 +252,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 3 {
+        if indexPath.row == 1 {
             var titleMessage = NSLocalizedString("Address", comment: "Address")
             let message = NSLocalizedString("Would you like to see it on map?", comment: "Would you like to see it on map?")
             let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
@@ -220,6 +284,10 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     
     // MARK: - Actions
+    
+    @IBAction func viewOrgButtonTouched(sender: AnyObject) {
+        showOrganizationProfileViewController(event!.organization, isNewOrg: false, fromInvite: false)
+    }
 
     @IBAction func settingsTouched(sender: AnyObject) {
         self.performSegueWithIdentifier("showSettingsEventScreen", sender: self)
