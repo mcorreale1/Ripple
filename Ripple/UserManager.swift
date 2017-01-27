@@ -90,6 +90,18 @@ class UserManager: NSObject {
         }
     }
     
+    var seenInvitationsBefore: Bool {
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "seenInvitationsBefore")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        get {
+            let launched = NSUserDefaults.standardUserDefaults().boolForKey("seenInvitationsBefore")
+            return launched
+        }
+    }
+
+    
     var radiusSearch: Float {
         set {
             NSUserDefaults.standardUserDefaults().setFloat(newValue, forKey: "radiusSearch")
