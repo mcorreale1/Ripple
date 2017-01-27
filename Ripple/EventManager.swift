@@ -300,7 +300,7 @@ class EventManager: NSObject {
         let options = QueryOptions()
         options.related = ["organization"]
         query.queryOptions = options
-        query.whereClause = "startDate > '\(NSDate())' and isPrivate = 'false'"
+        query.whereClause = "endDate > '\(NSDate())' and isPrivate = 'false'"
         
         RippleEvent().dataStore().find(query, response: { (collection) in
             var events = collection.data as? [RippleEvent] ?? [RippleEvent]()

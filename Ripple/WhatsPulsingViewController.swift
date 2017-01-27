@@ -67,7 +67,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
    
     private func prepareNavigationBar() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        
         let searchbarbutton = UIBarButtonItem(image: UIImage(named: "SearchBar"), style: .Plain, target: self, action: #selector(WhatsPulsingViewController.seguetoSearch(_:)))
         searchbarbutton.tintColor = titleColor
         navigationItem.rightBarButtonItem = searchbarbutton
@@ -109,7 +108,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
         
         tableView.delegate = self
-        print("source: \(tableView.dataSource?)")
+        print("source: \(tableView.dataSource)")
     }
     
     //why does it hide the activity indicator when loading the following events but not for pulsing events?
