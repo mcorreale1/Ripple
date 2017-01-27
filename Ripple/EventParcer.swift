@@ -23,7 +23,7 @@ class EventParcer : NSObject {
             cdEvent!.serverID = event.objectId
         }
         
-        cdEvent!.adderess = event.address
+        cdEvent!.address = event.address
         cdEvent!.cost = event.cost
         cdEvent!.descr = event.descr
         cdEvent!.endDate = event.endDate
@@ -33,6 +33,9 @@ class EventParcer : NSObject {
         cdEvent!.name = event.name
         cdEvent!.serverID = event.objectId
         cdEvent!.startDate = event.startDate
+        cdEvent!.location = event.location
+        cdEvent!.address = event.address
+        cdEvent!.city = event.city
         
         
         if event.picture != nil {
@@ -60,8 +63,11 @@ class EventParcer : NSObject {
         event.cost = cdEvent.cost!.doubleValue
         event.startDate = cdEvent.startDate
         event.endDate = cdEvent.endDate
-        event.address = cdEvent.adderess
+        event.address = cdEvent.address
         event.isPrivate = cdEvent.isPrivate?.boolValue ?? false
+        event.location = cdEvent.location
+        event.address = cdEvent.address
+        event.city = cdEvent.city
         
         if let cdOrganization = cdEvent.organization {
             event.organization = OrganizationParcer().fetchBackendlessEntity(fromCDOrganization: cdOrganization)

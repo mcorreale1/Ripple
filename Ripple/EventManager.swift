@@ -125,11 +125,12 @@ class EventManager: NSObject {
         Runs completion on the list after it is assembled
     */
     func followingEvents(completion:([Dictionary<String, AnyObject>]) -> Void) {
+        print("in following")
         guard UserManager().currentUser().organizations.count > 0 else {
             completion([Dictionary<String, AnyObject>]())
             return
         }
-        
+        print("Continuing")
         var userOrgIds = [String]()
         for org in UserManager().currentUser().organizations {
             userOrgIds.append(org.objectId)

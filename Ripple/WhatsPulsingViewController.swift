@@ -49,6 +49,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Loading view")
         prepareData()
         prepareLocationManager()
         prepareTableView()
@@ -94,9 +95,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.sortedGeolocationAllEvents()
+        //self.sortedGeolocationAllEvents()
         tableView.reloadData()
         prepareNavigationBar()
+        print("sorted count: \(sortedByGeolocationAllEventsPlan.count)")
     }
     
 
@@ -113,6 +115,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         self.showActivityIndicator()
         
         EventManager().pulsingEvents() { (result) in
+            print("pulsing: \(result)")
             self.allEventsPlan = result
             self.sortedGeolocationAllEvents()
             self.tableView.reloadData()
@@ -120,12 +123,22 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         EventManager().followingEvents() { (events) in
+             print("following: \(events)")
             self.hideActivityIndicator()
             self.followingPlan = events
             self.following = self.updateEvents(events)
             self.tableView.reloadData()
             self.scrollTableViewAtFirstCell()
         }
+//        EventManager().eventPlansForUser(UserManager().currentUser(), isMe: true) { (events) in
+//            print("Plan for user: \(events)")
+//            self.hideActivityIndicator()
+//            self.followingPlan = events
+//            self.following = self.updateEvents(events)
+//            self.tableView.reloadData()
+//            self.scrollTableViewAtFirstCell()
+//        }
+        print("Following count: " + followingPlan.count.description)
     }
     
     func prepareLocationManager() {
@@ -181,6 +194,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
+        print("sorted plan: \(sortedByGeolocationAllEventsPlan)")
         tableView.reloadData()
     }
     
@@ -284,10 +298,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        
-        
-            if segmentedControl.selectedSegmentIndex == 0 {
+        if segmentedControl.selectedSegmentIndex == 0 {
                 return filteredFollowing.count
             } else if segmentedControl.selectedSegmentIndex == 1 {
                 return filteredPulsing.count
@@ -310,6 +321,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        print("finding events")
         let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
         var sectionData = Dictionary<String, AnyObject>()
         
@@ -322,6 +334,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 sectionData = followingPlan[indexPath.section]
             } else if segmentedControl.selectedSegmentIndex == 2 {
                 sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
+                print("section data: \(sectionData)")
             }
             switch sectionData["title"] as! String {
             case TypeEventsSection.Today.rawValue:
@@ -337,6 +350,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             event = pulsing[indexPath.row]
             dateFormat = "dd MMM h:mm a"
         }
+        print("event name: \(event!.name)")
         
         cell.eventNameLabel.text = event!.name
         cell.eventDescriptionLabel.text = event!.descr
@@ -418,8 +432,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         } else if segmentedControl.selectedSegmentIndex == 2 {
             sectionData = sortedByGeolocationAllEventsPlan[section]
         }
-        
+    
         header.titleHeader.text = sectionData["title"] as? String
+        print("header title: \(header.titleHeader.text)")
         return header
     }
     
