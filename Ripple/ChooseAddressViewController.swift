@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import ORLocalizationSystem
 
-class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate{
+class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate,UIGestureRecognizerDelegate {
     
     var titleMessage :String = ""
     var message :String = ""
@@ -31,32 +31,9 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
     var createEventDelegate:CreateEventViewDelegate?
+    var trackingCenter = true
+    var location:String?
     
-    
-    func chooseAddress(address: String, coordinate: CLLocationCoordinate2D){
-        localSearchRequest = MKLocalSearchRequest()
-        localSearchRequest.naturalLanguageQuery = address
-        localSearch = MKLocalSearch(request: localSearchRequest)
-        localSearch.startWithCompletionHandler { [weak self] (localSearchResponse, error) -> Void in
-            
-            if localSearchResponse == nil{
-                self!.message = NSLocalizedString("Place Not Found", comment: "Place Not Found")
-                let alertController = UIAlertController(title: nil, message: self!.message, preferredStyle: UIAlertControllerStyle.Alert)
-                self!.titleMessage = NSLocalizedString("Dismiss", comment: "Dismiss")
-                alertController.addAction(UIAlertAction(title: self!.titleMessage, style: UIAlertActionStyle.Default, handler: nil))
-                self!.presentViewController(alertController, animated: true, completion: nil)
-                return
-            }
-            //3
-            self!.pointAnnotation = MKPointAnnotation()
-            self!.pointAnnotation.title = address
-            self!.pointAnnotation.coordinate = coordinate            
-            
-            self!.pinAnnotationView = MKPinAnnotationView(annotation: self!.pointAnnotation, reuseIdentifier: nil)
-            self!.mapView.centerCoordinate = self!.pointAnnotation.coordinate
-            self!.mapView.addAnnotation(self!.pinAnnotationView.annotation!)
-        }
-    }
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var doneButton:UIButton!
@@ -71,6 +48,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         mapView.delegate = self
         mapView.showsBuildings = true
         
+        if(locationManager.location == nil) {
+            locationManager.requestAlwaysAuthorization()
+            locationManager.requestLocation()
+        }
+        
         
         if(event != nil && event!.location != nil) {
             coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
@@ -84,24 +66,45 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         let region = MKCoordinateRegionMake(coordinate, span)
         self.mapView.setRegion(region, animated: true)
         //self.chooseAddress(address, coordinate: coordinate)
+        
+        let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap:"))
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
     }
     
     
     @IBAction func doneButtonClicked(sender:AnyObject) {
+        let alert = UIAlertController(title: "Name this location", message: message, preferredStyle: .Alert)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .Default) { (_) in
+            if let field = alert.textFields![0] as? UITextField {
+                self.location = field.text
+                self.createEventDelegate?.writeBackEventLocation(self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude, location: self.location!)
+                self.navigationController?.popViewControllerAnimated(true)
+
+            }
+        }
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = self.searchBar.text
+        })
+        alert.addAction(confirmAction)
+        self.presentViewController(alert, animated: true, completion: {})
         
-        let count = (self.navigationController?.viewControllers)!.count
-        let prevVC = self.navigationController!.viewControllers[count-2] as! CreateEventViewController
-        print(prevVC.description)
-        
-        createEventDelegate?.writeBackEventLocation(mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
-        
-//        prevVC.event?.latitude = mapView.centerCoordinate.latitude
-//        prevVC.event?.longitude = mapView.centerCoordinate.longitude
-        event?.latitude = mapView.centerCoordinate.latitude as! Double
-        event?.longitude = mapView.centerCoordinate.longitude as! Double
-        self.navigationController?.popViewControllerAnimated(true)
     }
 
+    func showLocationEnterAlert(message:String) {
+        let alert = UIAlertController(title: "Name this location", message: message, preferredStyle: .Alert)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .Default) { (_) in
+            if let field = alert.textFields![0] as? UITextField {
+                self.location = field.text
+            }
+        }
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = self.searchBar.text
+        })
+        alert.addAction(confirmAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     func prepareSearchBar() {
         //searchBar.sizeToFit()
         searchBar.delegate = self
@@ -138,21 +141,59 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     // MARK: - MapView functions
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        centerAnnotation.coordinate = mapView.centerCoordinate
+        if(trackingCenter) {
+            centerAnnotation.coordinate = mapView.centerCoordinate
+        }
     }
 
     // MARK: - searchbar functions
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        
-    }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        let localSearch = MKLocalSearchRequest()
-        localSearch.region = mapView.region
-        localSearch.naturalLanguageQuery = searchText
+        if(searchText == "") {
+            print("empty")
+            trackingCenter = true
+        }
     }
     
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        guard let text = searchBar.text else {
+            return
+        }
         
+        trackingCenter = false
+        let localSearch = MKLocalSearchRequest()
+        localSearch.region = mapView.region
+        localSearch.naturalLanguageQuery = text
+        let search = MKLocalSearch(request: localSearch)
+        search.startWithCompletionHandler({ [weak self] (response, _) in
+            guard let response = response else {
+                return
+            }
+            if(response.mapItems.count > 0) {
+                let firstCoordinate:CLLocationCoordinate2D = response.mapItems[0].placemark.coordinate
+                self?.mapView.setCenterCoordinate(firstCoordinate, animated: true)
+                self?.centerAnnotation.coordinate = firstCoordinate
+                for item in response.mapItems {
+                    print("Name: \(item.name) Location: \(item.placemark.coordinate.latitude)")
+                }
+            }
+        })
+        view.endEditing(true)
+        searchBar.endEditing(true)
+    }
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        trackingCenter = true
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        hideKeyboard()
+    }
+    
+    func hideKeyboard() {
+        view.endEditing(true)
+        searchBar.endEditing(true)
+    }
+    
 
 
     /*

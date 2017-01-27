@@ -53,8 +53,8 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        eventPictureImageView.layer.cornerRadius = eventPictureImageView.bounds.height / 2
-        hostedByLabel.text = NSLocalizedString("Hosted by", comment: "Hosted by")
+        //eventPictureImageView.layer.cornerRadius = eventPictureImageView.bounds.height / 2
+        //hostedByLabel.text = NSLocalizedString("Hosted by", comment: "Hosted by")
         goingText = NSLocalizedString("Going", comment: "Going")
         okText = NSLocalizedString("Ok", comment: "Ok")
         goText = NSLocalizedString("Go", comment: "Go")
