@@ -16,7 +16,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var noEventLabel: UITextView!
     
-    
     // the dictionaries to hold the events
     var followingPlan = [Dictionary<String, AnyObject>]()
     var allEventsPlan = [Dictionary<String, AnyObject>]()
@@ -108,6 +107,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
+        
+        tableView.delegate = self
+        print("source: \(tableView.dataSource?)")
     }
     
     //why does it hide the activity indicator when loading the following events but not for pulsing events?
