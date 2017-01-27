@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Tog-yn-M03">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Tog-yn-M03">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -930,7 +930,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="777"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6or-am-q6g">
-                                                <rect key="frame" x="162.5" y="374" width="50" height="29"/>
+                                                <rect key="frame" x="163" y="374" width="50" height="29"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                 <state key="normal" title="# Going">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -993,6 +993,12 @@
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calander_icon_event" translatesAutoresizingMaskIntoConstraints="NO" id="owZ-nF-DT4">
                                                         <rect key="frame" x="241" y="60" width="91" height="91"/>
                                                     </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feb" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jYL-nB-jfq">
+                                                        <rect key="frame" x="251" y="70" width="70" height="69"/>
+                                                        <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="24"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Cv-rM-ucy">
                                                         <rect key="frame" x="8" y="66" width="219" height="41"/>
                                                         <constraints>
@@ -1010,15 +1016,19 @@
                                                     <constraint firstItem="ooT-A8-Arx" firstAttribute="leading" secondItem="ktE-bl-wG4" secondAttribute="leading" constant="8" id="1aM-P9-lQu"/>
                                                     <constraint firstAttribute="trailing" secondItem="ooT-A8-Arx" secondAttribute="trailing" constant="136" id="71v-3l-Bkg"/>
                                                     <constraint firstItem="IcB-FH-04h" firstAttribute="top" secondItem="ktE-bl-wG4" secondAttribute="top" id="G7Y-ae-Mh6"/>
+                                                    <constraint firstItem="jYL-nB-jfq" firstAttribute="top" secondItem="ktE-bl-wG4" secondAttribute="top" constant="70" id="GP8-wk-uDb"/>
                                                     <constraint firstAttribute="trailing" secondItem="IcB-FH-04h" secondAttribute="trailing" id="GQ7-bu-iTG"/>
                                                     <constraint firstItem="DQk-gu-SaD" firstAttribute="bottom" secondItem="IcB-FH-04h" secondAttribute="bottom" id="H0J-7q-MYv"/>
                                                     <constraint firstItem="ooT-A8-Arx" firstAttribute="top" secondItem="3Cv-rM-ucy" secondAttribute="bottom" constant="15" id="PFH-s2-Dqm"/>
+                                                    <constraint firstItem="jYL-nB-jfq" firstAttribute="leading" secondItem="ooT-A8-Arx" secondAttribute="trailing" constant="12" id="QWZ-hQ-9cO"/>
                                                     <constraint firstItem="3Cv-rM-ucy" firstAttribute="top" secondItem="ktE-bl-wG4" secondAttribute="top" constant="66" id="S7x-j3-Hwc"/>
                                                     <constraint firstAttribute="height" constant="243" id="W9z-cT-rCX"/>
+                                                    <constraint firstItem="jYL-nB-jfq" firstAttribute="baseline" secondItem="ooT-A8-Arx" secondAttribute="firstBaseline" id="XTU-NQ-XTM"/>
                                                     <constraint firstItem="DQk-gu-SaD" firstAttribute="top" secondItem="owZ-nF-DT4" secondAttribute="bottom" constant="38" id="Yir-Br-CDS"/>
                                                     <constraint firstItem="IcB-FH-04h" firstAttribute="leading" secondItem="ktE-bl-wG4" secondAttribute="leading" id="bdo-RX-SrG"/>
                                                     <constraint firstItem="DQk-gu-SaD" firstAttribute="leading" secondItem="ktE-bl-wG4" secondAttribute="leading" id="dQS-51-9rG"/>
                                                     <constraint firstItem="3Cv-rM-ucy" firstAttribute="leading" secondItem="ooT-A8-Arx" secondAttribute="leading" id="f1s-hq-S47"/>
+                                                    <constraint firstItem="jYL-nB-jfq" firstAttribute="centerX" secondItem="owZ-nF-DT4" secondAttribute="centerX" id="geG-j5-26w"/>
                                                     <constraint firstItem="owZ-nF-DT4" firstAttribute="bottom" secondItem="ooT-A8-Arx" secondAttribute="bottom" id="t3X-LW-20g"/>
                                                     <constraint firstItem="owZ-nF-DT4" firstAttribute="top" secondItem="ktE-bl-wG4" secondAttribute="top" constant="60" id="wSG-Wm-2Tl"/>
                                                     <constraint firstAttribute="trailing" secondItem="owZ-nF-DT4" secondAttribute="trailing" constant="43" id="xfJ-gQ-10b"/>
@@ -1090,6 +1100,7 @@
                         <outlet property="eventNameLabel" destination="3Cv-rM-ucy" id="l70-jQ-aq6"/>
                         <outlet property="goButton" destination="Tf3-ry-G0F" id="wjy-ge-Vtx"/>
                         <outlet property="nameOrganizationLabel" destination="ooT-A8-Arx" id="Z2T-6x-g6L"/>
+                        <outlet property="startDate" destination="jYL-nB-jfq" id="1Wm-u3-r1q"/>
                         <outlet property="tableView" destination="xr0-Mi-hFk" id="Svn-D3-k1i"/>
                         <outlet property="view" destination="Mhn-YY-wuv" id="QPX-ZM-gdU"/>
                         <outlet property="viewOrgButton" destination="436-Ll-3sK" id="XvT-ed-978"/>
@@ -2155,7 +2166,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="mgt-km-EmT"/>
                         <viewControllerLayoutGuide type="bottom" id="22o-eZ-NiZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="2N0-Pn-78G">
+                    <view key="view" contentMode="scaleToFill" id="2N0-Pn-78G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2290,7 +2301,7 @@ your face off.</string>
             <objects>
                 <navigationController id="beQ-hE-ozb" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="GlobalIconsSchedule" id="GoZ-zU-NJd"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="teR-d4-loZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="teR-d4-loZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">

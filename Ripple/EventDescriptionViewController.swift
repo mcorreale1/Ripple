@@ -23,6 +23,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     @IBOutlet weak var goButton: UIButton!
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var viewOrgButton: UIButton!
+    @IBOutlet weak var startDate: UILabel!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -30,13 +31,17 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     var okText  :String = ""
     var goText  :String = ""
     var cancelText  :String = ""
-    
-    var eventInformation = [Dictionary<String, AnyObject>]()
+   
+    var tempEventInformation = [Dictionary<String, AnyObject>]()
+    var eventInformationTable = [Dictionary<String, AnyObject>]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         goingText = NSLocalizedString("Going", comment: "Going")
-        eventInformation = EventManager().eventInformation(event!)
+        tempEventInformation = EventManager().eventInformation(event!)
+        tempEventInformation.removeAtIndex(0)
+        tempEventInformation.removeAtIndex(0)
+        eventInformationTable = tempEventInformation
         self.countGoingButton.setTitle(nil, forState: .Normal)
         EventManager().eventParticipants(event!) {(users, error, event) in
             let title = String(users?.count ?? 0) + " " + (self.goingText ?? "")
@@ -72,6 +77,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
+        self.startDate.text = event?.startDate?.day()
         self.eventDescriptionLabel.sizeToFit()
         self.nameOrganizationLabel.text = event!.organization?.name!
         self.nameOrganizationLabel.sizeToFit()
@@ -163,12 +169,12 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return eventInformation.count
+        return eventInformationTable.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EventDetailCell") as! EventDetailTableViewCell
-        let partInformation = eventInformation[indexPath.row]
+        let partInformation = eventInformationTable[indexPath.row]
         
         cell.iconImageView.image = UIImage(named: partInformation["icon"] as! String)
         let needShowAccessory = partInformation["needShowAccessory"] as! Bool
@@ -189,7 +195,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 3 {
+        if indexPath.row == 1 {
             var titleMessage = NSLocalizedString("Address", comment: "Address")
             let message = NSLocalizedString("Would you like to see it on map?", comment: "Would you like to see it on map?")
             let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
