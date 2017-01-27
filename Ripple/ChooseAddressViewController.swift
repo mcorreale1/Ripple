@@ -31,7 +31,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
     var createEventDelegate:CreateEventViewDelegate?
-    var trackingCenter = true
+    var trackingCenter = false
     var location:String?
     
     
@@ -56,11 +56,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         
         if(event != nil && event!.location != nil) {
             coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
-            trackingCenter = false
             searchBar.hidden = true
             doneButton.titleLabel?.text = "Back"
-        } else {
+        } else if (coordinate == nil) {
             coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
+            trackingCenter = true
         }
         centerAnnotation = MKPointAnnotation()
         centerAnnotation.coordinate = coordinate

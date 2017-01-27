@@ -706,12 +706,8 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         
         if eventsButton.selected {
             let event = orgEvents[index]
-            
-            if isLeader() || isAdmin() {
-                showEditVentViewController(organization, event: event)
-            } else {
-                showEventDescriptionViewController(event)
-            }
+            print("event name" + event.name!)
+            showEventDescriptionViewController(event)
         } else {
             let user = orgMembers[index]
             showProfileViewController(user)

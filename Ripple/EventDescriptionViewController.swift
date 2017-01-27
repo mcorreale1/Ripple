@@ -34,8 +34,6 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(event?.name)
-
         goingText = NSLocalizedString("Going", comment: "Going")
         eventInformation = EventManager().eventInformation(event!)
         self.countGoingButton.setTitle(nil, forState: .Normal)
@@ -74,7 +72,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
         self.eventDescriptionLabel.sizeToFit()
-        self.nameOrganizationLabel.text = "\(event!.organization!.name!)"
+        self.nameOrganizationLabel.text = event!.organization?.name!
         self.nameOrganizationLabel.sizeToFit()
         self.eventNameLabel.text = event!.name!
         
