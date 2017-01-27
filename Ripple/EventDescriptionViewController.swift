@@ -24,6 +24,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var viewOrgButton: UIButton!
     @IBOutlet weak var startDate: UILabel!
+    @IBOutlet weak var startDay: UILabel!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -68,6 +69,61 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         prepareViews()
     }
     
+    func monthNumberToName() -> String
+    {
+        let value = event!.startDate?.monthNumber()
+        var name = ""
+        if value == "01"
+        {
+            name = "Jan"
+        }
+        if value == "02"
+        {
+         name = "Feb"
+        }
+        if value == "03"
+        {
+            name = "Mar"
+        }
+        if value == "04"
+        {
+            name = "Apr"
+        }
+        if value == "05"
+        {
+            name = "May"
+        }
+        if value == "06"
+        {
+            name = "Jun"
+        }
+        if value == "07"
+        {
+            name = "Jul"
+        }
+        if value == "08"
+        {
+            name = "Aug"
+        }
+        if value == "09"
+        {
+            name = "Sep"
+        }
+        if value == "10"
+        {
+            name = "Oct"
+        }
+        if value == "11"
+        {
+            name = "Nov"
+        }
+        if value == "12"
+        {
+            name = "Dec"
+        }
+        return name
+    }
+    
     // MARK: - Helpers
     
     func prepareViews() {
@@ -77,7 +133,8 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
-        self.startDate.text = event?.startDate?.day()
+        self.startDay.text = event?.startDate?.day()
+        self.startDate.text = monthNumberToName()
         self.eventDescriptionLabel.sizeToFit()
         self.nameOrganizationLabel.text = event!.organization?.name!
         self.nameOrganizationLabel.sizeToFit()
