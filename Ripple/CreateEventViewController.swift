@@ -647,14 +647,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                 self?.address = address
             }
         }
-        if(self.city.isEmpty || self.address.isEmpty) {
-            postEmptyFieldMessage("Please re=enter a valid location", comment: "Please reenter a valid location" )
-            return false
-        }
-        
-        print("City" + self.city)
-        print("address" + self.address)
-        
         return true
     }
     
@@ -691,6 +683,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                         self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
                                         self?.showAlert(self?.titleMessage, message: self?.message)
                                     }
+                                    self?.navigationController?.popViewControllerAnimated(true)
                                     
         })
     }

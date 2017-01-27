@@ -94,7 +94,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareNotification() {
         let localNotification = UILocalNotification()
-        localNotification.fireDate = event!.startDate
+        localNotification.fireDate = event!.startDate?.modifyHour(-1)
         localNotification.alertTitle = event!.name
         localNotification.alertBody = event!.description
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
