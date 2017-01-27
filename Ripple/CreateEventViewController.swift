@@ -132,7 +132,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             }
         } else {
             title = NSLocalizedString("Event Name", comment: "Event Name")
-            let eventDescriptionText = "You can write a description up to 250 characters."
+            //labelDateEvent.text = NSLocalizedString("Choose a Start Date", comment: "Choose a Start Date")
+      //      labelDateEventEnd.text = NSLocalizedString("Choose an End Date", comment: "Choose an End Date")
+            let eventDescriptionText = "e.g. Come eat some doughnuts and win some money!"
             eventDescriptionTextView.placeholder = NSLocalizedString(eventDescriptionText, comment: eventDescriptionText)
             
         }
