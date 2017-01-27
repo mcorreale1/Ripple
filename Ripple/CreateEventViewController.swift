@@ -645,7 +645,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             guard let place = placemarks?[0] else {
                 return
             }
-            if let city = place.addgressDictionary!["City"] as? String {
+            if let city = place.addressDictionary!["City"] as? String {
                 self?.city = city
             }
             if let address = place.addressDictionary!["Thoroughfare"] as? String {

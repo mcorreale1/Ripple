@@ -150,7 +150,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             if self.isMe() || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
                 EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe(), completion: {[weak self] (plan) in
                     self?.plans = plan
-                    print("\(plan)")
+                    print("Plan: \(plan)")
                     self?.tableView.reloadData()
                 })
                 
@@ -536,8 +536,15 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionData = plans[indexPath.section]
             let events = sectionData["events"] as! [RippleEvent]
             let event = events[indexPath.row]
-            showEventDescriptionViewController(event)
-            
+            OrganizationManager().fetch(event.organization!) { [weak self] (organization, error) in
+                guard let org:Organizations = organization else {
+                    self?.showAlert("Error showing event", message: "Error showing event. Please view event through its organization page")
+                    return
+                }
+                event.organization = org
+                print("org name: \(event.organization?.leaderId)")
+                self?.showEventDescriptionViewController(event)
+            }
         } else if orgsButton.selected {
             if indexPath.row == 0 && isMe() {
                 showOrganizationProfileViewController(nil, isNewOrg: true, fromInvite: false)

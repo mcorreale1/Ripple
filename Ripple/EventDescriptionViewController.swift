@@ -223,7 +223,6 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     // MARK: - Actions
     
     @IBAction func viewOrgButtonTouched(sender: AnyObject) {
-        print("event org: \(event!.organization?.name)")
         showOrganizationProfileViewController(event!.organization, isNewOrg: false, fromInvite: false)
     }
 
