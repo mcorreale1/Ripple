@@ -680,6 +680,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     @IBAction func followTouched(sender: AnyObject) {
         showActivityIndicator()
         
+       
         if UserManager().alreadyFollowOnUser(selectedUser!) {
             UserManager().unfollow(selectedUser!, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()
@@ -693,13 +694,21 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             UserManager().followingOnUser(selectedUser!, completion: {[weak self] (success) in
                 self?.delegate?.followCompletedOnUser(self?.selectedUser)
                 self?.hideActivityIndicator()
-                
+               
                 if success {
+                    if self!.selectedUser?.isPrivate == true
+                    {
+                        self?.showAlert("", message: "A request to follow has been sent")
+                    }
+                    else
+                    {
                     self?.showAlert("", message: "The profile has been added.")
+                    }
                 }
                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
             })
         }
+      
     }
     
     @IBAction func messageTouched(sender: AnyObject) {

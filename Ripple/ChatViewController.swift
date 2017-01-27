@@ -203,6 +203,7 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
     
     func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
         
+        
         let deliveryOptions = DeliveryOptions()
         deliveryOptions.pushSinglecast = [deviceId]
         
@@ -238,6 +239,10 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
             if channel != nil {
                 self?.channel = channel!
                 self?.prepareData()
+                let deviceID = channel!.userAddressee()?.getProperty("deviceID") as? String
+                let name = channel!.userAddressee()?.getProperty("name") as? String
+                
+                self!.publishMessageAsPushNotificationSync(name! + "sent you a message", deviceId: deviceID!)
                 
             }
         }

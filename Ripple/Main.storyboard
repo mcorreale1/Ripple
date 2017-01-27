@@ -2038,7 +2038,7 @@ your face off.</string>
             <objects>
                 <navigationController id="kdK-Vy-U5m" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="GlobalIconsMessages" id="oRO-aH-Zj6"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nGz-Ho-zL3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nGz-Ho-zL3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2131,7 +2131,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="mgt-km-EmT"/>
                         <viewControllerLayoutGuide type="bottom" id="22o-eZ-NiZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2N0-Pn-78G">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="2N0-Pn-78G">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
