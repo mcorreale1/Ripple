@@ -12,6 +12,7 @@ import ORLocalizationSystem
 class EventDescriptionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     var event: RippleEvent?
+    var org: Organizations?
     var participants: [Users]?
     let titleColor = UIColor.init(red: 40/255, green: 19/255, blue: 76/255, alpha: 1)
     
@@ -222,7 +223,8 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     // MARK: - Actions
     
     @IBAction func viewOrgButtonTouched(sender: AnyObject) {
-        self.showOrganizationProfileViewController(event!.organization!, isNewOrg: false, fromInvite: false)
+        print("event org: \(event!.organization?.name)")
+        showOrganizationProfileViewController(event!.organization, isNewOrg: false, fromInvite: false)
     }
 
     @IBAction func settingsTouched(sender: AnyObject) {

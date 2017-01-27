@@ -694,7 +694,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let index = isLeader() || isAdmin() ? indexPath.row - 1 : indexPath.row
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
         if (isLeader() || isAdmin()) && indexPath.row == 0 {
             if eventsButton.selected {
                 showCreateEventViewController(organization)
@@ -706,7 +705,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         
         if eventsButton.selected {
             let event = orgEvents[index]
-            print("event name" + event.name!)
+            event.organization = self.organization
             showEventDescriptionViewController(event)
         } else {
             let user = orgMembers[index]

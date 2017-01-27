@@ -630,20 +630,29 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         self.finishTime = calender!.dateBySettingHour(endTimeComponents.hour, minute: endTimeComponents.minute, second: 0, ofDate: self.finishTime!, options: NSCalendarOptions())
         
+        //Try to find address twice, if not just continue
+        lookupLocation()
+        if(self.city.isEmpty) {
+            lookupLocation()
+        }
+        return true
+    }
+    
+    func lookupLocation() {
         let geoLocation = CLGeocoder()
         let location = CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
         geoLocation.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
             guard let place = placemarks?[0] else {
                 return
             }
-            if let city = place.addressDictionary!["City"] as? String {
+            if let city = place.addgressDictionary!["City"] as? String {
                 self?.city = city
             }
             if let address = place.addressDictionary!["Thoroughfare"] as? String {
                 self?.address = address
             }
         }
-        return true
+        
     }
     
     func createEvent(completion: (success:Bool) -> Void) {
