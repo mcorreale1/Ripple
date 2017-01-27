@@ -55,9 +55,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         if selectedUser == nil {
             selectedUser = UserManager().currentUser()
         }
-
-        
-       
         let title1 = NSLocalizedString("Following", comment: "Following")
         let title2 = NSLocalizedString("Pulsing", comment: "Pulsing")
         let title3 = "Nearby"

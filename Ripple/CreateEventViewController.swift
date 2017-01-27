@@ -57,6 +57,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var location = ""
     var address = ""
     var city = ""
+    var eventDescription:String?
     
     
     let heightEventDateView: CGFloat = 180
@@ -140,9 +141,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         
         //scrollView.or_enableKeyboardInsetHandling()
-        
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(handleTap(_:)))
         view.addGestureRecognizer(recognizer)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -242,16 +243,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             textView.text = defaultEventDescirption
             textView.textColor = UIColor.lightGrayColor()
         }
-        //should this be saved there
-        if self.eventNameTextField.text != ""
-        {
-           self.eventName = self.eventNameTextField.text!
-        }
-        if self.eventDescriptionTextView.text != ""
-        {
-             event!.descr = self.eventDescriptionTextView.text
-        }
-
+        eventDescription = textView.text
+        
               return true
     }
     

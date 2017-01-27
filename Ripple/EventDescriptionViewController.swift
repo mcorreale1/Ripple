@@ -20,8 +20,8 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     @IBOutlet weak var countGoingButton: UIButton!
     @IBOutlet weak var eventDescriptionLabel: UILabel!
     @IBOutlet weak var goButton: UIButton!
-    @IBOutlet weak var eventPictureImageView: ProfilePictureImageView!
-    @IBOutlet weak var hostedByLabel: UILabel!
+    @IBOutlet weak var eventNameLabel: UILabel!
+    @IBOutlet weak var viewOrgButton: UIButton!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -34,6 +34,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(event?.name)
 
         goingText = NSLocalizedString("Going", comment: "Going")
         eventInformation = EventManager().eventInformation(event!)
@@ -73,9 +74,10 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
         self.eventDescriptionLabel.sizeToFit()
-        self.nameOrganizationLabel.text = event?.organization?.name
+        self.nameOrganizationLabel.text = "\(event!.organization!.name!)"
+        self.nameOrganizationLabel.sizeToFit()
+        self.eventNameLabel.text = event!.name!
         
-        PictureManager().loadPicture(event?.picture, inImageView: eventPictureImageView)
         let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(sendReport))
         rightButton.tintColor = titleColor
         navigationItem.rightBarButtonItem = rightButton
@@ -220,6 +222,10 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     
     // MARK: - Actions
+    
+    @IBAction func viewOrgButtonTouched(sender: AnyObject) {
+        self.showOrganizationProfileViewController(event!.organization!, isNewOrg: false, fromInvite: false)
+    }
 
     @IBAction func settingsTouched(sender: AnyObject) {
         self.performSegueWithIdentifier("showSettingsEventScreen", sender: self)

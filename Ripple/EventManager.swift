@@ -225,7 +225,7 @@ class EventManager: NSObject {
                             "needShowAccessory" : true])
         
         information.append(["icon" : "map_icon_event",
-                            "value" : event.address!,
+                            "value" : event.location!,
                             "needShowAccessory" : true])
         
         information.append(["icon" : "lock_icon_event",

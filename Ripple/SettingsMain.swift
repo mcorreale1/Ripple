@@ -18,7 +18,6 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
     @IBOutlet weak var privacyPolicyLabel: UILabel!
     @IBOutlet weak var termsOfUseLabel: UILabel!
     @IBOutlet weak var contactUsLabel: UILabel!
-    
     @IBOutlet weak var logOutLabel: UILabel!
    
     var docName: String = ""
@@ -80,22 +79,22 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
             if indexPath.row == 2 {
                 self.showChangeLanguageViewController()
             }
+//            if indexPath.row == 3 {
+//                if FBSDKAccessToken.currentAccessToken() != nil{
+//                    showErrorChangePasswordAlert()
+//                    tableView.reloadData()
+//                } else {
+//                    self.showChangePasswordViewController()
+//                }
+//            }
             if indexPath.row == 3 {
-                if FBSDKAccessToken.currentAccessToken() != nil{
-                    showErrorChangePasswordAlert()
-                    tableView.reloadData()
-                } else {
-                    self.showChangePasswordViewController()
-                }
-            }
-            if indexPath.row == 4 {
                 docName = "Privacy Policy"
                 let preview = QLPreviewController()
                  preview.dataSource = self
                  preview.delegate = self
                 self.presentViewController(preview, animated: false, completion: nil)
             }
-            if indexPath.row == 5 {
+            if indexPath.row == 4 {
                 docName = "Terms of Use"
                 let preview = QLPreviewController()
                 preview.dataSource = self
@@ -104,7 +103,7 @@ class SettingsMain: UITableViewController, QLPreviewControllerDataSource,QLPrevi
                 
                 //self.showTermsOfUseViewController()
             }
-            if indexPath.row == 6 {
+            if indexPath.row == 5 {
                 let email = "jettiinc123@gmail.com"
                 let url = NSURL(string: "mailto:\(email)")
                 UIApplication.sharedApplication().openURL(url!)
