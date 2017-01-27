@@ -17,8 +17,9 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
+    var invitationAlertHasBeenDisplayed = false
     let calendarManager = JTCalendarManager()
-    let todayColor = UIColor.init(red: 216/255, green: 92/255, blue: 94/255, alpha: 1)
+    let todayColor = UIColor.init(red: 97/255, green: 19/255, blue: 255/255, alpha: 1)
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
     
@@ -346,6 +347,25 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     let userManager: UserManager = {
         return UserManager()
     }()
+    func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
+        
+        
+        let deliveryOptions = DeliveryOptions()
+        deliveryOptions.pushSinglecast = [deviceId]
+        
+        let publishOptions = PublishOptions()
+        publishOptions.assignHeaders(["ios-text":"You have receieved a new message from"])
+        var error: Fault?
+        let messageStatus = Backendless.sharedInstance().messaging.publish("default", message: message,publishOptions:publishOptions,deliveryOptions:deliveryOptions,error: &error)
+        if error == nil {
+            print("MessageStatus = \(messageStatus.status) ['\(messageStatus.messageId)']")
+            return messageStatus
+        }
+        else {
+            print("Server reported an error: \(error)")
+            return nil
+        }
+    }
     
     //accepts the invitation and then removes it from the invitation list
     func acceptInvitationTouched(indexPath: NSIndexPath) {
@@ -354,6 +374,9 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
             
             userManager.confirmFollowingRequest(withID: requestDetails.requestID, withCompletion: { [weak self] (success) in
                 if success {
+                    let user = UserManager().currentUser().name
+                    let deviceID = requestDetails.fromUser.getProperty("deviceID") as? String
+                    self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID!)
                     self?.showAlert("Success".localized(), message: "You have a new follower!".localized())
                     self?.followingRequests.removeAtIndex(indexPath.row)
                     self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
@@ -394,6 +417,21 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     @IBAction func valueSegmentedControleChanged(sender: UISegmentedControl) {
         prepareData()
         tableView.hidden = sender.selectedSegmentIndex == 1
+        
+        if sender.selectedSegmentIndex == 0
+        {
+            if invitationAlertHasBeenDisplayed == false {
+                
+                invitationAlertHasBeenDisplayed = true
+            let title = "Slide Right to see your options for invitiations"
+            let message = ""
+            let refreshAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default   , handler: { (action: UIAlertAction!) in
+                
+            }))
+            self.presentViewController(refreshAlert, animated: true, completion: nil)
+        }
+       }
     }
     
     // MARK: - Navigation

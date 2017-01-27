@@ -53,7 +53,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
-       
     }
     
     /*The first time a user uses the app they are forced to
@@ -105,6 +104,15 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         /*Only happens the first time a user uses the app,
         forces the user to accept privacy policy/terms of use
         */
+//    func subscribe() {
+//        do {
+//            let responder = Responder(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+//            let subscriptionOptions = SubscriptionOptions()
+//            let subscription = Backendless.sharedInstance().messagingService.subscribe("Messages", subscriptionResponder: responder, subscriptionOptions: subscriptionOptions)
+//            print("SUBSCRIPTION: \(subscription)")
+//        }
+//    }
+    
     func showUserAgree() {
         if UserManager().launchedBefore == false {
             let title = "Welcome to Pulse!"

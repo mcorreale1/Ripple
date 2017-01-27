@@ -355,24 +355,6 @@ class EventManager: NSObject {
             }
         })
 
-        
-//        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
-//            guard error == nil else {
-//                completion(false, nil)
-//                return
-//            }
-//            
-//            guard imageURL != nil else {
-//                completion(false, nil)
-//                return
-//            }
-//            
-//            let eventPicture = event.picture ?? Pictures()
-//            eventPicture.imageURL = imageURL
-//            eventPicture.storagePath = storagePath
-//            event.picture = eventPicture
-//            
-//                    }
     }
     
     func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
@@ -389,40 +371,6 @@ class EventManager: NSObject {
         event.descr = description
         event.organization = organization
         event.picture = event.organization?.picture
-        
-//        PictureManager().uploadImage(picture) { (imageURL, storagePath, error) in
-//            guard error == nil else {
-//                completion(false, nil)
-//                return
-//            }
-//            
-//            guard imageURL != nil else {
-//                completion(false, nil)
-//                return
-//            }
-//            
-//            let eventPicture = event.picture ?? Pictures()
-//            eventPicture.imageURL = imageURL
-//            eventPicture.storagePath = storagePath
-//            
-//            eventPicture.save({ (savedPicture, error) in
-//                guard error == nil else {
-//                    completion(false, nil)
-//                    return
-//                }
-//                
-//                event.picture = savedPicture as? Pictures
-//                
-//                event.save({ (entity, error) in
-//                    guard error == nil else {
-//                        completion(false, nil)
-//                        return
-//                    }
-//                    
-//                    completion(true, entity as? RippleEvent)
-//                })
-//            })
-//        }
     }
     
     func pulsingEvents(completion: ([Dictionary<String, AnyObject>]) -> Void) {

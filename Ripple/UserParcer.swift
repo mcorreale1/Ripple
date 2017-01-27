@@ -39,6 +39,7 @@ class UserParcer : NSObject {
         cdUser!.firstName = user.firstName
         cdUser!.lastName = user.lastName
         cdUser!.name = user.name
+        cdUser!.deviceID = user.deviceID
         
         if user.picture != nil {
             cdUser!.picture = PictureParcer().fetchCoreDataEntity(fromPicture: user.picture!, withContext: context)
@@ -95,6 +96,7 @@ class UserParcer : NSObject {
         user.firstName = cdUser.firstName
         user.lastName = cdUser.lastName
         user.descr = cdUser.descr
+        user.deviceID = cdUser.deviceID
         
         if let cdPicture = cdUser.picture {
             user.picture = PictureParcer().fetchBackendlessEntity(fromCDPicture: cdPicture)

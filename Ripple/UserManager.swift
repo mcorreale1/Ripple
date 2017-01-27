@@ -51,6 +51,13 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
+        
+        print("setting id")
+        UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+        
+        print("dev id: "+(UserManager.me?.deviceID)!)
+        
+        UserManager.me?.save({(success, error) in })
     }
     
     func prepareData() {
@@ -97,14 +104,12 @@ class UserManager: NSObject {
     
     //Adds user to "going" to event
     func goOnEvent(event: RippleEvent, completion: (Bool) -> Void) {
-        
         var contains = false
         for ev in currentUser().events {
             if ev.objectId == event.objectId {
                 contains = true
             }
         }
-        
         if !contains {
             currentUser().events.append(event)
         }

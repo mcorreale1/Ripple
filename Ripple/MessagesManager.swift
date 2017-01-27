@@ -90,7 +90,7 @@ class MessagesManager: NSObject {
         }
         
         let publishOptions = PublishOptions()
-        publishOptions.addHeader("ios-sound", value: "default")
+        publishOptions.addHeader("ios-alert", value: "default")
         
         let message = (UserManager().currentUser().name ?? "") + ": " + textMessage
         

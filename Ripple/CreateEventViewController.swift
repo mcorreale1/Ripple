@@ -16,57 +16,29 @@ import ORLocalizationSystem
 import UITextView_Placeholder
 import ORCommonCode_Swift
 
-class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate, UIScrollViewDelegate {
+protocol CreateEventViewDelegate {
+    func writeBackEventLocation(latitude: Double,  longitude:Double, location:String)
+}
 
-    @IBOutlet weak var cityStateZipText: UITextField!
-    @IBOutlet weak var streetAddressText: UITextField!
-    @IBOutlet weak var locationTextField: UITextField!
+class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, CreateEventViewDelegate {
+
     @IBOutlet weak var eventPrivacy: UISwitch!
     @IBOutlet weak var isFreeSwitch: UISwitch!
     @IBOutlet weak var eventNameTextField: UITextField!
-    //@IBOutlet weak var scrollView: UIScrollView! //not sure how to deal with this
- //   @IBOutlet weak var layoutHeightEventDate: NSLayoutConstraint!
-   // @IBOutlet weak var layoutHeightEventTime: NSLayoutConstraint!
-    
     @IBOutlet weak var priceOfEvent: UITextField!
-    //@IBOutlet weak var layoutHeightEventDateEnd: NSLayoutConstraint!
-    
-    @IBOutlet weak var dataPickerEndEvent: UIDatePicker!
     @IBOutlet weak var datePickerDateEvent: UIDatePicker!
-   // @IBOutlet weak var labelDateEvent: UILabel!
-    //@IBOutlet weak var labelDateEventEnd: UILabel!
-    
     @IBOutlet weak var datePickerStartTime: UIDatePicker!
     @IBOutlet weak var datePickerFinishTime: UIDatePicker!
     @IBOutlet weak var eventDescriptionTextView: UITextView!
-    
-    //@IBOutlet weak var labelTimeEvent: UILabel!
-    //@IBOutlet weak var organizationNameLabel: UILabel!
-    //@IBOutlet weak var countGoingLabel: UILabel!
-    
-    
-    //@IBOutlet weak var uploadImageButton: UIButton!
-    
-    //@IBOutlet weak var uploadImageLabel: UILabel!
-    //@IBOutlet weak var eventPictureImageView: ProfilePictureImageView!
-    
-    //@IBOutlet weak var eventPriceLabel: UILabel!
-    //@IBOutlet weak var eventPrivacyLabel: UILabel!
-    //@IBOutlet weak var eventAddressLabel: UILabel!
-    
-//    @IBOutlet weak var buttonChooseDate: UIButton!
-//    @IBOutlet weak var buttonChooseDateEnd: UIButton!
-//    @IBOutlet weak var buttonChooseTime: UIButton!
-//    @IBOutlet weak var buttonChooseAddress: UIButton!
-//    @IBOutlet weak var buttonChoosePrivacy: UIButton!
-//    @IBOutlet weak var buttonChoosePrice: UIButton!
     @IBOutlet weak var buttonSendInvitation: UIBarButtonItem!
+    @IBOutlet weak var scrollView: UIScrollView!
     
    // @IBOutlet weak var checkMarkImageView: UIImageView!
     @IBOutlet weak var postPulsingButton: UIBarButtonItem!
     //@IBOutlet weak var heughtPostPulse: NSLayoutConstraint!
    // @IBOutlet weak var hostedBy: UILabel!
     
+    @IBOutlet weak var addressButton: UIButton!
     let warningColor = UIColor.init(red: 210/255, green: 36/255, blue: 22/255, alpha: 0.7)
     
     var organization: Organizations?
@@ -78,9 +50,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var priceEvent = Double()
     var isPrivateEvent = true
     var eventAddress = ""
+    var coordinate:CLLocationCoordinate2D!
     var event: RippleEvent?
     var wereInvitationsSent = false
     var zero = 0.0
+    var location = ""
+    var address = ""
+    var city = ""
+    
     
     let heightEventDateView: CGFloat = 180
     let maxLengthEventDescription = 251
@@ -105,12 +82,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         eventPrivacy.on = true
         isFreeSwitch.on = true
         or_addObserver(self, selector: #selector(onEventSendInvitationsNotification), name: PulseNotification.PulseNotificationEventSendInvitations.rawValue)
-        
         eventDescriptionTextView.delegate = self
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(CreateEventViewController.editNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = editButton
        // self.organizationNameLabel.text = organization!.name
-        
         if event?.name != nil {
             //uploadImageButton.enabled = false
 //            buttonChooseDate.enabled = false
@@ -118,7 +93,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //            buttonChooseTime.enabled = false
 //            buttonChoosePrivacy.enabled = false
 //            buttonChoosePrice.enabled = false
-            eventDescriptionTextView.editable = false
+            //eventDescriptionTextView.isEditable = false
             eventName = event!.name!
             startTime =  event!.startDate
             finishTime = event!.endDate
@@ -129,8 +104,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             dateFormatter.dateFormat = "EEEE\nLLLL, dd"
             //self.labelDateEvent.text = dateFormatter.stringFromDate(startTime!)
            // self.labelDateEventEnd.text = dateFormatter.stringFromDate(finishTime!)
-            dayEventEnd = dataPickerEndEvent.date
-            dayEvent = dataPickerEndEvent.date
            // self.organizationNameLabel.text = event?.organization?.name ?? ""
 
             self.eventDescriptionTextView.text = event!.descr
@@ -153,7 +126,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //            eventAddressLabel.text = event!.address
 //            eventAddress = eventAddressLabel.text!
             //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
-            if PulseNotification.PulseNotificationIsEveentCreate.rawValue != "" && isPrivateEvent == false {
+            if PulseNotification.PulseNotificationIsEventCreate.rawValue != "" && isPrivateEvent == false {
                // checkMarkImageView.hidden = false
                 postPulsingButton.enabled = false
             }
@@ -161,15 +134,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             title = NSLocalizedString("Event Name", comment: "Event Name")
             //labelDateEvent.text = NSLocalizedString("Choose a Start Date", comment: "Choose a Start Date")
       //      labelDateEventEnd.text = NSLocalizedString("Choose an End Date", comment: "Choose an End Date")
-            let eventDescriptionText = "You can write a description up to 250 characters."
+            let eventDescriptionText = "e.g. Come eat some doughnuts and win some money!"
             eventDescriptionTextView.placeholder = NSLocalizedString(eventDescriptionText, comment: eventDescriptionText)
-            eventDescriptionTextView.placeholderColor = UIColor.lightGrayColor()
-//            labelTimeEvent.text = NSLocalizedString("Choose a Time", comment: "Choose a Time")
-//            //uploadImageLabel.text = NSLocalizedString("Upload Image", comment: "Upload Image")
-//            eventPriceLabel.text = NSLocalizedString("Choose Price", comment: "Choose Price")
-//            eventPrivacyLabel.text = NSLocalizedString("Choose Privacy", comment: "Choose Privacy")
-//            eventAddressLabel.text = NSLocalizedString("Choose an Address", comment: "Choose an Address")
-            //hostedBy.text = NSLocalizedString("Hosted by", comment: "Hosted by")
+            
         }
         
         //scrollView.or_enableKeyboardInsetHandling()
@@ -194,7 +161,16 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        eventPrivacy.on = false
         buttonSendInvitation.enabled = true
+    }
+    
+    @IBAction func addressButtonClicked(sender: AnyObject) {
+        let chooseAddressView = self.storyboard?.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
+        chooseAddressView.event = self.event
+        chooseAddressView.createEventDelegate = self
+        self.navigationController?.pushViewController(chooseAddressView, animated: true)
+        print("Returned to createEvent")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -204,136 +180,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         hideKeyboard()
     }
     
-    func emptyFields() -> Bool {
-        var emptyFields = false
-        
-        if eventName == "" {
-            emptyFields = true
-        }
-        if locationTextField.text == ""
-        {
-            emptyFields = true
-
-        }
-        
-        if cityStateZipText.text == ""
-        {
-            emptyFields = true
-
-        }
-        
-        if streetAddressText.text == ""
-        {
-            emptyFields = true
-   
-        }
-        
-        if isFreeSwitch.on == false
-        {
-            if priceOfEvent.text == ""
-            {
-                emptyFields = true
-            }
-        }
-        
-//        if dayEvent == nil {
-//            emptyFields = true
-//            buttonChooseDate.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseDate.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if dayEventEnd == nil {
-//            emptyFields = true
-//            buttonChooseDateEnd.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseDateEnd.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if (dayEvent?.timeIntervalSince1970 > dayEventEnd?.timeIntervalSince1970) {
-//            emptyFields = true
-//            buttonChooseDate.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseDate.backgroundColor = UIColor.clearColor()
-//            })
-//            emptyFields = true
-//            buttonChooseDateEnd.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseDateEnd.backgroundColor = UIColor.clearColor()
-//            })
-//
-//        }
-//        
-//        if(dayEvent?.timeIntervalSince1970 == dayEventEnd?.timeIntervalSince1970){
-//            if (startTime != nil && finishTime != nil){
-//                if (( startTime!.earlierDate(finishTime!)) ==  finishTime){
-//                    emptyFields = true
-//                    buttonChooseTime.backgroundColor = warningColor
-//                    UIView.animateWithDuration(0.35, animations: {
-//                        self.buttonChooseTime.backgroundColor = UIColor.clearColor()
-//                    })
-//                }
-//            } else { emptyFields = true }
-//        }
-//        
-//        if startTime == nil || finishTime == nil {
-//            emptyFields = true
-//            buttonChooseTime.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseTime.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if eventDescriptionTextView.text == defaultEventDescirption {
-//            emptyFields = true
-//            eventDescriptionTextView.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.eventDescriptionTextView.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if eventAddressLabel.text == "Choose an Address" {
-//            emptyFields = true
-//            buttonChooseAddress.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChooseAddress.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if eventPrivacyLabel.text == "Choose Privacy" {
-//            emptyFields = true
-//            buttonChoosePrivacy.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChoosePrivacy.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-//        
-//        if eventPriceLabel.text == "Choose Price" {
-//            emptyFields = true
-//            buttonChoosePrice.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.buttonChoosePrice.backgroundColor = UIColor.clearColor()
-//            })
-//        }
-        
-//        if eventPictureImageView.image == nil {
-//            emptyFields = true
-//            eventPictureImageView.backgroundColor = warningColor
-//            UIView.animateWithDuration(0.35, animations: {
-//                self.eventPictureImageView.backgroundColor = UIColor.whiteColor()
-//            })
-//        }
-        
-        if emptyFields == true {
-            self.titleMessage = NSLocalizedString("Error", comment: "Error")
-            self.message = NSLocalizedString("The event was not created. Please, fill in all the fields", comment: "The event was not created. Please, fill in all the fields")
-            self.showAlert(self.titleMessage, message: self.message)
-        }
-        
-        return emptyFields
+    func postEmptyFieldMessage(message:String, comment:String) {
+        self.titleMessage = NSLocalizedString("Error Creating Event", comment: "Error")
+        self.message = NSLocalizedString(message, comment: comment)
+        self.showAlert(self.titleMessage, message: self.message)
     }
+    
+    
     @IBAction func isEventFree(sender: AnyObject) {
         if isFreeSwitch.on == true
         {
@@ -353,7 +206,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         {
             event?.isPrivate = false
         }
-        
     }
     @IBAction func priceOfEventTouched(sender: AnyObject) {
         
@@ -399,20 +251,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         {
              event!.descr = self.eventDescriptionTextView.text
         }
-        if cityStateZipText != ""
-        {
-           
-            
-            event?.city = self.cityStateZipText.text
-        }
-         if streetAddressText  != ""
-         {
-             event?.address = self.streetAddressText.text
-        }
-         if  locationTextField != ""
-         {
-            event?.location = self.locationTextField.text
-        }
+
               return true
     }
     
@@ -513,6 +352,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        }
 //    }
 //    
+    
+    @IBAction func saveEventNameTouched(sender: AnyObject) {
+        hideKeyboard()
+        if(eventNameTextField.text != nil) {
+            eventName = eventNameTextField.text!
+        }
+    }
+    
     @IBAction func saveEventDayTouched(sender: AnyObject) {
         hideKeyboard()
         let currentDate: NSDate = NSDate()
@@ -533,202 +380,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     @IBAction func saveEventDayEndTouched(sender: AnyObject) {
         hideKeyboard()
-        let currentDate: NSDate = NSDate()
-        //showEventDayEndViewTouched(sender)
-        let compareDate = NSCalendar.currentCalendar().compareDate( dataPickerEndEvent.date, toDate: currentDate,
-                                                                    toUnitGranularity: .Day)
-        
-        if (compareDate == .OrderedDescending) || (compareDate == .OrderedSame) {
-            dayEventEnd = dataPickerEndEvent.date
-          //  labelDateEventEnd.text = dataPickerEndEvent.date.formatEventDay()
-        } else {
-            titleMessage = NSLocalizedString("Please, choose another date for this event", comment: "Please, choose another date for this event")
-            message = NSLocalizedString("Selected date must be after the current date", comment: "Selected date must be after the current date")
-            self.showAlert(titleMessage, message: message)
-        }
-        
     }
-//    @IBAction func showEventTimeTouched(sender: AnyObject) {
-//        hideKeyboard()
-//        layoutHeightEventTime.constant = layoutHeightEventTime.constant == heightEventDateView ? 0 : heightEventDateView
-//        UIView.animateWithDuration(0.4) {
-//            self.view.layoutIfNeeded()
-//        }
-//    }
     
     @IBAction func saveEventTimeTouched(sender: AnyObject) {
         hideKeyboard()
-        //showEventTimeTouched(sender)
-        startTime = datePickerStartTime.date
-        finishTime = datePickerFinishTime.date
-        if (( startTime!.earlierDate(finishTime!)) !=  finishTime)||(dayEvent?.timeIntervalSince1970 != dayEventEnd?.timeIntervalSince1970) {
-            //labelTimeEvent.text = startTime!.formatEventTime() + "-" + finishTime!.formatEventTime()
-        }
-        else{
-            titleMessage = NSLocalizedString("Please, choose a valid period of time for this event.", comment: "Please, choose a valid period of time for this event.")
-            self.showAlert(titleMessage, message: "")
-        }
     }
     
-//    @IBAction func chooseAddressTouched(sender: AnyObject) {
-//        if (buttonChooseDate.enabled == false) {
-//                var titleMessage = NSLocalizedString("Address", comment: "Address")
-//                let message = NSLocalizedString("Would you like to see it on map?", comment: "Would you like to see it on map?")
-//                let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
-//                titleMessage = NSLocalizedString("Cancel", comment: "Cancel")
-//                let cancelAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in }
-//                titleMessage = NSLocalizedString("OK", comment: "OK")
-//                let okAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Default) {[weak self] (result : UIAlertAction) -> Void in
-//                    if self == nil {
-//                        return
-//                    }
-//                    self?.showAddressViewController(self!.event!)
-//                }
-//                alertController.addAction(cancelAction)
-//                alertController.addAction(okAction)
-//                self.presentViewController(alertController, animated: true, completion: nil)
-//        } else {
-//            hideKeyboard()
-//            titleMessage = NSLocalizedString("Address", comment: "Address")
-//            message = NSLocalizedString("Please, choose event address", comment: "Please, choose address")
-//            let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
-//            alertController.addTextFieldWithConfigurationHandler { (textField : UITextField) -> Void in
-//                textField.placeholder = NSLocalizedString("Address", comment: "Address")
-//                textField.tag = 2
-//                textField.delegate = self
-//            }
-//            
-//            titleMessage = NSLocalizedString("Cancel", comment: "Cancel")
-//            let cancelAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in }
-//            
-//            titleMessage = NSLocalizedString("OK", comment: "OK")
-//            let okAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Default) {[weak self] (result : UIAlertAction) -> Void in
-//                if self == nil {
-//                    return
-//                }
-//                let length = 17
-//                var eventAddressString =  alertController.textFields?.first?.text
-//                if  eventAddressString!.characters.count > length {
-//                    eventAddressString = eventAddressString!.substringToIndex(eventAddressString!.startIndex.advancedBy(length)) + "..."
-//                }
-//                if eventAddressString!.isEmpty {
-//                    self!.eventAddressLabel.text = "Choose an Address"
-//                    self!.eventAddress = "Choose an Address"
-//
-//                }
-//            
-//                else {
-//                    self!.eventAddressLabel.text = eventAddressString
-//                    self!.eventAddress = (alertController.textFields?.first?.text)!
-//                }
-//            }
-//            alertController.addAction(cancelAction)
-//            alertController.addAction(okAction)
-//            presentViewController(alertController, animated: true, completion: nil)
-//        }
-//    }
-    
-//    @IBAction func choosePrivacyTouched(sender: AnyObject) {
-//        hideKeyboard()
-//        titleMessage = NSLocalizedString("Privacy", comment: "Privacy")
-//        message = NSLocalizedString("Please, select type privacy", comment: "Please, select type privacy")
-//        let actionController = UIAlertController(title: titleMessage, message: message, preferredStyle: .ActionSheet)
-//        titleMessage = NSLocalizedString("Public", comment: "Public")
-//        let publicAction = UIAlertAction(title: titleMessage, style: .Default, handler: {[weak self] (alert: UIAlertAction) -> Void in
-//            self?.isPrivateEvent = false
-//            self?.eventPrivacyLabel.text = NSLocalizedString("Public event", comment: "Public event")
-//        })
-//        titleMessage = NSLocalizedString("Private", comment: "Private")
-//        let privateAction = UIAlertAction(title: titleMessage, style: .Default, handler: {[weak self] (alert: UIAlertAction) -> Void in
-//            self?.isPrivateEvent = true
-//            //self?.checkMarkImageView.hidden = true
-//            self?.postPulsingButton.enabled = true
-//            self?.eventPrivacyLabel.text = NSLocalizedString("Private event", comment: "Private event")
-//        })
-//        titleMessage = NSLocalizedString("Cancel", comment: "Cancel")
-//        let cancelAction = UIAlertAction(title: titleMessage, style: .Cancel, handler: { (alert: UIAlertAction!) -> Void in })
-//        actionController.addAction(publicAction)
-//        actionController.addAction(privateAction)
-//        actionController.addAction(cancelAction)
-//        presentViewController(actionController, animated: true, completion: nil)
-//    }
-    
-//    @IBAction func choosePriceTouched(sender: AnyObject) {
-//        hideKeyboard()
-//        titleMessage = NSLocalizedString("Price", comment: "Price")
-//        message = NSLocalizedString("Please, enter event price", comment: "Please, enter event price")
-//        let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
-//        alertController.addTextFieldWithConfigurationHandler { (textField : UITextField) -> Void in
-//            textField.placeholder = NSLocalizedString("Price", comment: "Price")
-//            textField.keyboardType = .DecimalPad
-//            textField.tag = 1
-//            textField.delegate = self
-//        }
-//        titleMessage = NSLocalizedString("Cancel", comment: "Cancel")
-//        let cancelAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in }
-//        titleMessage = NSLocalizedString("OK", comment: "OK")
-//        let okAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Default) {[weak self] (result : UIAlertAction) -> Void in
-//            if self == nil {
-//                return
-//            }
-//            if let textPrice = alertController.textFields?.first?.text {
-//                let formatter = NSNumberFormatter()
-//                formatter.locale = NSLocale.currentLocale()
-//                formatter.numberStyle = .DecimalStyle
-//                //let price = NSString(string: textPrice).floatValue
-//                if let price = formatter.numberFromString(textPrice) {
-//                    let tmp = Int(price.floatValue * 10)
-//                    self?.priceEvent = Double(tmp) / 10
-//                    self?.eventPriceLabel.text = "$" + "\(Float(tmp) / 10)"
-//                } else {
-//                    self?.choosePriceTouched(self!)
-//                }
-//            }
-//        }
-//        alertController.addAction(cancelAction)
-//        alertController.addAction(okAction)
-//        presentViewController(alertController, animated: true, completion: nil)
-//    }
-    
-    // MARK: - Picker
-    
-//    @IBAction func uploadImageTouched(sender: AnyObject) {
-//        hideKeyboard()
-//        message = NSLocalizedString("Select image source", comment: "Select image source")
-//        let actionSheetOptions = UIAlertController(title: nil, message: message.localized(), preferredStyle: .ActionSheet)
-//        
-//        
-//        
-//        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-//            titleMessage = NSLocalizedString("Camera", comment: "Camera")
-//            actionSheetOptions.addAction(withTitle: titleMessage.localized(), handler: { [weak self] (action) in
-//                self?.showImagePicker(withSourceType: .Camera)
-//            })
-//        }
-//        
-//        titleMessage = NSLocalizedString("Album", comment: "Album")
-//        actionSheetOptions.addAction(withTitle: titleMessage.localized(), handler: { [weak self] (action) in
-//            self?.showImagePicker(withSourceType: .SavedPhotosAlbum)
-//        })
-//        
-//        titleMessage = NSLocalizedString("Library", comment: "Library")
-//        actionSheetOptions.addAction(withTitle: titleMessage.localized(), handler: { [weak self] (action) in
-//            self?.showImagePicker(withSourceType: .PhotoLibrary)
-//        })
-//        
-//        titleMessage = NSLocalizedString("Cancel", comment: "Cancel")
-//        actionSheetOptions.addCancelAction(withTitle: titleMessage)
-//        presentViewController(actionSheetOptions, animated: true, completion: nil)
-//    }
-    
     func editNameTouched(sender: AnyObject) {
-        //uploadImageButton.enabled = true
-//        buttonChooseDate.enabled = true
-//        buttonChooseDateEnd.enabled = true
-//        buttonChooseTime.enabled = true
-//        buttonChooseAddress.enabled = true
-//        buttonChoosePrivacy.enabled = true
-//        buttonChoosePrice.enabled = true
         eventDescriptionTextView.editable = true
 //        let rightButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(self.doneNameTouched(_:)))
 //        navigationItem.rightBarButtonItem = rightButton
@@ -758,19 +416,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     
     @IBAction func doneNameTouched(sender: AnyObject) {
-        //uploadImageButton.enabled = false
-//        buttonChooseDate.enabled = false
-//        buttonChooseDateEnd.enabled = false
-//        buttonChooseTime.enabled = false
-//        buttonChooseAddress.enabled = false
-//        buttonChoosePrivacy.enabled = false
-//        buttonChoosePrice.enabled = false
-        eventDescriptionTextView.editable = false
-//        let rightButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(self.editNameTouched(_:)))
-//        navigationItem.rightBarButtonItem = rightButton
+        postEvent()
+        return
+        /*
         navigationItem.rightBarButtonItem?.enabled = false
-        
-        if (emptyFields() == false) {
+        if (validateFields() == true) {
             showActivityIndicator()
             var coordinate = CLLocationCoordinate2DMake(0, 0)
             let geocoder = CLGeocoder()
@@ -831,10 +481,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         self.navigationItem.rightBarButtonItem?.enabled = true
         self.view.endEditing(true)
+    */
     }
     
     @IBAction func postToWhatsPulsingTouched(sender: AnyObject) {
-        if emptyFields() == false {
+        postEvent()
+        return
+        /*
+        if validateFields() == true {
             postPulsingButton.enabled = false
             
             if isPrivateEvent {
@@ -874,29 +528,37 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                 self?.postPulsingButton.enabled = false
                             }
                                 
-                            or_postNotification(PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+                            or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
                             self?.postPulsingButton.enabled = true
                         } else {
                             self?.postPulsingButton.enabled = false
-                            self?.createNewEvent({ (success) in
+                            self?.createEvent({ (success) in
                                 self?.postPulsingButton.enabled = false
+
                             })
+//                            self?.createNewEvent({ (success) in
+//                                self?.postPulsingButton.enabled = false
+//                            })
                         }
                     }
                 }
                 hideActivityIndicator()
             }
         }
+    */
     }
     
+    
     @IBAction func sendInvitationsTouched(sender: AnyObject) {
+        
+        /*
         buttonSendInvitation.enabled = false
         if event != nil {
             //self.createNewEvent({ (success) in
             self.showInviteUsersViewController(nil, event: self.event)
             buttonSendInvitation.enabled = true
             //})
-        } else if emptyFields() == false {
+        } else if validateFields() == true {
             createNewEvent({[weak self] (success) in
                 if success {
                     self?.showInviteUsersViewController(nil, event: self?.event)
@@ -905,6 +567,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                 }
                 })
         }
+ 
+         */
 
     }
     
@@ -915,14 +579,120 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         wereInvitationsSent = true
     }
     
-    //MARK: -
     
     func hideKeyboard() {
         view.endEditing(true)
     }
-
-    //MARK: -
     
+    //MARK: - New functions for creating event
+    
+    func postEvent() {
+        if validateFields() {
+            createEvent() { (success) in
+                if(success) {
+                    self.eventCreating = false
+                    self.navigationController!.popViewControllerAnimated(true)
+                }
+            }
+        }
+    }
+    
+    func validateFields() -> Bool {
+        
+        if eventName == "" {
+            postEmptyFieldMessage("Please enter a valid name", comment: "Please enter a valid name")
+            return false
+        }
+        if eventDescriptionTextView.text == "" {
+            postEmptyFieldMessage("Please enter valid description", comment: "Please enter valid description")
+            return false
+        }
+        if coordinate == nil {
+            postEmptyFieldMessage("Please choose a valid location", comment: "Please choose a valid location")
+            return false
+        }
+        
+        if isFreeSwitch.on == false {
+            if priceOfEvent.text == "" {
+                postEmptyFieldMessage("Please choose a valid price, or set to free", comment: "Please choose a valid price, or set to free")
+            }
+        }
+        
+        //Refactor this eventually
+        let calender = NSCalendar(calendarIdentifier: "gregorian")
+        calender?.timeZone = NSTimeZone.systemTimeZone()
+        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute]
+        let startTimeComponents = calender!.components(unitFlags, fromDate: datePickerStartTime.date)
+        let endTimeComponents = calender!.components(unitFlags, fromDate: datePickerFinishTime.date)
+        
+        self.startTime = calender!.dateBySettingHour(startTimeComponents.hour, minute: startTimeComponents.minute, second: 0, ofDate: datePickerDateEvent.date, options: NSCalendarOptions())
+        if(self.startTime!.earlierDate(NSDate()) == self.startTime!) {
+            postEmptyFieldMessage("Please enter a later start time", comment: "Please enter a later start time")
+            return false
+        }
+        self.finishTime = startTime!.copy() as! NSDate
+        if(startTimeComponents.hour < endTimeComponents.hour) {
+            self.finishTime? = self.finishTime!.tomorrow()
+        }
+        self.finishTime = calender!.dateBySettingHour(endTimeComponents.hour, minute: endTimeComponents.minute, second: 0, ofDate: self.finishTime!, options: NSCalendarOptions())
+        
+        let geoLocation = CLGeocoder()
+        let location = CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
+        geoLocation.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+            guard let place = placemarks?[0] else {
+                return
+            }
+            if let city = place.addressDictionary!["City"] as? String {
+                self?.city = city
+            }
+            if let address = place.addressDictionary!["Thoroughfare"] as? String {
+                self?.address = address
+            }
+        }
+        return true
+    }
+    
+    func createEvent(completion: (success:Bool) -> Void) {
+        showActivityIndicator()
+        if(self.eventCreating) {
+            return
+        }
+        self.eventCreating = true
+        if(self.event == nil) {
+            self.event = RippleEvent()
+        }
+        
+        EventManager().createEvent(self.organization!,
+                                   event: self.event!,
+                                   name: self.eventName,
+                                   start: self.startTime!,
+                                   end: self.finishTime!,
+                                   isPrivate: self.eventPrivacy.on,
+                                   cost: priceEvent,
+                                   description: self.eventDescriptionTextView.text,
+                                   address: self.address,
+                                   city: self.city,
+                                   location: self.location,
+                                   coordinate: self.coordinate,
+                                   completion: {[weak self] (success, rippleEvent) in
+                                    self?.hideActivityIndicator()
+                                    self?.eventCreating = false
+                                    if (success) {
+                                        self?.event = rippleEvent
+                                        or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
+                                    } else {
+                                        self!.titleMessage = NSLocalizedString("Error", comment: "Error")
+                                        self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
+                                        self?.showAlert(self?.titleMessage, message: self?.message)
+                                    }
+                                    self?.navigationController?.popViewControllerAnimated(true)
+                                    
+        })
+    }
+
+    //MARK: - SOON TO BE DEPRECATED
+    
+    /*
     func createNewEvent(completion: (success: Bool) -> Void) {
         showActivityIndicator()
         var coordinate = CLLocationCoordinate2DMake(0, 0)
@@ -948,6 +718,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                     return
                 }
                 self.eventCreating = true
+                
+                
                 EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, description: self.eventDescriptionTextView.text, address: self.streetAddressText.text!, city: self.cityStateZipText.text!, location: self.locationTextField.text!, coordinate: coordinate) {[weak self] (success, event) in
                     self?.hideActivityIndicator()
                     self?.eventCreating = false
@@ -959,7 +731,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         }
                         
                         self?.event = event
-                        or_postNotification(PulseNotification.PulseNotificationIsEveentCreate.rawValue)
+                        or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
                         completion(success: true)
                     } else {
                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")
@@ -967,10 +739,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                         self?.showAlert(self?.titleMessage, message: self?.message)
                     }
                 }
+ 
             }
         }
+ 
         hideActivityIndicator()
     }
+    */
     
     // MARK: - Helper
     
@@ -990,6 +765,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
     }
     
+    func writeBackEventLocation(latitude: Double, longitude:Double, location:String) {
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        self.location = location
+    }
      //MARK: - Internal operations
     
 //    func updateAvatar(withNewAvatarURL avatarURL: String, storagePath: String, completion: ((Bool, NSError?) -> Void)?) {
@@ -1002,3 +781,5 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        self.eventPictureImageView.image = image
 //    }
 }
+
+

@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Fabric.with([Crashlytics.self])
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
-        Backendless.sharedInstance().messaging.registerForRemoteNotifications() //uncommented
+        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
@@ -47,8 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("App did finish with options")
         return true
     }
-    
-
+   
     
     func loginComplete() {
         UserManager().initMe {
@@ -56,7 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController")
             self.window?.rootViewController = mainTabBarController
             self.tabBarSelectIndex(2)
-            MessagesManager.sharedInstance.subscribeToMyChannel()
+            //self.subscribe()
+            //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
             UserManager().prepareData()
@@ -131,8 +131,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
  
     }
     
+    
+
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("registering device with token \(deviceToken)")
+        //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
+        
 //        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 //        dispatch_async(dispatch_get_global_queue(priority, 0)) {
 //            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)

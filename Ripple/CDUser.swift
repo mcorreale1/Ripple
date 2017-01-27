@@ -13,5 +13,8 @@ import CoreData
 class CDUser: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
-
+    class func create(fromUser user:Users) {
+        var cdUser:CDUser = MR_createEntity()! as CDUser
+        cdUser.name = user.name
+    }
 }
