@@ -129,6 +129,10 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
         print("still loading orgs")
+        if(allOrganizationsLoaded) {
+            tableView.reloadData()
+            return
+        }
         OrganizationManager().allUnfollowOrganizations(organizationsCollection) {[weak self] (orgs, collection, error) in
             if orgs != nil && orgs!.count > 0 {
                 //print(orgs?.description)
@@ -231,9 +235,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     //Not here
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if(allOrganizationsLoaded) {
-            return UITableViewCell()
-        }
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
         //Possible memory leak here?
         cell.descriptionLabel.text = ""
@@ -321,6 +322,10 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             if (filteredOrganizations.count != 0) {
                 showOrganizationProfileViewController(filteredOrganizations[indexPath.row], isNewOrg: false, fromInvite: true)
             } else {
+                if(indexPath.row > organizations.count-1) {
+                    self.view.userInteractionEnabled = true
+                    return
+                }
                 showOrganizationProfileViewController(organizations[indexPath.row], isNewOrg: false, fromInvite: true)
             }
         } else {
