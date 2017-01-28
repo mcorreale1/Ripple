@@ -19,6 +19,10 @@ import ORCommonCode_Swift
 protocol CreateEventViewDelegate {
     func writeBackEventLocation(latitude: Double,  longitude:Double, location:String)
 }
+enum editDoneButtonEnum:String {
+    case Done = "Done"
+    case Edit = "Edit"
+}
 
 class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate, UIScrollViewDelegate, CreateEventViewDelegate {
 
@@ -32,6 +36,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var eventDescriptionTextView: UITextView!
     @IBOutlet weak var buttonSendInvitation: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var startDateEditButton:UIButton!
+    @IBOutlet weak var timeEditButton:UIButton!
+    @IBOutlet weak var dateDoneButton:UIButton!
+    @IBOutlet weak var timeDoneButton:UIButton!
     
    // @IBOutlet weak var checkMarkImageView: UIImageView!
     @IBOutlet weak var postPulsingButton: UIBarButtonItem!
@@ -157,6 +165,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         super.viewWillAppear(animated)
         eventPrivacy.on = false
         buttonSendInvitation.enabled = true
+        timeEditButton.hidden = true
+        startDateEditButton.hidden = true
+        timeDoneButton.titleLabel?.text = editDoneButtonEnum.Done.rawValue
+        dateDoneButton.titleLabel?.text = editDoneButtonEnum.Done.rawValue
     }
     
     @IBAction func addressButtonClicked(sender: AnyObject) {
@@ -344,27 +356,17 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     @IBAction func saveEventNameTouched(sender: AnyObject) {
         hideKeyboard()
-        if(eventNameTextField.text != nil) {
-            eventName = eventNameTextField.text!
-        }
     }
     
     @IBAction func saveEventDayTouched(sender: AnyObject) {
+        if (dateDoneButton.titleLabel?.text! == editDoneButtonEnum.Done.rawValue) {
+            datePickerDateEvent.enabled = false
+            dateDoneButton.titleLabel?.text! = editDoneButtonEnum.Edit.rawValue
+        } else if (dateDoneButton.titleLabel?.text! == editDoneButtonEnum.Edit.rawValue) {
+            datePickerDateEvent.enabled = true
+            dateDoneButton.titleLabel?.text! = editDoneButtonEnum.Done.rawValue
+        } else {}
         hideKeyboard()
-        let currentDate: NSDate = NSDate()
-        //showEventDayViewTouched(sender)
-        let compareDate = NSCalendar.currentCalendar().compareDate( datePickerDateEvent.date, toDate: currentDate,
-                                                             toUnitGranularity: .Day)
-        
-        if (compareDate == .OrderedDescending) || (compareDate == .OrderedSame) {
-            dayEvent = datePickerDateEvent.date
-           // labelDateEvent.text = datePickerDateEvent.date.formatEventDay()
-        }
-        else {
-            titleMessage = NSLocalizedString("Please, choose another date for this event", comment: "Please, choose another date for this event")
-            message = NSLocalizedString("Selected date must be after the current date", comment: "Selected date must be after the current date")
-            self.showAlert(titleMessage, message: message)
-        }
     }
     
     @IBAction func saveEventDayEndTouched(sender: AnyObject) {
@@ -372,6 +374,17 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     }
     
     @IBAction func saveEventTimeTouched(sender: AnyObject) {
+        if (timeEditButton.titleLabel?.text! == editDoneButtonEnum.Done.rawValue) {
+            datePickerStartTime.enabled = false
+            datePickerFinishTime.enabled = false
+            timeEditButton.titleLabel?.text! = editDoneButtonEnum.Edit.rawValue
+        } else if (timeEditButton.titleLabel?.text! == editDoneButtonEnum.Edit.rawValue) {
+            datePickerStartTime.enabled = true
+            datePickerFinishTime.enabled = true
+            timeEditButton.titleLabel?.text! = editDoneButtonEnum.Done.rawValue
+        } else {
+        
+        }
         hideKeyboard()
     }
     
