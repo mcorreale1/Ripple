@@ -11,7 +11,7 @@ import UIKit
 class ActionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
-    
+     static let kCellHeight: CGFloat = 51
     override func awakeFromNib() {
         super.awakeFromNib()
     }

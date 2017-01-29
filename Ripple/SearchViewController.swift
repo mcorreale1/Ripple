@@ -11,7 +11,7 @@ import ORLocalizationSystem
 
 class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate, ProfileViewControllerDelegate {
     
-    let backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+    let backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -64,7 +64,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         self.view.userInteractionEnabled = false
         let navigationController = self.navigationController?.navigationBar
         navigationController?.barTintColor = UIColor.whiteColor()
-        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)]
+        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)]
         hideActivityIndicator()
     }
     
@@ -303,7 +303,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = UIView()
-        footer.backgroundColor = UIColor.init(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+        footer.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
         return footer
     }
     

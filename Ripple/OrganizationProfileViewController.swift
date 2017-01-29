@@ -47,7 +47,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     var titleMessage :String = ""
     var message :String = ""
     
-    let titleColor = UIColor.init(red: 46/255, green:49/255, blue: 146/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green:0/255, blue: 0/255, alpha: 1)
     var alertController = UIAlertController()
     let maxLengthOrgDescription = 250
     let maxLengthOrgName = 30
@@ -202,7 +202,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         membersButton.titleLabel?.text = NSLocalizedString("Members", comment: "Members")
         aboutButton.titleLabel?.text = NSLocalizedString("About", comment: "About")
         aboutButton.selected = true
-        
+        tableView.backgroundColor = UIColor.whiteColor()
         followButton.hidden = needHideFollowButton()
         memberCountLabel.text = ""
         title = orgName

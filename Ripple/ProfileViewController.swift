@@ -92,18 +92,27 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     func prepareTableView() {
         let nibEventCell = UINib(nibName: "EventTableViewCell", bundle: nil)
         tableView.registerNib(nibEventCell, forCellReuseIdentifier: "EventCell")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
         
         let nibFollowingCell = UINib(nibName: "FollowingTableViewCell", bundle: nil)
         tableView.registerNib(nibFollowingCell, forCellReuseIdentifier: "FollowingCell")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
         
         let nibOrganizationCell = UINib(nibName: "OrganizationTableViewCell", bundle: nil)
         tableView.registerNib(nibOrganizationCell, forCellReuseIdentifier: "OrganizationTableViewCell")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
         
         let nibActionCell = UINib(nibName: "ActionTableViewCell", bundle: nil)
         tableView.registerNib(nibActionCell, forCellReuseIdentifier: "ActionTableViewCell")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
         
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     }
     
     func prepareViews() {
@@ -501,7 +510,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = UIView()
-        footer.backgroundColor = UIColor.clearColor()
+        footer.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         return footer
     }
     

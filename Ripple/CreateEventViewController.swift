@@ -61,7 +61,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var coordinate:CLLocationCoordinate2D!
     var event: RippleEvent?
     var wereInvitationsSent = false
-    var zero = 0.0
+    var Free = 0.0
     var location = ""
     var address = ""
     var city = ""
@@ -230,7 +230,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         else
         {
-            event?.cost = zero
+            event?.cost = Free
         }
     }
 

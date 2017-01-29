@@ -17,7 +17,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var eventDescriptionLabel: UILabel!
     @IBOutlet weak var accessoryImageView: UIImageView!
     
-    static let kCellHeight: CGFloat = 101
+    static let kCellHeight: CGFloat = 115
     
     override func awakeFromNib() {
         super.awakeFromNib()
