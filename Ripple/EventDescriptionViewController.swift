@@ -54,6 +54,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         }
         goText = NSLocalizedString("Go", comment: "Go")
         prepareTableView()
+        self.org = event!.organization
         //tableView.allowsSelection = false
     }
     
@@ -200,7 +201,14 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func sendReport() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
+        //Fix editing events
+        let userRole:TypeRoleUserInOrganization = OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: org!)
+        if(userRole == .Admin || userRole == .Founder) {
+            let editAction:UIAlertAction = UIAlertAction(title: "Edit Event", style: .Default) { action -> Void in
+                self.showEditEventViewController(self.org, event: self.event!)
+            }
+            //actionSheetController.addAction(editAction)
+        }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
         let spamAction: UIAlertAction = UIAlertAction(title: "It’s Spam", style: .Default) { action -> Void in

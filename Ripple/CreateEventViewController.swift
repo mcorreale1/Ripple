@@ -722,25 +722,60 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     }
     
     func updateEvent(completion: (success:Bool) -> Void) {
+        print("Updating")
         if(self.eventCreating) {
             return
         }
         self.eventCreating = true
         self.showActivityIndicator()
-        EventManager().updateEvent(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in
-            self?.hideActivityIndicator()
-            self?.eventCreating = false
-            if(success) {
-                self?.event = rippleEvent
-                or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
-            } else {
-                self!.titleMessage = NSLocalizedString("Error", comment: "Error")
-                self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
-                self?.showAlert(self?.titleMessage, message: self?.message)
-                return
-            }
-            completion(success: true)
-        }
+        EventManager().createEvent(self.organization!,
+                                   event: self.event!,
+                                   name: self.eventName,
+                                   start: self.startTime!,
+                                   end: self.finishTime!,
+                                   isPrivate: self.eventPrivacy.on,
+                                   cost: priceEvent,
+                                   description: self.eventDescriptionTextView.text,
+                                   address: self.address,
+                                   city: self.city,
+                                   location: self.location,
+                                   coordinate: self.coordinate,
+                                   completion: {[weak self] (success, rippleEvent) in
+                                    self?.hideActivityIndicator()
+                                    self?.eventCreating = false
+                                    if (success) {
+                                        print("Success")
+//                                        EventManager().deleteEvent(self!.event!) {(success) in }
+                                        self?.event = rippleEvent
+                                        or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
+                                        completion(success: true)
+                                    } else {
+                                        self!.titleMessage = NSLocalizedString("Error", comment: "Error")
+                                        self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
+                                        self?.showAlert(self?.titleMessage, message: self?.message)
+                                        return
+                                    }
+                                    completion(success: false)
+                                    //May need to uncomment
+                                    //self?.navigationController?.popViewControllerAnimated(true)
+            })
+//
+//        EventManager().cre(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in
+//            print("Updated")
+//            self?.hideActivityIndicator()
+//            self?.eventCreating = false
+//            if(success) {
+//                self?.event = rippleEvent
+//                or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
+//            } else {
+//                self!.titleMessage = NSLocalizedString("Error", comment: "Error")
+//                self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
+//                self?.showAlert(self?.titleMessage, message: self?.message)
+//                return
+//            }
+//            completion(success: true)
+//            
+//        }
     }
 
     //MARK: - SOON TO BE DEPRECATED

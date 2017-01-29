@@ -83,7 +83,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         navigationController?.showViewController(createEventViewController, sender: self)
     }
     
-    func showEditVentViewController(organization: Organizations?, event: RippleEvent?) {
+    func showEditEventViewController(organization: Organizations?, event: RippleEvent?) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createEventViewController = storyboard.instantiateViewControllerWithIdentifier("CreateEventViewController") as! CreateEventViewController
         createEventViewController.organization = organization
