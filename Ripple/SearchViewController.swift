@@ -325,13 +325,13 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         
         if indexPath.section == 1 {
             if (filteredOrganizations.count != 0) {
-                showOrganizationProfileViewController(filteredOrganizations[indexPath.row], isNewOrg: false, fromInvite: true)
+                showOrganizationProfileViewController(filteredOrganizations[indexPath.row], isNewOrg: false, fromInvite: false)
             } else {
                 if(indexPath.row > organizations.count-1) {
                     self.view.userInteractionEnabled = true
                     return
                 }
-                showOrganizationProfileViewController(organizations[indexPath.row], isNewOrg: false, fromInvite: true)
+                showOrganizationProfileViewController(organizations[indexPath.row], isNewOrg: false, fromInvite: false)
             }
         } else {
             if (filteredUsers.count != 0) {
