@@ -34,7 +34,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var datePickerStartTime: UIDatePicker!
     @IBOutlet weak var datePickerFinishTime: UIDatePicker!
     @IBOutlet weak var eventDescriptionTextView: UITextView!
-    @IBOutlet weak var buttonSendInvitation: UIBarButtonItem!
+//    @IBOutlet weak var buttonSendInvitation: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var startDateEditButton:UIButton!
     @IBOutlet weak var timeEditButton:UIButton!
@@ -166,7 +166,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         eventPrivacy.on = false
-        buttonSendInvitation.enabled = true
+        //buttonSendInvitation.enabled = true
         timeEditButton.hidden = true
         startDateEditButton.hidden = true
     }
@@ -570,7 +570,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
  
          */
-        buttonSendInvitation.enabled = false
+        //buttonSendInvitation.enabled = false
         if(validateFields()) {
             let completion = { (success:Bool) in
                 if(success) {
