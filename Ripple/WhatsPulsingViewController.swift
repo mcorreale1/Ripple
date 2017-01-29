@@ -116,7 +116,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         self.showActivityIndicator()
         
         EventManager().pulsingEvents() { (result) in
-            print("pulsing: \(result)")
             self.allEventsPlan = result
             self.sortedGeolocationAllEvents()
             self.tableView.reloadData()
@@ -124,9 +123,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         EventManager().followingEvents() { (events) in
-             print("following: \(events)")
             self.hideActivityIndicator()
             self.followingPlan = events
+            print("following plan \(self.followingPlan.count)")
             self.following = self.updateEvents(events)
             self.tableView.reloadData()
             self.scrollTableViewAtFirstCell()
@@ -139,7 +138,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
 //            self.tableView.reloadData()
 //            self.scrollTableViewAtFirstCell()
 //        }
-        print("Following count: " + followingPlan.count.description)
     }
     
     func prepareLocationManager() {
@@ -212,6 +210,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
         }
+        print("resultsEvents count \(resultEvents.count)")
         return resultEvents
     }
     
@@ -302,11 +301,15 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
-                return (following.count <= 10) ? following.count : 10
-            } else if segmentedControl.selectedSegmentIndex == 1 {
-                return (pulsing.count <= 10) ? pulsing.count : 10
-            } else if segmentedControl.selectedSegmentIndex == 2 {
-                return (pulsing.count <= 10) ? pulsing.count : 10
+            //This is where it asks for sections, fix later
+            if(section > 0) {
+                return 0
+            }
+            return (following.count <= 10) ? following.count : 10
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            return (pulsing.count <= 10) ? pulsing.count : 10
+        } else if segmentedControl.selectedSegmentIndex == 2 {
+            return (pulsing.count <= 10) ? pulsing.count : 10
         }
         
         var sectionData = Dictionary<String, AnyObject>()
@@ -330,15 +333,42 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         var event: RippleEvent?
         var dateFormat = "dd MMM h:mm a"
-        
-        
-        if  !(segmentedControl.selectedSegmentIndex == 1) {
-            if segmentedControl.selectedSegmentIndex == 0 {
-                sectionData = followingPlan[indexPath.section]
-            } else if segmentedControl.selectedSegmentIndex == 2 {
-                sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-                print("section data: \(sectionData)")
+//        
+//        if  !(segmentedControl.selectedSegmentIndex == 1) {
+//            if segmentedControl.selectedSegmentIndex == 0 {
+//                sectionData = followingPlan[indexPath.section]
+//            } else if segmentedControl.selectedSegmentIndex == 2 {
+//                sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
+//            }
+//            print("section data: \(sectionData)")
+//            switch sectionData["title"] as! String {
+//            case TypeEventsSection.Today.rawValue:
+//                dateFormat = "h:mm a"
+//            case TypeEventsSection.ThisWeek.rawValue:
+//                dateFormat = "EEEE"
+//            default:
+//                dateFormat = "dd MMM h:mm a"
+//            }
+//            let events = sectionData["events"] as! [RippleEvent]
+//            print("events array: \(events.count)")
+//            print("index row: \(indexPath.row)")
+//            event = events[indexPath.row]
+//        }  else if segmentedControl.selectedSegmentIndex == 1 {
+//            
+//            event = pulsing[indexPath.row]
+//            dateFormat = "dd MMM h:mm a"
+//        }
+        print("index section: \(indexPath.section)")
+        if(segmentedControl.selectedSegmentIndex == 0) {
+            if (indexPath.section > 0) {
+            return cell
             }
+            event = following[indexPath.row]
+            
+        } else if (segmentedControl.selectedSegmentIndex == 1) {
+            event = pulsing[indexPath.row]
+        } else {
+            sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
             switch sectionData["title"] as! String {
             case TypeEventsSection.Today.rawValue:
                 dateFormat = "h:mm a"
@@ -349,11 +379,8 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             }
             let events = sectionData["events"] as! [RippleEvent]
             event = events[indexPath.row]
-        }  else if segmentedControl.selectedSegmentIndex == 1 {
-            event = pulsing[indexPath.row]
-            dateFormat = "dd MMM h:mm a"
         }
-        print("event name: \(event!.name)")
+        
         
         cell.eventNameLabel.text = event!.name
         cell.eventDescriptionLabel.text = event!.descr
@@ -438,6 +465,11 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
         header.titleHeader.text = sectionData["title"] as? String
         print("header title: \(header.titleHeader.text)")
+        if(section == 0) {
+            header.titleHeader.text = "All Events"
+        } else {
+            header.titleHeader.text = ""
+        }
         return header
     }
     
