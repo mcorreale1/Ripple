@@ -21,6 +21,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     var allEventsPlan = [Dictionary<String, AnyObject>]()
     var sortedByGeolocationAllEventsPlan = [Dictionary<String, AnyObject>]()
     
+    
     var selectedUser: Users?
     
     var following = [RippleEvent]()
@@ -28,6 +29,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     var allEvents = [RippleEvent]()
     var filterEvents = [RippleEvent]()
     var allOrganizations = [Organizations]()
+    var nearbyEvents = [RippleEvent]()
     
     var filteredFollowing = [RippleEvent]()
     var filteredPulsing = [RippleEvent]()
@@ -113,7 +115,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     //why does it hide the activity indicator when loading the following events but not for pulsing events?
     func prepareData() {
-        self.showActivityIndicator()
+        self.showActivityIndicator(allowInteraction: true)
         
         EventManager().pulsingEvents() { (result) in
             self.allEventsPlan = result
@@ -193,7 +195,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
-        print("sorted plan: \(sortedByGeolocationAllEventsPlan)")
+        self.nearbyEvents = self.updateEvents(self.sortedByGeolocationAllEventsPlan)
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
         }
@@ -300,16 +302,17 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //This is where it asks for sections, fix later
+        if(section > 0) {
+            return 0
+        }
+
         if segmentedControl.selectedSegmentIndex == 0 {
-            //This is where it asks for sections, fix later
-            if(section > 0) {
-                return 0
-            }
             return (following.count <= 10) ? following.count : 10
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return (pulsing.count <= 10) ? pulsing.count : 10
         } else if segmentedControl.selectedSegmentIndex == 2 {
-            return (pulsing.count <= 10) ? pulsing.count : 10
+            return (nearbyEvents.count <= 10) ? nearbyEvents.count : 10
         }
         
         var sectionData = Dictionary<String, AnyObject>()
@@ -358,27 +361,29 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
 //            event = pulsing[indexPath.row]
 //            dateFormat = "dd MMM h:mm a"
 //        }
-        print("index section: \(indexPath.section)")
         if(segmentedControl.selectedSegmentIndex == 0) {
             if (indexPath.section > 0) {
-            return cell
+                return cell
             }
             event = following[indexPath.row]
             
         } else if (segmentedControl.selectedSegmentIndex == 1) {
             event = pulsing[indexPath.row]
         } else {
-            sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-            switch sectionData["title"] as! String {
-            case TypeEventsSection.Today.rawValue:
-                dateFormat = "h:mm a"
-            case TypeEventsSection.ThisWeek.rawValue:
-                dateFormat = "EEEE"
-            default:
-                dateFormat = "dd MMM h:mm a"
-            }
-            let events = sectionData["events"] as! [RippleEvent]
-            event = events[indexPath.row]
+//            sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
+//            switch sectionData["title"] as! String {
+//            case TypeEventsSection.Today.rawValue:
+//                dateFormat = "h:mm a"
+//            case TypeEventsSection.ThisWeek.rawValue:
+//                dateFormat = "EEEE"
+//            default:
+//                dateFormat = "dd MMM h:mm a"
+//            }
+//            let events = sectionData["events"] as! [RippleEvent]
+//            print("events count \(events.count)")
+//            print("index path: \(indexPath.row)")
+//            event = events[indexPath.row]
+            event = nearbyEvents[indexPath.row]
         }
         
         

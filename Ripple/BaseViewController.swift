@@ -137,9 +137,10 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     //test ignoring interactions
-    func showActivityIndicator() {
-        
-        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+    func showActivityIndicator(allowInteraction allowInteraction:Bool = false) {
+        if(!allowInteraction) {
+            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+        }
         activityIndicator.hidden = false
         activityIndicator.alpha = 0
         

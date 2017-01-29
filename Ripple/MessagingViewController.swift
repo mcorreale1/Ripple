@@ -65,7 +65,7 @@ class MessagingViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     private func prepareData() {
-        showActivityIndicator()
+        showActivityIndicator(allowInteraction: true)
         ChatChannel.loadAllChannels(UserManager().currentUser()) {[weak self] (channels) in
             self?.hideActivityIndicator()
             self?.channels = channels
