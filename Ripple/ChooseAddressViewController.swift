@@ -86,11 +86,13 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
                 self.location = field.text
                 self.createEventDelegate?.writeBackEventLocation(self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude, location: self.location!)
                 self.navigationController?.popViewControllerAnimated(true)
+                
 
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
             textField.text = self.searchBar.text
+            textField.clearButtonMode = UITextFieldViewMode.WhileEditing
         })
         alert.addAction(confirmAction)
         self.presentViewController(alert, animated: true, completion: {})

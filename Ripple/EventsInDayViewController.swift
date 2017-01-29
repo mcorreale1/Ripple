@@ -21,6 +21,9 @@ class EventsInDayViewController: BaseViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
         let nibEventCell = UINib(nibName: "EventTableViewCell", bundle: nil)
         tableView.registerNib(nibEventCell, forCellReuseIdentifier: eventCellIdentifier)
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
+
         
         if events.count > 0 {
             let event = events.first!

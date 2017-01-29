@@ -292,7 +292,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         noEventLabel.hidden = false
         noEventLabel.text = "No events posted in your area. Get things pulsing! Email jettiinc123@gmail.com to become a paid rep."
         noEventLabel.sizeToFit()
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.init(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
     }
     
     func resetNoEventLabel() {
@@ -480,7 +480,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = UIView()
-        footer.backgroundColor = UIColor.clearColor()
+        footer.backgroundColor = UIColor.init(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
         return footer
     }
     //DEPRECATED
