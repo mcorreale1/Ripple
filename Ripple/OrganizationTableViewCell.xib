@@ -45,7 +45,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egk-re-YMz">
-                        <rect key="frame" x="0.0" y="77" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="76" width="320" height="1"/>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="KPr-uI-Y1f"/>
@@ -65,7 +65,7 @@
                     <constraint firstItem="w0k-d3-5yb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eA1-hi-0fc"/>
                     <constraint firstItem="xso-XA-MTW" firstAttribute="leading" secondItem="By3-jc-jYM" secondAttribute="trailing" constant="2" id="hkV-ug-lX2"/>
                     <constraint firstItem="1eG-7d-qQy" firstAttribute="leading" secondItem="w0k-d3-5yb" secondAttribute="trailing" constant="18" id="nTe-tI-kUR"/>
-                    <constraint firstAttribute="bottom" secondItem="egk-re-YMz" secondAttribute="bottom" constant="-3" id="nfK-fF-HWT"/>
+                    <constraint firstAttribute="bottom" secondItem="egk-re-YMz" secondAttribute="bottom" constant="-2" id="nfK-fF-HWT"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

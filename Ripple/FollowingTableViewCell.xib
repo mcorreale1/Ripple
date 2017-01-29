@@ -65,7 +65,7 @@
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lTU-x3-hRf">
-                        <rect key="frame" x="0.0" y="77" width="320" height="0.5"/>
+                        <rect key="frame" x="0.0" y="76" width="320" height="0.5"/>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Zca-kc-pYl"/>
@@ -79,7 +79,7 @@
                     <constraint firstAttribute="trailing" secondItem="rj1-Pu-0ND" secondAttribute="trailing" constant="14" id="62l-48-BbT"/>
                     <constraint firstItem="ynS-N6-3SR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="1" id="JJo-74-d6a"/>
                     <constraint firstAttribute="trailing" secondItem="CAE-sz-Tax" secondAttribute="trailing" constant="16" id="Lpn-pb-N0W"/>
-                    <constraint firstAttribute="bottom" secondItem="lTU-x3-hRf" secondAttribute="bottom" constant="-2.5" id="NI6-7c-3XE"/>
+                    <constraint firstAttribute="bottom" secondItem="lTU-x3-hRf" secondAttribute="bottom" constant="-1.5" id="NI6-7c-3XE"/>
                     <constraint firstItem="lTU-x3-hRf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="OZL-ZP-6E0"/>
                     <constraint firstItem="CAE-sz-Tax" firstAttribute="leading" secondItem="ynS-N6-3SR" secondAttribute="trailing" constant="13" id="qAo-yQ-t3a"/>
                     <constraint firstItem="RV2-i2-Zar" firstAttribute="centerY" secondItem="rj1-Pu-0ND" secondAttribute="centerY" id="vQJ-yI-Mo2"/>
