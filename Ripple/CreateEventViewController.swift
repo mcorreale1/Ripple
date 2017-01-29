@@ -570,6 +570,19 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
  
          */
+        buttonSendInvitation.enabled = false
+        if(validateFields()) {
+            let completion = { (success:Bool) in
+                if(success) {
+                    self.showInviteUsersViewController(self.organization, event: self.event)
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.navigationController!.popViewControllerAnimated(true)
+                    }
+                    
+                }
+            }
+            editingEvent ? updateEvent(completion) : createEvent(completion)
+        }
 
     }
     //MARK: - Notifications
@@ -694,6 +707,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     if (success) {
                                         self?.event = rippleEvent
                                         or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
+                                         completion(success: true)
                                     } else {
                                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")
                                         self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")

@@ -69,8 +69,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         prepareViews()
     }
     
-    func monthNumberToName() -> String
-    {
+    func monthNumberToName() -> String {
         let value = event!.startDate?.monthNumber()
         var name = ""
         if value == "01"

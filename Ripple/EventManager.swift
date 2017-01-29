@@ -96,23 +96,23 @@ class EventManager: NSObject {
                 }
             }
             
-            var userEventIds = [String]()
-            for uEvent in UserManager().currentUser().events {
-                userEventIds.append(uEvent.objectId)
-            }
+//            var userEventIds = [String]()
+//            for uEvent in UserManager().currentUser().events {
+//                userEventIds.append(uEvent.objectId)
+//            }
+//            
+//            var events = [RippleEvent]()
+//            for event in fetchedOrg.events {
+//                if userEventIds.contains(event.objectId) {
+//                    events.append(event)
+//                } else {
+//                    if !event.isPrivate {
+//                        events.append(event)
+//                    }
+//                }
+//            }
             
-            var events = [RippleEvent]()
-            for event in fetchedOrg.events {
-                if userEventIds.contains(event.objectId) {
-                    events.append(event)
-                } else {
-                    if !event.isPrivate {
-                        events.append(event)
-                    }
-                }
-            }
-            
-            completion(events)
+            completion(futureEvents)
             
         }, error: { (fault) in
             completion([RippleEvent]())

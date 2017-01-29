@@ -52,10 +52,7 @@ class UserManager: NSObject {
             completion()
         })
         
-        print("setting id")
         UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-        
-        print("dev id: "+(UserManager.me?.deviceID)!)
         
         UserManager.me?.save({(success, error) in })
     }
