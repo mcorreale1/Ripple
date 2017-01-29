@@ -109,26 +109,36 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     }
     
     private func loadUnfollowUsers() {
-        UserManager().loadUnfollowUsers(usersCollection) { (users, collection, error) in
+        if(allUsersLoaded) {
+            self.tableView.reloadData()
+            return
+        }
+        UserManager().loadUnfollowUsers(usersCollection) { [weak self] (users, collection, error) in
             if users != nil && users!.count > 0 {
-                self.usersCollection = collection
-                self.users.appendContentsOf(users!)
-                
+                for user in users! {
+                    for currentUser in (self?.users)! {
+                        if (user.name == currentUser.name) {
+                            self?.allUsersLoaded = true
+                            return
+                        }
+                    }
+                }
+                self?.usersCollection = collection
+                self?.users.appendContentsOf(users!)
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
             } else {
-                self.allUsersLoaded = true
-                self.usersCollection = nil
+                self?.allUsersLoaded = true
+                self?.usersCollection = nil
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
             }
         }
     }
     //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
-        print("still loading orgs")
         if(allOrganizationsLoaded) {
             tableView.reloadData()
             return
@@ -140,7 +150,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 for newOrg in orgs! {
                     for currentOrg in (self?.organizations)! {
                         if (newOrg.name == currentOrg.name) {
-                            print("org found")
                             self?.allOrganizationsLoaded = true
                             return
                         }
@@ -191,10 +200,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 }
                 print("User results: \(users?.debugDescription)")
                 OrganizationManager().searchOrgs(searchBar.text!, completion: { (organizations, error) in
-                //OrganizationManager().searchUnfollowOrganizations(searchBar.text!, completion: { (organizations, error) in
-                    
-                    print("Org results: \(organizations?.debugDescription)")
-                        
                     self?.hideActivityIndicator()
                     self?.tableView.userInteractionEnabled = true
                     

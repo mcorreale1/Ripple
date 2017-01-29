@@ -196,7 +196,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
         print("sorted plan: \(sortedByGeolocationAllEventsPlan)")
-        tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
     }
     
     // called in viewdidload, used to see what events are happening with orgs followed (seems to be in location radius as well)
@@ -234,7 +236,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         if segmentedControl.selectedSegmentIndex == 1 {
             if pulsing.count > 0 {
-                filteredPulsing = (pulsing as NSArray).filteredArrayUsingPredicate(searchPredicate) as! [RippleEvent]
+                (pulsing as NSArray).filteredArrayUsingPredicate(searchPredicate) as! [RippleEvent]
             }
         }
         
@@ -300,11 +302,11 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     //determines the amount of rows to put in each category, limits pulsing to 10
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if segmentedControl.selectedSegmentIndex == 0 {
-                return filteredFollowing.count
+                return (following.count <= 10) ? following.count : 10
             } else if segmentedControl.selectedSegmentIndex == 1 {
-                return filteredPulsing.count
+                return (pulsing.count <= 10) ? pulsing.count : 10
             } else if segmentedControl.selectedSegmentIndex == 2 {
-                return filteredGeologicEvents.count
+                return (pulsing.count <= 10) ? pulsing.count : 10
         }
         
         var sectionData = Dictionary<String, AnyObject>()

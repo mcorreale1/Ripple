@@ -108,6 +108,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             
         }
         
+        timeDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
+        dateDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
         //scrollView.or_enableKeyboardInsetHandling()
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(handleTap(_:)))
         view.addGestureRecognizer(recognizer)
@@ -167,8 +169,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         buttonSendInvitation.enabled = true
         timeEditButton.hidden = true
         startDateEditButton.hidden = true
-        timeDoneButton.titleLabel?.text = editDoneButtonEnum.Done.rawValue
-        dateDoneButton.titleLabel?.text = editDoneButtonEnum.Done.rawValue
     }
     
     @IBAction func addressButtonClicked(sender: AnyObject) {
@@ -359,13 +359,14 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     }
     
     @IBAction func saveEventDayTouched(sender: AnyObject) {
-        if (dateDoneButton.titleLabel?.text! == editDoneButtonEnum.Done.rawValue) {
-            datePickerDateEvent.enabled = false
-            dateDoneButton.titleLabel?.text! = editDoneButtonEnum.Edit.rawValue
-        } else if (dateDoneButton.titleLabel?.text! == editDoneButtonEnum.Edit.rawValue) {
-            datePickerDateEvent.enabled = true
-            dateDoneButton.titleLabel?.text! = editDoneButtonEnum.Done.rawValue
-        } else {}
+//        if (dateDoneButton.titleLabel?.text! == editDoneButtonEnum.Done.rawValue) {
+//            datePickerDateEvent.enabled = false
+//            dateDoneButton.titleLabel?.text! = editDoneButtonEnum.Edit.rawValue
+//            dateDoneButton.setTitle(editDoneButtonEnum.Edit.rawValue, forState: UIControlState.Normal)
+//        } else {
+//            datePickerDateEvent.enabled = true
+//            dateDoneButton.setTitle(editDoneButtonEnum.Done.rawValue, forState: UIControlState.Normal)
+//        }
         hideKeyboard()
     }
     
@@ -374,17 +375,15 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     }
     
     @IBAction func saveEventTimeTouched(sender: AnyObject) {
-        if (timeEditButton.titleLabel?.text! == editDoneButtonEnum.Done.rawValue) {
-            datePickerStartTime.enabled = false
-            datePickerFinishTime.enabled = false
-            timeEditButton.titleLabel?.text! = editDoneButtonEnum.Edit.rawValue
-        } else if (timeEditButton.titleLabel?.text! == editDoneButtonEnum.Edit.rawValue) {
-            datePickerStartTime.enabled = true
-            datePickerFinishTime.enabled = true
-            timeEditButton.titleLabel?.text! = editDoneButtonEnum.Done.rawValue
-        } else {
-        
-        }
+//        if (timeEditButton.titleLabel!.text! == editDoneButtonEnum.Done.rawValue) {
+//            datePickerStartTime.enabled = false
+//            datePickerFinishTime.enabled = false
+//            timeEditButton.setTitle(editDoneButtonEnum.Edit.rawValue, forState: UIControlState.Normal)
+//        } else {
+//            datePickerStartTime.enabled = true
+//            datePickerFinishTime.enabled = true
+//            timeEditButton.setTitle(editDoneButtonEnum.Done.rawValue, forState: UIControlState.Normal)
+//        }
         hideKeyboard()
     }
     
@@ -573,14 +572,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
          */
 
     }
-    
-    
     //MARK: - Notifications
     
     func onEventSendInvitationsNotification() {
         wereInvitationsSent = true
     }
-    
     
     func hideKeyboard() {
         view.endEditing(true)
@@ -602,14 +598,16 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     func validateFields() -> Bool {
         
-        if eventName == "" {
+        if (eventNameTextField.text == nil || eventNameTextField.text == "") {
             postEmptyFieldMessage("Please enter a valid name", comment: "Please enter a valid name")
             return false
         }
+        eventName = eventNameTextField.text!
         if eventDescriptionTextView.text == "" {
             postEmptyFieldMessage("Please enter valid description", comment: "Please enter valid description")
             return false
         }
+        eventDescription = eventDescriptionTextView.text
         if coordinate == nil {
             postEmptyFieldMessage("Please choose a valid location", comment: "Please choose a valid location")
             return false
