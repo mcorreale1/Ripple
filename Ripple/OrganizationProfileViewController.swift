@@ -138,6 +138,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             textField.text = self.orgName
             textField.delegate = self
             
+            
         }
         
         let cancelText = NSLocalizedString("Cancel", comment: "Cancel")
