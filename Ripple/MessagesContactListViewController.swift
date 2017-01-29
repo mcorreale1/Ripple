@@ -96,7 +96,7 @@ class MessagesContactListViewController: BaseViewController, UISearchBarDelegate
         if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
             textFieldInsideSearchBar.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
             //textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
-            textFieldInsideSearchBar.backgroundColor = UIColor.clearColor()
+            textFieldInsideSearchBar.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
             //            textFieldInsideSearchBar.layer.borderWidth = 1
             //            textFieldInsideSearchBar.layer.cornerRadius = 6
             textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search", attributes:[NSForegroundColorAttributeName: UIColor.init(red: 150/255, green: 150/255, blue: 150/255, alpha:1)])
