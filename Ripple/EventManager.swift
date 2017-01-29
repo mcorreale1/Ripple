@@ -39,7 +39,8 @@ class EventManager: NSObject {
         
         Users().dataStore().find(query, response: { (collection) in
             let fetchedUser = Users.userFromBackendlessUser(collection.data![0] as! BackendlessUser)
-            let events = fetchedUser.events
+            let rawEvents = fetchedUser.events
+            let events = rawEvents.filter() { $0.endDate!.isGreaterThen(NSDate()) }
             
             var plan = [Dictionary<String, AnyObject>]()
             
