@@ -137,6 +137,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             textField.returnKeyType = .Done
             textField.text = self.orgName
             textField.delegate = self
+            
         }
         
         let cancelText = NSLocalizedString("Cancel", comment: "Cancel")
@@ -378,6 +379,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     func textFieldDidEndEditing(textField: UITextField) {
         orgName = textField.text ?? ""
         title = orgName
+        
     }
     
     // MARK: - Actions
