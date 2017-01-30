@@ -641,7 +641,16 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cellCount = eventsButton.selected ? orgEvents.count : orgMembers.count
+        var cellCount = eventsButton.selected ? orgEvents.count : orgMembers.count
+        if(eventsButton.selected) {
+            if(!(isLeader() || isAdmin() || isMember())) {
+                for event in orgEvents {
+                    if(event.isPrivate) {
+                        cellCount = cellCount - 1
+                    }
+                }
+            }
+        }
         return !editOrganization && (isLeader() || isAdmin()) ? cellCount + 1 : cellCount
     }
     
