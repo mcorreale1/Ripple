@@ -59,8 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
-            UserManager().prepareData()
             print("login complete finished")
+            
         }
         
     }
@@ -143,9 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
 //        }
 
-        let responder = Responder.init(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+        let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
-        print("device registered")
+        
 
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
@@ -154,6 +154,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }) { (fault) in
             print("Push registration service error: deviceToken = " + deviceTokenStr + ", FAULT = " + fault.message)
         } */
+    }
+    
+    func gotDeviceID() {
+        if(UserManager().currentUser().deviceID == nil) {
+            dispatch_async(dispatch_get_main_queue()) {
+                UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+                UserManager().currentUser().save() { [weak self] (success, error) in
+                    if(success) {
+                        print("saved device ID in gotDeviceID")
+                    }
+                }
+            }
+        }
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

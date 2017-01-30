@@ -366,6 +366,10 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         orgDescription = textView.text
     }
     
+    func textViewDidChange(textView: UITextView) {
+        orgDescription = textView.text
+    }
+    
     // MARK: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -455,7 +459,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         
         organization?.name = orgName
-        organization?.info = organizationDescriptionTextView.text
+        organization?.info = orgDescription
         
         organization?.save({[weak self] (entity, error) in
             if error == nil {

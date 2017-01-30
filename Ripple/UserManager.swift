@@ -51,8 +51,10 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
-        
-        UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+        if(UserManager.me?.deviceID == nil) {
+            print("device ID already saved")
+            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+        }
         
         UserManager.me?.save({(success, error) in })
     }
