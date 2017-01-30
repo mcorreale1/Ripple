@@ -47,10 +47,10 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     var titleMessage :String = ""
     var message :String = ""
     
-    let titleColor = UIColor.init(red: 0/255, green:0/255, blue: 0/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     var alertController = UIAlertController()
     let maxLengthOrgDescription = 250
-    let maxLengthOrgName = 30
+    let maxLengthOrgName = 20
     
     deinit {
         or_removeObserver(self)
