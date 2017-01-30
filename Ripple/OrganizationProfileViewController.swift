@@ -455,7 +455,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         
         organization?.name = orgName
-        organization?.info = orgDescription
+        organization?.info = organizationDescriptionTextView.text
         
         organization?.save({[weak self] (entity, error) in
             if error == nil {
