@@ -165,6 +165,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        if application.applicationState == UIApplicationState.Active {
+            let localNote = UILocalNotification()
+            localNote.userInfo = userInfo
+            localNote.soundName = UILocalNotificationDefaultSoundName
+            localNote.fireDate = NSDate()
+            application.scheduleLocalNotification(localNote)
+            
+        }
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(center: UNUserNotificationCenter, willPresentNotification notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        print("Recieved \(notification.request.content.userInfo)")
+        completionHandler([.Alert, .Badge, .Sound])
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {

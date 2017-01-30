@@ -228,7 +228,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
                     
                     let deviceID = user.getProperty("deviceID") as? String
                     let name = self!.organization!.name
-                    self!.publishMessageAsPushNotificationSync(name! + "invited you to an event", deviceId: deviceID!)
+                    self!.publishMessageAsPushNotificationSync(UserManager().currentUser().name! + " Invited you to join " + self!.organization!.name!, deviceId: deviceID!)
                     
 
                 }
@@ -249,7 +249,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
                     
                     let selectedUser = UserManager().currentUser().name
                     let deviceID = user.getProperty("deviceID") as? String
-                    self!.publishMessageAsPushNotificationSync(selectedUser! + "invited you to an event", deviceId: deviceID!)
+                    self!.publishMessageAsPushNotificationSync(selectedUser! + " invited you to an event", deviceId: deviceID!)
                 }
             })
         }

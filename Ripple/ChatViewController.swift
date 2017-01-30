@@ -241,8 +241,7 @@ class ChatViewController: BaseViewController, UITableViewDataSource, UITableView
                 self?.prepareData()
                 let deviceID = channel!.userAddressee()?.getProperty("deviceID") as? String
                 let name = channel!.userAddressee()?.getProperty("name") as? String
-                
-                self!.publishMessageAsPushNotificationSync(name! + "sent you a message", deviceId: deviceID!)
+                self!.publishMessageAsPushNotificationSync(UserManager().currentUser().name! + " sent you a message", deviceId: deviceID!)
                 
             }
         }

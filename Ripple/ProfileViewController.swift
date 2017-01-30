@@ -744,7 +744,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     self?.showAlert("", message: "The profile has been added.")
                         let user = UserManager().currentUser().name
                         let deviceID = self!.selectedUser!.getProperty("deviceID") as? String
-                        self!.publishMessageAsPushNotificationSync(user! + "is following you", deviceId: deviceID!)
+                        self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID!)
                     }
                 }
                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
