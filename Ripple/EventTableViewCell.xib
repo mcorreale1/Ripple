@@ -6,7 +6,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="115.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lHp-tV-p6n">
@@ -65,10 +64,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K80-L3-hYE">
                         <rect key="frame" x="0.0" y="115" width="320" height="1"/>
                         <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="4vB-gR-Fhq"/>
-                            <constraint firstAttribute="width" secondItem="K80-L3-hYE" secondAttribute="height" multiplier="300:1" constant="20" id="FuK-FT-RUL"/>
-                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wEO-Me-Kdn">
                         <rect key="frame" x="92" y="43" width="164" height="18"/>
@@ -82,6 +77,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="K80-L3-hYE" secondAttribute="trailing" id="0Ij-JX-OtC"/>
                     <constraint firstItem="k05-Ds-hrq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="74" id="2GH-J4-c4c"/>
                     <constraint firstItem="juV-fX-7hZ" firstAttribute="leading" secondItem="k05-Ds-hrq" secondAttribute="leading" id="4w0-IR-PTP"/>
                     <constraint firstItem="2Ci-Rw-sQJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-3" id="5fI-IL-tCM"/>
@@ -89,19 +85,17 @@
                     <constraint firstItem="lHp-tV-p6n" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="Abh-vq-gs0"/>
                     <constraint firstItem="2Ci-Rw-sQJ" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Do7-2u-XB2"/>
                     <constraint firstItem="wEO-Me-Kdn" firstAttribute="leading" secondItem="vVF-5j-ujY" secondAttribute="trailing" id="FBR-0V-pK8"/>
-                    <constraint firstAttribute="trailing" secondItem="K80-L3-hYE" secondAttribute="trailing" id="Hap-Qn-mkW"/>
                     <constraint firstItem="vVF-5j-ujY" firstAttribute="firstBaseline" secondItem="wEO-Me-Kdn" secondAttribute="firstBaseline" constant="2" id="MBd-q4-xvz"/>
                     <constraint firstItem="k05-Ds-hrq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="OVz-36-tsc"/>
-                    <constraint firstAttribute="bottom" secondItem="K80-L3-hYE" secondAttribute="bottom" constant="-1.5" id="Pws-oZ-KGf"/>
-                    <constraint firstAttribute="bottom" secondItem="K80-L3-hYE" secondAttribute="bottom" constant="-1" id="QkN-BE-rcP"/>
                     <constraint firstItem="juV-fX-7hZ" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="-8" id="TAg-sq-Kji"/>
-                    <constraint firstAttribute="trailing" secondItem="K80-L3-hYE" secondAttribute="trailing" id="Zo2-1v-GQ6"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="K80-L3-hYE" secondAttribute="bottom" constant="-8.5" id="Ut4-Ud-lwE"/>
+                    <constraint firstItem="K80-L3-hYE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="apw-5I-LA5"/>
                     <constraint firstItem="juV-fX-7hZ" firstAttribute="top" secondItem="wEO-Me-Kdn" secondAttribute="bottom" constant="3" id="b9C-FA-H5e"/>
                     <constraint firstItem="juV-fX-7hZ" firstAttribute="top" secondItem="vVF-5j-ujY" secondAttribute="bottom" constant="8" symbolic="YES" id="gm2-dG-Lry"/>
                     <constraint firstItem="wEO-Me-Kdn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="35" id="lhF-FZ-oiK"/>
                     <constraint firstItem="vVF-5j-ujY" firstAttribute="leading" secondItem="lHp-tV-p6n" secondAttribute="trailing" constant="21" id="nxy-5g-Ktv"/>
-                    <constraint firstItem="K80-L3-hYE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oNJ-KQ-1D9"/>
                     <constraint firstItem="lHp-tV-p6n" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="tph-H7-Dui"/>
+                    <constraint firstItem="K80-L3-hYE" firstAttribute="top" secondItem="juV-fX-7hZ" secondAttribute="bottom" constant="30" id="xQC-Rz-R8c"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
