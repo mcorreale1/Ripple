@@ -38,7 +38,13 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         mapView.delegate = self
         
         EventManager().allEvents {[weak self] (events) in
-            self?.allEvents = events
+            var currentEvents = [RippleEvent]()
+            for event in events {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) {
+                    currentEvents.append(event)
+                }
+            }
+            self?.allEvents = currentEvents
             self?.filteredEvents()
             self?.showPins()
         }
