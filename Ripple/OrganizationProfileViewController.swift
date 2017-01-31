@@ -205,6 +205,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         aboutButton.titleLabel?.text = NSLocalizedString("About", comment: "About")
         aboutButton.selected = true
         tableView.backgroundColor = UIColor.whiteColor()
+        tableView.hidden = true
         followButton.hidden = needHideFollowButton()
         memberCountLabel.text = ""
         title = orgName
