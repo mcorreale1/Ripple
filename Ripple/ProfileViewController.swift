@@ -694,8 +694,9 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     }
     
     func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
-        
-        
+        if(deviceId == " ") {
+            return nil
+        }
         let deliveryOptions = DeliveryOptions()
         deliveryOptions.pushSinglecast = [deviceId]
         
@@ -736,15 +737,17 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     {
                         self?.showAlert("", message: "A request to follow has been sent")
                         let user = UserManager().currentUser().name
-                        let deviceID = self!.selectedUser!.getProperty("deviceID") as? String
-                        self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID!)
+                        if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
+                            self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID)
+                        }
                     }
                     else
                     {
                     self?.showAlert("", message: "The profile has been added.")
                         let user = UserManager().currentUser().name
-                        let deviceID = self!.selectedUser!.getProperty("deviceID") as? String
-                        self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID!)
+                        if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
+                            self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID)
+                        }
                     }
                 }
                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)

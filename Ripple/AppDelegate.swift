@@ -60,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
             print("login complete finished")
-            
         }
         
     }
@@ -145,8 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
-        
-
+        print("After register")
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
@@ -157,7 +155,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
-        if(UserManager().currentUser().deviceID == nil) {
+        print("device registered")
+        let deviceID = UserManager().currentUser().deviceID
+        if(deviceID == " " || deviceID == nil) {
+            print("device ID empty")
             dispatch_async(dispatch_get_main_queue()) {
                 UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
                 UserManager().currentUser().save() { [weak self] (success, error) in
@@ -199,9 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        print("activating app")
         FBSDKAppEvents.activateApp()
-        print("App activated")
     }
 
     func applicationWillResignActive(application: UIApplication) {
