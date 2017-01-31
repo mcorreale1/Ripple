@@ -163,7 +163,12 @@ class EventManager: NSObject {
                                 eventsOrg.removeAtIndex(indexObj)
                             }
                         }
-                        events.appendContentsOf(eventsOrg)
+                        for event in eventsOrg {
+                            if(event.endDate!.isGreaterOrEqualThen(NSDate())) {
+                                events.append(event)
+                            }
+                        }
+                        //events.appendContentsOf(eventsOrg)
                     }
                     
                     let todayEvents = EventManager().eventsInDay(NSDate(), events: events, showPrivate: true)
@@ -423,7 +428,9 @@ class EventManager: NSObject {
                     
                     var pulsingEvents = [RippleEvent]()
                     for ep in eventsParticipants {
-                        pulsingEvents.append(ep.event)
+                        if(ep.event.endDate!.isGreaterOrEqualThen(NSDate())) {
+                            pulsingEvents.append(ep.event)
+                        }
                     }
                     
                     var plans = [Dictionary<String, AnyObject>]()
