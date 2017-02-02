@@ -1605,7 +1605,7 @@ your face off.</string>
                                             <constraint firstAttribute="width" secondItem="ul8-wy-ree" secondAttribute="height" multiplier="160:47" id="Raj-Ou-3ht"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's Pulsing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUM-W7-4k6">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="What's Pulsing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUM-W7-4k6">
                                         <rect key="frame" x="65" y="19" width="191" height="21"/>
                                         <fontDescription key="fontDescription" name="QuicksandBook-Regular" family="Quicksand" pointSize="23"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1614,11 +1614,11 @@ your face off.</string>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XmB-C6-cbA">
                                         <rect key="frame" x="8" y="14" width="30" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="gUW-mU-bWs"/>
-                                            <constraint firstAttribute="width" constant="30" id="qNz-5e-kkE"/>
+                                            <constraint firstAttribute="width" constant="30" id="2AD-dL-hDv"/>
+                                            <constraint firstAttribute="height" constant="30" id="MiO-M2-gsy"/>
                                         </constraints>
                                     </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="YOb-zb-BEY">
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="YOb-zb-BEY">
                                         <rect key="frame" x="7" y="54" width="307" height="29"/>
                                         <segments>
                                             <segment title="Following"/>
@@ -1630,7 +1630,7 @@ your face off.</string>
                                             <action selector="segmentedControlValueChaged:" destination="Ng5-fl-BlF" eventType="valueChanged" id="E2t-Au-8gH"/>
                                         </connections>
                                     </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9L-G2-SO8">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9L-G2-SO8">
                                         <rect key="frame" x="282" y="15" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="QCL-29-cEX"/>
@@ -1649,20 +1649,16 @@ your face off.</string>
                                     <constraint firstItem="UUM-W7-4k6" firstAttribute="centerY" secondItem="v9L-G2-SO8" secondAttribute="centerY" id="6kP-3D-ONu"/>
                                     <constraint firstItem="UUM-W7-4k6" firstAttribute="centerX" secondItem="YOb-zb-BEY" secondAttribute="centerX" id="FBj-02-iER"/>
                                     <constraint firstItem="v9L-G2-SO8" firstAttribute="trailing" secondItem="5gb-Qj-YT0" secondAttribute="trailingMargin" id="JIx-tQ-z7W"/>
-                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="top" secondItem="5gb-Qj-YT0" secondAttribute="top" constant="14" id="JOD-sv-c9o"/>
                                     <constraint firstItem="ul8-wy-ree" firstAttribute="leading" secondItem="5gb-Qj-YT0" secondAttribute="leading" id="Krt-ZG-paQ"/>
                                     <constraint firstAttribute="height" constant="94" id="Nf8-0C-S6y"/>
                                     <constraint firstItem="YOb-zb-BEY" firstAttribute="top" secondItem="UUM-W7-4k6" secondAttribute="bottom" constant="14" id="O4d-xG-3Rp"/>
                                     <constraint firstItem="YOb-zb-BEY" firstAttribute="top" secondItem="v9L-G2-SO8" secondAttribute="bottom" constant="9" id="QPJ-SM-TEB"/>
-                                    <constraint firstItem="YOb-zb-BEY" firstAttribute="top" secondItem="XmB-C6-cbA" secondAttribute="bottom" constant="10" id="Tmn-Hs-hV2"/>
                                     <constraint firstAttribute="bottom" secondItem="ul8-wy-ree" secondAttribute="bottom" id="Ujl-Gg-cSF"/>
-                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="leading" secondItem="5gb-Qj-YT0" secondAttribute="leadingMargin" id="a4V-uA-g6d"/>
                                     <constraint firstItem="v9L-G2-SO8" firstAttribute="leading" secondItem="UUM-W7-4k6" secondAttribute="trailing" constant="26" id="dHV-zt-lIf"/>
                                     <constraint firstItem="YOb-zb-BEY" firstAttribute="leading" secondItem="5gb-Qj-YT0" secondAttribute="leading" constant="7" id="e6p-3K-Wsc"/>
-                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="firstBaseline" secondItem="v9L-G2-SO8" secondAttribute="firstBaseline" id="hyt-8G-NUt"/>
                                     <constraint firstItem="ul8-wy-ree" firstAttribute="top" secondItem="5gb-Qj-YT0" secondAttribute="top" id="i7t-be-1vy"/>
-                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="centerY" secondItem="UUM-W7-4k6" secondAttribute="centerY" id="mtI-iS-eSQ"/>
-                                    <constraint firstItem="UUM-W7-4k6" firstAttribute="leading" secondItem="XmB-C6-cbA" secondAttribute="trailing" constant="27" id="viF-My-spb"/>
+                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="top" secondItem="5gb-Qj-YT0" secondAttribute="top" constant="14" id="oJX-Ml-qtp"/>
+                                    <constraint firstItem="XmB-C6-cbA" firstAttribute="leading" secondItem="5gb-Qj-YT0" secondAttribute="leading" constant="8" id="svj-JX-zVV"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ric-mL-RHz">
@@ -4100,6 +4096,10 @@ your face off.</string>
                                                 </constraints>
                                                 <items>
                                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="l0i-yl-ajt"/>
+                                                    <barButtonItem title="Send Invitations" id="LHk-zl-Jfa">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </barButtonItem>
+                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="xY2-Ee-lU8"/>
                                                     <barButtonItem title="Post Event" id="r4m-cG-oZL">
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <connections>
