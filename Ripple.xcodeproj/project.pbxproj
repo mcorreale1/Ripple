@@ -1149,7 +1149,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jettiapps.Pulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a6298684-c157-495e-83e0-9e9e2f044703";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.jettiapps.Pulse";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
@@ -1178,7 +1178,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jettiapps.Pulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a6298684-c157-495e-83e0-9e9e2f044703";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS: com.jettiapps.Pulse";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
