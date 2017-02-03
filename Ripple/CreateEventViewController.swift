@@ -91,6 +91,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         super.viewDidLoad()
         eventPrivacy.on = true
         isFreeSwitch.on = true
+        self.eventNameTextField.delegate = self
+        self.priceOfEvent.delegate = self
         or_addObserver(self, selector: #selector(onEventSendInvitationsNotification), name: PulseNotification.PulseNotificationEventSendInvitations.rawValue)
         eventDescriptionTextView.delegate = self
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(CreateEventViewController.editNameTouched(_:)))
@@ -589,6 +591,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     func onEventSendInvitationsNotification() {
         wereInvitationsSent = true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     func hideKeyboard() {

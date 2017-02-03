@@ -44,6 +44,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     var orgEvents = [RippleEvent]()
     var orgMembers = [Users]()
     
+    
     var titleMessage :String = ""
     var message :String = ""
     
@@ -177,7 +178,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         
         EventManager().eventOrganization(org) {[weak self] (events) in
-            self?.orgEvents = events
+            
+            for event in events
+            {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) {
+                    self!.orgEvents.append(event)
+                }
+            }
             self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
                 let date1 = event1.startDate
                 let date2 = event2.startDate
