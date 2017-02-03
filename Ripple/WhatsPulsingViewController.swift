@@ -193,6 +193,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
         
+        //have to sort based upon eventmanager().eventparticipants, however i dont want to call the function over and over 
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
         self.nearbyEvents = self.updateEvents(self.sortedByGeolocationAllEventsPlan)
