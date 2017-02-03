@@ -147,11 +147,6 @@ class ReportManager: NSObject {
     
     func createReport() -> Reports {
         let report = Reports()
-        // TODO ACL
-//        let acl = PFACL()
-//        acl.publicReadAccess = true
-//        acl.publicWriteAccess = true
-//        report.ACL = acl
         return report;
     }
     

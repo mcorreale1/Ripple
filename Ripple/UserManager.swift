@@ -57,8 +57,6 @@ class UserManager: NSObject {
         } else {
             print("device ID already saved")
         }
-        
-        
         UserManager.me?.save({(success, error) in })
     }
     
