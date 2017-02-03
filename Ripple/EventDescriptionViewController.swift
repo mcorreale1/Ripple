@@ -157,7 +157,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     }
     
     func prepareNotification() {
-        if event?.startDate!.isGreaterOrEqualThen(NSDate()) {
+        if (event!.startDate!.isGreaterOrEqualThen(NSDate())) {
         let localNotification = UILocalNotification()
         localNotification.fireDate = event!.startDate
         localNotification.alertTitle = event!.name
