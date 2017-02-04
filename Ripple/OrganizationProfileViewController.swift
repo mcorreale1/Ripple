@@ -44,13 +44,14 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     var orgEvents = [RippleEvent]()
     var orgMembers = [Users]()
     
+    
     var titleMessage :String = ""
     var message :String = ""
     
-    let titleColor = UIColor.init(red: 0/255, green:0/255, blue: 0/255, alpha: 1)
+    let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     var alertController = UIAlertController()
     let maxLengthOrgDescription = 250
-    let maxLengthOrgName = 30
+    let maxLengthOrgName = 20
     
     deinit {
         or_removeObserver(self)
@@ -177,7 +178,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         
         EventManager().eventOrganization(org) {[weak self] (events) in
-            self?.orgEvents = events
+            
+            for event in events
+            {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) {
+                    self!.orgEvents.append(event)
+                }
+            }
             self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
                 let date1 = event1.startDate
                 let date2 = event2.startDate
@@ -205,6 +212,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         aboutButton.titleLabel?.text = NSLocalizedString("About", comment: "About")
         aboutButton.selected = true
         tableView.backgroundColor = UIColor.whiteColor()
+        tableView.hidden = true
         followButton.hidden = needHideFollowButton()
         memberCountLabel.text = ""
         title = orgName
@@ -363,6 +371,10 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     }
     
     func textViewDidEndEditing(textView: UITextView) {
+        orgDescription = textView.text
+    }
+    
+    func textViewDidChange(textView: UITextView) {
         orgDescription = textView.text
     }
     
@@ -641,7 +653,16 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cellCount = eventsButton.selected ? orgEvents.count : orgMembers.count
+        var cellCount = eventsButton.selected ? orgEvents.count : orgMembers.count
+        if(eventsButton.selected) {
+            if(!(isLeader() || isAdmin() || isMember())) {
+                for event in orgEvents {
+                    if(event.isPrivate) {
+                        cellCount = cellCount - 1
+                    }
+                }
+            }
+        }
         return !editOrganization && (isLeader() || isAdmin()) ? cellCount + 1 : cellCount
     }
     

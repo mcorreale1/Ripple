@@ -45,8 +45,8 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     var followingUsers = [Users]()
     
     var selectedUser: Users?
-    
     var delegate: ProfileViewControllerDelegate?
+    var viewAppeared = false
     
     
     let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
@@ -81,9 +81,23 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         messageButton.enabled = true
         prepareData()
         tableView.reloadData()
+//        if (!isMe()) {
+//            print("Getting friends")
+//            print("selected user friend count: \(selectedUser?.friends.count)")
+//            UserManager().followingUsersForProfile(selectedUser!) { [weak self] (users, error) in
+//                if(error == nil) {
+//                    print("users: \(users)")
+//                    self!.selectedUser!.friends = users!
+//                    if(self!.viewAppeared) {
+//                        self!.tableView.reloadData()
+//                    }
+//                }
+//            }
+//        }
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        viewAppeared = true
     }
 
     
@@ -155,7 +169,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     func prepareData() {
         UserManager().followingUsers(UserManager().currentUser(), completion: { (followings) in
             self.followingUsers = followings
-            
             if self.isMe() || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
                 EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe(), completion: {[weak self] (plan) in
                     self?.plans = plan
@@ -165,7 +178,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 
                 OrganizationManager().organizationForUser(self.selectedUser!, completion: {[weak self] (org) in
                     self?.organizationArray = org
-                    print("\(org)")
                     self?.organizationArray.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                         let name1 = org1.name
                         let name2 = org2.name
@@ -177,6 +189,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 UserManager().followingForUser(self.selectedUser!, completion: {[weak self] (followings) in
                     self?.hideActivityIndicator()
                     self?.followingArray = followings
+                    print("Followings: \(followings)")
                     self?.tableView.reloadData()
                 })
             }
@@ -339,7 +352,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 return isMe() ? 1 : 0
             } else {
                 let sectionItem = followingArray[section]
-                
                 if let following = sectionItem["items"] as? [AnyObject] {
                     return following.count + (isMe() && section == 0 ? 1 : 0)
                 }
@@ -580,7 +592,11 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     let item = following[indexPath.row - deltaIndex]
                     showProfileViewController(item as! Users)
                 } else {
-                    let deltaIndex = countFollowings(.Friends) > 0 ? isMyProfile : 1
+                    print("Count following: \(countFollowings(.Friends))")
+                    let deltaIndex = countFollowings(.Friends) >= 0 ? isMyProfile : 1
+                    print("Count following: \(countFollowings(.Friends))")
+                    print("Is my profile: \(isMyProfile)")
+                    print("Index: \(indexPath.row) deltaIndex: \(deltaIndex)")
                     let item = following[indexPath.row - deltaIndex]
                     showOrganizationProfileViewController(item as? Organizations, isNewOrg: false, fromInvite: false)
                 }
@@ -694,8 +710,9 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     }
     
     func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
-        
-        
+        if(deviceId == " ") {
+            return nil
+        }
         let deliveryOptions = DeliveryOptions()
         deliveryOptions.pushSinglecast = [deviceId]
         
@@ -736,15 +753,17 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     {
                         self?.showAlert("", message: "A request to follow has been sent")
                         let user = UserManager().currentUser().name
-                        let deviceID = self!.selectedUser!.getProperty("deviceID") as? String
-                        self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID!)
+                        if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
+                            self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID)
+                        }
                     }
                     else
                     {
                     self?.showAlert("", message: "The profile has been added.")
                         let user = UserManager().currentUser().name
-                        let deviceID = self!.selectedUser!.getProperty("deviceID") as? String
-                        self!.publishMessageAsPushNotificationSync(user! + "is following you", deviceId: deviceID!)
+                        if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
+                            self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID)
+                        }
                     }
                 }
                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)

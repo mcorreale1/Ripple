@@ -174,7 +174,6 @@ class Users: BackendlessUser {
             self.eventsBlackList = bEventsBlackList as? [RippleEvent] ?? [RippleEvent]()
         }
         
-        
         if let bFriends = backendlessUser.getProperty(propertyName.friends.rawValue) {
             self.friends = UserManager().backendlessUsersToLocalUsers(bFriends as? [BackendlessUser] ?? [BackendlessUser]())
         }

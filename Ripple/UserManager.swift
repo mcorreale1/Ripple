@@ -51,9 +51,12 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
-        
-        UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-        
+        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
+            print("device ID hasnt been saved")
+            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+        } else {
+            print("device ID already saved")
+        }
         UserManager.me?.save({(success, error) in })
     }
     
@@ -213,19 +216,41 @@ class UserManager: NSObject {
             }
             
             var friendIds = [String]()
-            for friend in user.friends {
-                friendIds.append(friend.objectId)
-            }
-            
-            UserManager().fetchMany(friendIds, completion: { (users, error) in
-                if error == nil && users!.count > 0 {
-                    let friends = ["title" : TypeFollowingSection.Friends.rawValue,
+            if(user.objectId != UserManager().currentUser().objectId) {
+                self.followingUsersForProfile(user) { (friends, error) in
+                    if(error == nil && friends != nil) {
+                        for friend in friends! {
+                            user.friends.append(friend)
+                            friendIds.append(friend.objectId)
+                        }
+                        UserManager().fetchMany(friendIds, completion: { (users, error) in
+                            if error == nil && users!.count > 0 {
+                                let friends = ["title" : TypeFollowingSection.Friends.rawValue,
                                     "items" : users!]
-                    following.append(friends as! Dictionary<String, AnyObject>)
+                                following.append(friends as! Dictionary<String, AnyObject>)
+                            }
+                            
+                            completion(following)
+                        })
+                    } else {
+                        completion(following)
+                    }
                 }
-                
-                completion(following)
-            })
+            } else {
+                print("user friend count: \(user.friends.count)")
+                for friend in user.friends {
+                    friendIds.append(friend.objectId)
+                }
+            
+                UserManager().fetchMany(friendIds, completion: { (users, error) in
+                    if error == nil && users!.count > 0 {
+                        let friends = ["title" : TypeFollowingSection.Friends.rawValue,
+                                        "items" : users!]
+                    following.append(friends as! Dictionary<String, AnyObject>)
+                    }
+                    completion(following)
+                })
+            }
         }
     }
     
@@ -585,6 +610,37 @@ class UserManager: NSObject {
         completion(user.friends)
     }
     
+    func followingUsersForProfile(user: Users, completion:([Users]?, NSError?) -> Void) {
+        var query = BackendlessDataQuery()
+        var options = QueryOptions()
+        query.whereClause = "name = '\(user.name!)'"
+        options.related = ["friends"]
+        query.queryOptions = options
+        
+        Users().dataStore().find(query, response: { (collection) in
+            var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
+            collection.loadOtherPages({ (otherPageCollection) -> Void in
+                if otherPageCollection != nil {
+                    users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageCollection?.data as? [BackendlessUser] ?? [BackendlessUser]()))
+                } else {
+                    var userFriends = [Users]()
+                    if(users.count == 0) {
+                        completion(userFriends, nil)
+                    } else {
+                        for friend in users[0].friends {
+                            print("friend \(friend.name)")
+                            userFriends.append(friend)
+                        }
+                        completion(userFriends, nil)
+                    }
+                }
+            })
+            }, error: { (fault) in
+                completion(nil, ErrorHelper().convertFaultToNSError(fault))
+        })
+        
+    }
+    
     func findUsersByFullName(name: String, completion: ([Users]?, NSError?) -> Void) {
         let query = BackendlessDataQuery()
         query.whereClause = "name = '\(name)'"
@@ -732,12 +788,14 @@ class UserManager: NSObject {
         let query = BackendlessDataQuery()
         query.whereClause = query.getFieldInArraySQLQuery(field: "objectId", array: ids)
         let options = QueryOptions()
-        options.related = ["events", "eventsBlackList", "friends", "organizations", "picture"]
+        options.related = ["events", "eventsBlackList", "organizations", "picture"]
         options.sortBy(["name"])
         query.queryOptions = options
+        print("IDs \(ids)")
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
+            print("Users \(users.description)")
             collection.loadOtherPages({ (otherPageCollection) -> Void in
                 if otherPageCollection != nil {
                     users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageCollection?.data as? [BackendlessUser] ?? [BackendlessUser]()))
@@ -764,8 +822,10 @@ class UserManager: NSObject {
     //Converts backendless user types to local, core data user types
     func backendlessUsersToLocalUsers(bUsers: [BackendlessUser]) -> [Users] {
         var users = [Users]()
+        var num = 0
         for bUser in bUsers {
             users.append(Users.userFromBackendlessUser(bUser))
+            num = num + 1
         }
         return users
     }

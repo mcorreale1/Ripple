@@ -347,8 +347,9 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         return UserManager()
     }()
     func publishMessageAsPushNotificationSync(message: String, deviceId: String) -> MessageStatus? {
-        
-        
+        if(deviceId == " ") {
+            return nil
+        }
         let deliveryOptions = DeliveryOptions()
         deliveryOptions.pushSinglecast = [deviceId]
         
@@ -374,8 +375,10 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
             userManager.confirmFollowingRequest(withID: requestDetails.requestID, withCompletion: { [weak self] (success) in
                 if success {
                     let user = UserManager().currentUser().name
-                    let deviceID = requestDetails.fromUser.getProperty("deviceID") as? String
-                    self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID!)
+                    
+                    if let deviceID = requestDetails.fromUser.getProperty("deviceID") as? String {
+                        self!.publishMessageAsPushNotificationSync(user! + "has requested to follow you", deviceId: deviceID)
+                    }
                     self?.showAlert("Success".localized(), message: "You have a new follower!".localized())
                     self?.followingRequests.removeAtIndex(indexPath.row)
                     self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)

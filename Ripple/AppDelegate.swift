@@ -59,10 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
-            UserManager().prepareData()
             print("login complete finished")
         }
-        
+        print("UIDevice ID \(UIDevice.currentDevice().identifierForVendor?.description)")
     }
     
     func changeLaguageApp() {
@@ -143,10 +142,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
 //        }
 
-        let responder = Responder.init(responder: self, selResponseHandler: #selector(MessagesManager.sharedInstance.responseHandles(_:)), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+        let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
-        print("device registered")
-
+        print("After register")
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
@@ -154,6 +152,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }) { (fault) in
             print("Push registration service error: deviceToken = " + deviceTokenStr + ", FAULT = " + fault.message)
         } */
+    }
+    
+    func gotDeviceID() {
+        print("device registered")
+        let deviceID = UserManager().currentUser().deviceID
+        if(deviceID == nil || deviceID == " ") {
+            print("device ID empty")
+            UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+            UserManager().currentUser().save() { [weak self] (success, error) in
+                if(success) {
+                    print("saved device ID in gotDeviceID")
+                }
+            }
+        }
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -165,6 +177,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        if application.applicationState == UIApplicationState.Active {
+            let localNote = UILocalNotification()
+            localNote.userInfo = userInfo
+            localNote.soundName = UILocalNotificationDefaultSoundName
+            localNote.fireDate = NSDate()
+            application.scheduleLocalNotification(localNote)
+            
+        }
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(center: UNUserNotificationCenter, willPresentNotification notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        print("Recieved \(notification.request.content.userInfo)")
+        completionHandler([.Alert, .Badge, .Sound])
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
@@ -172,9 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        print("activating app")
         FBSDKAppEvents.activateApp()
-        print("App activated")
     }
 
     func applicationWillResignActive(application: UIApplication) {

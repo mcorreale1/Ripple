@@ -163,7 +163,12 @@ class EventManager: NSObject {
                                 eventsOrg.removeAtIndex(indexObj)
                             }
                         }
-                        events.appendContentsOf(eventsOrg)
+                        for event in eventsOrg {
+                            if(event.endDate!.isGreaterOrEqualThen(NSDate())) {
+                                events.append(event)
+                            }
+                        }
+                        //events.appendContentsOf(eventsOrg)
                     }
                     
                     let todayEvents = EventManager().eventsInDay(NSDate(), events: events, showPrivate: true)
@@ -393,14 +398,12 @@ class EventManager: NSObject {
         }
         query.whereClause = whereString
         query.queryOptions = options
-        
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
             collection.loadOtherPages({ (otherPageEvents) -> Void in
                 if otherPageEvents != nil {
                     users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageEvents?.data as? [BackendlessUser] ?? [BackendlessUser]()))
                 } else {
-                    
                     var eventsParticipantsDict = Dictionary<RippleEvent, Int>()
                     for user in users {
                         for userEvent in user.events {
@@ -411,19 +414,18 @@ class EventManager: NSObject {
                             }
                         }
                     }
-                    
                     var eventsParticipants = [EventParticipants]()
                     for (event, participantCount) in eventsParticipantsDict {
                         eventsParticipants.append(EventParticipants(event: event, participantsCount: participantCount))
                     }
-                    
                     eventsParticipants.sortInPlace({ (ep1, ep2) -> Bool in
                         return ep1.participantsCount > ep2.participantsCount
                     })
-                    
                     var pulsingEvents = [RippleEvent]()
                     for ep in eventsParticipants {
-                        pulsingEvents.append(ep.event)
+                        if(ep.event.endDate!.isGreaterOrEqualThen(NSDate())) {
+                            pulsingEvents.append(ep.event)
+                        }
                     }
                     
                     var plans = [Dictionary<String, AnyObject>]()
