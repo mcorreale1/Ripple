@@ -158,12 +158,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareNotification() {
         if (event!.startDate!.isGreaterOrEqualThen(NSDate())) {
-            let localNotification = UILocalNotification()
-            localNotification.fireDate = event!.startDate
-            localNotification.alertTitle = event!.name
-            localNotification.alertBody = "\(event!.name) is starting right now!"
-            localNotification.timeZone = NSTimeZone.defaultTimeZone()
-            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        let localNotification = UILocalNotification()
+        localNotification.fireDate = event!.startDate
+        localNotification.alertTitle = event!.name
+        localNotification.alertBody = "\(event!.name) is starting right now!"
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+
         if (goButton.titleLabel == "Go") {
             UIApplication.sharedApplication().cancelLocalNotification(localNotification)
         }
