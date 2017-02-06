@@ -50,8 +50,8 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Loading view")
-        prepareData()
         prepareLocationManager()
+        prepareData()
         prepareTableView()
         if selectedUser == nil {
             selectedUser = UserManager().currentUser()
@@ -127,19 +127,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         EventManager().followingEvents() { (events) in
             self.hideActivityIndicator()
             self.followingPlan = events
-            print("following plan \(self.followingPlan.count)")
             self.following = self.updateEvents(events)
             self.tableView.reloadData()
             self.scrollTableViewAtFirstCell()
         }
-//        EventManager().eventPlansForUser(UserManager().currentUser(), isMe: true) { (events) in
-//            print("Plan for user: \(events)")
-//            self.hideActivityIndicator()
-//            self.followingPlan = events
-//            self.following = self.updateEvents(events)
-//            self.tableView.reloadData()
-//            self.scrollTableViewAtFirstCell()
-//        }
     }
     
     func prepareLocationManager() {
@@ -186,6 +177,12 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
             
+            tmpEvents.sortInPlace() { (e1, e2) in
+                let loc1 = CLLocation(latitude: e1.latitude, longitude: e1.longitude)
+                let loc2 = CLLocation(latitude: e2.latitude, longitude: e2.longitude)
+                return loc1.distanceFromLocation(locationManager.location!) > loc2.distanceFromLocation(locationManager.location!)
+            }
+            
             if tmpEvents.count > 0 {
                 let section = ["title" : sectionObject["title"],
                                "events" : tmpEvents]
@@ -193,7 +190,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
         
-        //have to sort based upon eventmanager().eventparticipants, however i dont want to call the function over and over 
+        //have to sort based upon eventmanager().eventparticipants, however i dont want to call the function over and over
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
         self.nearbyEvents = self.updateEvents(self.sortedByGeolocationAllEventsPlan)
