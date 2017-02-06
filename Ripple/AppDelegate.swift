@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             Backendless.sharedInstance().userService.setPersistentUser()
             print("login complete finished")
         }
-        
+        print("UIDevice ID \(UIDevice.currentDevice().identifierForVendor?.description)")
     }
     
     func changeLaguageApp() {
@@ -157,14 +157,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func gotDeviceID() {
         print("device registered")
         let deviceID = UserManager().currentUser().deviceID
-        if(deviceID == " " || deviceID == nil) {
+        if(deviceID == nil || deviceID == " ") {
             print("device ID empty")
-            dispatch_async(dispatch_get_main_queue()) {
-                UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-                UserManager().currentUser().save() { [weak self] (success, error) in
-                    if(success) {
-                        print("saved device ID in gotDeviceID")
-                    }
+            UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+            UserManager().currentUser().save() { [weak self] (success, error) in
+                if(success) {
+                    print("saved device ID in gotDeviceID")
                 }
             }
         }

@@ -21,7 +21,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     var allEventsPlan = [Dictionary<String, AnyObject>]()
     var sortedByGeolocationAllEventsPlan = [Dictionary<String, AnyObject>]()
     
-    
     var selectedUser: Users?
     
     var following = [RippleEvent]()
@@ -51,8 +50,8 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Loading view")
-        prepareData()
         prepareLocationManager()
+        prepareData()
         prepareTableView()
         if selectedUser == nil {
             selectedUser = UserManager().currentUser()
@@ -79,12 +78,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         self.showSearchVIewController()
         //performSegueWithIdentifier("SegueToSearchVC", sender: self)
     }
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-//    {
-//        let destinationViewController = segue.destinationViewController as! SearchViewController
-//        destinationViewController.selectedUser = selectedUser
-//        
-//    }
     
     func prepaireView() {
         noEventLabel.hidden = true
@@ -98,17 +91,24 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         //self.sortedGeolocationAllEvents()
         tableView.reloadData()
         prepareNavigationBar()
-        print("sorted count: \(sortedByGeolocationAllEventsPlan.count)")
+        checkDeviceID()
     }
     
-
+    func checkDeviceID() {
+        if (UserManager().currentUser().deviceID == " ") {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                let deviceID = Backendless.sharedInstance().messagingService.getRegistration().deviceId
+                UserManager().currentUser().deviceID = deviceID
+                UserManager().currentUser().save() { (success, error) in }
+            }
+        }
+    }
+    
     func prepareTableView() {
         let nibEventCell = UINib(nibName: "EventTableViewCell", bundle: nil)
         tableView.registerNib(nibEventCell, forCellReuseIdentifier: "EventCell")
-        
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
-        
         tableView.delegate = self
         print("source: \(tableView.dataSource)")
     }
@@ -127,19 +127,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         EventManager().followingEvents() { (events) in
             self.hideActivityIndicator()
             self.followingPlan = events
-            print("following plan \(self.followingPlan.count)")
             self.following = self.updateEvents(events)
             self.tableView.reloadData()
             self.scrollTableViewAtFirstCell()
         }
-//        EventManager().eventPlansForUser(UserManager().currentUser(), isMe: true) { (events) in
-//            print("Plan for user: \(events)")
-//            self.hideActivityIndicator()
-//            self.followingPlan = events
-//            self.following = self.updateEvents(events)
-//            self.tableView.reloadData()
-//            self.scrollTableViewAtFirstCell()
-//        }
     }
     
     func prepareLocationManager() {
@@ -186,6 +177,12 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
             
+            tmpEvents.sortInPlace() { (e1, e2) in
+                let loc1 = CLLocation(latitude: e1.latitude, longitude: e1.longitude)
+                let loc2 = CLLocation(latitude: e2.latitude, longitude: e2.longitude)
+                return loc1.distanceFromLocation(locationManager.location!) > loc2.distanceFromLocation(locationManager.location!)
+            }
+            
             if tmpEvents.count > 0 {
                 let section = ["title" : sectionObject["title"],
                                "events" : tmpEvents]
@@ -193,6 +190,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
         
+        //have to sort based upon eventmanager().eventparticipants, however i dont want to call the function over and over
         pulsing = pulsingEvents
         sortedByGeolocationAllEventsPlan = plan
         self.nearbyEvents = self.updateEvents(self.sortedByGeolocationAllEventsPlan)
@@ -290,7 +288,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     func setNoEventLabel() {
         noEventLabel.hidden = false
-        noEventLabel.text = "No events posted in your area. Get things pulsing! Email jettiinc123@gmail.com to become a paid rep."
+        noEventLabel.text = "No events posted in your area. Get things pulsing! Email info@jettiapps.com to become a paid rep."
         noEventLabel.sizeToFit()
         tableView.backgroundColor = UIColor.init(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
     }
@@ -336,31 +334,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         var event: RippleEvent?
         var dateFormat = "dd MMM h:mm a"
-//        
-//        if  !(segmentedControl.selectedSegmentIndex == 1) {
-//            if segmentedControl.selectedSegmentIndex == 0 {
-//                sectionData = followingPlan[indexPath.section]
-//            } else if segmentedControl.selectedSegmentIndex == 2 {
-//                sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-//            }
-//            print("section data: \(sectionData)")
-//            switch sectionData["title"] as! String {
-//            case TypeEventsSection.Today.rawValue:
-//                dateFormat = "h:mm a"
-//            case TypeEventsSection.ThisWeek.rawValue:
-//                dateFormat = "EEEE"
-//            default:
-//                dateFormat = "dd MMM h:mm a"
-//            }
-//            let events = sectionData["events"] as! [RippleEvent]
-//            print("events array: \(events.count)")
-//            print("index row: \(indexPath.row)")
-//            event = events[indexPath.row]
-//        }  else if segmentedControl.selectedSegmentIndex == 1 {
-//            
-//            event = pulsing[indexPath.row]
-//            dateFormat = "dd MMM h:mm a"
-//        }
+
         if(segmentedControl.selectedSegmentIndex == 0) {
             if (indexPath.section > 0) {
                 return cell
@@ -370,19 +344,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         } else if (segmentedControl.selectedSegmentIndex == 1) {
             event = pulsing[indexPath.row]
         } else {
-//            sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-//            switch sectionData["title"] as! String {
-//            case TypeEventsSection.Today.rawValue:
-//                dateFormat = "h:mm a"
-//            case TypeEventsSection.ThisWeek.rawValue:
-//                dateFormat = "EEEE"
-//            default:
-//                dateFormat = "dd MMM h:mm a"
-//            }
-//            let events = sectionData["events"] as! [RippleEvent]
-//            print("events count \(events.count)")
-//            print("index path: \(indexPath.row)")
-//            event = events[indexPath.row]
             event = nearbyEvents[indexPath.row]
         }
         
@@ -405,15 +366,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         
         return cell
     }
-    
-    // MARK: - UIScrollViewDelegate
-    
-    //DEPRECATED
-//    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-//        searchBar.resignFirstResponder()
-//    }
-    
-    // MARK: - UITableViewDelegate
  
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
@@ -483,11 +435,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         footer.backgroundColor = UIColor.init(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
         return footer
     }
-    //DEPRECATED
-//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return searchBar.text == "" ? 9 : 0
-//    }
-    
+
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //DEPRECATED
 

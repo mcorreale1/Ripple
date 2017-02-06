@@ -29,6 +29,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     var locationManager = CLLocationManager()
     var annotations = [EventAnnotation]()
     var userLocation: CLLocationCoordinate2D?
+    var filter = [RippleEvent]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +39,13 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         mapView.delegate = self
         
         EventManager().allEvents {[weak self] (events) in
-            var currentEvents = [RippleEvent]()
-            for event in events {
+            for event in events
+            {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) {
-                    currentEvents.append(event)
+                    self!.filter.append(event)
                 }
             }
-            self?.allEvents = currentEvents
+            self?.allEvents = self!.filter
             self?.filteredEvents()
             self?.showPins()
         }
