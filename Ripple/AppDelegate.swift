@@ -39,11 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("Logging in" + Backendless.sharedInstance().userService.currentUser.name)
             }
             loginComplete()
+            
         }
+        
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         registerForRemoteNotifications()
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
         print("App did finish with options")
         return true
     }
@@ -59,10 +63,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
+            self.loginToFacebook()
             print("login complete finished")
         }
-        print("UIDevice ID \(UIDevice.currentDevice().identifierForVendor?.description)")
     }
+    
+    func loginToFacebook() {
+        
+        if(FBSDKAccessToken.currentAccessToken() == nil) {
+            if let authData = UserManager().currentUser().authData {
+                if let token = tokenFromAuthData(authData) {
+                    if(FBSDKAccessToken.currentAccessToken() == nil) {
+                        print("Logging in to facebook")
+//                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                            Backendless.sharedInstance().userService.loginWithFacebookSDK(token, permissions: ["public_profile","user_friends"], fieldsMapping: [:], error: nil)
+//                        }
+                        print("Logged into fb")
+                    }
+                }
+            }
+        }
+    }
+    
     
     func changeLaguageApp() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -137,10 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("registering device with token \(deviceToken)")
         //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
         
-//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-//            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
-//        }
+
 
         let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
@@ -197,6 +217,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
+    
     func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
@@ -218,6 +239,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func initMagicalRecords() {
         MagicalRecord.setupCoreDataStack()
     }
+    
+    func tokenFromAuthData(authData:String) -> FBSDKAccessToken? {
+        var ary = authData.componentsSeparatedByString(",")
+        var tokenString = ary[0].componentsSeparatedByString(":")[2]
+        tokenString = tokenString.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        var rawDate = ary[1].componentsSeparatedByString("\":\"")[1]
+        rawDate = rawDate.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let date = dateFormatter.dateFromString(rawDate)
+        
+        var id = ary[2].componentsSeparatedByString(":")[1]
+        id = id.stringByReplacingOccurrencesOfString("\"", withString: "")
+        id = id.stringByReplacingOccurrencesOfString("}", withString: "")
+        
+        let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
+        print("token string: \(token.tokenString)")
+        return token
+    }
+    
 
 }
 

@@ -35,10 +35,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     var filteredAllEvents = [RippleEvent]()
     var filteredGeologicEvents = [RippleEvent]()
     
-    var geoFilteredFollowing = [RippleEvent]()
-    var geoFilteredPulsing = [RippleEvent]()
-    var geoFilteredAllEvents = [RippleEvent]()
-    
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
     
@@ -110,7 +106,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
         tableView.delegate = self
-        print("source: \(tableView.dataSource)")
     }
     
     //why does it hide the activity indicator when loading the following events but not for pulsing events?
@@ -328,7 +323,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("finding events")
         let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
         var sectionData = Dictionary<String, AnyObject>()
         

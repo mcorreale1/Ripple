@@ -1149,7 +1149,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jettiapps.Pulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ff0d9948-6ade-4b97-9f00-e2850ec8bfcc";
+				PROVISIONING_PROFILE = "c66ff5b9-c6e3-4c4c-aab1-3ad4c9d49f6a";
 				PROVISIONING_PROFILE_SPECIFIER = PulsePushNotificationProfile;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;

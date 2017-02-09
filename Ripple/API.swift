@@ -124,8 +124,8 @@ class API: NSObject {
     
     func loginWithFacebook(fromViewController viewController: UIViewController, completion: (Users!, NSError?) -> Void, onCancel : () -> Void) {
         let facebookManager = FBSDKLoginManager()
-        let permissions = ["public_profile", "email"]
-        
+        let permissions = ["public_profile", "email", "user_friends"]
+        print("Logging into fb")
         facebookManager.logOut()
         facebookManager.logInWithReadPermissions(permissions, fromViewController: viewController, handler: { (result, error) in
             if let err = error {

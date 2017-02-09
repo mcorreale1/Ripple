@@ -50,10 +50,15 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
+        
     }
+    
+
+
     
     /*The first time a user uses the app they are forced to
     look at the privacy policy/terms of use

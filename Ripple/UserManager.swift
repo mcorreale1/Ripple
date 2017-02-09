@@ -57,12 +57,33 @@ class UserManager: NSObject {
         } else {
             print("device ID already saved")
         }
+        let token = tokenFromAuthData((UserManager.me?.authData!)!)
         UserManager.me?.save({(success, error) in })
     }
     
     func prepareData() {
 
     }
+    
+    private func tokenFromAuthData(authData:String) -> FBSDKAccessToken {
+        var ary = authData.componentsSeparatedByString(",")
+        var tokenString = ary[0].componentsSeparatedByString(":")[2]
+        tokenString = tokenString.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        var rawDate = ary[1].componentsSeparatedByString("\":\"")[1]
+        rawDate = rawDate.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let date = dateFormatter.dateFromString(rawDate)
+        
+        var id = ary[2].componentsSeparatedByString(":")[1]
+        id = id.stringByReplacingOccurrencesOfString("\"", withString: "")
+        id = id.stringByReplacingOccurrencesOfString("}", withString: "")
+        
+        let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
+        print("token string: \(token.tokenString)")
+        return token
+    }
+
     
     /*
      *  All setters call .syncronize() after setting to ensure entire app is up to date

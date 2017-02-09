@@ -97,22 +97,6 @@ class EventManager: NSObject {
                 }
             }
             
-//            var userEventIds = [String]()
-//            for uEvent in UserManager().currentUser().events {
-//                userEventIds.append(uEvent.objectId)
-//            }
-//            
-//            var events = [RippleEvent]()
-//            for event in fetchedOrg.events {
-//                if userEventIds.contains(event.objectId) {
-//                    events.append(event)
-//                } else {
-//                    if !event.isPrivate {
-//                        events.append(event)
-//                    }
-//                }
-//            }
-            
             completion(futureEvents)
             
         }, error: { (fault) in
@@ -319,6 +303,26 @@ class EventManager: NSObject {
             })
         }, error: { (fault) in
             completion([RippleEvent]())
+        })
+    }
+    
+    func searchEventsByName(name:String, completion: ([RippleEvent]) -> Void) {
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        options.related = ["organization"]
+        query.queryOptions = options
+        query.whereClause = "isPrivate = 'false' and name like '%" + name + "%'"
+        RippleEvent().dataStore().find(query, response: { (collection) in
+            var events = collection.data as? [RippleEvent] ?? [RippleEvent]()
+            collection.loadOtherPages() { (otherPageEvents) -> Void in
+                if(otherPageEvents != nil) {
+                    events.appendContentsOf(otherPageEvents!.data as? [RippleEvent] ?? [RippleEvent]())
+                } else {
+                    completion(events)
+                }
+            }
+            }, error: { (fault) in
+                completion([RippleEvent]())
         })
     }
 

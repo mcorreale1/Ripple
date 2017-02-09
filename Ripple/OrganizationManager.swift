@@ -170,7 +170,6 @@ class OrganizationManager: NSObject {
         options.sortBy = ["name"]
         query.queryOptions = options
         Organizations().dataStore().find(query, response: { (collection) in
-            print("Collection data: " + collection.data.debugDescription)
             var orgs = collection.data as? [Organizations] ?? [Organizations]()
             collection.loadOtherPages({ (otherPageCollection) -> Void in
                 if otherPageCollection != nil {
