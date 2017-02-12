@@ -77,6 +77,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         super.viewWillAppear(animated)
         
         if (!editOrganization) {
+            
             prepareData()
             prepareViews()
         }
@@ -167,7 +168,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         guard let org = organization else {
             return
         }
-        
+        if  orgEvents.isEmpty == true
+        {
+
         orgName = organization?.name ?? ""
         orgDescription = organization?.info ?? ""
         
@@ -204,6 +207,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 self?.tableView.reloadData()
             }
         }
+       }
     }
     
     private func prepareViews() {        

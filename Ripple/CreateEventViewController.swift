@@ -724,6 +724,9 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     completion(success: true)
                                     //May need to uncomment
                                     //self?.navigationController?.popViewControllerAnimated(true)
+                                    UserManager().goOnEvent(self!.event!, completion: { (success) in
+                                        })
+
         })
         
     }

@@ -69,6 +69,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
    
     private func prepareNavigationBar() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         let searchbarbutton = UIBarButtonItem(image: UIImage(named: "SearchBar"), style: .Plain, target: self, action: #selector(WhatsPulsingViewController.seguetoSearch(_:)))
         searchbarbutton.tintColor = titleColor
         navigationItem.rightBarButtonItem = searchbarbutton

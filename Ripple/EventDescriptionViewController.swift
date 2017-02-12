@@ -161,7 +161,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let localNotification = UILocalNotification()
         localNotification.fireDate = event!.startDate
         localNotification.alertTitle = event!.name
-        localNotification.alertBody = "\(event!.name) is starting right now!"
+        localNotification.alertBody = "This event is starting right now!"
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
 
