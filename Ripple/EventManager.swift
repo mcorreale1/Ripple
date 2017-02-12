@@ -365,7 +365,7 @@ class EventManager: NSObject {
                 completion(false, nil)
             }
         })
-
+            
     }
     
     func updateEvent(event: RippleEvent, organization: Organizations, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {

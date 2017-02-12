@@ -496,6 +496,7 @@ class UserManager: NSObject {
         query.whereClause = "objectId not in ( '" + friendIds.joinWithSeparator("', '") + "') and name LIKE '%" + searchString + "%'"
         let queryOptions = QueryOptions()
         queryOptions.sortBy(["name"])
+         queryOptions.related = ["picture"]
         query.queryOptions = queryOptions
         
         Users().dataStore().find(query, response: { (collection) in

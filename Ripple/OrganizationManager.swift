@@ -168,6 +168,7 @@ class OrganizationManager: NSObject {
         let options = QueryOptions()
         query.whereClause = "name LIKE '%\(searchString)%'"
         options.sortBy = ["name"]
+        options.related = ["picture"]
         query.queryOptions = options
         Organizations().dataStore().find(query, response: { (collection) in
             var orgs = collection.data as? [Organizations] ?? [Organizations]()
