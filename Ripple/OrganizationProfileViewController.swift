@@ -185,7 +185,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             for event in events
             {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) {
-                    self!.orgEvents.append(event)
+                    self?.orgEvents.append(event)
                 }
             }
             self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in

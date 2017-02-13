@@ -608,7 +608,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         let completion = { (success:Bool) in
             if(success) {
                 self.eventCreating = false
-                self.navigationController!.popViewControllerAnimated(true)
+                self.navigationController?.popToRootViewControllerAnimated(true)
             }
         }
         if validateFields() {
@@ -738,7 +738,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         self.eventCreating = true
         self.showActivityIndicator()
-        EventManager().createEvent(self.organization!,
+        EventManager().updateEvent(self.organization!,
                                    event: self.event!,
                                    name: self.eventName,
                                    start: self.startTime!,
@@ -755,7 +755,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     self?.eventCreating = false
                                     if (success) {
                                         print("Success")
-//                                        EventManager().deleteEvent(self!.event!) {(success) in }
                                         self?.event = rippleEvent
                                         or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
                                         completion(success: true)
@@ -766,8 +765,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                         return
                                     }
                                     completion(success: false)
-                                    //May need to uncomment
-                                    //self?.navigationController?.popViewControllerAnimated(true)
             })
 //
 //        EventManager().cre(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in

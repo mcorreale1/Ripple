@@ -209,7 +209,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
             let editAction:UIAlertAction = UIAlertAction(title: "Edit Event", style: .Default) { action -> Void in
                 self.showEditEventViewController(self.org, event: self.event!)
             }
-            //actionSheetController.addAction(editAction)
+            actionSheetController.addAction(editAction)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
