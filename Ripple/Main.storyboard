@@ -1093,7 +1093,7 @@ label</string>
                                                 <rect key="frame" x="0.0" y="195" width="320" height="677"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="T9x-AC-Rot">
-                                                        <rect key="frame" x="22" y="9" width="80" height="32"/>
+                                                        <rect key="frame" x="22" y="7" width="80" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="Pot-p1-oUO"/>
                                                             <constraint firstAttribute="width" constant="80" id="fiK-20-l1T"/>
@@ -1133,7 +1133,7 @@ eeee</string>
                                                     <constraint firstItem="54D-sn-Vj8" firstAttribute="leading" secondItem="IEr-Q9-gLb" secondAttribute="leading" constant="20" id="hqM-FC-1AU"/>
                                                     <constraint firstAttribute="trailing" secondItem="xr0-Mi-hFk" secondAttribute="trailing" id="iHX-PU-d6o"/>
                                                     <constraint firstAttribute="trailing" secondItem="54D-sn-Vj8" secondAttribute="trailing" constant="20" id="lyA-ha-ixa"/>
-                                                    <constraint firstItem="T9x-AC-Rot" firstAttribute="top" secondItem="IEr-Q9-gLb" secondAttribute="top" constant="9" id="ncA-pP-xC0"/>
+                                                    <constraint firstItem="T9x-AC-Rot" firstAttribute="top" secondItem="IEr-Q9-gLb" secondAttribute="top" constant="7" id="ncA-pP-xC0"/>
                                                     <constraint firstItem="54D-sn-Vj8" firstAttribute="top" secondItem="IEr-Q9-gLb" secondAttribute="top" constant="41" id="tLN-dH-LDx"/>
                                                     <constraint firstItem="T9x-AC-Rot" firstAttribute="leading" secondItem="IEr-Q9-gLb" secondAttribute="leading" constant="22" id="ta9-sx-sKI"/>
                                                     <constraint firstItem="xr0-Mi-hFk" firstAttribute="centerX" secondItem="54D-sn-Vj8" secondAttribute="centerX" id="wqh-Y3-iU0"/>
@@ -2715,7 +2715,7 @@ your face off.</string>
             <objects>
                 <navigationController id="WPA-fi-V3Q" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="GlobalIconsProfile" id="KfC-ub-8Ap">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="1"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="3"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="keyPath">
                                 <color key="value" red="0.38039215686274508" green="0.074509803921568626" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
