@@ -48,8 +48,6 @@ class OrganizationManager: NSObject {
                 }
             })
         }
-        
-
         if organization.leaderId == user.objectId {
             return .Founder
         }
@@ -61,13 +59,11 @@ class OrganizationManager: NSObject {
         if organization.members!.toBackendlessArray().contains(user.objectId) {
             return .Member
         }
-        
         for organization in user.organizations {
             if organization.objectId == organization.objectId {
                 return .Follower
             }
         }
-        
         return .None
     }
     
@@ -89,6 +85,7 @@ class OrganizationManager: NSObject {
                 if otherPageCollection != nil {
                     users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageCollection?.data as? [BackendlessUser] ?? [BackendlessUser]()))
                 } else {
+                    organization.membersOf.appendContentsOf(users)
                     completion(users)
                 }
             })

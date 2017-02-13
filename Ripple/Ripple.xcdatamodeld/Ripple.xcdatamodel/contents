@@ -47,7 +47,8 @@
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="organization" inverseEntity="Event" syncable="YES"/>
         <relationship name="invitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="organization" inverseEntity="Invitation" syncable="YES"/>
         <relationship name="leader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="leadingOrganizations" inverseEntity="User" syncable="YES"/>
-        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="organizations" inverseEntity="User" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="membersOf" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="organizations" inverseEntity="User" syncable="YES"/>
         <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="owner" inverseEntity="Picture" syncable="YES"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="organization" inverseEntity="Report" syncable="YES"/>
     </entity>
@@ -90,7 +91,7 @@
         <relationship name="incomingReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="toUser" inverseEntity="Report" syncable="YES"/>
         <relationship name="incomingRequests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FollowingRequest" inverseName="toUser" inverseEntity="FollowingRequest" syncable="YES"/>
         <relationship name="leadingOrganizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="leader" inverseEntity="Organization" syncable="YES"/>
-        <relationship name="organizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="members" inverseEntity="Organization" syncable="YES"/>
+        <relationship name="organizations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Organization" inverseName="membersOf" inverseEntity="Organization" syncable="YES"/>
         <relationship name="outcomingInvitations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invitation" inverseName="fromUser" inverseEntity="Invitation" syncable="YES"/>
         <relationship name="outcomingReports" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Report" inverseName="fromUser" inverseEntity="Report" syncable="YES"/>
         <relationship name="outcomingRequests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FollowingRequest" inverseName="fromUser" inverseEntity="FollowingRequest" syncable="YES"/>
@@ -100,9 +101,9 @@
         <element name="Event" positionX="-315" positionY="527" width="128" height="315"/>
         <element name="FollowingRequest" positionX="-531" positionY="50" width="128" height="105"/>
         <element name="Invitation" positionX="-72" positionY="495" width="128" height="150"/>
-        <element name="Organization" positionX="349" positionY="-82" width="128" height="255"/>
+        <element name="Organization" positionX="349" positionY="-82" width="128" height="270"/>
         <element name="Picture" positionX="-515" positionY="315" width="128" height="150"/>
         <element name="Report" positionX="396" positionY="342" width="128" height="135"/>
-        <element name="User" positionX="-306" positionY="-112" width="128" height="433"/>
+        <element name="User" positionX="-306" positionY="-112" width="128" height="435"/>
     </elements>
 </model>

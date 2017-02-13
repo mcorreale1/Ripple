@@ -36,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
             if(Backendless.sharedInstance().userService.currentUser.name != nil) {
-                print("Logging in" + Backendless.sharedInstance().userService.currentUser.name)
             }
             loginComplete()
             
@@ -47,8 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         registerForRemoteNotifications()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-
-        print("App did finish with options")
         return true
     }
    
@@ -64,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
             self.loginToFacebook()
-            print("login complete finished")
         }
     }
     
@@ -74,12 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let authData = UserManager().currentUser().authData {
                 if let token = tokenFromAuthData(authData) {
                     if(FBSDKAccessToken.currentAccessToken() == nil) {
-                        print("Logging in to facebook")
 //                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 //                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
                             Backendless.sharedInstance().userService.loginWithFacebookSDK(token, permissions: ["public_profile","user_friends"], fieldsMapping: [:], error: nil)
 //                        }
-                        print("Logged into fb")
                     }
                 }
             }
@@ -127,7 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func registerForRemoteNotifications() {
-        print("In register for remote")
         if #available(iOS 10.0, *)
         {
            let center = UNUserNotificationCenter.currentNotificationCenter()
@@ -157,14 +150,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        print("registering device with token \(deviceToken)")
         //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
         
 
 
         let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
-        print("After register")
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
@@ -175,10 +166,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
-        print("device registered")
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
-            print("device ID empty")
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
             UserManager().currentUser().save() { [weak self] (success, error) in
                 if(success) {
@@ -255,7 +244,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         id = id.stringByReplacingOccurrencesOfString("}", withString: "")
         
         let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
-        print("token string: \(token.tokenString)")
         return token
     }
     

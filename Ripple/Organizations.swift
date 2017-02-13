@@ -20,4 +20,5 @@ class Organizations: BackendlessEntity {
     var events = [RippleEvent]()
     var GreekLife: String?
     var picture: Pictures?
+    var membersOf = [Users]()
 }
