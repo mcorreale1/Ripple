@@ -45,7 +45,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Loading view")
         prepareLocationManager()
         prepareData()
         prepareTableView()
@@ -94,9 +93,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     func checkDeviceID() {
         if (UserManager().currentUser().deviceID == " ") {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let deviceID = Backendless.sharedInstance().messagingService.getRegistration().deviceId
-                UserManager().currentUser().deviceID = deviceID
-                UserManager().currentUser().save() { (success, error) in }
+                let deviceId: String = Backendless.sharedInstance().messagingService.currentDevice().deviceId
+                let currentUser = Backendless.sharedInstance().userService.currentUser
+                currentUser.setProperty("deviceID", object: deviceId)
+                Backendless.sharedInstance().userService.update(currentUser)
             }
         }
     }
@@ -176,7 +176,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             tmpEvents.sortInPlace() { (e1, e2) in
                 let loc1 = CLLocation(latitude: e1.latitude, longitude: e1.longitude)
                 let loc2 = CLLocation(latitude: e2.latitude, longitude: e2.longitude)
-                return loc1.distanceFromLocation(locationManager.location!) > loc2.distanceFromLocation(locationManager.location!)
+                return loc1.distanceFromLocation(locationManager.location!) < loc2.distanceFromLocation(locationManager.location!)
             }
             
             if tmpEvents.count > 0 {
@@ -206,7 +206,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
         }
-        print("resultsEvents count \(resultEvents.count)")
         return resultEvents
     }
     
@@ -416,7 +415,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
     
         header.titleHeader.text = sectionData["title"] as? String
-        print("header title: \(header.titleHeader.text)")
         if(section == 0) {
             header.titleHeader.text = "All Events"
         } else {
@@ -460,9 +458,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         if segmentedControl.selectedSegmentIndex == 2 {
-            let sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-            let events = sectionData["events"] as! [RippleEvent]
-            let event = events[indexPath.row]
+            //let sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
+            //let events = sectionData["events"] as! [RippleEvent]
+            let event = nearbyEvents[indexPath.row]
             showEventDescriptionViewController(event)
         }
     }

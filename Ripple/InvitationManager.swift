@@ -77,7 +77,13 @@ class InvitationManager: NSObject {
         if let typeInvitation = invitation.type {
             switch typeInvitation {
             case Invitation.typeInvitation.organization.rawValue:
-                OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in })
+                OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in
+                    if(success) {
+                        print("Joined org")
+                    } else {
+                        print("failed to join org")
+                    }
+                })
                 
                 invitation.delete({ (_) in })
                 

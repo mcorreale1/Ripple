@@ -197,6 +197,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             OrganizationManager().membersInOrganizations(org) { [weak self] (result) in
                 if result != nil {
                     self?.orgMembers = result!
+                    print("org members in OPVC: \(self?.orgMembers)")
                     self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
                         let name1 = user1.name
                         let name2 = user2.name

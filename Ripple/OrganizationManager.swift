@@ -298,10 +298,11 @@ class OrganizationManager: NSObject {
     }
     
     func fetch(org: Organizations, completion: (Organizations?, NSError?) -> Void) {
+        print("Fetching org id: \(org.objectId) name: \(org.name)")
         let query = BackendlessDataQuery()
         query.whereClause = "objectId = '\(org.objectId)'"
         let options = QueryOptions()
-        options.related = ["events", "members"]
+        options.related = ["events", "members", "picture"]
         query.queryOptions = options
         
         Organizations().dataStore().find(query, response: { (collection) in
