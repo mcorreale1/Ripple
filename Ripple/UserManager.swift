@@ -57,7 +57,6 @@ class UserManager: NSObject {
         } else {
             print("device ID already saved")
         }
-        let token = tokenFromAuthData((UserManager.me?.authData!)!)
         UserManager.me?.save({(success, error) in })
     }
     
@@ -633,8 +632,8 @@ class UserManager: NSObject {
     }
     
     func followingUsersForProfile(user: Users, completion:([Users]?, NSError?) -> Void) {
-        var query = BackendlessDataQuery()
-        var options = QueryOptions()
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
         query.whereClause = "name = '\(user.name!)'"
         options.related = ["friends"]
         query.queryOptions = options

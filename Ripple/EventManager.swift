@@ -384,6 +384,7 @@ class EventManager: NSObject {
         event.picture = event.organization?.picture
         event.save() { (newEvent, error) in
             guard error == nil else {
+                print("error: \(error?.description)")
                 completion(false, nil)
                 return
             }
@@ -394,7 +395,7 @@ class EventManager: NSObject {
                 completion(false, event)
             }
         }
-        completion(false, event)
+        print("here")
     }
     
     func pulsingEvents(completion: ([Dictionary<String, AnyObject>]) -> Void) {
@@ -447,26 +448,29 @@ class EventManager: NSObject {
                     
                     var plans = [Dictionary<String, AnyObject>]()
                     
-                    let todayEvents = EventManager().eventsInDay(NSDate(), events: pulsingEvents, showPrivate: false)
-                    if todayEvents.count > 0 {
-                        let section = ["title" : TypeEventsSection.Today.rawValue,
-                            "events" : todayEvents]
-                        plans.append(section as! Dictionary<String, AnyObject>)
-                    }
-                    
-                    let eventsThisWeek = EventManager().eventsThisWeek(pulsingEvents, showPrivate: false)
-                    if eventsThisWeek.count > 0 {
-                        let section = ["title" : TypeEventsSection.ThisWeek.rawValue,
-                            "events" : eventsThisWeek]
-                        plans.append(section as! Dictionary<String, AnyObject>)
-                    }
-                    
-                    let eventsFuture = EventManager().eventsFuture(pulsingEvents, showPrivate: false)
-                    if eventsFuture.count > 0 {
-                        let section = ["title" : TypeEventsSection.Future.rawValue,
-                            "events" : eventsFuture]
-                        plans.append(section as! Dictionary<String, AnyObject>)
-                    }
+//                    let todayEvents = EventManager().eventsInDay(NSDate(), events: pulsingEvents, showPrivate: false)
+//                    if todayEvents.count > 0 {
+//                        let section = ["title" : TypeEventsSection.Today.rawValue,
+//                            "events" : todayEvents]
+//                        plans.append(section as! Dictionary<String, AnyObject>)
+//                    }
+//                    
+//                    let eventsThisWeek = EventManager().eventsThisWeek(pulsingEvents, showPrivate: false)
+//                    if eventsThisWeek.count > 0 {
+//                        let section = ["title" : TypeEventsSection.ThisWeek.rawValue,
+//                            "events" : eventsThisWeek]
+//                        plans.append(section as! Dictionary<String, AnyObject>)
+//                    }
+//                    
+//                    let eventsFuture = EventManager().eventsFuture(pulsingEvents, showPrivate: false)
+//                    if eventsFuture.count > 0 {
+//                        let section = ["title" : TypeEventsSection.Future.rawValue,
+//                            "events" : eventsFuture]
+//                        plans.append(section as! Dictionary<String, AnyObject>)
+//                    }
+//                    
+                    let section = ["title": "All", "events": pulsingEvents]
+                    plans.append(section as! Dictionary<String, AnyObject>)
                     completion(plans)
                 }
             })

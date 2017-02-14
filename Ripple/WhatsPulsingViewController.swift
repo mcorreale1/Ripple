@@ -167,7 +167,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             let events = sectionObject["events"] as! [RippleEvent]
             
             for event in events {
-                if isLocationEvents(event) && !tmpEvents.contains(event) {
+                if isLocationEvents(event) && !tmpEvents.contains(event) && event.isPrivate == false {
                     tmpEvents.append(event)
                     pulsingEvents.append(event)
                 }
@@ -301,11 +301,13 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
 
         if segmentedControl.selectedSegmentIndex == 0 {
-            return (following.count <= 10) ? following.count : 10
+            //return (following.count <= 10) ? following.count : 10
+            return following.count
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return (pulsing.count <= 10) ? pulsing.count : 10
         } else if segmentedControl.selectedSegmentIndex == 2 {
-            return (nearbyEvents.count <= 10) ? nearbyEvents.count : 10
+            //return (nearbyEvents.count <= 10) ? nearbyEvents.count : 10
+            return nearbyEvents.count
         }
         
         var sectionData = Dictionary<String, AnyObject>()

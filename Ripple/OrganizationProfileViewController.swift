@@ -168,9 +168,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         guard let org = organization else {
             return
         }
-        if  orgEvents.isEmpty == true
-        {
-
         orgName = organization?.name ?? ""
         orgDescription = organization?.info ?? ""
         
@@ -179,13 +176,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 self?.orgPicture = image
             })
         }
-        
+//        if  orgEvents.isEmpty == true {
         EventManager().eventOrganization(org) {[weak self] (events) in
-            
-            for event in events
-            {
-                if event.endDate!.isGreaterOrEqualThen(NSDate()) {
+            for event in events {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) || self!.orgEvents.contains(event) == false {
                     self?.orgEvents.append(event)
+                } else if self!.orgEvents.contains(event) {
+                    print("Event already in list")
                 }
             }
             self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
@@ -193,7 +190,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 let date2 = event2.startDate
                 return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
             }
-            
             OrganizationManager().membersInOrganizations(org) { [weak self] (result) in
                 if result != nil {
                     self?.orgMembers = result!
@@ -208,10 +204,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 self?.tableView.reloadData()
             }
         }
-       }
+    }
+
+    private func getOrgMembers(org:Organizations) {
+        
     }
     
-    private func prepareViews() {        
+    private func prepareViews() {
         eventsButton.titleLabel?.text = NSLocalizedString("Events", comment: "Events")
         membersButton.titleLabel?.text = NSLocalizedString("Members", comment: "Members")
         aboutButton.titleLabel?.text = NSLocalizedString("About", comment: "About")
@@ -625,11 +624,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             return
         }
         
-        let frame = frameValue.CGRectValue()
-        
-        //Here
-        //bottonLCDescrTextView.constant = frame.size.height - heighTabBar - 80
-        
+        //let frame = frameValue.CGRectValue()
         UIView.animateWithDuration(NSTimeInterval(duration), animations: {
             self.view.layoutIfNeeded()
         })

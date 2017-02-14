@@ -169,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-            UserManager().currentUser().save() { [weak self] (success, error) in
+            UserManager().currentUser().save() { (success, error) in
                 if(success) {
                     print("saved device ID in gotDeviceID")
                 }

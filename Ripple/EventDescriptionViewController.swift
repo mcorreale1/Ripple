@@ -210,6 +210,12 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
                 self.showEditEventViewController(self.org, event: self.event!)
             }
             actionSheetController.addAction(editAction)
+            
+            //let deleteAction:UIAlertAction = UIAlertAction(title: "Delete Event", style: .Default, handler: )
+            let deleteAction:UIAlertAction = UIAlertAction(title: "Delete Event", style: .Default) { (action) in
+                self.deleteEvent()
+            }
+            actionSheetController.addAction(deleteAction)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
@@ -230,6 +236,30 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
+    }
+    
+    func deleteEvent() {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this event?", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (_) in}
+        let confirmAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
+            self.showActivityIndicator()
+            EventManager().deleteEvent(self.event!) { (success) in
+                self.hideActivityIndicator()
+                if(success) {
+                    if let index = self.org!.events.indexOf(self.event!) {
+                        self.org!.events.removeAtIndex(index)
+                    }
+                    self.navigationController?.popFadeViewController()
+                } else {
+                    let failedAlert = UIAlertController(title: "Deletion failed", message: "Event failed to delete, please try again", preferredStyle: .Alert)
+                    failedAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {(action) in }))
+                    self.presentViewController(failedAlert, animated: true, completion: {})
+                }
+            }
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        self.presentViewController(alert, animated: true, completion: {})
     }
     
     // MARK: - UITableViewDataSource

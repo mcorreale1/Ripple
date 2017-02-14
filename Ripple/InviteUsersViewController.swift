@@ -228,7 +228,6 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
                     self?.tableView.deleteRowsAtIndexPaths([objectIndex], withRowAnimation: .Left)
                     
                     if let deviceID = user.getProperty("deviceID") as? String {
-                        let name = self!.organization!.name
                         self!.publishMessageAsPushNotificationSync(UserManager().currentUser().name! + " Invited you to join " + self!.organization!.name!, deviceId: deviceID)
                     }
 
