@@ -390,6 +390,20 @@ class EventManager: NSObject {
         for event in eventsBlackList {
             objectIdEventsBlackList.append(event.objectId!)
         }
+//        
+//        let query = BackendlessDataQuery()
+//        let options = QueryOptions()
+//        
+//        options.related = ["organization", "picture", "Users.events"]
+//        let whereString = "isPrivate = 'false' and endDate > '\(NSDate())'"
+//        query.queryOptions = options
+//        
+//        RippleEvent().dataStore().find(query, response: { (collection) in
+//            
+//            }, error: {(error) in })
+        
+        
+        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()
@@ -402,8 +416,13 @@ class EventManager: NSObject {
         }
         query.whereClause = whereString
         query.queryOptions = options
+        
         Users().dataStore().find(query, response: { (collection) in
-            var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
+            let test = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
+            for user in test {
+                print("user: \(user.name)")
+            }
+            var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser](),friends: false)
             collection.loadOtherPages({ (otherPageEvents) -> Void in
                 if otherPageEvents != nil {
                     users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageEvents?.data as? [BackendlessUser] ?? [BackendlessUser]()))

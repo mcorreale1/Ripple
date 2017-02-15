@@ -842,11 +842,11 @@ class UserManager: NSObject {
         }
     }
     //Converts backendless user types to local, core data user types
-    func backendlessUsersToLocalUsers(bUsers: [BackendlessUser]) -> [Users] {
+    func backendlessUsersToLocalUsers(bUsers: [BackendlessUser], friends:Bool = true) -> [Users] {
         var users = [Users]()
         var num = 0
         for bUser in bUsers {
-            users.append(Users.userFromBackendlessUser(bUser))
+            users.append(Users.userFromBackendlessUser(bUser, friends: friends))
             num = num + 1
         }
         return users

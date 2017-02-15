@@ -80,6 +80,7 @@ class Users: BackendlessUser {
         }
         
         set {
+            print("new value: \(newValue.description)")
             self.setProperty(propertyName.organizations.rawValue, object: newValue)
         }
     }
@@ -155,14 +156,15 @@ class Users: BackendlessUser {
     }
     
     //populates the users from backendless
-    static func userFromBackendlessUser(backendlessUser: BackendlessUser) -> Users {
+    static func userFromBackendlessUser(backendlessUser: BackendlessUser, friends:Bool = true) -> Users {
         let user = Users()
-        user.populateFromBackendlessUser(backendlessUser)
+        user.populateFromBackendlessUser(backendlessUser, friends: friends)
         return user
     }
     
     //popultes all information on backendlessUsers
-    func populateFromBackendlessUser(backendlessUser: BackendlessUser) {
+    func populateFromBackendlessUser(backendlessUser: BackendlessUser, friends:Bool = true) {
+        print("name: \(backendlessUser.name) object id: \(backendlessUser.objectId)")
         self.objectId = backendlessUser.objectId
         self.email = backendlessUser.email;
         
@@ -173,11 +175,13 @@ class Users: BackendlessUser {
         if let bEventsBlackList = backendlessUser.getProperty(propertyName.eventsBlackList.rawValue) {
             self.eventsBlackList = bEventsBlackList as? [RippleEvent] ?? [RippleEvent]()
         }
-        
-        if let bFriends = backendlessUser.getProperty(propertyName.friends.rawValue) {
-            self.friends = UserManager().backendlessUsersToLocalUsers(bFriends as? [BackendlessUser] ?? [BackendlessUser]())
+        if(friends) {
+            if let bFriends = backendlessUser.getProperty(propertyName.friends.rawValue) {
+                self.friends = UserManager().backendlessUsersToLocalUsers(bFriends as? [BackendlessUser] ?? [BackendlessUser](), friends: false)
+            }
+        } else {
+            self.friends = [Users]()
         }
-        
         if let bIsPrivate = backendlessUser.getProperty(propertyName.isPrivate.rawValue) {
             self.isPrivate = bIsPrivate as? Bool ?? false
         }
