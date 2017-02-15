@@ -232,8 +232,11 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         profilePictureButton.enabled = editOrganization
         PictureManager().loadPicture(organization?.picture, inButton: profilePictureButton)
         
+        followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
+        
         if (!followButton.hidden && (isFollowing() || isMember() || isAdmin())) {
             followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
+            
         }
         
     }

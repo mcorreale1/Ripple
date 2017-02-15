@@ -160,6 +160,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         sender.value = roundedValue
         let strMiles = NSLocalizedString("miles", comment: "miles")
         countMilesLabel.text = String(roundedValue) + " " + strMiles
+        UserManager().radiusSearch = roundedValue
         filteredEvents()
         showPins()
     }
@@ -175,7 +176,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
 
     func goBack()
     {
-        UserManager().radiusSearch = sliderMiles.value
+        //UserManager().radiusSearch = sliderMiles.value
         self.navigationController?.popViewControllerAnimated(true)
     }
 }
