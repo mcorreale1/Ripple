@@ -436,6 +436,7 @@
 				5CC5E41D1D59D28D0057EFAB /* WhatsPulsingViewController.swift */,
 				5CC5E4211D5A14D00057EFAB /* MapViewController.swift */,
 				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
+				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
 				5CFBD9D31D33FED00018BDA5 /* ProfileFriendsViewController.swift */,
 				5CFBD9D51D34DEF10018BDA5 /* AddFriendsViewController.swift */,
 				7CACF57E1C6CFB620022FE13 /* SearchViewController.swift */,
@@ -459,7 +460,6 @@
 		5CF7F37B1D3CF74A006CCC9A /* EventSchedule */ = {
 			isa = PBXGroup;
 			children = (
-				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
 				1118B29A1D7DB52F00BD51CC /* EventParticipantsViewController.swift */,
 				7CACF5711C6BAAE30022FE13 /* Eventpropic.swift */,
 			);
