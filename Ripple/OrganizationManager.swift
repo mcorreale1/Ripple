@@ -104,8 +104,13 @@ class OrganizationManager: NSObject {
         query.whereClause = "objectId = '\(organization.objectId)'"
         
         Organizations().dataStore().find(query, response: {(collection) in
-            var org = collection.data as? [Organizations] ?? [Organizations]()
-            let users = org[0].membersOf as! [Users]
+            if(collection.data.count == 0) {
+                completion(nil)
+            }
+            var org = collection.data.first as! Organizations
+            print("First \(collection.data.first!["relatedObjects"])")
+            print("users: \(org.membersOf)")
+            let users =  UserManager().backendlessUsersToLocalUsers(org.membersOf as? [BackendlessUser] ?? [BackendlessUser](), friends:  false)
             organization.membersOf = users
             completion(users)
         }, error: { (fault) in

@@ -533,14 +533,15 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             })
         } else {
             InvitationManager().isCurrentUserInvitedToOrganization(organization!, completion: {[weak self] (invited) in
-                self?.hideActivityIndicator()
-                
                 if self == nil {
+                    self?.hideActivityIndicator()
                     return
+                    
                 }
                 
                 if invited {
                     OrganizationManager().joinOrganization(self!.organization!, completion: { (success) in
+                        self?.hideActivityIndicator()
                         if success {
                             self?.showAlert("", message: "The organization has been added.")
                             self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
@@ -557,6 +558,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                     }
                     if userFollowingOrg {
                         UserManager().unfollowOnOrganization(self!.organization!, withCompletion: {[weak self] (success) in
+                            self?.hideActivityIndicator()
                             if success {
                                 self?.showAlert("", message: "The organization has been removed from Following.")
                                 self?.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
@@ -564,6 +566,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                         })
                     } else {
                         UserManager().followOnOrganization(self!.organization!, completion: {[weak self] (success) in
+                            self?.hideActivityIndicator()
                             print("following org")
                             if success {
                                 self!.showAlert("", message: "The organization has been added to Following.")
@@ -576,6 +579,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 }
             })
         }
+        hideActivityIndicator()
     }
     
     func sendReport() {
