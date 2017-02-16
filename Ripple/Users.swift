@@ -80,7 +80,6 @@ class Users: BackendlessUser {
         }
         
         set {
-            print("new value: \(newValue.description)")
             self.setProperty(propertyName.organizations.rawValue, object: newValue)
         }
     }
@@ -164,7 +163,6 @@ class Users: BackendlessUser {
     
     //popultes all information on backendlessUsers
     func populateFromBackendlessUser(backendlessUser: BackendlessUser, friends:Bool = true) {
-        print("name: \(backendlessUser.name) object id: \(backendlessUser.objectId)")
         self.objectId = backendlessUser.objectId
         self.email = backendlessUser.email;
         

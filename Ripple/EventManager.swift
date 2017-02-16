@@ -110,12 +110,10 @@ class EventManager: NSObject {
         Runs completion on the list after it is assembled
     */
     func followingEvents(completion:([Dictionary<String, AnyObject>]) -> Void) {
-        print("in following")
         guard UserManager().currentUser().organizations.count > 0 else {
             completion([Dictionary<String, AnyObject>]())
             return
         }
-        print("Continuing")
         var userOrgIds = [String]()
         for org in UserManager().currentUser().organizations {
             userOrgIds.append(org.objectId)
@@ -432,10 +430,6 @@ class EventManager: NSObject {
         query.queryOptions = options
         
         Users().dataStore().find(query, response: { (collection) in
-            let test = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
-            for user in test {
-                print("user: \(user.name)")
-            }
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser](),friends: false)
             collection.loadOtherPages({ (otherPageEvents) -> Void in
                 if otherPageEvents != nil {

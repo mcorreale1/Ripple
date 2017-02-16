@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class Organizations: BackendlessEntity {
     var leaderId: String?
     var admins: String?
@@ -17,8 +18,30 @@ class Organizations: BackendlessEntity {
     var state: String?
     var address: String?
     var members: String?
+    var memberArray = [Users]()
     var events = [RippleEvent]()
     var GreekLife: String?
     var picture: Pictures?
-    var membersOf = [Users]()
+    var membersOf:[AnyObject]{
+        get {
+            return self.memberArray
+        }
+        set {
+            if (newValue is [BackendlessUser]) {
+                var new = [Users]()
+                for user in newValue {
+                    new.append(Users.userFromBackendlessUser(user as! BackendlessUser, friends: false))
+                }
+                memberArray = new
+            } else if (newValue is [Users]) {
+                memberArray = newValue as! [Users]
+            } else {
+                memberArray = [Users]()
+            }
+        }
+    }
+    
+    func setMembersFromBackendlessUsers(users:[BackendlessUser]) {
+        self.membersOf = UserManager().backendlessUsersToLocalUsers(users, friends: false)
+    }
 }

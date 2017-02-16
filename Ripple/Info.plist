@@ -115,9 +115,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera. So you would be able to use your photos in this app</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your Project wants to use your present location</string>
+	<string>We need acccess to your location to check for events in your area</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your Project wants to use your present location</string>
+	<string>We need acccess to your location to filter the events in your area</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos. So you would be able to use your photos in this app</string>
 	<key>UIAppFonts</key>

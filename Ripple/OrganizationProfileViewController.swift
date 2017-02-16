@@ -190,15 +190,30 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 let date2 = event2.startDate
                 return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
             }
-            OrganizationManager().membersInOrganizations(org) { [weak self] (result) in
+            
+//            OrganizationManager().membersInOrganizations(org) { [weak self] (result) in
+//                if result != nil {
+//                    self?.orgMembers = result!
+//                    print("org members in OPVC: \(self?.orgMembers)")
+//                    self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
+//                        let name1 = user1.name
+//                        let name2 = user2.name
+//                        return name1?.lowercaseString < name2?.lowercaseString
+//                    }
+//                    self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
+//                }
+//                self?.tableView.reloadData()
+//            }
+            
+            OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
                 if result != nil {
                     self?.orgMembers = result!
-                    print("org members in OPVC: \(self?.orgMembers)")
                     self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
                         let name1 = user1.name
                         let name2 = user2.name
                         return name1?.lowercaseString < name2?.lowercaseString
                     }
+                    self?.organization!.membersOf = result!
                     self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
                 }
                 self?.tableView.reloadData()
@@ -471,6 +486,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             organization?.members = "[ \"" + UserManager().currentUser().objectId + "\"]"
             organization?.admins = "[\"\"]"
             organization?.leaderId = UserManager().currentUser().objectId
+            organization?.membersOf.append(UserManager().currentUser())
         }
         
         organization?.name = orgName
@@ -539,7 +555,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                             break
                         }
                     }
-                    
                     if userFollowingOrg {
                         UserManager().unfollowOnOrganization(self!.organization!, withCompletion: {[weak self] (success) in
                             if success {
@@ -549,9 +564,12 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                         })
                     } else {
                         UserManager().followOnOrganization(self!.organization!, completion: {[weak self] (success) in
+                            print("following org")
                             if success {
                                 self!.showAlert("", message: "The organization has been added to Following.")
                                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
+                            } else {
+                                print("failed to follow")
                             }
                         })
                     }

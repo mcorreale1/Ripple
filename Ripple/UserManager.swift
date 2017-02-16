@@ -327,7 +327,7 @@ class UserManager: NSObject {
             if(error == nil) {
                 completion(true)
             } else {
-                print(error)
+                print("Error:\(error)")
                 completion(false)
             }
         })
@@ -686,6 +686,11 @@ class UserManager: NSObject {
         for user in organization.members!.toBackendlessArray() {
             ignoreUsersIds.append(user)
         }
+        
+        for user in organization.membersOf {
+            ignoreUsersIds.append((user as! Users).objectId)
+        }
+        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()

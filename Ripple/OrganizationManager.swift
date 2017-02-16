@@ -76,22 +76,42 @@ class OrganizationManager: NSObject {
         let query = BackendlessDataQuery()
         query.whereClause = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: organization.members!.toBackendlessArray())
         let options = QueryOptions()
-        options.related = ["picture"]
+        options.related = ["organization", "picture"]
         query.queryOptions = options
         
         Users().dataStore().find(query, response: { (collection) in
-            var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
+            var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser](), friends:  false)
             collection.loadOtherPages({ (otherPageCollection) -> Void in
                 if otherPageCollection != nil {
-                    users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageCollection?.data as? [BackendlessUser] ?? [BackendlessUser]()))
+                    users.appendContentsOf(UserManager().backendlessUsersToLocalUsers(otherPageCollection?.data as? [BackendlessUser] ?? [BackendlessUser](), friends: false))
                 } else {
-                    organization.membersOf.appendContentsOf(users)
                     completion(users)
                 }
             })
         }, error: { (fault) in
             completion(nil)
         })
+    }
+    
+    func membersOfOrganizations(organization: Organizations, completion: ([Users]?) -> Void) {
+        guard organization.objectId != nil else {
+            completion(nil)
+            return
+        }
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        options.related = ["membersOf"]
+        query.whereClause = "objectId = '\(organization.objectId)'"
+        
+        Organizations().dataStore().find(query, response: {(collection) in
+            var org = collection.data as? [Organizations] ?? [Organizations]()
+            let users = org[0].membersOf as! [Users]
+            organization.membersOf = users
+            completion(users)
+        }, error: { (fault) in
+            completion(nil)
+        })
+        
     }
     
     //what does this do? supposed to grab all unfollowed organizations, compare it to loadunfollowusers in usermanager.swift to fix
@@ -156,11 +176,7 @@ class OrganizationManager: NSObject {
     func searchOrgs(searchString:String, completion: ([Organizations]?, NSError?) -> Void) {
         // --REMOVE
         // var userOrgIds = [String]()
-        print("searching orgs")
         print(UserManager().currentUser().organizations.count)
-        for org in UserManager().currentUser().organizations {
-            print("User org name \(org.name)")
-        }
         let query = BackendlessDataQuery()
         let options = QueryOptions()
         query.whereClause = "name LIKE '%\(searchString)%'"
