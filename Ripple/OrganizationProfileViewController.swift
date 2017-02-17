@@ -373,6 +373,11 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         return OrganizationManager().roleInOrganization(user, organization: organization!) == .Admin
     }
     
+    //eventually so that people who create an event can edit it too
+//    private func isEventCreator(user: Users = UserManager().currentUser()) -> Bool {
+//        return OrganizationManager.roleInOrganization(user, organization: organization!) == .
+//    }
+    
     private func isMember(user: Users = UserManager().currentUser()) -> Bool {
         return OrganizationManager().roleInOrganization(user, organization: organization!) == .Member
     }
@@ -688,13 +693,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 }
             }
         }
-        return !editOrganization && (isLeader() || isAdmin()) ? cellCount + 1 : cellCount
+        return !editOrganization && (isLeader() || isAdmin() || isMember()) ? cellCount + 1 : cellCount  //gluck
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var index = indexPath.row
         
-        if isLeader() || isAdmin() {
+        if isLeader() || isAdmin() || isMember() {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ActionTableViewCell") as! ActionTableViewCell
                 let title = eventsButton.selected ? "AddEvents" : "AddMembers"
@@ -741,9 +746,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let index = isLeader() || isAdmin() ? indexPath.row - 1 : indexPath.row
+        let index = isLeader() || isAdmin() || isMember() ? indexPath.row - 1 : indexPath.row
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        if (isLeader() || isAdmin()) && indexPath.row == 0 {
+        if (isLeader() || isAdmin() || isMember()) && indexPath.row == 0 {
             if eventsButton.selected {
                 showCreateEventViewController(organization)
             } else {
@@ -770,7 +775,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 return false
             }
             
-            if eventsButton.selected {
+            if eventsButton.selected { //eventually make it so that the guy who creates the event can edit
                 return true
             }
             index -= 1
