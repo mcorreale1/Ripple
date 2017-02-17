@@ -55,7 +55,7 @@ class UserManager: NSObject {
             print("device ID hasnt been saved")
             UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
         } else {
-            print("device ID already saved")
+            print("device ID already saved: \(UserManager().currentUser().deviceID)")
         }
         UserManager.me?.save({(success, error) in })
     }
@@ -64,24 +64,6 @@ class UserManager: NSObject {
 
     }
     
-    private func tokenFromAuthData(authData:String) -> FBSDKAccessToken {
-        var ary = authData.componentsSeparatedByString(",")
-        var tokenString = ary[0].componentsSeparatedByString(":")[2]
-        tokenString = tokenString.stringByReplacingOccurrencesOfString("\"", withString: "")
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
-        var rawDate = ary[1].componentsSeparatedByString("\":\"")[1]
-        rawDate = rawDate.stringByReplacingOccurrencesOfString("\"", withString: "")
-        let date = dateFormatter.dateFromString(rawDate)
-        
-        var id = ary[2].componentsSeparatedByString(":")[1]
-        id = id.stringByReplacingOccurrencesOfString("\"", withString: "")
-        id = id.stringByReplacingOccurrencesOfString("}", withString: "")
-        
-        let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
-        print("token string: \(token.tokenString)")
-        return token
-    }
 
     
     /*
@@ -683,13 +665,16 @@ class UserManager: NSObject {
     func findUsersToInviteToOrganization(organization: Organizations, completion: ([Users], NSError?) -> Void) {
         var ignoreUsersIds = [String]()
         
-        for user in organization.members!.toBackendlessArray() {
-            ignoreUsersIds.append(user)
+        if let membersOf = organization.getMembersOfUsers() {
+            for user in membersOf {
+                ignoreUsersIds.append(user.objectId)
+            }
+        } else {
+            for user in organization.members!.toBackendlessArray() {
+                ignoreUsersIds.append(user)
+            }
         }
         
-        for user in organization.membersOf {
-            ignoreUsersIds.append((user as! Users).objectId)
-        }
         
         
         let query = BackendlessDataQuery()
@@ -817,7 +802,6 @@ class UserManager: NSObject {
         options.related = ["events", "eventsBlackList", "organizations", "picture"]
         options.sortBy(["name"])
         query.queryOptions = options
-        print("IDs \(ids)")
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())

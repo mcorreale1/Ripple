@@ -42,7 +42,11 @@ class Organizations: BackendlessEntity {
 //        }
 //    }
     
-    func setMembersFromBackendlessUsers(users:[BackendlessUser]) {
-        self.membersOf = UserManager().backendlessUsersToLocalUsers(users, friends: false)
+    func getMembersOfUsers() -> [Users]? {
+        if(self.membersOf is [Users]) {
+            return self.membersOf as! [Users]
+        }
+        return nil
     }
+    
 }

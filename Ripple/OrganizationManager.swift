@@ -19,6 +19,9 @@ enum TypeRoleUserInOrganization: String {
 class OrganizationManager: NSObject {
 
     func organizationForUser(user: Users, completion:[Organizations] -> Void) {
+        print("in org for user")
+        organizationsForUser(user, completion: completion)
+        return
         let query = BackendlessDataQuery()
         query.whereClause = "members like '%\(user.objectId)%'"
         let options = QueryOptions()
@@ -39,6 +42,28 @@ class OrganizationManager: NSObject {
         })
     }
     
+    func organizationsForUser(user:Users, completion:[Organizations] -> Void ) {
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        query.whereClause = "membersOf.objectId = '\(user.objectId)'"
+        options.related = ["picture"]
+        query.queryOptions = options
+        
+        Organizations().dataStore().find(query, response: { (collection) in
+            var organizations = collection.data as? [Organizations] ?? [Organizations]()
+            collection.loadOtherPages({ (otherPageCollection) -> Void in
+                if otherPageCollection != nil {
+                    organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
+                } else {
+                    completion(organizations)
+                }
+            })
+            }, error: { (fault) in
+                print("fault :\(fault)")
+                completion([Organizations]())
+        })
+    }
+    
     func roleInOrganization(user: Users, organization: Organizations) -> TypeRoleUserInOrganization {
         if organization.leaderId == nil {
             organization.leaderId = user.objectId
@@ -56,11 +81,23 @@ class OrganizationManager: NSObject {
             return .Admin
         }
         
+        if let membersOf = organization.getMembersOfUsers() {
+            let ind = membersOf.indexOf() {
+                return $0.objectId == user.objectId
+            }
+            if(ind != nil) {
+                print("\(user.name) .Member from membersOf")
+                return .Member
+            }
+        }
+     
         if organization.members!.toBackendlessArray().contains(user.objectId) {
+            print("got .Member from members")
             return .Member
         }
         for organization in user.organizations {
             if organization.objectId == organization.objectId {
+                print("returing follower")
                 return .Follower
             }
         }
@@ -108,8 +145,11 @@ class OrganizationManager: NSObject {
                 completion(nil)
             }
             var org = collection.data.first as! Organizations
-            print("First \(collection.data.first!["relatedObjects"])")
-            print("users: \(org.membersOf)")
+            if !(org.membersOf is [BackendlessUser]) {
+                print("members arent backendless user in memberOfOrg")
+                completion(nil)
+                return
+            }
             let users =  UserManager().backendlessUsersToLocalUsers(org.membersOf as? [BackendlessUser] ?? [BackendlessUser](), friends:  false)
             organization.membersOf = users
             completion(users)
@@ -222,6 +262,7 @@ class OrganizationManager: NSObject {
         if needToAdd {
             members.append(user.objectId)
             organization.members = String().fromBackendlessArray(members)
+            organization.membersOf.append(user)
             
             organization.save { (savedEntity, error) in
                 if savedEntity != nil {
@@ -241,8 +282,21 @@ class OrganizationManager: NSObject {
         if let indexObject = members.indexOf(user.objectId) {
             members.removeAtIndex(indexObject)
         }
+        //REMOVE
+//        organization.members = String().fromBackendlessArray(members)
+//        if(organization.membersOf is [Users]) {
+//            var membersOf = organization.membersOf as! [Users]
+// 
+//        }
+//        
+        if let membersOf = organization.getMembersOfUsers() {
+            if let ind = membersOf.indexOf(user) {
+                organization.membersOf.removeAtIndex(ind)
+            } else {
+                print("didnt remove from membersOf")
+            }
+        }
         
-        organization.members = String().fromBackendlessArray(members)
         organization.save({ (entity, error) in
             completion(entity as? Organizations, error)
         })

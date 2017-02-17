@@ -136,7 +136,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
         }
     }

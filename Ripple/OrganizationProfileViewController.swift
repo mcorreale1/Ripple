@@ -560,7 +560,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                         UserManager().unfollowOnOrganization(self!.organization!, withCompletion: {[weak self] (success) in
                             self?.hideActivityIndicator()
                             if success {
-                                self?.showAlert("", message: "The organization has been removed from Following.")
+                                self?.showAlert("", message: "You are no longer following \(self!.organization!.name!)")
                                 self?.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
                             }
                         })
@@ -569,7 +569,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                             self?.hideActivityIndicator()
                             print("following org")
                             if success {
-                                self!.showAlert("", message: "The organization has been added to Following.")
+                                self!.showAlert("", message: "You are now following \(self!.organization!.name!)")
                                 self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
                             } else {
                                 print("failed to follow")

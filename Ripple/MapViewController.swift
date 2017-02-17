@@ -59,7 +59,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         let status = CLLocationManager.authorizationStatus()
         
         if status == .NotDetermined || status == .Denied || status == .AuthorizedWhenInUse {
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
             locationManager.requestWhenInUseAuthorization()
         }
         locationManager.startUpdatingLocation()

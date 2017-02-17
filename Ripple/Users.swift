@@ -40,7 +40,7 @@ class Users: BackendlessUser {
     
     var deviceID:String? {
         get {
-            return self.getProperty(propertyName.authData.rawValue) as? String ?? nil
+            return self.getProperty(propertyName.deviceID.rawValue) as? String ?? " "
         }
         set {
             self.setProperty(propertyName.deviceID.rawValue, object: newValue)

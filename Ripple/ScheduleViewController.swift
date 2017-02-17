@@ -397,7 +397,6 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         let invitation = invitations[indexPath.row]
         showActivityIndicator()
         InvitationManager().acceptInvitation(invitation) { (success) in
-            self.hideActivityIndicator()
             if success {
                 self.invitations.removeAtIndex(indexPath.row)
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
@@ -415,6 +414,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
                             }
                         }
                     }
+                    self.hideActivityIndicator()
                     self.tableView.reloadData()
                 }
             }

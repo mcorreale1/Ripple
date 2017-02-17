@@ -49,7 +49,8 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         mapView.showsBuildings = true
         
         if(locationManager.location == nil) {
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
         }
         
