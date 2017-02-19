@@ -11,22 +11,27 @@ import ORLocalizationSystem
 
 class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    //static let cellId = "participantId"
+    static let cellId = "chooseOrgId"
     
-    var organizationArray = [Organizations]()
+    var organizationArray = [Organizations]?()
+    var tempOrg = [Organizations]()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+         self.tableView.registerNib(UINib.init(nibName: "ChooseOrg", bundle: nil), forCellReuseIdentifier: ChooseYourOrg.cellId)
+        
         OrganizationManager().organizationForUser(UserManager().currentUser(), completion: {[weak self] (org) in
-            self?.organizationArray = org
-            self?.organizationArray.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
+            self!.tempOrg = org
+            self?.tempOrg.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                 let name1 = org1.name
                 let name2 = org2.name
                 return name1?.lowercaseString < name2?.lowercaseString
             }
+            self!.organizationArray = self!.tempOrg
+             print(self!.organizationArray)
             self?.tableView.reloadData()
             })
         self.tableView.reloadData()
@@ -40,12 +45,12 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return organizationArray.count ?? 0
+        return organizationArray!.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(EventParticipantsViewController.cellId) as! FollowingTableViewCell
-        let org = organizationArray[indexPath.row]
+        let org = organizationArray![indexPath.row]
         
         cell.titleLabel.text = org.name
         cell.descriptionLabel.text = nil
@@ -58,7 +63,7 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
     // MARK: UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let org = organizationArray[indexPath.row] {
+        if let org = organizationArray?[indexPath.row] {
             showCreateEventViewController(org)
         }
     }
