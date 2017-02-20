@@ -11,20 +11,22 @@ import ORLocalizationSystem
 
 class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    static let cellId = "chooseOrgId"
+   static let cellId = "OrganizationTableViewCell"
     
-    var organizationArray = [Organizations]?()
-    var tempOrg = [Organizations]()
+    var organizationArray : [Organizations]?
+    var tempOrg : [Organizations] = []
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //gotta figure this out
         
-         self.tableView.registerNib(UINib.init(nibName: "ChooseOrg", bundle: nil), forCellReuseIdentifier: ChooseYourOrg.cellId)
+        self.tableView.registerNib(UINib.init(nibName: "OrganizationTableViewCell", bundle: nil), forCellReuseIdentifier: ChooseYourOrg.cellId)
         
         OrganizationManager().organizationForUser(UserManager().currentUser(), completion: {[weak self] (org) in
-            self!.tempOrg = org
+            self?.tempOrg = org
+            if self?.tempOrg.count != 0{
             self?.tempOrg.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                 let name1 = org1.name
                 let name2 = org2.name
@@ -33,6 +35,7 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
             self!.organizationArray = self!.tempOrg
              print(self!.organizationArray)
             self?.tableView.reloadData()
+            }
             })
         self.tableView.reloadData()
     }
@@ -45,21 +48,29 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return organizationArray!.count ?? 0
+            return organizationArray?.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(EventParticipantsViewController.cellId) as! FollowingTableViewCell
+        if organizationArray?.count != 0
+        {
+        let cell = tableView.dequeueReusableCellWithIdentifier(ChooseYourOrg.cellId) as! OrganizationTableViewCell
         let org = organizationArray![indexPath.row]
         
-        cell.titleLabel.text = org.name
-        cell.descriptionLabel.text = nil
+        cell.nameOrganizationLabel.text = org.name
         let picture = org.picture
-        PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
+            cell.roleInOrganizationLabel.text = nil
+        PictureManager().loadPicture(picture, inImageView: cell.organizationPictureImageView)
+        
+        return cell
+        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("ActionTableViewCell") as! ActionTableViewCell
+        cell.titleLabel.text = NSLocalizedString("You must be in an organization to make events!", comment: "You must be in an organization to make events!")
         
         return cell
     }
     
+
     // MARK: UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
