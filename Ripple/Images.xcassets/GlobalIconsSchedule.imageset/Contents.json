@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "GlobalIconsSchedule.png",
+      "filename" : "InvitesGI.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "GlobalIconsSchedule2x.png",
+      "filename" : "InvitesGI@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "GlobalIconsSchedule3x.png",
+      "filename" : "InvitesGI@3x.png",
       "scale" : "3x"
     }
   ],

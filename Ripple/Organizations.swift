@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class Organizations: BackendlessEntity {
     var leaderId: String?
     var admins: String?
@@ -20,4 +21,32 @@ class Organizations: BackendlessEntity {
     var events = [RippleEvent]()
     var GreekLife: String?
     var picture: Pictures?
+    var membersOf = [AnyObject]()
+//     var memberArray = [Users]()
+//    var membersOf:[AnyObject]{
+//        get {
+//            return self.memberArray
+//        }
+//        set {
+//            if (newValue is [BackendlessUser]) {
+//                var new = [Users]()
+//                for user in newValue {
+//                    new.append(Users.userFromBackendlessUser(user as! BackendlessUser, friends: false))
+//                }
+//                memberArray = new
+//            } else if (newValue is [Users]) {
+//                memberArray = newValue as! [Users]
+//            } else {
+//                memberArray = [Users]()
+//            }
+//        }
+//    }
+    
+    func getMembersOfUsers() -> [Users]? {
+        if(self.membersOf is [Users]) {
+            return self.membersOf as! [Users]
+        }
+        return nil
+    }
+    
 }

@@ -36,15 +36,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
             if(Backendless.sharedInstance().userService.currentUser.name != nil) {
-                print("Logging in" + Backendless.sharedInstance().userService.currentUser.name)
             }
             loginComplete()
+            
         }
+        
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         registerForRemoteNotifications()
-        print("App did finish with options")
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
    
@@ -59,10 +60,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
-            print("login complete finished")
+            self.loginToFacebook()
         }
-        print("UIDevice ID \(UIDevice.currentDevice().identifierForVendor?.description)")
     }
+    
+    func loginToFacebook() {
+        
+        if(FBSDKAccessToken.currentAccessToken() == nil) {
+            if let authData = UserManager().currentUser().authData {
+                if let token = tokenFromAuthData(authData) {
+                    if(FBSDKAccessToken.currentAccessToken() == nil) {
+//                        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                            Backendless.sharedInstance().userService.loginWithFacebookSDK(token, permissions: ["public_profile","user_friends"], fieldsMapping: [:], error: nil)
+//                        }
+                    }
+                }
+            }
+        }
+    }
+    
     
     func changeLaguageApp() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -104,7 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func registerForRemoteNotifications() {
-        print("In register for remote")
         if #available(iOS 10.0, *)
         {
            let center = UNUserNotificationCenter.currentNotificationCenter()
@@ -134,17 +150,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        print("registering device with token \(deviceToken)")
         //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
         
-//        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-//        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-//            Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
-//        }
+
 
         let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
-        print("After register")
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
         Backendless.sharedInstance().messaging.registerDevice([UserManager().currentUser().objectId], expiration: NSDate().addYear(), token: deviceToken, response: { (result) in
@@ -155,12 +166,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
-        print("device registered")
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
-            print("device ID empty")
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-            UserManager().currentUser().save() { [weak self] (success, error) in
+            UserManager().currentUser().save() { (success, error) in
                 if(success) {
                     print("saved device ID in gotDeviceID")
                 }
@@ -197,6 +206,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
+    
     func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
@@ -218,6 +228,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func initMagicalRecords() {
         MagicalRecord.setupCoreDataStack()
     }
+    
+    func tokenFromAuthData(authData:String) -> FBSDKAccessToken? {
+        var ary = authData.componentsSeparatedByString(",")
+        var tokenString = ary[0].componentsSeparatedByString(":")[2]
+        tokenString = tokenString.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        var rawDate = ary[1].componentsSeparatedByString("\":\"")[1]
+        rawDate = rawDate.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let date = dateFormatter.dateFromString(rawDate)
+        
+        var id = ary[2].componentsSeparatedByString(":")[1]
+        id = id.stringByReplacingOccurrencesOfString("\"", withString: "")
+        id = id.stringByReplacingOccurrencesOfString("}", withString: "")
+        
+        let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
+        return token
+    }
+    
 
 }
 

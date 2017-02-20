@@ -8,6 +8,7 @@
 
 import UIKit
 import ORLocalizationSystem
+import FBSDKLoginKit
 
 class SearchViewController: BaseViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate, ProfileViewControllerDelegate {
     
@@ -19,6 +20,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     var organizations = [Organizations]()
     var filteredUsers = [Users]()
     var filteredOrganizations = [Organizations]()
+    var filteredEvents = [RippleEvent]()
     var label = UILabel()
     
     var searchBar: UISearchBar = UISearchBar()
@@ -27,6 +29,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     var allUsersLoaded = false
     var allOrganizationsLoaded = false
+    var allEventsLoaded = false
     
     var searchMode = false
     
@@ -108,26 +111,70 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         
     }
     
+    private func loadEvents() {
+        if(allEventsLoaded) {
+            self.tableView.reloadData()
+            return
+        }
+    }
+    
+    //FacebookSDK stuff in here, add more to it later
     private func loadUnfollowUsers() {
         if(allUsersLoaded) {
             self.tableView.reloadData()
             return
         }
+    
+        
+        let params = ["fields": "name, user_friends, uid", ]
+        let graphRequest = FBSDKGraphRequest(graphPath: "me/taggable_friends", parameters: params)
+        
         UserManager().loadUnfollowUsers(usersCollection) { [weak self] (users, collection, error) in
             if users != nil && users!.count > 0 {
-                for user in users! {
-                    for currentUser in (self?.users)! {
-                        if (user.name == currentUser.name) {
-                            self?.allUsersLoaded = true
-                            return
+                AppDelegate().loginToFacebook()
+                var facebookFriendNames = [String]()
+                _ = graphRequest.startWithCompletionHandler() { [weak self] (connection, result, error) in
+                    if(error != nil) {
+                        print("Error \(error.description)")
+                        return
+                    }
+                    print("Print fbsdk result \(result)")
+                    
+                    if let dictionary = result as? NSDictionary {
+                        if let friendsArray = dictionary["data"] as! [AnyObject]? {
+                            for rawFriend in friendsArray {
+                                let friend = rawFriend as! NSDictionary
+                                let name = friend["name"] as! String
+
+                                facebookFriendNames.append(name)
+                            }
                         }
                     }
+                    print("Friends array \(facebookFriendNames)")
+                    
+                    var FBFriends = [Users]()
+                    var otherFriends = [Users]()
+                    for user in users! {
+                        for currentUser in (self?.users)! {
+                            if (user.name == currentUser.name) {
+                                self?.allUsersLoaded = true
+                                return
+                            }
+                        }
+                        if(facebookFriendNames.contains(user.name!)) {
+                            print("Found friend!")
+                        }
+                        (facebookFriendNames.contains(user.name!)) ? FBFriends.append(user) : otherFriends.append(user)
+                    }
+                    FBFriends.appendContentsOf(otherFriends)
+                    
+                    self?.usersCollection = collection
+                    self?.users.appendContentsOf(FBFriends)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.tableView.reloadData()
+                    }
                 }
-                self?.usersCollection = collection
-                self?.users.appendContentsOf(users!)
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.tableView.reloadData()
-                }
+                
             } else {
                 self?.allUsersLoaded = true
                 self?.usersCollection = nil
@@ -179,6 +226,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         searchBar.showsCancelButton = false
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        filteredEvents.removeAll()
         searchMode = false
         tableView.hidden = false
         label.hidden = true
@@ -198,7 +246,6 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 if (users != nil) {
                     self?.filteredUsers = users!
                 }
-                print("User results: \(users?.debugDescription)")
                 OrganizationManager().searchOrgs(searchBar.text!, completion: { (organizations, error) in
                     self?.hideActivityIndicator()
                     self?.tableView.userInteractionEnabled = true
@@ -208,11 +255,16 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     }
                     
                     self?.tableView.reloadData()
-                    
-                    if (self?.filteredOrganizations.count < 1 && self?.filteredUsers.count < 1) {
-                        self?.tableView.hidden = true
-                        self?.label.hidden = false
+                    EventManager().searchEventsByName(searchBar.text!) { (events) in
+                        self?.filteredEvents.appendContentsOf(events)
+                        self?.tableView.reloadData()
+                        
+                        if (self?.filteredOrganizations.count < 1 && self?.filteredUsers.count < 1 && self?.filteredEvents.count < 1) {
+                            self?.tableView.hidden = true
+                            self?.label.hidden = false
+                        }
                     }
+
                 })
             })
         }
@@ -222,7 +274,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     // MARK: - Table view data source
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2;
+        return 3;
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -231,11 +283,17 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 return filteredUsers.count
             }
             return users.count == 0 || allUsersLoaded ? users.count : users.count + 1
-        } else {
+        } else if (section == 1) {
             if searchMode {
                 return filteredOrganizations.count
             }
             return allOrganizationsLoaded || !allUsersLoaded ? organizations.count : organizations.count + 1
+        } else {
+            if(filteredEvents.count > 0) {
+                tableView.hidden = false
+                label.hidden = true
+            }
+            return filteredEvents.count
         }
     }
     //Not here
@@ -257,7 +315,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             } else {
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
             }
-        } else {
+        } else if (indexPath.section == 1) {
             if (indexPath.row >= organizations.count) {
                 loadUnfollowOrganizations()
                 let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
@@ -273,7 +331,15 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             } else {
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
             }
+        } else {
+            let event = filteredEvents[indexPath.row]
+            cell.titleLabel.text = event.name
+            if let picture = event.picture {
 
+                PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
+            } else {
+                cell.pictureImageView.image = UIImage(named: "user_default_picture")
+            }
         }
         return cell
     }
@@ -297,7 +363,15 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
-        header.titleHeader.text = section == 0 ? NSLocalizedString("SuggestedFriends", comment: "SuggestedFriends") : NSLocalizedString("Organizations", comment: "Organizations")
+        var headerText:String
+        if(section == 0) {
+            headerText = NSLocalizedString("Suggested Friends", comment: "Suggested Friends")
+        } else if (section == 1) {
+            headerText = NSLocalizedString("Organizations", comment: "Organizations")
+        } else {
+            headerText = "Events"
+        }
+        header.titleHeader.text = headerText
         return header
     }
     
@@ -333,15 +407,17 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 }
                 showOrganizationProfileViewController(organizations[indexPath.row], isNewOrg: false, fromInvite: false)
             }
-        } else {
+        } else if(indexPath.section == 0) {
             if (filteredUsers.count != 0) {
-                print("User count: \(filteredUsers.count)")
-                print("indexPath: \(indexPath.row)")
                 showProfileViewController(filteredUsers[indexPath.row], delegate: self)
             } else {
                 showProfileViewController(users[indexPath.row], delegate: self)
             }
             
+        } else {
+            if(filteredEvents.count != 0) {
+                showEventDescriptionViewController(filteredEvents[indexPath.row])
+            }
         }
     }
 
@@ -388,7 +464,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     self?.tableView.deleteRowsAtIndexPaths([indexObject], withRowAnimation: .Left)
                 }
             })
-        } else {
+        } else if(indexObject.section == 1){
             let organization = searchMode ? filteredOrganizations[indexObject.row] : organizations[indexObject.row]
             UserManager().followOnOrganization(organization, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()

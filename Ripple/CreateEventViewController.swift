@@ -118,6 +118,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         
     }
     
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -163,6 +164,12 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             // checkMarkImageView.hidden = false
             postPulsingButton.enabled = false
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        //scrollView.contentSize = CGSize(width: view.width, height: view.height - self.navigationController!.view.height)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -608,7 +615,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         let completion = { (success:Bool) in
             if(success) {
                 self.eventCreating = false
-                self.navigationController!.popViewControllerAnimated(true)
+                
+                self.navigationController?.popFadeViewController()
             }
         }
         if validateFields() {
@@ -721,9 +729,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                         self?.showAlert(self?.titleMessage, message: self?.message)
                                         return
                                     }
+                                    UserManager().goOnEvent(self!.event!, completion: { (success) in
+                                    })
+
                                     completion(success: true)
                                     //May need to uncomment
                                     //self?.navigationController?.popViewControllerAnimated(true)
+                                   
         })
         
     }
@@ -735,7 +747,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         }
         self.eventCreating = true
         self.showActivityIndicator()
-        EventManager().createEvent(self.organization!,
+        EventManager().updateEvent(self.organization!,
                                    event: self.event!,
                                    name: self.eventName,
                                    start: self.startTime!,
@@ -752,19 +764,16 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     self?.eventCreating = false
                                     if (success) {
                                         print("Success")
-//                                        EventManager().deleteEvent(self!.event!) {(success) in }
                                         self?.event = rippleEvent
                                         or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
                                         completion(success: true)
                                     } else {
                                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")
-                                        self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
+                                        self!.message = NSLocalizedString("The event was not updated. Please try again", comment: "The event was not updated. Please, try again later")
                                         self?.showAlert(self?.titleMessage, message: self?.message)
-                                        return
+                                        completion(success: false)
                                     }
-                                    completion(success: false)
-                                    //May need to uncomment
-                                    //self?.navigationController?.popViewControllerAnimated(true)
+                                    
             })
 //
 //        EventManager().cre(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in

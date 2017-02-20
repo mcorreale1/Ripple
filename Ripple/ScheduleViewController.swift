@@ -81,7 +81,10 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         }
         
         InvitationManager().invitations { (result) in
-            self.invitations = result!
+            if let invites = result {
+                self.invitations = invites
+            }
+            
             self.tableView.reloadData()
         }
         hideActivityIndicator()
@@ -162,7 +165,9 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         if indexPath.section == 1 {
             return followingRequestCell(forIndexPath: indexPath, inTableView: tableView)
         }
-        
+        if(invitations.count < indexPath.row) {
+            return UITableViewCell()
+        }
         let invitation = invitations[indexPath.row]
         
         /* determines which invitation it is and will do something based upon that information */
@@ -392,7 +397,6 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         let invitation = invitations[indexPath.row]
         showActivityIndicator()
         InvitationManager().acceptInvitation(invitation) { (success) in
-            self.hideActivityIndicator()
             if success {
                 self.invitations.removeAtIndex(indexPath.row)
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
@@ -410,6 +414,7 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
                             }
                         }
                     }
+                    self.hideActivityIndicator()
                     self.tableView.reloadData()
                 }
             }

@@ -47,6 +47,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     var selectedUser: Users?
     var delegate: ProfileViewControllerDelegate?
     var viewAppeared = false
+    var isMe = false
     
     
     let titleColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
@@ -64,7 +65,9 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         
         if selectedUser == nil {
             selectedUser = UserManager().currentUser()
+            
         }
+        isMe = isUserMe()
         prepareTableView()
         prepareViews()
         plansButton.titleLabel?.text = NSLocalizedString("Plans", comment: "Plans")
@@ -81,7 +84,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         messageButton.enabled = true
         prepareData()
         tableView.reloadData()
-//        if (!isMe()) {
+//        if (!isMe) {
 //            print("Getting friends")
 //            print("selected user friend count: \(selectedUser?.friends.count)")
 //            UserManager().followingUsersForProfile(selectedUser!) { [weak self] (users, error) in
@@ -140,7 +143,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         PictureManager().loadPicture(selectedUser?.picture, inButton: profilePictureButton)
         
         if selectedUser!.descr == nil {
-            if self.isMe(){
+            if self.isMe{
                 self.userDescription.text = "Say something about yourself!"
             } else {
                 self.userDescription.text = ""
@@ -152,7 +155,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         self.userDescription.textAlignment = .Center
         navigationItem.title = selectedUser!.name
         
-        if isMe() {
+        if isMe {
             let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(ProfileViewController.editProfileTouched(_:)))
             navigationItem.rightBarButtonItem = editButton
             followButton.hidden = true
@@ -169,10 +172,9 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     func prepareData() {
         UserManager().followingUsers(UserManager().currentUser(), completion: { (followings) in
             self.followingUsers = followings
-            if self.isMe() || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
-                EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe(), completion: {[weak self] (plan) in
+            if self.isMe || !self.selectedUser!.isPrivate || self.followingUsers.contains(self.selectedUser!) {
+                EventManager().eventPlansForUser(self.selectedUser!, isMe: self.isMe, completion: {[weak self] (plan) in
                     self?.plans = plan
-                    print("Plan: \(plan)")
                     self?.tableView.reloadData()
                 })
                 
@@ -189,14 +191,14 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 UserManager().followingForUser(self.selectedUser!, completion: {[weak self] (followings) in
                     self?.hideActivityIndicator()
                     self?.followingArray = followings
-                    print("Followings: \(followings)")
+
                     self?.tableView.reloadData()
                 })
             }
         })
     }
     
-    func isMe() -> Bool {
+    func isUserMe() -> Bool {
         return selectedUser?.objectId == UserManager().currentUser().objectId
     }
     
@@ -324,14 +326,14 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         let privateUser = selectedUser!.isPrivate
-        if privateUser && !isMe() && !followingUsers.contains(selectedUser!){
+        if privateUser && !isMe && !followingUsers.contains(selectedUser!){
             return 1
         }
         
         if plansButton.selected {
             return plans.count
         } else if followingButton.selected {
-            return followingArray.count < 1 && isMe() ? 1 : followingArray.count
+            return followingArray.count < 1 && isMe ? 1 : followingArray.count
         } else if orgsButton.selected {
             return 1
         }
@@ -340,7 +342,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let privateUser = selectedUser!.isPrivate
-        if privateUser && !isMe() && !followingUsers.contains(selectedUser!) {
+        if privateUser && !isMe && !followingUsers.contains(selectedUser!) {
             return 0
         }
         if plansButton.selected {
@@ -349,20 +351,20 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             return events.count
         } else if followingButton.selected {
             if followingArray.count < 1 {
-                return isMe() ? 1 : 0
+                return isMe ? 1 : 0
             } else {
                 let sectionItem = followingArray[section]
                 if let following = sectionItem["items"] as? [AnyObject] {
-                    return following.count + (isMe() && section == 0 ? 1 : 0)
+                    return following.count + (isMe && section == 0 ? 1 : 0)
                 }
                 return 0
             }
         } else if orgsButton.selected {
             if organizationArray.count < 1 {
-                return isMe() ? 1 : 0
+                return isMe ? 1 : 0
             }
             else{
-                return organizationArray.count + (isMe() ? 1 : 0)
+                return organizationArray.count + (isMe ? 1 : 0)
             }
         }
 
@@ -403,7 +405,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             
             return cell
         } else if followingButton.selected {
-            if indexPath.row == 0 && indexPath.section == 0 && isMe() {
+            if indexPath.row == 0 && indexPath.section == 0 && isMe {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ActionTableViewCell") as! ActionTableViewCell
                 cell.titleLabel.text = NSLocalizedString("Find people and organizations!", comment: "Find people and organizations!")
                 
@@ -413,10 +415,8 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionItem = followingArray[indexPath.section]
             let sectionTitle = sectionItem["title"] as! String
             if let following = sectionItem["items"] as? [AnyObject] {
-                let item = isMe() && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
-                print("Number of items" + following.count.description)
+                let item = isMe && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
                 if item is Users {
-                    print("Is user")
                     let user = item as! Users
                     cell.titleLabel.text = user.name
                 } else if item is Organizations {
@@ -441,7 +441,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             return cell
         } else if orgsButton.selected {
             //if indexPath.row == organizationArray.count
-            if indexPath.row == 0 && isMe()
+            if indexPath.row == 0 && isMe
             {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ActionTableViewCell") as! ActionTableViewCell
                 cell.titleLabel.text = NSLocalizedString("Create Organization", comment: "Create Organization")
@@ -449,9 +449,15 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             }
             
             let cell = tableView.dequeueReusableCellWithIdentifier("OrganizationTableViewCell") as! OrganizationTableViewCell
-            let organization = isMe() ? organizationArray[indexPath.row - 1] : organizationArray[indexPath.row]
+            let organization = isMe ? organizationArray[indexPath.row - 1] : organizationArray[indexPath.row]
             cell.nameOrganizationLabel.text = organization.name
-            cell.roleInOrganizationLabel.text = OrganizationManager().roleInOrganization(selectedUser!, organization: organization).rawValue
+            
+            cell.roleInOrganizationLabel.text = "Member"
+            let roll = OrganizationManager().roleInOrganization(selectedUser!, organization: organization).rawValue
+            if roll == "Founder" {
+                cell.roleInOrganizationLabel.text = roll
+            }
+            
             if let picture = organization.picture {
                 PictureManager().loadPicture(picture, inImageView: cell.organizationPictureImageView)
             } else {
@@ -489,7 +495,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     // MARK: - UITableViewDelegate
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return (indexPath.row != 0 || indexPath.section != 0) && isMe()
+        return (indexPath.row != 0 || indexPath.section != 0) && isMe
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -498,7 +504,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let privateUser = selectedUser!.isPrivate
-        if privateUser && !isMe()  && !followingUsers.contains(selectedUser!) {
+        if privateUser && !isMe  && !followingUsers.contains(selectedUser!) {
             let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
             let myString = "This Account is Private."
             let myAttribute = [ NSFontAttributeName : UIFont.boldSystemFontOfSize(25) ]
@@ -510,7 +516,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             return header
         }
         
-        if orgsButton.selected || followingButton.selected && isMe() && followingArray.count < 1 {
+        if orgsButton.selected || followingButton.selected && isMe && followingArray.count < 1 {
             return UIView()
         }
         
@@ -528,7 +534,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let privateUser = selectedUser!.isPrivate
-        if privateUser && !isMe() && !followingUsers.contains(selectedUser!) {
+        if privateUser && !isMe && !followingUsers.contains(selectedUser!) {
             return 0
         }
         if followingButton.selected {
@@ -539,10 +545,10 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let privateUser = selectedUser!.isPrivate
-        if privateUser && !isMe() && !followingUsers.contains(selectedUser!)  {
+        if privateUser && !isMe && !followingUsers.contains(selectedUser!)  {
             return 100
         }
-        if orgsButton.selected || followingButton.selected && isMe() && followingArray.count < 1 {
+        if orgsButton.selected || followingButton.selected && isMe && followingArray.count < 1 {
             return 0
         }
         return 32
@@ -567,16 +573,16 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 self?.showEventDescriptionViewController(event)
             }
         } else if orgsButton.selected {
-            if indexPath.row == 0 && isMe() {
+            if indexPath.row == 0 && isMe {
                 showOrganizationProfileViewController(nil, isNewOrg: true, fromInvite: false)
                 return
             }
-            let index = isMe() ? indexPath.row - 1 : indexPath.row
+            let index = isMe ? indexPath.row - 1 : indexPath.row
             let organization = organizationArray[index]
             showOrganizationProfileViewController(organization, isNewOrg: false, fromInvite: false)
             
         } else if followingButton.selected {
-            if indexPath.row == 0 && indexPath.section == 0 && isMe() {
+            if indexPath.row == 0 && indexPath.section == 0 && isMe {
                 self.showSearchVIewController()
                 return
             }
@@ -584,7 +590,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             let sectionTitle = sectionItem["title"] as! String
             
             if let following = sectionItem["items"] as? [AnyObject] {
-                let isMyProfile = (isMe() ? 1 : 0)
+                let isMyProfile = (isMe ? 1 : 0)
                 
                 if sectionTitle == TypeFollowingSection.Friends.rawValue {
                     let countSections = tableView.numberOfSections
@@ -611,7 +617,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         var sectionItem = followingArray[indexPath.section]
         let sectionTitle = sectionItem["title"] as! String
         let currentUser = UserManager().currentUser()
-        let isMyProfile = (isMe() ? 1 : 0)
+        let isMyProfile = (isMe ? 1 : 0)
         
         if var following = sectionItem["items"] as? [AnyObject] {
             if sectionTitle == TypeFollowingSection.Friends.rawValue {
@@ -627,7 +633,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                         //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                     } else {
                         self?.tableView.reloadData()
-                        self?.showAlert("Error", message: "Server don't response. Please try again later")
+                        self?.showAlert("Error", message: "Failed to unfollow, try again")
                     }
                 }
             } else {
@@ -643,14 +649,14 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                                 self?.followingArray[indexPath.section] = sectionItem
                                 self?.tableView.reloadData()
                             } else {
-                                self?.showAlert("Error", message: "Server don't response. Please try again later")
+                                self?.showAlert("Error", message: "Failed to unfollow, try again")
                             }
                         })
                         
                         //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                     } else {
                         self?.tableView.reloadData()
-                        self?.showAlert("Error", message: "Server don't response. Please try again later")
+                        self?.showAlert("Error", message: "Failed to unfollow, try again")
                     }
                 })
             }

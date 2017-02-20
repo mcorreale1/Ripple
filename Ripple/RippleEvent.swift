@@ -22,4 +22,5 @@ class RippleEvent: BackendlessEntity {
     var location: String?
     var isPrivate = false
     var picture: Pictures?
+    var ownerId: String?
 }
