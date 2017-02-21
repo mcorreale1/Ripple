@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
             self.loginToFacebook()
+            print("is regged for remote: \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
         }
     }
     
@@ -164,6 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
+        print("in got deviceID")
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
