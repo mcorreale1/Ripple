@@ -682,12 +682,13 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                         self?.showAlert(self?.titleMessage, message: self?.message)
                                         return
                                     }
+                                    UserManager().goOnEvent(self!.event!, completion: { (success) in
+                                    })
+
                                     completion(success: true)
                                     //May need to uncomment
                                     //self?.navigationController?.popViewControllerAnimated(true)
-                                    UserManager().goOnEvent(self!.event!, completion: { (success) in
-                                        })
-
+                                   
         })
         
     }

@@ -15,7 +15,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var noEventLabel: UITextView!
-    
+    @IBOutlet weak var createEventButton: UIButton!
     // the dictionaries to hold the events
     var followingPlan = [Dictionary<String, AnyObject>]()
     var allEventsPlan = [Dictionary<String, AnyObject>]()

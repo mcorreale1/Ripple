@@ -52,6 +52,7 @@
 		68578E331DD1C7D5001F124D /* OrganizationProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68578E321DD1C7D5001F124D /* OrganizationProfileViewController.swift */; };
 		68578E351DD1C7ED001F124D /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68578E341DD1C7ED001F124D /* ReportManager.swift */; };
 		7C05D0A41D1EF4F50031CE58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C05D0A31D1EF4F50031CE58 /* Main.storyboard */; };
+		7C069B511E578F970064E280 /* ChooseYourOrg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C069B501E578F970064E280 /* ChooseYourOrg.swift */; };
 		7C2F7FE71CB7B12E006E0CF5 /* Quicksand Bold Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE01CB7AF0D006E0CF5 /* Quicksand Bold Oblique.otf */; };
 		7C2F7FE81CB7B12F006E0CF5 /* Quicksand Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE11CB7AF0D006E0CF5 /* Quicksand Bold.otf */; };
 		7C2F7FE91CB7B12F006E0CF5 /* Quicksand Book Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE21CB7AF0D006E0CF5 /* Quicksand Book Oblique.otf */; };
@@ -213,6 +214,7 @@
 		68578E321DD1C7D5001F124D /* OrganizationProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationProfileViewController.swift; sourceTree = "<group>"; };
 		68578E341DD1C7ED001F124D /* ReportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
 		7C05D0A31D1EF4F50031CE58 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7C069B501E578F970064E280 /* ChooseYourOrg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseYourOrg.swift; sourceTree = "<group>"; };
 		7C2F7FE01CB7AF0D006E0CF5 /* Quicksand Bold Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Bold Oblique.otf"; sourceTree = "<group>"; };
 		7C2F7FE11CB7AF0D006E0CF5 /* Quicksand Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Bold.otf"; sourceTree = "<group>"; };
 		7C2F7FE21CB7AF0D006E0CF5 /* Quicksand Book Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Book Oblique.otf"; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				5CA53D7E1D538514005EFFB6 /* EventsInDayViewController.swift */,
 				5CD5B9BE1D58B57D00BCD402 /* InviteUsersViewController.swift */,
 				5CC5E41D1D59D28D0057EFAB /* WhatsPulsingViewController.swift */,
+				7C069B501E578F970064E280 /* ChooseYourOrg.swift */,
 				5CC5E4211D5A14D00057EFAB /* MapViewController.swift */,
 				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
 				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
@@ -991,6 +994,7 @@
 				68578E351DD1C7ED001F124D /* ReportManager.swift in Sources */,
 				5C205A3A1D4764420079143B /* BaseTabBarViewController.swift in Sources */,
 				A87C6CD91DF5930900D80898 /* Users.swift in Sources */,
+				7C069B511E578F970064E280 /* ChooseYourOrg.swift in Sources */,
 				A87C6CE51DF59C5E00D80898 /* FollowingRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
