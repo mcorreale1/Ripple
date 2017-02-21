@@ -24,7 +24,7 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
         
         self.tableView.registerNib(UINib.init(nibName: "OrganizationTableViewCell", bundle: nil), forCellReuseIdentifier: ChooseYourOrg.cellId)
         
-        OrganizationManager().organizationForUser(UserManager().currentUser(), completion: {[weak self] (org) in
+        OrganizationManager().organizationsForUser(UserManager().currentUser(), completion: {[weak self] (org) in
             self?.tempOrg = org
             if self?.tempOrg.count != 0{
             self?.tempOrg.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in

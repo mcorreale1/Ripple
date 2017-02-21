@@ -77,7 +77,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         super.viewWillAppear(animated)
         
         if (!editOrganization) {
-            
             prepareData()
             prepareViews()
         }
@@ -88,7 +87,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.tableView.reloadData()
         if isEventCreate {
             isEventCreate = false
             EventManager().eventOrganization(organization!) {[weak self] (events) in
@@ -178,8 +177,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
 //        if  orgEvents.isEmpty == true {
         EventManager().eventOrganization(org) {[weak self] (events) in
+            self?.orgEvents.removeAll()
             for event in events {
-                if event.endDate!.isGreaterOrEqualThen(NSDate()) || self!.orgEvents.contains(event) == false {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) && self!.orgEvents.contains(event) == false {
                     self?.orgEvents.append(event)
                 } else if self!.orgEvents.contains(event) {
                     print("Event already in list")
@@ -190,20 +190,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 let date2 = event2.startDate
                 return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
             }
-            
-//            OrganizationManager().membersInOrganizations(org) { [weak self] (result) in
-//                if result != nil {
-//                    self?.orgMembers = result!
-//                    print("org members in OPVC: \(self?.orgMembers)")
-//                    self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
-//                        let name1 = user1.name
-//                        let name2 = user2.name
-//                        return name1?.lowercaseString < name2?.lowercaseString
-//                    }
-//                    self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
-//                }
-//                self?.tableView.reloadData()
-//            }
             
             OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
                 if result != nil {
@@ -488,7 +474,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         if editOrganization && organization == nil {
             organization = Organizations()
             organization?.events = [RippleEvent]()
-            organization?.members = "[ \"" + UserManager().currentUser().objectId + "\"]"
+            //organization?.members = "[ \"" + UserManager().currentUser().objectId + "\"]"
             organization?.admins = "[\"\"]"
             organization?.leaderId = UserManager().currentUser().objectId
             organization?.membersOf.append(UserManager().currentUser())
@@ -627,7 +613,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     // MARK: - ORCropImageViewControllerDelegate
     
     override func cropVCDidFinishCrop(withImage image: UIImage?) {
-        guard let img = image else {
+        guard image != nil else {
             self.titleMessage = NSLocalizedString("Fail", comment: "Fail")
             self.message = NSLocalizedString("Failed to crop image!", comment: "Failed to crop image!")
             showAlert(self.titleMessage, message: self.message)
@@ -800,7 +786,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         
         if !isAdmin(user) || isLeader() {
             let removeMemberButton = UITableViewRowAction(style: .Default, title: "Remove\nMember") {[weak self] action, indexPath in
-                self?.removeUserFromOrganization(indexPath)
+                self?.removeUserFromOrganization(user)
             }
             actions.append(removeMemberButton)
         }
@@ -855,23 +841,41 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         self.view.endEditing(true)
     }
     
-    func removeUserFromOrganization(indexObject: NSIndexPath) {
+    func removeUserFromOrganization(user:Users) {
+        showActivityIndicator()
         if isLeader() || isAdmin() {
-            let user = orgMembers[indexObject.row - 1]
-            OrganizationManager().unfollowingUserOnOrganization(organization!, user: user, completion: { (entity, error) in
-                if error == nil && entity != nil {
-                    if let objectIndex = self.orgMembers.indexOf(user) {
-                        self.orgMembers.removeAtIndex(objectIndex)
+            print("removing \(user.name!)")
+//            let user = orgMembers[indexObject.row - 1]
+//            print("removing member")
+//            OrganizationManager().unfollowingUserOnOrganization(organization!, user: user, completion: { (entity, error) in
+//                if error == nil && entity != nil {
+//                    print("removeMember")
+//                    if let objectIndex = self.orgMembers.indexOf(user) {
+//                        self.orgMembers.removeAtIndex(objectIndex)
+//                    }
+//                    
+//                    self.tableView.deleteRowsAtIndexPaths([indexObject], withRowAnimation: .Left)
+//                    self.tableView.reloadData()
+//                } else {
+//                    self.tableView.reloadData()
+//                    self.showAlert("Error", message: "User remove failed. Please try again later")
+//                }
+//            })
+            OrganizationManager().removeUserFromOrganization(organization!, user: user) { (success, org) in
+                if success {
+                    print("Successfully removed user")
+                    if let index = self.orgMembers.indexOf(user) {
+                        print("removing from orgMembers array")
+                        self.orgMembers.removeAtIndex(index)
+                        self.memberCountLabel.text = String(self.orgMembers.count) + " " + NSLocalizedString("Members", comment: "Members")
+                        self.organization = org
+                        self.tableView.reloadData()
                     }
-                    
-                    self.tableView.deleteRowsAtIndexPaths([indexObject], withRowAnimation: .Left)
-                    self.tableView.reloadData()
-                } else {
-                    self.tableView.reloadData()
-                    self.showAlert("Error", message: "User remove failed. Please try again later")
                 }
-            })
+                print("Members of current org: \(self.organization!.membersOf)")
+            }
         }
+        self.hideActivityIndicator()
     }
     
     func removeEventFromOrganization(indexObject: NSIndexPath) {

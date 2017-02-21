@@ -18,29 +18,29 @@ enum TypeRoleUserInOrganization: String {
 
 class OrganizationManager: NSObject {
 
-    func organizationForUser(user: Users, completion:[Organizations] -> Void) {
-        print("in org for user")
-        organizationsForUser(user, completion: completion)
-        return
-        let query = BackendlessDataQuery()
-        query.whereClause = "members like '%\(user.objectId)%'"
-        let options = QueryOptions()
-        options.related = ["picture"]
-        query.queryOptions = options
-        
-        Organizations().dataStore().find(query, response: { (collection) in
-            var organizations = collection.data as? [Organizations] ?? [Organizations]()
-            collection.loadOtherPages({ (otherPageCollection) -> Void in
-                if otherPageCollection != nil {
-                    organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
-                } else {
-                    completion(organizations)
-                }
-            })
-        }, error: { (fault) in
-            completion([Organizations]())
-        })
-    }
+//    func organizationForUser(user: Users, completion:[Organizations] -> Void) {
+//        print("in org for user")
+//        organizationsForUser(user, completion: completion)
+//        return
+//        let query = BackendlessDataQuery()
+//        query.whereClause = "members like '%\(user.objectId)%'"
+//        let options = QueryOptions()
+//        options.related = ["picture"]
+//        query.queryOptions = options
+//        
+//        Organizations().dataStore().find(query, response: { (collection) in
+//            var organizations = collection.data as? [Organizations] ?? [Organizations]()
+//            collection.loadOtherPages({ (otherPageCollection) -> Void in
+//                if otherPageCollection != nil {
+//                    organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
+//                } else {
+//                    completion(organizations)
+//                }
+//            })
+//        }, error: { (fault) in
+//            completion([Organizations]())
+//        })
+//    }
     
     func organizationsForUser(user:Users, completion:[Organizations] -> Void ) {
         let query = BackendlessDataQuery()
@@ -90,14 +90,13 @@ class OrganizationManager: NSObject {
                 return .Member
             }
         }
-     
-        if organization.members!.toBackendlessArray().contains(user.objectId) {
-            print("got .Member from members")
-            return .Member
-        }
+//     
+//        if organization.members!.toBackendlessArray().contains(user.objectId) {
+//            print("got .Member from members")
+//            return .Member
+//        }
         for organization in user.organizations {
             if organization.objectId == organization.objectId {
-                print("returing follower")
                 return .Follower
             }
         }
@@ -139,17 +138,27 @@ class OrganizationManager: NSObject {
         let options = QueryOptions()
         options.related = ["membersOf"]
         query.whereClause = "objectId = '\(organization.objectId)'"
-        
+        query.queryOptions = options
         Organizations().dataStore().find(query, response: {(collection) in
             if(collection.data.count == 0) {
                 completion(nil)
             }
+            print("collection: \(collection)")
             var org = collection.data.first as! Organizations
-            if !(org.membersOf is [BackendlessUser]) {
-                print("members arent backendless user in memberOfOrg")
-                completion(nil)
-                return
-            }
+            //var orgs = collection.data as? [Organizations] ?? [Organizations]()
+            
+            
+            //let o1 = collection.data as? [Organizations]
+            
+            //print("o1 membersOf: \(o1?.membersOf)")
+            
+            
+            
+//            if !(org.membersOf is [BackendlessUser]) {
+//                print("members arent backendless user in memberOfOrg")
+//                completion(nil)
+//                return
+//            }
             let users =  UserManager().backendlessUsersToLocalUsers(org.membersOf as? [BackendlessUser] ?? [BackendlessUser](), friends:  false)
             organization.membersOf = users
             completion(users)
@@ -250,38 +259,50 @@ class OrganizationManager: NSObject {
     
     func joinOrganization(organization: Organizations, completion: (Bool) -> Void) {
         let user = UserManager().currentUser()
-        var members = organization.members!.toBackendlessArray()
-        
-        var needToAdd = true
-        for member in members {
-            if member == user.objectId {
-                needToAdd = false
-            }
-        }
-        
-        if needToAdd {
-            members.append(user.objectId)
-            organization.members = String().fromBackendlessArray(members)
-            organization.membersOf.append(user)
-            
-            organization.save { (savedEntity, error) in
-                if savedEntity != nil {
-                    completion(true)
-                } else {
-                    completion(false)
+        if let members = organization.getMembersOfUsers() {
+            if !(members.contains(user)) {
+                organization.membersOf.append(user)
+                organization.save { (savedEntity, error) in
+                    if savedEntity != nil {
+                        completion(true)
+                        InvitationManager().invateThisOrganizationDelete(organization)
+                    } else {
+                        completion(false)
+                    }
                 }
+            } else {
+                print("Already a member")
+                completion(true)
+                
             }
-        }
         
-        InvitationManager().invateThisOrganizationDelete(organization)
+        } else {
+            print("failed to join org in joinOrg: \(organization.membersOf)")
+            
+            completion(false)
+        }
+//        
+//        var needToAdd = true
+//        for member in members {
+//            if member == user.objectId {
+//                needToAdd = false
+//            }
+//        }
+//        
+//        if needToAdd {
+//            //members.append(user.objectId)
+//            //organization.members = String().fromBackendlessArray(members)
+//            organization.membersOf.append(user)
+//        }
+        
     }
     
     func unfollowingUserOnOrganization(organization: Organizations, user: Users, completion: (Organizations?, NSError?) -> Void) {
-        var members = organization.members!.toBackendlessArray()
-        
-        if let indexObject = members.indexOf(user.objectId) {
-            members.removeAtIndex(indexObject)
-        }
+//        var members = organization.members!.toBackendlessArray()
+//        
+//        if let indexObject = members.indexOf(user.objectId) {
+//            members.removeAtIndex(indexObject)
+//        }
         //REMOVE
 //        organization.members = String().fromBackendlessArray(members)
 //        if(organization.membersOf is [Users]) {
@@ -300,6 +321,38 @@ class OrganizationManager: NSObject {
         organization.save({ (entity, error) in
             completion(entity as? Organizations, error)
         })
+    }
+    
+    func removeUserFromOrganization(organization:Organizations, user:Users, completion:(Bool, Organizations?) -> Void) {
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        query.whereClause = "objectId = '\(organization.objectId)'"
+        options.related = ["membersOf"]
+        query.queryOptions = options
+        if let org = Organizations().dataStore().find(query).data.first as? Organizations {
+            for member in org.membersOf {
+                if member.objectId == user.objectId {
+                    print("removing \(member.name)")
+                    if let index = org.membersOf.indexOf(member) {
+                        org.membersOf.removeAtIndex(index)
+                        org.save() { (entity, error) in
+                            if(error == nil) {
+                                print("saved org")
+                                completion(true, org)
+                            } else {
+                                print("error in removeUser: \(error!)")
+                                completion(false, nil)
+                            }
+                        }
+                    } else {
+                        completion(false, nil)
+                    }
+                    break
+                }
+            }
+        } else {
+            completion(false, nil)
+        }
     }
     
     func addEvent(organization: Organizations, event: RippleEvent, completion: (Organizations?, NSError?) -> Void) {

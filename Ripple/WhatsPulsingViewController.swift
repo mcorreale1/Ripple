@@ -326,10 +326,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
-        var sectionData = Dictionary<String, AnyObject>()
         
         var event: RippleEvent?
-        var dateFormat = "dd MMM h:mm a"
+        let dateFormat = "dd MMM h:mm a"
 
         if(segmentedControl.selectedSegmentIndex == 0) {
             if (indexPath.section > 0) {

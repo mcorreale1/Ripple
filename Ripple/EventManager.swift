@@ -92,7 +92,7 @@ class EventManager: NSObject {
             
             var futureEvents = [RippleEvent]()
             for event in fetchedOrg.events {
-                if event.startDate!.isGreaterOrEqualThen(NSDate()) {
+                if event.endDate!.isGreaterOrEqualThen(NSDate()) {
                     futureEvents.append(event)
                 }
             }
@@ -366,34 +366,69 @@ class EventManager: NSObject {
             
     }
     
-    func updateEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, description: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
-        event.name = name
-        event.startDate = start
-        event.endDate = end
-        event.isPrivate = isPrivate
-        event.cost = cost
-        event.address = address
-        event.city = city
-        event.location = location
-        event.latitude = coordinate.latitude
-        event.longitude = coordinate.longitude
-        event.descr = description
-        event.organization = organization
-        event.picture = event.organization?.picture
-        event.save() { (newEvent, error) in
-            guard error == nil else {
-                print("error: \(error?.description)")
-                completion(false, nil)
-                return
+    func updateEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, descr: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
+//        event.name = name
+//        event.startDate = start
+//        event.endDate = end
+//        event.isPrivate = isPrivate
+//        event.cost = cost
+//        event.address = address
+//        event.city = city
+//        event.location = location
+//        event.latitude = coordinate.latitude
+//        event.longitude = coordinate.longitude
+//        event.descr = description
+//        event.organization = organization
+//        event.picture = event.organization?.picture
+//        
+        let query = BackendlessDataQuery()
+        query.whereClause = "objectId = '\(event.objectId)'"
+        if let ripEvent = RippleEvent().dataStore().find(query).data.first as? RippleEvent {
+            print("in find")
+            ripEvent.name = name
+            ripEvent.startDate = start
+            ripEvent.endDate = end
+            ripEvent.isPrivate = isPrivate
+            ripEvent.cost = cost
+            ripEvent.address = address
+            ripEvent.city = city
+            ripEvent.location = location
+            ripEvent.latitude = coordinate.latitude
+            ripEvent.longitude = coordinate.longitude
+            ripEvent.descr = descr
+            ripEvent.save() { (entity, error) in
+                if(error == nil) {
+                    if let newEvent = entity as? RippleEvent {
+                        print("save successful")
+                        print("event dscr: \(newEvent.descr)")
+                        completion(true, newEvent)
+                    } else {
+                        completion(false, nil)
+                    }
+                    
+                } else {
+                    completion(false, nil)
+                }
             }
-            if let updatedEvent = newEvent as? RippleEvent {
-                completion(true, updatedEvent)
-                return
-            } else {
-                completion(false, event)
-            }
+        } else {
+            print("event failed to update")
+            completion(false, nil)
         }
-        print("here")
+//        
+//        event.save() { (newEvent, error) in
+//            guard error == nil else {
+//                print("error: \(error?.description)")
+//                completion(false, nil)
+//                return
+//            }
+//            if let updatedEvent = newEvent as? RippleEvent {
+//                completion(true, updatedEvent)
+//                return
+//            } else {
+//                completion(false, event)
+//            }
+//        }
+//        print("here")
     }
     
     func pulsingEvents(completion: ([Dictionary<String, AnyObject>]) -> Void) {

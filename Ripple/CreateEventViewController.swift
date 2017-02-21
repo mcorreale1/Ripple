@@ -496,66 +496,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     
     @IBAction func postToWhatsPulsingTouched(sender: AnyObject) {
         postEvent()
-        return
-        /*
-        if validateFields() == true {
-            postPulsingButton.enabled = false
-            
-            if isPrivateEvent {
-                titleMessage = NSLocalizedString("Error", comment: "Error")
-                message = NSLocalizedString("You can not post private events", comment: "You can not post private events")
-                let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                titleMessage = NSLocalizedString("OK", comment: "OK")
-                alertController.addAction(UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Default,handler: nil))
-                self.presentViewController(alertController, animated: true, completion: nil)
-                self.postPulsingButton.enabled = true
-            } else {
-                postPulsingButton.enabled = false
-                showActivityIndicator()
-                var coordinate = CLLocationCoordinate2DMake(0, 0)
-                let geocoder = CLGeocoder()
-                
-                geocoder.geocodeAddressString(eventAddress) {[weak self] (placemarks: [CLPlacemark]?, error: NSError?) in
-                    if error != nil {
-                        print("Error, \(error?.description)")
-                        coordinate = CLLocationCoordinate2DMake(0, 0)
-                    } else {
-                        coordinate.latitude = (placemarks?.first?.location?.coordinate.latitude)!
-                        coordinate.longitude = (placemarks?.first?.location?.coordinate.longitude)!
-                    }
-                    if coordinate.latitude == 0 || coordinate.longitude == 0 {
-                        self?.hideActivityIndicator()
-                        self?.titleMessage = NSLocalizedString("Error", comment: "Error")
-                        self?.message = NSLocalizedString("The address can not be found.", comment: "The event was not created. The address can not be found.")
-                        self?.showAlert((self?.titleMessage), message: (self?.message))
-                        self?.postPulsingButton.enabled = true
-                    } else {
-                        if self?.event != nil {
-                            
-                            if self?.isPrivateEvent == false {
-                                self?.hideActivityIndicator()
-                               // self?.checkMarkImageView.hidden = false
-                                self?.postPulsingButton.enabled = false
-                            }
-                                
-                            or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
-                            self?.postPulsingButton.enabled = true
-                        } else {
-                            self?.postPulsingButton.enabled = false
-                            self?.createEvent({ (success) in
-                                self?.postPulsingButton.enabled = false
-
-                            })
-//                            self?.createNewEvent({ (success) in
-//                                self?.postPulsingButton.enabled = false
-//                            })
-                        }
-                    }
-                }
-                hideActivityIndicator()
-            }
-        }
-    */
     }
     
     
@@ -586,6 +526,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                     self.showInviteUsersViewController(self.organization, event: self.event)
                     dispatch_async(dispatch_get_main_queue()){
                         self.navigationController!.popViewControllerAnimated(true)
+                        
                     }
                     
                 }
@@ -615,8 +556,20 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         let completion = { (success:Bool) in
             if(success) {
                 self.eventCreating = false
-                
-                self.navigationController?.popFadeViewController()
+                if let index = self.navigationController?.viewControllers.indexOf(self) {
+                    print("Found self")
+                    self.navigationController?.viewControllers.removeAtIndex(index)
+                }
+                if(self.editingEvent) {
+                    if let root = self.navigationController?.parentViewController as? EventDescriptionViewController {
+                        root.event = self.event
+                        root.prepareViews()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        return
+                    }
+                }
+                self.showEventDescriptionViewController(self.event!)
+                //self.navigationController?.popFadeViewController()
             }
         }
         if validateFields() {
@@ -668,7 +621,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             self.finishTime? = self.finishTime!.tomorrow()
         }
         self.finishTime = calender!.dateBySettingHour(endTimeComponents.hour, minute: endTimeComponents.minute, second: 0, ofDate: self.finishTime!, options: NSCalendarOptions())
-        
+
         //Try to find address twice, if not just continue
         lookupLocation()
         if(self.city.isEmpty) {
@@ -754,7 +707,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                    end: self.finishTime!,
                                    isPrivate: self.eventPrivacy.on,
                                    cost: priceEvent,
-                                   description: self.eventDescriptionTextView.text,
+                                   descr: self.eventDescriptionTextView.text,
                                    address: self.address,
                                    city: self.city,
                                    location: self.location,
@@ -765,7 +718,6 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     if (success) {
                                         print("Success")
                                         self?.event = rippleEvent
-                                        or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
                                         completion(success: true)
                                     } else {
                                         self!.titleMessage = NSLocalizedString("Error", comment: "Error")
@@ -775,81 +727,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
                                     }
                                     
             })
-//
-//        EventManager().cre(event!,organization: organization!, name: eventName, start: startTime!, end: finishTime!, isPrivate: self.eventPrivacy.on, cost: priceEvent , description: eventDescription!, address: self.address, city: self.city, location: self.location, coordinate: self.coordinate) { [weak self] (success, rippleEvent) in
-//            print("Updated")
-//            self?.hideActivityIndicator()
-//            self?.eventCreating = false
-//            if(success) {
-//                self?.event = rippleEvent
-//                or_postNotification( PulseNotification.PulseNotificationIsEventCreate.rawValue)
-//            } else {
-//                self!.titleMessage = NSLocalizedString("Error", comment: "Error")
-//                self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
-//                self?.showAlert(self?.titleMessage, message: self?.message)
-//                return
-//            }
-//            completion(success: true)
-//            
-//        }
     }
 
-    //MARK: - SOON TO BE DEPRECATED
-    
-    /*
-    func createNewEvent(completion: (success: Bool) -> Void) {
-        showActivityIndicator()
-        var coordinate = CLLocationCoordinate2DMake(0, 0)
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(eventAddress) { (placemarks: [CLPlacemark]?, error: NSError?) in
-            if error != nil {
-                print("Error, \(error?.description)")
-                coordinate = CLLocationCoordinate2DMake(0, 0)
-            } else {
-                coordinate.latitude = (placemarks?.first?.location?.coordinate.latitude)!
-                coordinate.longitude = (placemarks?.first?.location?.coordinate.longitude)!
-            }
-            
-            if coordinate.latitude == 0 || coordinate.longitude == 0 {
-                self.titleMessage = NSLocalizedString("Error", comment: "Error")
-                self.message = NSLocalizedString("The address can not be found.", comment: "The event was not created. The address can not be found.")
-                self.showAlert((self.titleMessage), message: (self.message))
-                self.hideActivityIndicator()
-            } else {
-                let newEvent = RippleEvent()
-                
-                if self.eventCreating {
-                    return
-                }
-                self.eventCreating = true
-                
-                
-                EventManager().createEvent(self.organization!, event: newEvent, name: self.eventName, start: self.dayEvent!.setTimeForDate(self.startTime!), end: self.dayEventEnd!.setTimeForDate(self.finishTime!), isPrivate: self.isPrivateEvent, cost: self.priceEvent, description: self.eventDescriptionTextView.text, address: self.streetAddressText.text!, city: self.cityStateZipText.text!, location: self.locationTextField.text!, coordinate: coordinate) {[weak self] (success, event) in
-                    self?.hideActivityIndicator()
-                    self?.eventCreating = false
-                    
-                    if success {
-                        if (self?.isPrivateEvent == false) {
-                           // self?.checkMarkImageView.hidden = false
-                            //self?.postPulsingButton.hidden = false
-                        }
-                        
-                        self?.event = event
-                        or_postNotification(PulseNotification.PulseNotificationIsEventCreate.rawValue)
-                        completion(success: true)
-                    } else {
-                        self!.titleMessage = NSLocalizedString("Error", comment: "Error")
-                        self!.message = NSLocalizedString("The event was not created. Please, try again later", comment: "The event was not created. Please, try again later")
-                        self?.showAlert(self?.titleMessage, message: self?.message)
-                    }
-                }
- 
-            }
-        }
- 
-        hideActivityIndicator()
-    }
-    */
     
     // MARK: - Helper
     

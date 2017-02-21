@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
             Backendless.sharedInstance().userService.setPersistentUser()
             self.loginToFacebook()
+            print("is regged for remote: \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
         }
     }
     
@@ -152,8 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
         
-
-
         let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
@@ -166,6 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
+        print("in got deviceID")
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
@@ -186,6 +186,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        print("Recieved push note: \(userInfo)")
         if application.applicationState == UIApplicationState.Active {
             let localNote = UILocalNotification()
             localNote.userInfo = userInfo

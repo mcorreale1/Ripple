@@ -178,7 +178,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     self?.tableView.reloadData()
                 })
                 
-                OrganizationManager().organizationForUser(self.selectedUser!, completion: {[weak self] (org) in
+                OrganizationManager().organizationsForUser(self.selectedUser!, completion: {[weak self] (org) in
                     self?.organizationArray = org
                     self?.organizationArray.sortInPlace { (org1: Organizations, org2: Organizations) -> Bool in
                         let name1 = org1.name
@@ -413,7 +413,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             }
             let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
             let sectionItem = followingArray[indexPath.section]
-            let sectionTitle = sectionItem["title"] as! String
+            //let sectionTitle = sectionItem["title"] as! String
             if let following = sectionItem["items"] as? [AnyObject] {
                 let item = isMe && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
                 if item is Users {

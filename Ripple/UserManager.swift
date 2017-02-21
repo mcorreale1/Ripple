@@ -51,13 +51,13 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
-        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
-            print("device ID hasnt been saved")
-            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-        } else {
-            print("device ID already saved: \(UserManager().currentUser().deviceID)")
-        }
-        UserManager.me?.save({(success, error) in })
+//        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
+//            print("device ID hasnt been saved")
+//            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+//        } else {
+//            print("device ID already saved: \(UserManager().currentUser().deviceID)")
+//        }
+        //UserManager.me?.save({(success, error) in })
     }
     
     func prepareData() {
@@ -669,12 +669,13 @@ class UserManager: NSObject {
             for user in membersOf {
                 ignoreUsersIds.append(user.objectId)
             }
-        } else {
-            for user in organization.members!.toBackendlessArray() {
-                ignoreUsersIds.append(user)
-            }
         }
-        
+//        else {
+//            for user in organization.members!.toBackendlessArray() {
+//                ignoreUsersIds.append(user)
+//            }
+//        }
+//        
         
         
         let query = BackendlessDataQuery()
