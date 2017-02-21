@@ -18,29 +18,29 @@ enum TypeRoleUserInOrganization: String {
 
 class OrganizationManager: NSObject {
 
-    func organizationForUser(user: Users, completion:[Organizations] -> Void) {
-        print("in org for user")
-        organizationsForUser(user, completion: completion)
-        return
-        let query = BackendlessDataQuery()
-        query.whereClause = "members like '%\(user.objectId)%'"
-        let options = QueryOptions()
-        options.related = ["picture"]
-        query.queryOptions = options
-        
-        Organizations().dataStore().find(query, response: { (collection) in
-            var organizations = collection.data as? [Organizations] ?? [Organizations]()
-            collection.loadOtherPages({ (otherPageCollection) -> Void in
-                if otherPageCollection != nil {
-                    organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
-                } else {
-                    completion(organizations)
-                }
-            })
-        }, error: { (fault) in
-            completion([Organizations]())
-        })
-    }
+//    func organizationForUser(user: Users, completion:[Organizations] -> Void) {
+//        print("in org for user")
+//        organizationsForUser(user, completion: completion)
+//        return
+//        let query = BackendlessDataQuery()
+//        query.whereClause = "members like '%\(user.objectId)%'"
+//        let options = QueryOptions()
+//        options.related = ["picture"]
+//        query.queryOptions = options
+//        
+//        Organizations().dataStore().find(query, response: { (collection) in
+//            var organizations = collection.data as? [Organizations] ?? [Organizations]()
+//            collection.loadOtherPages({ (otherPageCollection) -> Void in
+//                if otherPageCollection != nil {
+//                    organizations.appendContentsOf(otherPageCollection?.data as? [Organizations] ?? [Organizations]())
+//                } else {
+//                    completion(organizations)
+//                }
+//            })
+//        }, error: { (fault) in
+//            completion([Organizations]())
+//        })
+//    }
     
     func organizationsForUser(user:Users, completion:[Organizations] -> Void ) {
         let query = BackendlessDataQuery()
