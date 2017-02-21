@@ -17,6 +17,7 @@ class UserParcer : NSObject {
     */
     
     func fetchCoreDataEntity(fromUser user: Users, withContext context: NSManagedObjectContext) -> CDUser? {
+        print("Fetching CD user")
         var cdUser = CDUser.MR_findFirstByAttribute(Constants.EntityParcing.serverIDAttribute, withValue: user.objectId, inContext: context)
         
         if cdUser == nil {

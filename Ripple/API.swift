@@ -124,8 +124,7 @@ class API: NSObject {
     
     func loginWithFacebook(fromViewController viewController: UIViewController, completion: (Users!, NSError?) -> Void, onCancel : () -> Void) {
         let facebookManager = FBSDKLoginManager()
-        let permissions = ["public_profile", "email"]
-        
+        let permissions = ["public_profile", "email", "user_friends"]
         facebookManager.logOut()
         facebookManager.logInWithReadPermissions(permissions, fromViewController: viewController, handler: { (result, error) in
             if let err = error {
@@ -186,21 +185,8 @@ class API: NSObject {
     }
     
     func autoLogin() -> Bool {
-    
-        
-        /*
-            if let current = Backendless.sharedInstance().userService.currentUser as? Users ?? nil {
-            print("there is a current user " + current.name!)
-        } else {
-            print("No user found")
-        }
-        */
         let userFound = Backendless.sharedInstance().userService.getPersistentUser()
-
-        
         if  userFound {
-            print("auto logged in \(Backendless.sharedInstance().userService.currentUser.name)")
-
             return true
         } else {
             print("Auto login failed")

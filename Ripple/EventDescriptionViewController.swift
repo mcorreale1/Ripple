@@ -70,6 +70,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         prepareViews()
     }
     
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        print("In VDA")
+//        
+//    }
+//    
+    
     func monthNumberToName() -> String {
         let value = event!.startDate?.monthNumber()
         var name = ""
@@ -128,7 +135,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareViews() {
         title = event?.name ?? ""
-        navigationController?.navigationBar.tintColor = titleColor
+        //navigationController?.navigationBar.tintColor = titleColor
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: titleColor]
         
         self.eventDescriptionLabel.numberOfLines = 0;
@@ -158,16 +165,15 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareNotification() {
         if (event!.startDate!.isGreaterOrEqualThen(NSDate())) {
-        let localNotification = UILocalNotification()
-        localNotification.fireDate = event!.startDate
-        localNotification.alertTitle = event!.name
-        localNotification.alertBody = "\(event!.name) is starting right now!"
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-
-        if (goButton.titleLabel == "Go") {
-            UIApplication.sharedApplication().cancelLocalNotification(localNotification)
-        }
+            let localNotification = UILocalNotification()
+            localNotification.fireDate = event!.startDate
+            localNotification.alertTitle = event!.name
+            localNotification.alertBody = "This event is starting right now!"
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            if (goButton.titleLabel == "Go") {
+                UIApplication.sharedApplication().cancelLocalNotification(localNotification)
+            }
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
         }
     }
@@ -199,6 +205,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let eventDescriptionController = storyboard.instantiateViewControllerWithIdentifier("EventDescriptionViewController") as! EventDescriptionViewController
         eventDescriptionController.event = event
         navigationController?.showViewController(eventDescriptionController, sender: self)
+        
     }
     
     func sendReport() {
@@ -207,9 +214,15 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let userRole:TypeRoleUserInOrganization = OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: org!)
         if(userRole == .Admin || userRole == .Founder) {
             let editAction:UIAlertAction = UIAlertAction(title: "Edit Event", style: .Default) { action -> Void in
-                self.showEditEventViewController(self.org, event: self.event!)
+                self.editEvent()
             }
-            //actionSheetController.addAction(editAction)
+            actionSheetController.addAction(editAction)
+            
+            //let deleteAction:UIAlertAction = UIAlertAction(title: "Delete Event", style: .Default, handler: )
+            let deleteAction:UIAlertAction = UIAlertAction(title: "Delete Event", style: .Default) { (action) in
+                self.deleteEvent()
+            }
+            actionSheetController.addAction(deleteAction)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
@@ -230,6 +243,35 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
+    }
+    
+    func editEvent() {
+        self.showEditEventViewController(self.org, event: self.event!)
+        print("After edit event")
+    }
+    
+    func deleteEvent() {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this event?", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (_) in}
+        let confirmAction = UIAlertAction(title: "Delete", style: .Default) { (action) in
+            self.showActivityIndicator()
+            EventManager().deleteEvent(self.event!) { (success) in
+                self.hideActivityIndicator()
+                if(success) {
+                    if let index = self.org!.events.indexOf(self.event!) {
+                        self.org!.events.removeAtIndex(index)
+                    }
+                    self.navigationController?.popFadeViewController()
+                } else {
+                    let failedAlert = UIAlertController(title: "Deletion failed", message: "Event failed to delete, please try again", preferredStyle: .Alert)
+                    failedAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {(action) in }))
+                    self.presentViewController(failedAlert, animated: true, completion: {})
+                }
+            }
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        self.presentViewController(alert, animated: true, completion: {})
     }
     
     // MARK: - UITableViewDataSource
@@ -332,6 +374,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
 
                         self.goButton.setTitle(self.goingText, forState: UIControlState.Normal)
                         self.prepareNotification()
+                        print("All local notes: \(UIApplication.sharedApplication().scheduledLocalNotifications)")
                     }
                 })
             } else {
@@ -341,8 +384,18 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
                     if success {
                         let title = String(max(self.participants!.count - 1, 0)) + " " + (self.goingText ?? "")
                         self.countGoingButton.setTitle(title, forState: .Normal)
-                        
                         self.goButton.setTitle(self.goText, forState: UIControlState.Normal)
+                        
+                        if let notifications = UIApplication.sharedApplication().scheduledLocalNotifications {
+                            print("in remove note")
+                            for note in notifications {
+                                if (note.alertTitle == self.event!.name && note.fireDate == self.event!.startDate) {
+                                    print("canceling note")
+                                    UIApplication.sharedApplication().cancelLocalNotification(note)
+                                    print("All local notes: \(UIApplication.sharedApplication().scheduledLocalNotifications)")
+                                }
+                            }
+                        }
                     }
                 })
             }

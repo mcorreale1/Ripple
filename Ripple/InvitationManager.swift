@@ -13,7 +13,7 @@ class InvitationManager: NSObject {
 
     func invitations(completion:([Invitation]?) -> Void) {
         let query = BackendlessDataQuery()
-        query.whereClause = "toUser.objectId = '\(UserManager().currentUser().objectId)'"
+        query.whereClause = "toUser.objectId = '\(UserManager().currentUser().objectId)' and accept != True"
         let options = QueryOptions()
         options.related = ["user","organization", "organization.picture", "event", "event.organization", "event.picture"]
         query.queryOptions = options
@@ -24,7 +24,19 @@ class InvitationManager: NSObject {
                 if otherPageEvents != nil {
                     invites.appendContentsOf(otherPageEvents?.data as? [Invitation] ?? [Invitation]())
                 } else {
-                    completion(invites)
+                    var filteredInvites = [Invitation]()
+                    for invite in invites {
+                        if(invite.type == Invitation.typeInvitation.organization.rawValue) {
+                            if(invite.organization != nil) {
+                                filteredInvites.append(invite)
+                            }
+                        } else if (invite.type == Invitation.typeInvitation.event.rawValue) {
+                            if(invite.event != nil) {
+                                filteredInvites.append(invite)
+                            }
+                        }
+                    }
+                    completion(filteredInvites)
                 }
             })
         }, error: { (fault) in
@@ -61,7 +73,7 @@ class InvitationManager: NSObject {
                     invites.appendContentsOf(otherPageEvents?.data as? [Invitation] ?? [Invitation]())
                 } else {
                     for invite in invites {
-                        invite.delete({ (_) in })
+                        invite.delete(){ (_) in }
                     }
                 }
             })
@@ -77,9 +89,21 @@ class InvitationManager: NSObject {
         if let typeInvitation = invitation.type {
             switch typeInvitation {
             case Invitation.typeInvitation.organization.rawValue:
-                OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in })
+                OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in
+                    if(success) {
+                        //invitation.organization!.membersOf.append(UserManager().currentUser())
+                        //invitation.organization!.save(){ (_,_) in }
+                        invitation.accept = true
+                        invitation.save() { (_,_) in }
+                        print("Joined org")
+                        completion(true)
+                    } else {
+                        print("failed to join org")
+                        completion(false)
+                    }
+                })
                 
-                invitation.delete({ (_) in })
+                //invitation.delete({ (_) in })
                 
             case Invitation.typeInvitation.event.rawValue:
                 var events = UserManager().currentUser().events
@@ -90,15 +114,19 @@ class InvitationManager: NSObject {
                 
                 UserManager().currentUser().events = events
                 UserManager().currentUser().save { (_, _) in }
-                invitation.delete({ (_) in })
+                invitation.accept = true
+                invitation.save() { (_,_) in }
+                completion(true)
+                //invitation.delete({ (_) in })
 
             case Invitation.typeInvitation.user.rawValue:
                 invitation.accept = true
-                invitation.save({ (_, _) in })
+                invitation.save() { (_,_) in }
+                completion(true)
+                //invitation.save({ (_, _) in })
             default:
-                invitation.accept = false
+                invitation.accept = true
             }
-            completion(true)
         } else {
             completion(false)
         }

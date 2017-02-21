@@ -24,6 +24,7 @@ extension BackendlessEntity {
     }
     
     func fetch<T: BackendlessEntity>() -> T? {
+        print("Fetching Object ID: \(objectId)")
         if let data = dataStore().findID(objectId) {
             if let rippleEntity = data as? T {
                 return rippleEntity
@@ -41,6 +42,7 @@ extension BackendlessEntity {
     }
     
     func save(completion: (BackendlessEntity?, NSError?) -> Void) {
+        print("Saving object ID \(objectId)")
         dataStore().save(self, response: { (entity) in
             completion(entity as? BackendlessEntity, nil)
         }, error:  { (fault) in

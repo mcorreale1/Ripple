@@ -29,7 +29,6 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     var locationManager = CLLocationManager()
     var annotations = [EventAnnotation]()
     var userLocation: CLLocationCoordinate2D?
-    var filter = [RippleEvent]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,13 +38,13 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         mapView.delegate = self
         
         EventManager().allEvents {[weak self] (events) in
-            for event in events
-            {
+            var currentEvents = [RippleEvent]()
+            for event in events {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) {
-                    self!.filter.append(event)
+                    currentEvents.append(event)
                 }
             }
-            self?.allEvents = self!.filter
+            self?.allEvents = currentEvents
             self?.filteredEvents()
             self?.showPins()
         }
@@ -60,7 +59,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         let status = CLLocationManager.authorizationStatus()
         
         if status == .NotDetermined || status == .Denied || status == .AuthorizedWhenInUse {
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
             locationManager.requestWhenInUseAuthorization()
         }
         locationManager.startUpdatingLocation()
@@ -161,6 +160,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         sender.value = roundedValue
         let strMiles = NSLocalizedString("miles", comment: "miles")
         countMilesLabel.text = String(roundedValue) + " " + strMiles
+        UserManager().radiusSearch = roundedValue
         filteredEvents()
         showPins()
     }
@@ -176,7 +176,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
 
     func goBack()
     {
-        UserManager().radiusSearch = sliderMiles.value
+        //UserManager().radiusSearch = sliderMiles.value
         self.navigationController?.popViewControllerAnimated(true)
     }
 }

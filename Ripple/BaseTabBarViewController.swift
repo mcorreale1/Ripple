@@ -30,6 +30,7 @@ class BaseTabBarViewController: UITabBarController {
     }
     
     override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        print("tab bar item: \(item.title!)")
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.tabBarSelectIndex((tabBar.items?.indexOf(item))!)
     }

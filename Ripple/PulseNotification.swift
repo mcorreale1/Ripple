@@ -12,4 +12,5 @@ enum PulseNotification: String {
     // dont use short enum cases because rawValue will be used as notification name
     case PulseNotificationEventSendInvitations
     case PulseNotificationIsEventCreate
+    case PulseNotificationIsEventEdit
 }

@@ -49,14 +49,14 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         mapView.showsBuildings = true
         
         if(locationManager.location == nil) {
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
             locationManager.requestLocation()
         }
         
         
-        if(event != nil && event!.location != nil) {
-            coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
-            searchBar.hidden = true
+        if(event != nil && coordinate != nil) {
+            //coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
             doneButton.titleLabel?.text = "Back"
         } else if (coordinate == nil) {
             coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
@@ -77,7 +77,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     
     @IBAction func doneButtonClicked(sender:AnyObject) {
-        if(event != nil) {
+        if(event != nil && event!.latitude == coordinate.latitude && event!.longitude == coordinate.longitude) {
             self.navigationController?.popViewControllerAnimated(true)
         }
         let alert = UIAlertController(title: "Name this location", message: message, preferredStyle: .Alert)
@@ -87,7 +87,6 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
                 self.createEventDelegate?.writeBackEventLocation(self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude, location: self.location!)
                 self.navigationController?.popViewControllerAnimated(true)
                 
-
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in

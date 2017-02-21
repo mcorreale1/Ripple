@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.8</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -115,9 +115,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera. So you would be able to use your photos in this app</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your Project wants to use your present location</string>
+	<string>We need acccess to your location to check for events in your area</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your Project wants to use your present location</string>
+	<string>We need acccess to your location to filter the events in your area</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos. So you would be able to use your photos in this app</string>
 	<key>UIAppFonts</key>

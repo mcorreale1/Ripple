@@ -15,7 +15,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var noEventLabel: UITextView!
-    
+    @IBOutlet weak var createEventButton: UIButton!
     // the dictionaries to hold the events
     var followingPlan = [Dictionary<String, AnyObject>]()
     var allEventsPlan = [Dictionary<String, AnyObject>]()
@@ -35,10 +35,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     var filteredAllEvents = [RippleEvent]()
     var filteredGeologicEvents = [RippleEvent]()
     
-    var geoFilteredFollowing = [RippleEvent]()
-    var geoFilteredPulsing = [RippleEvent]()
-    var geoFilteredAllEvents = [RippleEvent]()
-    
     let trashButtonColor = UIColor.init(red: 254/255, green: 56/255, blue: 36/255, alpha: 1)
     let acceptButtonColor = UIColor.init(red: 199/255, green: 199/255, blue: 205/255, alpha: 1)
     
@@ -49,7 +45,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Loading view")
         prepareLocationManager()
         prepareData()
         prepareTableView()
@@ -68,9 +63,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
    
     private func prepareNavigationBar() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         let searchbarbutton = UIBarButtonItem(image: UIImage(named: "SearchBar"), style: .Plain, target: self, action: #selector(WhatsPulsingViewController.seguetoSearch(_:)))
         searchbarbutton.tintColor = titleColor
-        navigationItem.rightBarButtonItem = searchbarbutton
+        navigationItem.leftBarButtonItem = searchbarbutton
         navigationController?.navigationBar.tintColor = titleColor
     }
 
@@ -97,9 +93,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     func checkDeviceID() {
         if (UserManager().currentUser().deviceID == " ") {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let deviceID = Backendless.sharedInstance().messagingService.getRegistration().deviceId
-                UserManager().currentUser().deviceID = deviceID
-                UserManager().currentUser().save() { (success, error) in }
+                let deviceId: String = Backendless.sharedInstance().messagingService.currentDevice().deviceId
+                let currentUser = Backendless.sharedInstance().userService.currentUser
+                currentUser.setProperty("deviceID", object: deviceId)
+                Backendless.sharedInstance().userService.update(currentUser)
             }
         }
     }
@@ -110,7 +107,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
         tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
         tableView.delegate = self
-        print("source: \(tableView.dataSource)")
     }
     
     //why does it hide the activity indicator when loading the following events but not for pulsing events?
@@ -140,7 +136,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
-            locationManager.requestAlwaysAuthorization()
+            //locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
         }
     }
@@ -171,7 +167,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             let events = sectionObject["events"] as! [RippleEvent]
             
             for event in events {
-                if isLocationEvents(event) && !tmpEvents.contains(event) {
+                if isLocationEvents(event) && !tmpEvents.contains(event) && event.isPrivate == false {
                     tmpEvents.append(event)
                     pulsingEvents.append(event)
                 }
@@ -180,7 +176,7 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
             tmpEvents.sortInPlace() { (e1, e2) in
                 let loc1 = CLLocation(latitude: e1.latitude, longitude: e1.longitude)
                 let loc2 = CLLocation(latitude: e2.latitude, longitude: e2.longitude)
-                return loc1.distanceFromLocation(locationManager.location!) > loc2.distanceFromLocation(locationManager.location!)
+                return loc1.distanceFromLocation(locationManager.location!) < loc2.distanceFromLocation(locationManager.location!)
             }
             
             if tmpEvents.count > 0 {
@@ -210,7 +206,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
                 }
             }
         }
-        print("resultsEvents count \(resultEvents.count)")
         return resultEvents
     }
     
@@ -306,11 +301,13 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
 
         if segmentedControl.selectedSegmentIndex == 0 {
-            return (following.count <= 10) ? following.count : 10
+            //return (following.count <= 10) ? following.count : 10
+            return following.count
         } else if segmentedControl.selectedSegmentIndex == 1 {
             return (pulsing.count <= 10) ? pulsing.count : 10
         } else if segmentedControl.selectedSegmentIndex == 2 {
-            return (nearbyEvents.count <= 10) ? nearbyEvents.count : 10
+            //return (nearbyEvents.count <= 10) ? nearbyEvents.count : 10
+            return nearbyEvents.count
         }
         
         var sectionData = Dictionary<String, AnyObject>()
@@ -328,12 +325,10 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("finding events")
         let cell = tableView.dequeueReusableCellWithIdentifier("EventCell") as! EventTableViewCell
-        var sectionData = Dictionary<String, AnyObject>()
         
         var event: RippleEvent?
-        var dateFormat = "dd MMM h:mm a"
+        let dateFormat = "dd MMM h:mm a"
 
         if(segmentedControl.selectedSegmentIndex == 0) {
             if (indexPath.section > 0) {
@@ -421,7 +416,6 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
     
         header.titleHeader.text = sectionData["title"] as? String
-        print("header title: \(header.titleHeader.text)")
         if(section == 0) {
             header.titleHeader.text = "All Events"
         } else {
@@ -465,9 +459,9 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         if segmentedControl.selectedSegmentIndex == 2 {
-            let sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
-            let events = sectionData["events"] as! [RippleEvent]
-            let event = events[indexPath.row]
+            //let sectionData = sortedByGeolocationAllEventsPlan[indexPath.section]
+            //let events = sectionData["events"] as! [RippleEvent]
+            let event = nearbyEvents[indexPath.row]
             showEventDescriptionViewController(event)
         }
     }

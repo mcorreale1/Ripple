@@ -51,18 +51,20 @@ class UserManager: NSObject {
         }, error: { (fault) in
             completion()
         })
-        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
-            print("device ID hasnt been saved")
-            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-        } else {
-            print("device ID already saved")
-        }
-        UserManager.me?.save({(success, error) in })
+//        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
+//            print("device ID hasnt been saved")
+//            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
+//        } else {
+//            print("device ID already saved: \(UserManager().currentUser().deviceID)")
+//        }
+        //UserManager.me?.save({(success, error) in })
     }
     
     func prepareData() {
 
     }
+    
+
     
     /*
      *  All setters call .syncronize() after setting to ensure entire app is up to date
@@ -307,7 +309,7 @@ class UserManager: NSObject {
             if(error == nil) {
                 completion(true)
             } else {
-                print(error)
+                print("Error:\(error)")
                 completion(false)
             }
         })
@@ -475,6 +477,7 @@ class UserManager: NSObject {
         query.whereClause = "objectId not in ( '" + friendIds.joinWithSeparator("', '") + "') and name LIKE '%" + searchString + "%'"
         let queryOptions = QueryOptions()
         queryOptions.sortBy(["name"])
+         queryOptions.related = ["picture"]
         query.queryOptions = queryOptions
         
         Users().dataStore().find(query, response: { (collection) in
@@ -611,8 +614,8 @@ class UserManager: NSObject {
     }
     
     func followingUsersForProfile(user: Users, completion:([Users]?, NSError?) -> Void) {
-        var query = BackendlessDataQuery()
-        var options = QueryOptions()
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
         query.whereClause = "name = '\(user.name!)'"
         options.related = ["friends"]
         query.queryOptions = options
@@ -662,9 +665,18 @@ class UserManager: NSObject {
     func findUsersToInviteToOrganization(organization: Organizations, completion: ([Users], NSError?) -> Void) {
         var ignoreUsersIds = [String]()
         
-        for user in organization.members!.toBackendlessArray() {
-            ignoreUsersIds.append(user)
+        if let membersOf = organization.getMembersOfUsers() {
+            for user in membersOf {
+                ignoreUsersIds.append(user.objectId)
+            }
         }
+//        else {
+//            for user in organization.members!.toBackendlessArray() {
+//                ignoreUsersIds.append(user)
+//            }
+//        }
+//        
+        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()
@@ -791,7 +803,6 @@ class UserManager: NSObject {
         options.related = ["events", "eventsBlackList", "organizations", "picture"]
         options.sortBy(["name"])
         query.queryOptions = options
-        print("IDs \(ids)")
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
@@ -820,11 +831,11 @@ class UserManager: NSObject {
         }
     }
     //Converts backendless user types to local, core data user types
-    func backendlessUsersToLocalUsers(bUsers: [BackendlessUser]) -> [Users] {
+    func backendlessUsersToLocalUsers(bUsers: [BackendlessUser], friends:Bool = true) -> [Users] {
         var users = [Users]()
         var num = 0
         for bUser in bUsers {
-            users.append(Users.userFromBackendlessUser(bUser))
+            users.append(Users.userFromBackendlessUser(bUser, friends: friends))
             num = num + 1
         }
         return users

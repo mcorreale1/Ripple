@@ -52,6 +52,7 @@
 		68578E331DD1C7D5001F124D /* OrganizationProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68578E321DD1C7D5001F124D /* OrganizationProfileViewController.swift */; };
 		68578E351DD1C7ED001F124D /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68578E341DD1C7ED001F124D /* ReportManager.swift */; };
 		7C05D0A41D1EF4F50031CE58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C05D0A31D1EF4F50031CE58 /* Main.storyboard */; };
+		7C069B511E578F970064E280 /* ChooseYourOrg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C069B501E578F970064E280 /* ChooseYourOrg.swift */; };
 		7C2F7FE71CB7B12E006E0CF5 /* Quicksand Bold Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE01CB7AF0D006E0CF5 /* Quicksand Bold Oblique.otf */; };
 		7C2F7FE81CB7B12F006E0CF5 /* Quicksand Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE11CB7AF0D006E0CF5 /* Quicksand Bold.otf */; };
 		7C2F7FE91CB7B12F006E0CF5 /* Quicksand Book Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C2F7FE21CB7AF0D006E0CF5 /* Quicksand Book Oblique.otf */; };
@@ -213,6 +214,7 @@
 		68578E321DD1C7D5001F124D /* OrganizationProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationProfileViewController.swift; sourceTree = "<group>"; };
 		68578E341DD1C7ED001F124D /* ReportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
 		7C05D0A31D1EF4F50031CE58 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7C069B501E578F970064E280 /* ChooseYourOrg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseYourOrg.swift; sourceTree = "<group>"; };
 		7C2F7FE01CB7AF0D006E0CF5 /* Quicksand Bold Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Bold Oblique.otf"; sourceTree = "<group>"; };
 		7C2F7FE11CB7AF0D006E0CF5 /* Quicksand Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Bold.otf"; sourceTree = "<group>"; };
 		7C2F7FE21CB7AF0D006E0CF5 /* Quicksand Book Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand Book Oblique.otf"; sourceTree = "<group>"; };
@@ -434,8 +436,10 @@
 				5CA53D7E1D538514005EFFB6 /* EventsInDayViewController.swift */,
 				5CD5B9BE1D58B57D00BCD402 /* InviteUsersViewController.swift */,
 				5CC5E41D1D59D28D0057EFAB /* WhatsPulsingViewController.swift */,
+				7C069B501E578F970064E280 /* ChooseYourOrg.swift */,
 				5CC5E4211D5A14D00057EFAB /* MapViewController.swift */,
 				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
+				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
 				5CFBD9D31D33FED00018BDA5 /* ProfileFriendsViewController.swift */,
 				5CFBD9D51D34DEF10018BDA5 /* AddFriendsViewController.swift */,
 				7CACF57E1C6CFB620022FE13 /* SearchViewController.swift */,
@@ -459,7 +463,6 @@
 		5CF7F37B1D3CF74A006CCC9A /* EventSchedule */ = {
 			isa = PBXGroup;
 			children = (
-				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
 				1118B29A1D7DB52F00BD51CC /* EventParticipantsViewController.swift */,
 				7CACF5711C6BAAE30022FE13 /* Eventpropic.swift */,
 			);
@@ -988,6 +991,7 @@
 				68578E351DD1C7ED001F124D /* ReportManager.swift in Sources */,
 				5C205A3A1D4764420079143B /* BaseTabBarViewController.swift in Sources */,
 				A87C6CD91DF5930900D80898 /* Users.swift in Sources */,
+				7C069B511E578F970064E280 /* ChooseYourOrg.swift in Sources */,
 				A87C6CE51DF59C5E00D80898 /* FollowingRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1131,7 +1135,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ripple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Adam Gluck (35G2NQ44C7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adam Gluck (35G2NQ44C7)";
 				DEVELOPMENT_TEAM = 3222F8MYR6;
 				ENABLE_BITCODE = YES;
@@ -1146,8 +1150,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jettiapps.Pulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c702786-2f21-450d-ad59-dc5e758a904f";
-				PROVISIONING_PROFILE_SPECIFIER = PulseProductionCert;
+				PROVISIONING_PROFILE = "c66ff5b9-c6e3-4c4c-aab1-3ad4c9d49f6a";
+				PROVISIONING_PROFILE_SPECIFIER = PulsePushNotificationProfile;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
 			};
@@ -1175,8 +1179,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jettiapps.Pulse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c702786-2f21-450d-ad59-dc5e758a904f";
-				PROVISIONING_PROFILE_SPECIFIER = PulseProductionCert;
+				PROVISIONING_PROFILE = "ff0d9948-6ade-4b97-9f00-e2850ec8bfcc";
+				PROVISIONING_PROFILE_SPECIFIER = PulsePushNotificationProfile;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ripple/Ripple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
