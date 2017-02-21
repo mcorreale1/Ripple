@@ -96,13 +96,13 @@ class OrganizationParcer : NSObject {
 //        organization.admins = admins
         
         var members = [Users]()
-        if let membersSet = cdOrganization.members?.allObjects {
-            if let cdMembersSet = membersSet as? [CDUser] {
-                for cdMember in cdMembersSet {
-                    members.append(UserParcer().fetchBackendlessEntity(fromCDUser: cdMember))
-                }
-            }
-        }
+//        if let membersSet = cdOrganization.members?.allObjects {
+//            if let cdMembersSet = membersSet as? [CDUser] {
+//                for cdMember in cdMembersSet {
+//                    members.append(UserParcer().fetchBackendlessEntity(fromCDUser: cdMember))
+//                }
+//            }
+//        }
 //        organization.members = members
         
         var events = [RippleEvent]()

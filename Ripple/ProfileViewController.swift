@@ -413,7 +413,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
             }
             let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
             let sectionItem = followingArray[indexPath.section]
-            let sectionTitle = sectionItem["title"] as! String
+            //let sectionTitle = sectionItem["title"] as! String
             if let following = sectionItem["items"] as? [AnyObject] {
                 let item = isMe && indexPath.section == 0 ? following[indexPath.row - 1] : following[indexPath.row]
                 if item is Users {

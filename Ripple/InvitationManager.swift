@@ -91,13 +91,15 @@ class InvitationManager: NSObject {
             case Invitation.typeInvitation.organization.rawValue:
                 OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in
                     if(success) {
-                        invitation.organization!.membersOf.append(UserManager().currentUser())
-                        invitation.organization!.save(){ (_,_) in }
+                        //invitation.organization!.membersOf.append(UserManager().currentUser())
+                        //invitation.organization!.save(){ (_,_) in }
                         invitation.accept = true
                         invitation.save() { (_,_) in }
                         print("Joined org")
+                        completion(true)
                     } else {
                         print("failed to join org")
+                        completion(false)
                     }
                 })
                 
@@ -114,16 +116,17 @@ class InvitationManager: NSObject {
                 UserManager().currentUser().save { (_, _) in }
                 invitation.accept = true
                 invitation.save() { (_,_) in }
+                completion(true)
                 //invitation.delete({ (_) in })
 
             case Invitation.typeInvitation.user.rawValue:
                 invitation.accept = true
                 invitation.save() { (_,_) in }
+                completion(true)
                 //invitation.save({ (_, _) in })
             default:
                 invitation.accept = true
             }
-            completion(true)
         } else {
             completion(false)
         }

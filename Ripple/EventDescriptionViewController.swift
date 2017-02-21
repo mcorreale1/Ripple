@@ -158,16 +158,15 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareNotification() {
         if (event!.startDate!.isGreaterOrEqualThen(NSDate())) {
-        let localNotification = UILocalNotification()
-        localNotification.fireDate = event!.startDate
-        localNotification.alertTitle = event!.name
-        localNotification.alertBody = "This event is starting right now!"
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-
-        if (goButton.titleLabel == "Go") {
-            UIApplication.sharedApplication().cancelLocalNotification(localNotification)
-        }
+            let localNotification = UILocalNotification()
+            localNotification.fireDate = event!.startDate
+            localNotification.alertTitle = event!.name
+            localNotification.alertBody = "This event is starting right now!"
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+            if (goButton.titleLabel == "Go") {
+                UIApplication.sharedApplication().cancelLocalNotification(localNotification)
+            }
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
         }
     }
@@ -362,6 +361,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
 
                         self.goButton.setTitle(self.goingText, forState: UIControlState.Normal)
                         self.prepareNotification()
+                        print("All local notes: \(UIApplication.sharedApplication().scheduledLocalNotifications)")
                     }
                 })
             } else {
@@ -371,8 +371,18 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
                     if success {
                         let title = String(max(self.participants!.count - 1, 0)) + " " + (self.goingText ?? "")
                         self.countGoingButton.setTitle(title, forState: .Normal)
-                        
                         self.goButton.setTitle(self.goText, forState: UIControlState.Normal)
+                        
+                        if let notifications = UIApplication.sharedApplication().scheduledLocalNotifications {
+                            print("in remove note")
+                            for note in notifications {
+                                if (note.alertTitle == self.event!.name && note.fireDate == self.event!.startDate) {
+                                    print("canceling note")
+                                    UIApplication.sharedApplication().cancelLocalNotification(note)
+                                    print("All local notes: \(UIApplication.sharedApplication().scheduledLocalNotifications)")
+                                }
+                            }
+                        }
                     }
                 })
             }

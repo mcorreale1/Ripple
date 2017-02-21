@@ -21,7 +21,7 @@ class Organizations: BackendlessEntity {
     var events = [RippleEvent]()
     var GreekLife: String?
     var picture: Pictures?
-    var membersOf = [AnyObject]()
+    var membersOf = [BackendlessUser]()
 //     var memberArray = [Users]()
 //    var membersOf:[AnyObject]{
 //        get {
@@ -44,7 +44,11 @@ class Organizations: BackendlessEntity {
     
     func getMembersOfUsers() -> [Users]? {
         if(self.membersOf is [Users]) {
-            return self.membersOf as! [Users]
+            return self.membersOf as? [Users]
+        } else {
+            let users = UserManager().backendlessUsersToLocalUsers(self.membersOf, friends: false)
+            self.membersOf = users
+            return self.membersOf as? [Users]
         }
         return nil
     }

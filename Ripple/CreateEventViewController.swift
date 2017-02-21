@@ -668,7 +668,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             self.finishTime? = self.finishTime!.tomorrow()
         }
         self.finishTime = calender!.dateBySettingHour(endTimeComponents.hour, minute: endTimeComponents.minute, second: 0, ofDate: self.finishTime!, options: NSCalendarOptions())
-        
+
         //Try to find address twice, if not just continue
         lookupLocation()
         if(self.city.isEmpty) {

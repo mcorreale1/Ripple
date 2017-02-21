@@ -669,12 +669,13 @@ class UserManager: NSObject {
             for user in membersOf {
                 ignoreUsersIds.append(user.objectId)
             }
-        } else {
-            for user in organization.members!.toBackendlessArray() {
-                ignoreUsersIds.append(user)
-            }
         }
-        
+//        else {
+//            for user in organization.members!.toBackendlessArray() {
+//                ignoreUsersIds.append(user)
+//            }
+//        }
+//        
         
         
         let query = BackendlessDataQuery()
