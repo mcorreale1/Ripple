@@ -50,7 +50,6 @@ class Organizations: BackendlessEntity {
             self.membersOf = users
             return self.membersOf as? [Users]
         }
-        return nil
     }
     
 }

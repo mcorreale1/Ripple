@@ -70,6 +70,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         prepareViews()
     }
     
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        print("In VDA")
+//        
+//    }
+//    
+    
     func monthNumberToName() -> String {
         let value = event!.startDate?.monthNumber()
         var name = ""
@@ -128,7 +135,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     func prepareViews() {
         title = event?.name ?? ""
-        navigationController?.navigationBar.tintColor = titleColor
+        //navigationController?.navigationBar.tintColor = titleColor
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: titleColor]
         
         self.eventDescriptionLabel.numberOfLines = 0;
@@ -198,6 +205,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let eventDescriptionController = storyboard.instantiateViewControllerWithIdentifier("EventDescriptionViewController") as! EventDescriptionViewController
         eventDescriptionController.event = event
         navigationController?.showViewController(eventDescriptionController, sender: self)
+        
     }
     
     func sendReport() {
@@ -206,7 +214,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let userRole:TypeRoleUserInOrganization = OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: org!)
         if(userRole == .Admin || userRole == .Founder) {
             let editAction:UIAlertAction = UIAlertAction(title: "Edit Event", style: .Default) { action -> Void in
-                self.showEditEventViewController(self.org, event: self.event!)
+                self.editEvent()
             }
             actionSheetController.addAction(editAction)
             
@@ -235,6 +243,11 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
+    }
+    
+    func editEvent() {
+        self.showEditEventViewController(self.org, event: self.event!)
+        print("After edit event")
     }
     
     func deleteEvent() {

@@ -329,7 +329,6 @@ class OrganizationManager: NSObject {
         query.whereClause = "objectId = '\(organization.objectId)'"
         options.related = ["membersOf"]
         query.queryOptions = options
-        var success = false
         if let org = Organizations().dataStore().find(query).data.first as? Organizations {
             for member in org.membersOf {
                 if member.objectId == user.objectId {
@@ -338,7 +337,6 @@ class OrganizationManager: NSObject {
                         org.membersOf.removeAtIndex(index)
                         org.save() { (entity, error) in
                             if(error == nil) {
-                                success = true
                                 print("saved org")
                                 completion(true, org)
                             } else {
@@ -355,28 +353,6 @@ class OrganizationManager: NSObject {
         } else {
             completion(false, nil)
         }
-        return
-//        if let index = organization.membersOf.indexOf(user) {
-//            print("found index of \(user.name!)")
-//            organization.membersOf.removeAtIndex(index)
-//            print("org mems: \(organization.membersOf)")
-//            organization.save() { (entity, error) in
-//                if (error == nil) {
-//                    print("remove worked")
-//                    if let org = entity as? Organizations {
-//                        completion(true, org)
-//                    } else {
-//                        completion(false, nil)
-//                    }
-//                } else {
-//                    print("Error removing: \(error!)")
-//                    completion(false, nil)
-//                }
-//            }
-//        } else {
-//            print("Cant find user to remove")
-//            completion(false, nil)
-//        }
     }
     
     func addEvent(organization: Organizations, event: RippleEvent, completion: (Organizations?, NSError?) -> Void) {
