@@ -50,17 +50,17 @@ class SettingsTheLanguageViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        for index in 0...languageList.count - 1 {
-            let cellTmp  = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0))
-            cellTmp?.accessoryType = .None
-        }
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        cell?.accessoryType = .Checkmark
-        if languageList[indexPath.row] == "English" {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.changeLaguageApp()
-        }
+//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        for index in 0...languageList.count - 1 {
+//            let cellTmp  = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0))
+//            cellTmp?.accessoryType = .None
+//        }
+//        let cell = tableView.cellForRowAtIndexPath(indexPath)
+//        cell?.accessoryType = .Checkmark
+//        if languageList[indexPath.row] == "English" {
+//            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//            appDelegate.changeLaguageApp()
+//        }
     }
 
 }

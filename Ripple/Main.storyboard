@@ -1810,7 +1810,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="GhT-aJ-Wwj"/>
                         <viewControllerLayoutGuide type="bottom" id="e4D-YQ-w1N"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XSs-Kd-ftK">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="XSs-Kd-ftK">
                         <rect key="frame" x="0.0" y="64" width="320" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2785,7 +2785,7 @@ your face off.</string>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bQH-fy-It3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="bQH-fy-It3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

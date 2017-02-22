@@ -16,8 +16,8 @@ class SettingsContactUsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailButton.titleLabel?.text = "ContactUsPulseApp@gmail.com"
-        emailButton.setTitle("ContactUsPulseApp@gmail.com", forState: UIControlState.Normal)
+        emailButton.titleLabel?.text = "info@jettiapps.com"
+        emailButton.setTitle("info@jettiapps.com", forState: UIControlState.Normal)
         emailButton.sizeToFit()
         emailButton.height = emailButton.height * 1.1
         emailButton.width = emailButton.width * 1.1
@@ -39,7 +39,7 @@ class SettingsContactUsViewController: BaseViewController {
     // MARK: - Actions
     
     @IBAction func emailButtonTouch(sender: UIButton) {
-        let email = "jettiinc123@gmail.com"
+        let email = "info@jettiapps.com"
         let url = NSURL(string: "mailto:\(email)")
         UIApplication.sharedApplication().openURL(url!)
     }
