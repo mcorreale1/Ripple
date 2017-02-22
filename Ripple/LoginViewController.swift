@@ -212,6 +212,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                         self?.showAlert("Error".localized(), message: "Failed to save user profile".localized())
                         return
                     }
+                    Backendless.sharedInstance().userService.setPersistentUser()
                     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                     appDelegate.loginComplete()
                 })
@@ -260,8 +261,10 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     //Calls auto login from API class
     func autoLogin() {
         if (API().autoLogin()) {
-            self.showWaitView()
-            print("Auto login worked")
+            self.showActivityIndicator()
+            print("Auto login worked \(UserManager().currentUser().name)")
+            let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            delegate.loginComplete()
         }
         
     }

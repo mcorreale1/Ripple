@@ -75,7 +75,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+            
         if (!editOrganization) {
             prepareData()
             prepareViews()
@@ -180,9 +180,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             self?.orgEvents.removeAll()
             for event in events {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) && self!.orgEvents.contains(event) == false {
-                    self?.orgEvents.append(event)
-                } else if self!.orgEvents.contains(event) {
-                    print("Event already in list")
+                    if event.isPrivate {
+                        if(self!.isMember() || self!.isAdmin() || self!.isLeader()) {
+                            self?.orgEvents.append(event)
+                        }
+                    } else {
+                        self?.orgEvents.append(event)
+                    }
                 }
             }
             self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
@@ -201,6 +205,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                     }
                     self?.organization!.membersOf = result!
                     self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
+                    print("Is user a member: \(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: self!.organization!))")
                 }
                 self?.tableView.reloadData()
             }
@@ -218,7 +223,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         aboutButton.selected = true
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.hidden = true
-        followButton.hidden = needHideFollowButton()
+        //followButton.hidden = needHideFollowButton()
         memberCountLabel.text = ""
         title = orgName
         
@@ -233,9 +238,13 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         profilePictureButton.enabled = editOrganization
         PictureManager().loadPicture(organization?.picture, inButton: profilePictureButton)
         
+        if(isLeader()) {
+            followButton.hidden = true
+        }
         followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
         
         if (!followButton.hidden && (isFollowing() || isMember() || isAdmin())) {
+            print("hidden :\(!followButton.hidden), following: \(isFollowing())")
             followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
             
         }
@@ -369,7 +378,9 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     }
     
     private func isFollowing(user: Users = UserManager().currentUser()) -> Bool {
-        return OrganizationManager().roleInOrganization(user, organization: organization!) == .Follower
+        return UserManager().currentUser().organizations.contains() {
+            return $0.objectId == self.organization!.objectId
+        }
     }
     
     // MARK: - UITextViewDelegate
@@ -570,7 +581,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 }
             })
         }
-        hideActivityIndicator()
     }
     
     func sendReport() {

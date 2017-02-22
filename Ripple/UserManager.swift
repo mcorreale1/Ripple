@@ -36,21 +36,50 @@ class UserManager: NSObject {
     /*  Initiates the "me" variable
      *  After getting info, calls (completion) function
      */
-    func initMe(completion: () -> Void) {
+    func initMe(completion: (Bool) -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
         let query = BackendlessDataQuery()
         let queryOptions = QueryOptions()
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
         query.queryOptions = queryOptions
         query.whereClause = "objectId = '\(currentUser().objectId)'"
-        
+        print("User Manager me: \(UserManager.me?.name)")
         Users().dataStore().find(query, response: { (collection) in
             let bMe = collection.data!.first as! BackendlessUser
-            UserManager.me?.populateFromBackendlessUser(bMe)
-            completion()
-        }, error: { (fault) in
-            completion()
+            if(bMe.objectId == UserManager.me?.objectId) {
+                print("same obj id")
+                UserManager.me?.populateFromBackendlessUser(bMe)
+                completion(true)
+            } else {
+                print("user failed to login")
+                completion(false)
+            }
+            
+            }, error: { (fault) in
+                completion(false)
         })
+//        
+//        Users().dataStore().find(query, response: { (collection) in
+//            print("In find")
+//            let response = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
+//            var bMe:BackendlessUser!
+//            for user in response {
+//                if(UserManager.me?.objectId == user.objectId) {
+//                    print("Found user")
+//                    bMe = user
+//                    break
+//                }
+//            }
+//            //let bMe = collection.data!.first as! BackendlessUser
+//            if(bMe != nil) {
+//                UserManager.me?.populateFromBackendlessUser(bMe)
+//                completion()
+//            } else {
+//                print("user was nil")
+//            }
+//        }, error: { (fault) in
+//            completion()
+//        })
 //        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
 //            print("device ID hasnt been saved")
 //            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId

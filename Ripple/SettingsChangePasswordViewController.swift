@@ -124,7 +124,6 @@ class SettingsChangePasswordViewController: BaseViewController, UITextFieldDeleg
                         UserManager().currentUser().save({ (success, error) in
                             if success {
                                 UserManager().userPassword = self.newPasswordTextField.text!
-                                self.login()
                             } else {
                                 self.titleMessage = NSLocalizedString("Error", comment: "Error")
                                 self.message = NSLocalizedString("Your password was not updated in the database", comment: "Your password was not updated in the database")
@@ -166,22 +165,6 @@ class SettingsChangePasswordViewController: BaseViewController, UITextFieldDeleg
         }
     }
     
-    func login()
-    {
-        API().logout()
-        API().loginToApp(UserManager().currentUser().email, password: self.newPasswordTextField.text!) { (success, error) in
-            if success {                
-                self.titleMessage =  NSLocalizedString("ChangePassword", comment: "ChangePassword")
-                self.message = NSLocalizedString("Passwordhasbeenchanged", comment: "Passwordhasbeenchanged")
-                self.showAlert(self.titleMessage, message: self.message)
-                self.oldPasswordTextField.text = ""
-                self.newPasswordTextField.text = ""
-                self.confirmPasswordTextField.text = ""
-                self.hideActivityIndicator()
-                self.navigationItem.rightBarButtonItem?.enabled = true
-            }
-        }
-    }
 
 }
 

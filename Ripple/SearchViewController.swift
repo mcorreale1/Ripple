@@ -256,6 +256,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     
                     self?.tableView.reloadData()
                     EventManager().searchEventsByName(searchBar.text!) { (events) in
+                        
                         self?.filteredEvents.appendContentsOf(events)
                         self?.tableView.reloadData()
                         

@@ -86,7 +86,6 @@ class OrganizationManager: NSObject {
                 return $0.objectId == user.objectId
             }
             if(ind != nil) {
-                print("\(user.name) .Member from membersOf")
                 return .Member
             }
         }
@@ -136,32 +135,21 @@ class OrganizationManager: NSObject {
         }
         let query = BackendlessDataQuery()
         let options = QueryOptions()
-        options.related = ["membersOf"]
+        options.related = ["membersOf", "membersOf.picture"]
         query.whereClause = "objectId = '\(organization.objectId)'"
         query.queryOptions = options
         Organizations().dataStore().find(query, response: {(collection) in
             if(collection.data.count == 0) {
                 completion(nil)
             }
-            print("collection: \(collection)")
             var org = collection.data.first as! Organizations
-            //var orgs = collection.data as? [Organizations] ?? [Organizations]()
-            
-            
-            //let o1 = collection.data as? [Organizations]
-            
-            //print("o1 membersOf: \(o1?.membersOf)")
-            
-            
-            
-//            if !(org.membersOf is [BackendlessUser]) {
-//                print("members arent backendless user in memberOfOrg")
-//                completion(nil)
-//                return
-//            }
-            let users =  UserManager().backendlessUsersToLocalUsers(org.membersOf as? [BackendlessUser] ?? [BackendlessUser](), friends:  false)
-            organization.membersOf = users
-            completion(users)
+            organization.membersOf =  UserManager().backendlessUsersToLocalUsers(org.membersOf, friends:  false)
+            if let users = organization.getMembersOfUsers() {
+                completion(users)
+                return
+            }
+            print("If let failed")
+            completion(nil)
         }, error: { (fault) in
             completion(nil)
         })
@@ -205,7 +193,7 @@ class OrganizationManager: NSObject {
     func searchUnfollowOrganizations(searchString: String, completion: ([Organizations]?, NSError?) -> Void) {
         searchOrgs(searchString, completion: completion)
         let query = BackendlessDataQuery()
-        query.whereClause = "'\(UserManager().currentUser().objectId)' not in members and name LIKE '%" + searchString + "%'"
+        query.whereClause = "'\(UserManager().currentUser().objectId)' not in membersOf and name LIKE '%" + searchString + "%'"
         let options = QueryOptions()
         options.related = ["picture"]
         options.sortBy = ["name"]
@@ -420,6 +408,15 @@ class OrganizationManager: NSObject {
                 completion(false)
             }
         })
+    }
+    
+    func userIsMemberOfOrganization(user:Users, organization:Organizations) -> Bool {
+        if let members = organization.getMembersOfUsers() {
+            return members.contains() {
+                return $0.objectId == user.objectId
+            }
+        }
+        return false
     }
     
     func fetch(org: Organizations, completion: (Organizations?, NSError?) -> Void) {

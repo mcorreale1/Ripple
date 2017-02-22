@@ -28,30 +28,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        print("in did finish")
         Fabric.with([Crashlytics.self])
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
-        Backendless.sharedInstance().messaging.registerForRemoteNotifications()
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
         
         if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
-            if(Backendless.sharedInstance().userService.currentUser.name != nil) {
-            }
-            loginComplete()
+            print("name: \(Backendless.sharedInstance().userService.currentUser?.objectId)")
+            print("Login called in did finish")
+            //loginComplete()
             
         }
-        
-        
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
-        registerForRemoteNotifications()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        
         return true
     }
    
     
     func loginComplete() {
-        UserManager().initMe {
+        UserManager().initMe { (success) in
+            //If fail, stay on loginView
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController")
             self.window?.rootViewController = mainTabBarController
@@ -59,8 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //self.subscribe()
             //MessagesManager.sharedInstance.subscribeToMyChannel()
             UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
-            Backendless.sharedInstance().userService.setPersistentUser()
+            //Backendless.sharedInstance().userService.setPersistentUser()
             self.loginToFacebook()
+            self.registerForRemoteNotifications()
             print("is regged for remote: \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
         }
     }
@@ -151,9 +152,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        //Backendless.sharedInstance().messaging.registerForRemoteNotifications()
         //Backendless.sharedInstance().messaging.registerDeviceToken(deviceToken)
-        
-        let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(MessagesManager.sharedInstance.errorHandler(_:)))
+        print("in did register")
+        let responder = Responder.init(responder: self, selResponseHandler: #selector(self.gotDeviceID), selErrorHandler: #selector(self.regFailed))
         Backendless.sharedInstance().messagingService.registerDeviceToken(deviceToken, responder: responder)
         //DEPRECATED Russian Method caused "tried to find something and came back with nil" error
        /* let deviceTokenStr = Backendless.sharedInstance().messaging.deviceTokenAsString(deviceToken)
@@ -174,7 +176,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     print("saved device ID in gotDeviceID")
                 }
             }
+        } else {
+            print("Device id already saved")
         }
+    }
+    
+    func regFailed() {
+        print("reg failed")
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
