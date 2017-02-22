@@ -171,6 +171,7 @@ class InvitationManager: NSObject {
             if entity != nil {
                 completion(true)
             } else {
+                print("org invite error: \(error)")
                 completion(false)
             }
         }
@@ -187,6 +188,7 @@ class InvitationManager: NSObject {
                 or_postNotification(PulseNotification.PulseNotificationEventSendInvitations.rawValue)
                 completion(true)
             } else {
+                print("event invite error: \(error)")
                 completion(false)
             }
         }

@@ -44,6 +44,10 @@ class UserManager: NSObject {
         query.queryOptions = queryOptions
         query.whereClause = "objectId = '\(currentUser().objectId)'"
         Users().dataStore().find(query, response: { (collection) in
+            let users = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
+            for user in users {
+                print("user name: \(user.name)")
+            }
             let bMe = collection.data!.first as! BackendlessUser
             if(bMe.objectId == UserManager.me?.objectId) {
                 UserManager.me?.populateFromBackendlessUser(bMe)
@@ -479,7 +483,6 @@ class UserManager: NSObject {
             completion(nil, ErrorHelper().convertFaultToNSError(fault))
         })
     }
-    
     // Used to follow a user
     // Follows is user is public, sends request if user is private
     func followingOnUser(user: Users, completion: (Bool) -> Void) {
@@ -648,21 +651,13 @@ class UserManager: NSObject {
         })
     }
     
-    func findUsersToInviteToOrganization(organization: Organizations, completion: ([Users], NSError?) -> Void) {
+    func findUsersToInviteToOrganization(organization: Organizations, searchString:String, completion: ([Users], NSError?) -> Void) {
         var ignoreUsersIds = [String]()
-        
         if let membersOf = organization.getMembersOfUsers() {
             for user in membersOf {
                 ignoreUsersIds.append(user.objectId)
             }
         }
-//        else {
-//            for user in organization.members!.toBackendlessArray() {
-//                ignoreUsersIds.append(user)
-//            }
-//        }
-//        
-        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()
@@ -681,8 +676,7 @@ class UserManager: NSObject {
                             ignoreUsersIds.append(invatationPeople.objectId)
                         }
                     }
-                    
-                    UserManager().getUsersWithIgnoreList(ignoreUsersIds, completion: completion)
+                    UserManager().getUsersWithIgnoreList(ignoreUsersIds, searchString: searchString, completion: completion)
                 }
             })
         }, error:  { (fault) in
@@ -690,13 +684,18 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersWithIgnoreList(ignores: [String], completion: ([Users], NSError?) -> Void) {
+    func getUsersWithIgnoreList(ignores: [String], searchString:String, completion: ([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
-        query.whereClause = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: ignores, notModifier: true)
+        let notInQuery = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: ignores, notModifier: true)
+        query.whereClause = "name LIKE '%" + searchString + "%'"
+        if(notInQuery != "") {
+            query.whereClause = query.whereClause + " and \(notInQuery)"
+        }
         let queryOptions = QueryOptions()
         queryOptions.related = ["picture"]
         queryOptions.sortBy(["name"])
         query.queryOptions = queryOptions
+        print("org where clause: \(query.whereClause)")
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
@@ -712,7 +711,7 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersToInviteToEvent(event: RippleEvent, completion:([Users], NSError?) -> Void) {
+    func getUsersToInviteToEvent(event: RippleEvent, searchString:String, completion:([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
         options.related = ["toUser"]
@@ -732,7 +731,7 @@ class UserManager: NSObject {
                         }
                     }
                     
-                    UserManager().getUsersWithIgnoreListAndNotGoingOnEvent(ignoreIds, event: event, completion: completion)
+                    UserManager().getUsersWithIgnoreListAndNotGoingOnEvent(ignoreIds, searchString: searchString, event: event, completion: completion)
                 }
             })
         }, error:  { (fault) in
@@ -740,14 +739,14 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersWithIgnoreListAndNotGoingOnEvent(ignoteIds: [String], event: RippleEvent, completion:([Users], NSError?) -> Void) {
+    func getUsersWithIgnoreListAndNotGoingOnEvent(ignoteIds: [String], searchString:String, event: RippleEvent, completion:([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
-        
+        query.whereClause = "name LIKE '%" + searchString + "%'"
         let notInIgnoreQuery = query.getFieldInArraySQLQuery(field: "objectId", array: ignoteIds, notModifier: true)
         if notInIgnoreQuery != "" {
-            query.whereClause = "\(notInIgnoreQuery)"
+            query.whereClause = query.whereClause + " and \(notInIgnoreQuery)"
         }
-        
+        print("whereClause: \(query.whereClause)")
         let options = QueryOptions()
         options.related = ["picture", "events"]
         options.sortBy(["name"])

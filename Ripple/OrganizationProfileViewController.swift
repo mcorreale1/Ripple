@@ -169,7 +169,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         orgName = organization?.name ?? ""
         orgDescription = organization?.info ?? ""
-        
+        self.showActivityIndicator()
         if let picture = org.picture {
             PictureManager().downloadImage(fromURL: picture.imageURL!, completion: {[weak self] (image, error) in
                 self?.orgPicture = image
@@ -196,6 +196,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             }
             
             OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
+                self?.hideActivityIndicator()
                 if result != nil {
                     self?.orgMembers = result!
                     self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
