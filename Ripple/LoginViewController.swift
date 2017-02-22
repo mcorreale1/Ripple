@@ -214,7 +214,11 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                     }
                     Backendless.sharedInstance().userService.setPersistentUser()
                     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    appDelegate.loginComplete()
+                    appDelegate.loginComplete() { (success) in
+                        if(!success) {
+                            self?.showAlert("Login failed", message: "Login failed, please try again")
+                        }
+                    }
                 })
             } else {
                 self?.hideWaitView()
@@ -264,7 +268,11 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
             self.showActivityIndicator()
             print("Auto login worked \(UserManager().currentUser().name)")
             let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            delegate.loginComplete()
+            delegate.loginComplete() { (success) in
+                if(!success) {
+                    self.showAlert("Login failed", message: "Login failed, please try again")
+                }
+            }
         }
         
     }

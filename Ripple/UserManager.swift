@@ -43,57 +43,16 @@ class UserManager: NSObject {
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
         query.queryOptions = queryOptions
         query.whereClause = "objectId = '\(currentUser().objectId)'"
-        print("User Manager me: \(UserManager.me?.name)")
         Users().dataStore().find(query, response: { (collection) in
             let bMe = collection.data!.first as! BackendlessUser
             if(bMe.objectId == UserManager.me?.objectId) {
-                print("same obj id")
                 UserManager.me?.populateFromBackendlessUser(bMe)
                 completion(true)
-            } else {
-                print("user failed to login")
-                completion(false)
-            }
-            
+            } else { completion(false) }
             }, error: { (fault) in
                 completion(false)
         })
-//        
-//        Users().dataStore().find(query, response: { (collection) in
-//            print("In find")
-//            let response = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
-//            var bMe:BackendlessUser!
-//            for user in response {
-//                if(UserManager.me?.objectId == user.objectId) {
-//                    print("Found user")
-//                    bMe = user
-//                    break
-//                }
-//            }
-//            //let bMe = collection.data!.first as! BackendlessUser
-//            if(bMe != nil) {
-//                UserManager.me?.populateFromBackendlessUser(bMe)
-//                completion()
-//            } else {
-//                print("user was nil")
-//            }
-//        }, error: { (fault) in
-//            completion()
-//        })
-//        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
-//            print("device ID hasnt been saved")
-//            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-//        } else {
-//            print("device ID already saved: \(UserManager().currentUser().deviceID)")
-//        }
-        //UserManager.me?.save({(success, error) in })
     }
-    
-    func prepareData() {
-
-    }
-    
-
     
     /*
      *  All setters call .syncronize() after setting to ensure entire app is up to date
@@ -144,8 +103,6 @@ class UserManager: NSObject {
         }
     }
     
-    
-    //Adds user to "going" to event
     func goOnEvent(event: RippleEvent, completion: (Bool) -> Void) {
         var contains = false
         for ev in currentUser().events {

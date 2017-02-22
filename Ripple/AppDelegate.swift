@@ -33,13 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         initMagicalRecords()
         Backendless.sharedInstance().initApp(backendlessIDApp, secret: backendlessSecretKey, version: backendlessVersionNumber)
         SDWebImageManager.sharedManager().imageCache.maxCacheSize = 30 * 1024 * 1024;
-        
-        if Backendless.sharedInstance().userService.currentUser?.objectId != nil {
-            print("name: \(Backendless.sharedInstance().userService.currentUser?.objectId)")
-            print("Login called in did finish")
-            //loginComplete()
-            
-        }
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -49,8 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
    
     
-    func loginComplete() {
+    func loginComplete( completion:(Bool)->Void) {
         UserManager().initMe { (success) in
+            if(!success) {
+                completion(false)
+                return
+            }
             //If fail, stay on loginView
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController")
@@ -63,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.loginToFacebook()
             self.registerForRemoteNotifications()
             print("is regged for remote: \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
+            completion(true)
         }
     }
     
@@ -167,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func gotDeviceID() {
-        print("in got deviceID")
+
         let deviceID = UserManager().currentUser().deviceID
         if(deviceID == nil || deviceID == " ") {
             UserManager().currentUser().deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
@@ -176,8 +174,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     print("saved device ID in gotDeviceID")
                 }
             }
-        } else {
-            print("Device id already saved")
         }
     }
     
