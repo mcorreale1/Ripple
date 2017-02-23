@@ -82,16 +82,6 @@ class RegistrationViewController: BaseViewController, UITextFieldDelegate {
         showActivityIndicator()
         UserManager().userPassword = passwordTextField.text!
         
-        API().signUp(passwordTextField.text!, email: emailTextField.text!, fullName: firstNameTextField.text!) {[weak self] (signUpComplete, error) in
-            self?.hideActivityIndicator()
-            
-            if signUpComplete {
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                appDelegate.loginComplete()
-            } else {
-                self?.showAlert("Failed SignUp", message: error?.localizedDescription)
-            }
-        }
     }
     
     // MARK: - Actions

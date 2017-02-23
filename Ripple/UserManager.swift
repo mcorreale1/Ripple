@@ -36,35 +36,23 @@ class UserManager: NSObject {
     /*  Initiates the "me" variable
      *  After getting info, calls (completion) function
      */
-    func initMe(completion: () -> Void) {
+    func initMe(completion: (Bool) -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
         let query = BackendlessDataQuery()
         let queryOptions = QueryOptions()
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
         query.queryOptions = queryOptions
         query.whereClause = "objectId = '\(currentUser().objectId)'"
-        
         Users().dataStore().find(query, response: { (collection) in
             let bMe = collection.data!.first as! BackendlessUser
-            UserManager.me?.populateFromBackendlessUser(bMe)
-            completion()
-        }, error: { (fault) in
-            completion()
+            if(bMe.objectId == UserManager.me?.objectId) {
+                UserManager.me?.populateFromBackendlessUser(bMe)
+                completion(true)
+            } else { completion(false) }
+            }, error: { (fault) in
+                completion(false)
         })
-//        if(UserManager.me?.deviceID == nil || UserManager.me?.deviceID! == " ") {
-//            print("device ID hasnt been saved")
-//            UserManager.me?.deviceID = Backendless.sharedInstance().messaging.currentDevice().deviceId
-//        } else {
-//            print("device ID already saved: \(UserManager().currentUser().deviceID)")
-//        }
-        //UserManager.me?.save({(success, error) in })
     }
-    
-    func prepareData() {
-
-    }
-    
-
     
     /*
      *  All setters call .syncronize() after setting to ensure entire app is up to date
@@ -115,8 +103,6 @@ class UserManager: NSObject {
         }
     }
     
-    
-    //Adds user to "going" to event
     func goOnEvent(event: RippleEvent, completion: (Bool) -> Void) {
         var contains = false
         for ev in currentUser().events {

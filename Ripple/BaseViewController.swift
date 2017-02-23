@@ -140,6 +140,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func showActivityIndicator(allowInteraction allowInteraction:Bool = false) {
         if(!allowInteraction) {
             UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+            self.view.window?.userInteractionEnabled = false
         }
         activityIndicator.hidden = false
         activityIndicator.alpha = 0
@@ -155,6 +156,7 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         activityIndicator.stopAnimating()
         
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
+        self.view.window?.userInteractionEnabled = true
         
         UIView.animateWithDuration(0.3, animations: {
             self.activityIndicator.alpha = 0.0

@@ -14,51 +14,7 @@ class API: NSObject {
     
     private var backendless = Backendless.sharedInstance()
     
-    func loginToApp(userName: String, password: String, completion: (Bool, NSError?) -> Void) {
-        
-        if userName == "" || password == "" {
-            let fault = Fault(message: NSLocalizedString("Please, enter valid credentials", comment: "Please, enter valid credentials"))
-            completion(false, ErrorHelper().convertFaultToNSError(fault))
-            return
-        }
-        Backendless.sharedInstance().userService.setStayLoggedIn(true)
-        
-        backendless.userService.login(userName, password: password, response: { (registredUser : BackendlessUser!) -> () in
-            UserManager().initMe({
-                completion(true,  nil)
-            })
-        }, error: { (fault : Fault!) -> () in
-            completion(false, ErrorHelper().convertFaultToNSError(fault))
-        });
-    }
-    
     // --DEPRECATED
-    func signUp(password: String, email: String, fullName: String, completion: (Bool, NSError?) -> Void) {
-        if password == "" || email == "" || fullName.characters.count > 30 || fullName.characters.count < 3 {
-            let fault = Fault(message: NSLocalizedString("Pleaseentervalidcredentials", comment: "Pleaseentervalidcredentials"))
-            completion(false, ErrorHelper().convertFaultToNSError(fault))
-            return
-        }
-        
-        if (password.characters.count < 6) {
-            let fault = Fault(message: NSLocalizedString("Your password must contain at least 6 characters", comment: "Your password must contain at least 6 characters"))
-            completion(false, ErrorHelper().convertFaultToNSError(fault))
-            return
-        }
-        
-        let user = Users()
-        user.password = password
-        user.email = email.lowercaseString
-        user.fullName = fullName
-        user.name = fullName
-        user.isPrivate = false
-        
-        backendless.userService.registering(user, response: { (registredUser : BackendlessUser!) -> () in
-            self.loginToApp(email, password: password, completion: completion)
-        }, error: { (fault : Fault!) -> () in
-            completion(false, ErrorHelper().convertFaultToNSError(fault))
-        })
-    }
     
     func loginToApp(withFacebookToken token: FBSDKAccessToken, completion: (Users!, NSError?) -> Void) {
         
@@ -175,12 +131,12 @@ class API: NSObject {
     
     func logout() {
         Backendless.sharedInstance().messaging.unregisterDeviceAsync({ (response) in
-            Backendless.sharedInstance().userService.logout()
+            
         }) { (fault) in
-            Backendless.sharedInstance().userService.logout()
         }
         FBSDKLoginManager().logOut()
         Backendless.sharedInstance().userService.setStayLoggedIn(false)
+        Backendless.sharedInstance().userService.resetPersistentUser()
         Backendless.sharedInstance().userService.logout()
     }
     
