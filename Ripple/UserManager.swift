@@ -61,50 +61,6 @@ class UserManager: NSObject {
             print("Fault in initMe: \(fault)")
             completion(false)
         })
-//        
-//        Users().dataStore().find(query, response: { (collection) in
-//
-//            print("Collection: \(collection)")
-//            if let user = collection as? BackendlessUser {
-//                print("Collection is user :\(user.name)")
-//            }
-//            if let bMe = collection.data as? BackendlessUser {
-//                print("is user")
-//                if(bMe.objectId == currentUser.objectId) {
-//                    UserManager.me?.populateFromBackendlessUser(bMe)
-//                    completion(true)
-//                    return
-//                }
-//            }
-//            if let users = collection.data as? [BackendlessUser] {
-//                print("is array \(collection.data)")
-//                for user in users {
-//                    if user.objectId == currentUser.objectId {
-//                        print("found user: \(user.name)")
-//                        UserManager.me?.populateFromBackendlessUser(user)
-//                        completion(true)
-//                        return
-//                    }
-//                }
-//                print("Outside of loop")
-//                completion(false)
-//                return
-//            }
-//            
-//            print("Never entered Array loop")
-//            if let bMe = collection.data!.first as? BackendlessUser {
-//                if(bMe.objectId == UserManager.me?.objectId) {
-//                    UserManager.me?.populateFromBackendlessUser(bMe)
-//                    completion(true)
-//                } else { completion(false) }
-//            } else {
-//                print("First collection data didnt unwrap")
-//                completion(false)
-//            }
-//            
-//        }, error: { (fault) in
-//            completion(false)
-//        })
     }
     
     /*
@@ -340,6 +296,7 @@ class UserManager: NSObject {
     }
     
     func followOnOrganization(organization: Organizations, completion: (Bool) -> Void) {
+        
         var organizations = currentUser().organizations
         organizations.append(organization)
         
@@ -356,8 +313,6 @@ class UserManager: NSObject {
     
     //Unfollows an organization
     func unfollowOnOrganization(organization: Organizations, withCompletion completion: (Bool) -> Void) {
-
-
         
         // TODO make it(and unfollow() and ungo()) func with generic type sometime
         Backendless.sharedInstance().persistenceService.of(BackendlessUser.ofClass()).findID(currentUser().objectId, relationsDepth: 2, response: { (cUser) in
@@ -384,16 +339,94 @@ class UserManager: NSObject {
                     }
                     
                     completion(true)
-                }, error: { (fault) in
-                    completion(false)
+                    }, error: { (fault) in
+                        print("error in saving: \(fault)")
+                        completion(false)
                 })
             } else {
+                print("no index")
                 completion(false)
             }
             
         }) { (fault) in
+            print("fault in getting current user:\(fault)")
             completion(false)
         }
+        
+        return
+        if let index = currentUser().organizations.indexOf({return $0.objectId == organization.objectId}) {
+            currentUser().organizations.removeAtIndex(index)
+            print("current user orgs: \(currentUser().organizations.description)")
+            if let newUser = Backendless.sharedInstance().userService.update(currentUser()) {
+                print("saved newUser \(newUser.name)")
+                print("new user orgs: \(newUser.getProperty("organizations"))")
+                completion(true)
+            } else {
+                print("User not found")
+                completion(false)
+            }
+        } else {print("cant find org to remove")
+            completion(false)
+        }
+        
+        return
+        
+        
+        if let user = Users().dataStore().findID(currentUser().objectId) as? BackendlessUser {
+            let currUser = Users()
+            currUser.populateFromBackendlessUser(user, friends: false)
+            if let index = currUser.organizations.indexOf({return $0.objectId == organization.objectId}) {
+                currUser.organizations.removeAtIndex(index)
+                currUser.save(){ (success, error) in
+                    if(success) {
+                        print("Successfully removed")
+                        UserManager().currentUser().organizations = currUser.organizations
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            } else {
+                print("cant find org to remove")
+                completion(false)
+            }
+        } else {
+            print("User not found")
+            completion(false)
+        }
+        return
+//        if var user = Users().dataStore().findID(currentUser().objectId) as? BackendlessUser {
+//            let localUser = Users().populateFromBackendlessUser(user, friends: false)
+//            if let index = localUser.indexOf({return $0.objectId == organization.objectId}) {
+//
+//        }
+        var orgs = UserManager().currentUser().organizations
+        if let index = orgs.indexOf({return $0.objectId == organization.objectId}) {
+            print("Found org to unfollow")
+            orgs.removeAtIndex(index)
+            UserManager().currentUser().organizations = orgs
+            UserManager().currentUser().save() { (success, error) in
+                if(success) {
+                    print("successfully removed org from following")
+                    completion(true)
+                } else {
+                    print("Error unfollowing: \(error)")
+                    completion(false)
+                }
+            }
+//            
+//            Backendless.sharedInstance().userService.update(UserManager().currentUser(), response: { (backEndUser) in
+//                print("successfully removed org from following")
+//                completion(true)
+//            }, error: { (fault) in
+//                    print("User update fault in unfollowOrg: \(fault)")
+//                completion(false)
+//            })
+        } else {
+            print("Failed to find org to unfollow")
+            completion(false)
+        }
+
     }
     // Gets the list of following requests to current user, then runs the 
     // completion function on that list. If fails, runs completion with error

@@ -240,16 +240,15 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         PictureManager().loadPicture(organization?.picture, inButton: profilePictureButton)
         
         if(organization != nil) {
-            followButton.hidden = true
-            if (!followButton.hidden && (isFollowing() || isMember() || isAdmin())) {
-                print("hidden :\(!followButton.hidden), following: \(isFollowing())")
+            if(isLeader()) {
+                followButton.hidden = true
+            }
+            if (isFollowing()) {
                 followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
-
+            } else {
+                followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
             }
         }
-        followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
-        
-
         
     }
     
@@ -527,61 +526,26 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     @IBAction func followToOrganizationTouched(sender: AnyObject) {
         showActivityIndicator()
         
-        if OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: self.organization!) == .Member {
-            OrganizationManager().unfollowingUserOnOrganization(self.organization!, user: UserManager().currentUser(), completion: {[weak self] (entity, error) in
-                self?.hideActivityIndicator()
-                
-                if entity != nil {
-                    self?.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
-                }
-            })
-        } else {
-            InvitationManager().isCurrentUserInvitedToOrganization(organization!, completion: {[weak self] (invited) in
-                if self == nil {
-                    self?.hideActivityIndicator()
-                    return
-                    
-                }
-                
-                if invited {
-                    OrganizationManager().joinOrganization(self!.organization!, completion: { (success) in
-                        self?.hideActivityIndicator()
-                        if success {
-                            self?.showAlert("", message: "The organization has been added.")
-                            self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
-                        }
-                    })
+        if(!isFollowing()) {
+            UserManager().followOnOrganization(organization!){ (success) in
+                self.hideActivityIndicator()
+                if(success) {
+                    self.showAlert("Following Organization", message: "You are now following \(self.organization!.name!)")
+                    self.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
                 } else {
-                    let currentUserOrgs = UserManager().currentUser().organizations
-                    var userFollowingOrg = false
-                    for org in currentUserOrgs {
-                        if org.objectId == self!.organization!.objectId {
-                            userFollowingOrg = true
-                            break
-                        }
-                    }
-                    if userFollowingOrg {
-                        UserManager().unfollowOnOrganization(self!.organization!, withCompletion: {[weak self] (success) in
-                            self?.hideActivityIndicator()
-                            if success {
-                                self?.showAlert("", message: "You are no longer following \(self!.organization!.name!)")
-                                self?.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
-                            }
-                        })
-                    } else {
-                        UserManager().followOnOrganization(self!.organization!, completion: {[weak self] (success) in
-                            self?.hideActivityIndicator()
-                            print("following org")
-                            if success {
-                                self!.showAlert("", message: "You are now following \(self!.organization!.name!)")
-                                self?.followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
-                            } else {
-                                print("failed to follow")
-                            }
-                        })
-                    }
+                    self.showAlert("Failed to follow", message: "Failed to follow \(self.organization!.name!), please try again")
                 }
-            })
+            }
+        } else {
+            UserManager().unfollowOnOrganization(organization!) { (success) in
+                self.hideActivityIndicator()
+                if(success) {
+                    self.showAlert("Unfollowed Organization", message: "You are no longer following \(self.organization!.name!)")
+                    self.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
+                } else {
+                    self.showAlert("Failed to unfollow", message: "Failed to unfollow \(self.organization!.name!), please try again")
+                }
+            }
         }
     }
     
