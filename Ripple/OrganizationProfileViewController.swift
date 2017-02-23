@@ -68,6 +68,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         prepareNavigationBar()
         
         if (editOrganization) {
+            followButton.hidden = true
             showAlertEnterOrganizationName()
             prepareViews()
         }
@@ -122,7 +123,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(self.editProfileTouched(_:)))
             navigationItem.rightBarButtonItem = editButton
         } else {
-            let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(sendReport))
+            let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(showActionSheet))
             rightButton.tintColor = titleColor
             navigationItem.rightBarButtonItem = rightButton
         }
@@ -206,7 +207,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                     }
                     self?.organization!.membersOf = result!
                     self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
-                    print("Is user a member: \(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: self!.organization!))")
                 }
                 self?.tableView.reloadData()
             }
@@ -239,16 +239,17 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         profilePictureButton.enabled = editOrganization
         PictureManager().loadPicture(organization?.picture, inButton: profilePictureButton)
         
-        if(isLeader()) {
+        if(organization != nil) {
             followButton.hidden = true
+            if (!followButton.hidden && (isFollowing() || isMember() || isAdmin())) {
+                print("hidden :\(!followButton.hidden), following: \(isFollowing())")
+                followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
+
+            }
         }
         followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
         
-        if (!followButton.hidden && (isFollowing() || isMember() || isAdmin())) {
-            print("hidden :\(!followButton.hidden), following: \(isFollowing())")
-            followButton.setImage(UIImage(named: "unfollow_button_profile"), forState: .Normal)
-            
-        }
+
         
     }
     
@@ -584,11 +585,19 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
     }
     
-    func sendReport() {
+    func showActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
+        
+        if(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: organization!)) {
+            let removeSelfAction:UIAlertAction = UIAlertAction(title: "Leave Organization", style: .Default) { action in
+                self.removeUserFromOrganization(UserManager().currentUser())
+            }
+            actionSheetController.addAction(removeSelfAction)
+        }
+        
         let spamAction: UIAlertAction = UIAlertAction(title: "It’s Spam", style: .Default) { action -> Void in
             self.showAlert("Success", message: "")
             self.presentViewController(self.alertController, animated: true, completion: nil)
@@ -602,9 +611,12 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         }
         actionSheetController.addAction(inappropriateAction)
         
+        
+        
         presentViewController(actionSheetController, animated: true, completion: nil)
         
     }
+    
     
     // MARK: - ImagePickerDelegate
     
@@ -854,38 +866,24 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     
     func removeUserFromOrganization(user:Users) {
         showActivityIndicator()
-        if isLeader() || isAdmin() {
             print("removing \(user.name!)")
-//            let user = orgMembers[indexObject.row - 1]
-//            print("removing member")
-//            OrganizationManager().unfollowingUserOnOrganization(organization!, user: user, completion: { (entity, error) in
-//                if error == nil && entity != nil {
-//                    print("removeMember")
-//                    if let objectIndex = self.orgMembers.indexOf(user) {
-//                        self.orgMembers.removeAtIndex(objectIndex)
-//                    }
-//                    
-//                    self.tableView.deleteRowsAtIndexPaths([indexObject], withRowAnimation: .Left)
-//                    self.tableView.reloadData()
-//                } else {
-//                    self.tableView.reloadData()
-//                    self.showAlert("Error", message: "User remove failed. Please try again later")
-//                }
-//            })
             OrganizationManager().removeUserFromOrganization(organization!, user: user) { (success, org) in
-                if success {
-                    print("Successfully removed user")
-                    if let index = self.orgMembers.indexOf(user) {
-                        print("removing from orgMembers array")
-                        self.orgMembers.removeAtIndex(index)
-                        self.memberCountLabel.text = String(self.orgMembers.count) + " " + NSLocalizedString("Members", comment: "Members")
-                        self.organization = org
-                        self.tableView.reloadData()
-                    }
+            if success {
+                print("Successfully removed user")
+                if let index = self.orgMembers.indexOf({ (mem) in return mem.objectId == user.objectId}) {
+//                if let index = self.orgMembers.indexOf{ return $0.objectId == user.objectId }; {
+                    print("removing from orgMembers array")
+                    self.orgMembers.removeAtIndex(index)
+                    self.memberCountLabel.text = String(self.orgMembers.count) + " " + NSLocalizedString("Members", comment: "Members")
+                    self.organization = org
+                    self.tableView.reloadData()
+                } else if (user.objectId == UserManager().currentUser().objectId) {
+                    
                 }
-                print("Members of current org: \(self.organization!.membersOf)")
             }
+            print("Members of current org: \(self.organization!.membersOf.description)")
         }
+        
         self.hideActivityIndicator()
     }
     

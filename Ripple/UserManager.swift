@@ -38,24 +38,73 @@ class UserManager: NSObject {
      */
     func initMe(completion: (Bool) -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
+        guard let currentUser = UserManager.me else {
+            print("currentUser failed to unwrap")
+            completion(false)
+            return
+        }
         let query = BackendlessDataQuery()
         let queryOptions = QueryOptions()
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
         query.queryOptions = queryOptions
-        query.whereClause = "objectId = '\(currentUser().objectId)'"
-        Users().dataStore().find(query, response: { (collection) in
-            let users = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
-            for user in users {
-                print("user name: \(user.name)")
-            }
-            let bMe = collection.data!.first as! BackendlessUser
-            if(bMe.objectId == UserManager.me?.objectId) {
-                UserManager.me?.populateFromBackendlessUser(bMe)
+        print("Current user: \(currentUser.name) objId: \(currentUser.objectId)")
+        query.whereClause = "objectId = '\(currentUser.objectId)'"
+        Backendless.sharedInstance().userService.findById(currentUser.objectId, response: {(bUser) in
+            if(bUser != nil && bUser.objectId == currentUser.objectId) {
+                print("Found bUser")
+                UserManager.me?.populateFromBackendlessUser(bUser)
                 completion(true)
-            } else { completion(false) }
-            }, error: { (fault) in
+            } else {
                 completion(false)
+            }
+        }, error: { (fault) in
+            print("Fault in initMe: \(fault)")
+            completion(false)
         })
+//        
+//        Users().dataStore().find(query, response: { (collection) in
+//
+//            print("Collection: \(collection)")
+//            if let user = collection as? BackendlessUser {
+//                print("Collection is user :\(user.name)")
+//            }
+//            if let bMe = collection.data as? BackendlessUser {
+//                print("is user")
+//                if(bMe.objectId == currentUser.objectId) {
+//                    UserManager.me?.populateFromBackendlessUser(bMe)
+//                    completion(true)
+//                    return
+//                }
+//            }
+//            if let users = collection.data as? [BackendlessUser] {
+//                print("is array \(collection.data)")
+//                for user in users {
+//                    if user.objectId == currentUser.objectId {
+//                        print("found user: \(user.name)")
+//                        UserManager.me?.populateFromBackendlessUser(user)
+//                        completion(true)
+//                        return
+//                    }
+//                }
+//                print("Outside of loop")
+//                completion(false)
+//                return
+//            }
+//            
+//            print("Never entered Array loop")
+//            if let bMe = collection.data!.first as? BackendlessUser {
+//                if(bMe.objectId == UserManager.me?.objectId) {
+//                    UserManager.me?.populateFromBackendlessUser(bMe)
+//                    completion(true)
+//                } else { completion(false) }
+//            } else {
+//                print("First collection data didnt unwrap")
+//                completion(false)
+//            }
+//            
+//        }, error: { (fault) in
+//            completion(false)
+//        })
     }
     
     /*
@@ -307,6 +356,8 @@ class UserManager: NSObject {
     
     //Unfollows an organization
     func unfollowOnOrganization(organization: Organizations, withCompletion completion: (Bool) -> Void) {
+
+
         
         // TODO make it(and unfollow() and ungo()) func with generic type sometime
         Backendless.sharedInstance().persistenceService.of(BackendlessUser.ofClass()).findID(currentUser().objectId, relationsDepth: 2, response: { (cUser) in

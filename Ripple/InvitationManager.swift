@@ -13,17 +13,19 @@ class InvitationManager: NSObject {
 
     func invitations(completion:([Invitation]?) -> Void) {
         let query = BackendlessDataQuery()
-        query.whereClause = "toUser.objectId = '\(UserManager().currentUser().objectId)' and accept != True"
+        query.whereClause = "toUser.objectId = '\(UserManager().currentUser().objectId)' and accept != 'True'"
         let options = QueryOptions()
         options.related = ["user","organization", "organization.picture", "event", "event.organization", "event.picture"]
         query.queryOptions = options
         
         Invitation().dataStore().find(query, response: { (collection) in
+            print("invites collection: \(collection)")
             var invites = collection.data as? [Invitation] ?? [Invitation]()
             collection.loadOtherPages({ (otherPageEvents) -> Void in
                 if otherPageEvents != nil {
                     invites.appendContentsOf(otherPageEvents?.data as? [Invitation] ?? [Invitation]())
                 } else {
+                    print("invites: \(invites.description))")
                     var filteredInvites = [Invitation]()
                     for invite in invites {
                         if(invite.type == Invitation.typeInvitation.organization.rawValue) {
@@ -31,6 +33,7 @@ class InvitationManager: NSObject {
                                 filteredInvites.append(invite)
                             }
                         } else if (invite.type == Invitation.typeInvitation.event.rawValue) {
+                            print("is event invite")
                             if(invite.event != nil) {
                                 filteredInvites.append(invite)
                             }
@@ -91,9 +94,7 @@ class InvitationManager: NSObject {
             case Invitation.typeInvitation.organization.rawValue:
                 OrganizationManager().joinOrganization(invitation.organization!, completion: { (success) in
                     if(success) {
-                        //invitation.organization!.membersOf.append(UserManager().currentUser())
-                        //invitation.organization!.save(){ (_,_) in }
-                        invitation.accept = true
+                        invitation.accept = "True"
                         invitation.save() { (_,_) in }
                         print("Joined org")
                         completion(true)
@@ -111,21 +112,34 @@ class InvitationManager: NSObject {
                 if let event = invitation.event {
                     events.append(event)
                 }
+                print("saving event invite")
                 
-                UserManager().currentUser().events = events
-                UserManager().currentUser().save { (_, _) in }
-                invitation.accept = true
-                invitation.save() { (_,_) in }
-                completion(true)
+                //UserManager().currentUser().events = events
+                //UserManager().currentUser().save { (_, _) in }
+                UserManager().currentUser().setProperty(Users.propertyName.events.rawValue, object: events)
+                Backendless.sharedInstance().userService.update(UserManager().currentUser(), response: { (backEndUser) in
+                    print("user Events: \(UserManager().currentUser().events)")
+                    invitation.accept = "True"
+                    invitation.save() { (entity,error) in
+                        if(error != nil) {
+                            print("event invite error")
+                        }
+                        completion(true)
+                    }
+                }, error: { (fault) in
+                    print("User update fault: \(fault)")
+                    completion(false)
+                })
+                
                 //invitation.delete({ (_) in })
 
             case Invitation.typeInvitation.user.rawValue:
-                invitation.accept = true
+                invitation.accept = "True"
                 invitation.save() { (_,_) in }
                 completion(true)
                 //invitation.save({ (_, _) in })
             default:
-                invitation.accept = true
+                invitation.accept = "True"
             }
         } else {
             completion(false)
@@ -147,7 +161,7 @@ class InvitationManager: NSObject {
                     invites.appendContentsOf(otherPageEvents?.data as? [Invitation] ?? [Invitation]())
                 } else {
                     for invite in invites {
-                        if invite.accept! {
+                        if invite.accept == "True" {
                             let user = invite.toUser!
                             var friends = me.friends
                             friends.append(user)
@@ -167,6 +181,7 @@ class InvitationManager: NSObject {
         invitation.toUser = user
         invitation.type = Invitation.typeInvitation.organization.rawValue
         invitation.organization = organization
+        invitation.accept = "False"
         invitation.save { (entity, error) in
             if entity != nil {
                 completion(true)
@@ -183,6 +198,8 @@ class InvitationManager: NSObject {
         invitation.toUser = user
         invitation.type = Invitation.typeInvitation.event.rawValue
         invitation.event = event
+        invitation.organization = event.organization
+        invitation.accept = "False"
         invitation.save { (entity, error) in
             if entity != nil {
                 or_postNotification(PulseNotification.PulseNotificationEventSendInvitations.rawValue)
@@ -199,6 +216,7 @@ class InvitationManager: NSObject {
         invitation.fromUser = UserManager().currentUser()
         invitation.toUser = user
         invitation.type = Invitation.typeInvitation.user.rawValue
+        invitation.accept = "False"
         invitation.save { (entity, error) in
             if entity != nil {
                 completion(true)

@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'Ripple' do
     #    pod 'Bolts', '1.7.0'
-    pod ‘Backendless’
+    pod 'Backendless'
     pod 'CVCalendar', '~> 1.3.1'
     pod 'FBSDKCoreKit', '~> 4.15'
     pod 'FBSDKLoginKit', '~> 4.15'

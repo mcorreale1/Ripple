@@ -89,7 +89,6 @@ class EventManager: NSObject {
 
         Organizations().dataStore().find(query, response: { (collection) in
             let fetchedOrg = collection.data[0] as! Organizations
-            
             var futureEvents = [RippleEvent]()
             for event in fetchedOrg.events {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) {
@@ -528,6 +527,7 @@ class EventManager: NSObject {
     }
     
     func deleteEvent(event: RippleEvent, completion: (Bool) -> Void) {
+        
         event.delete { (success) in
             if success {
                 InvitationManager().deleteInvitationsByEvent(event, complition: completion)

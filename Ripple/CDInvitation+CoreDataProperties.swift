@@ -14,7 +14,7 @@ import CoreData
 
 extension CDInvitation {
 
-    @NSManaged var accept: NSNumber?
+    @NSManaged var accept: String?
     @NSManaged var serverID: String?
     @NSManaged var type: String?
     @NSManaged var event: CDEvent?

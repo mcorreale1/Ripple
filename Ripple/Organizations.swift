@@ -46,9 +46,7 @@ class Organizations: BackendlessEntity {
         if(self.membersOf is [Users]) {
             return self.membersOf as? [Users]
         } else {
-            let users = UserManager().backendlessUsersToLocalUsers(self.membersOf, friends: false)
-            self.membersOf = users
-            return self.membersOf as? [Users]
+            return UserManager().backendlessUsersToLocalUsers(self.membersOf, friends: false)
         }
     }
     
