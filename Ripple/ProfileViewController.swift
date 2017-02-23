@@ -614,17 +614,17 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
     // MARK: - Actions
     
     func unfollow(indexPath: NSIndexPath) {
+        showActivityIndicator()
         var sectionItem = followingArray[indexPath.section]
         let sectionTitle = sectionItem["title"] as! String
-        let currentUser = UserManager().currentUser()
         let isMyProfile = (isMe ? 1 : 0)
-        
         if var following = sectionItem["items"] as? [AnyObject] {
             if sectionTitle == TypeFollowingSection.Friends.rawValue {
                 let countSections = tableView.numberOfSections
                 let deltaIndex = countSections < 2 ? isMyProfile : 0
                 let item = following[indexPath.row - deltaIndex]
                 UserManager().unfollow(item as! Users) {[weak self] (success) in
+                    self?.hideActivityIndicator()
                     if success {
                         following.removeAtIndex(indexPath.row - deltaIndex)
                         sectionItem["items"] = following
@@ -633,32 +633,44 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                         //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                     } else {
                         self?.tableView.reloadData()
-                        self?.showAlert("Error", message: "Failed to unfollow, try again")
+                        self?.showAlert("Failed to unfollow", message: "Failed to unfollow \((item as! Users).name!), please try again")
                     }
                 }
             } else {
                 let deltaIndex = countFollowings(.Friends) > 0 ? isMyProfile : 1
                 let item = following[indexPath.row - deltaIndex]
-                
-                OrganizationManager().unfollowingUserOnOrganization(item as! Organizations, user: currentUser, completion: {[weak self] (entity, error) in
-                    if entity != nil {
-                        UserManager().unfollowOnOrganization(entity!, withCompletion: {[weak self] (success) in
-                            if success {
-                                following.removeAtIndex(indexPath.row - deltaIndex)
-                                sectionItem["items"] = following
-                                self?.followingArray[indexPath.section] = sectionItem
-                                self?.tableView.reloadData()
-                            } else {
-                                self?.showAlert("Error", message: "Failed to unfollow, try again")
-                            }
-                        })
-                        
-                        //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
-                    } else {
+                UserManager().unfollowOnOrganization(item as! Organizations){[weak self] (success) in
+                    self?.hideActivityIndicator()
+                    if success {
+                        following.removeAtIndex(indexPath.row - deltaIndex)
+                        sectionItem["items"] = following
+                        self?.followingArray[indexPath.section] = sectionItem
                         self?.tableView.reloadData()
-                        self?.showAlert("Error", message: "Failed to unfollow, try again")
+                    } else {
+                        self?.showAlert("Failed to unfollow", message: "Failed to unfollow \((item as! Organizations).name!), please try again")
                     }
-                })
+                }
+
+//
+//                OrganizationManager().unfollowingUserOnOrganization(item as! Organizations, user: currentUser, completion: {[weak self] (entity, error) in
+//                    if entity != nil {
+//                        UserManager().unfollowOnOrganization(entity!, withCompletion: {[weak self] (success) in
+//                            if success {
+//                                following.removeAtIndex(indexPath.row - deltaIndex)
+//                                sectionItem["items"] = following
+//                                self?.followingArray[indexPath.section] = sectionItem
+//                                self?.tableView.reloadData()
+//                            } else {
+//                                self?.showAlert("Error", message: "Failed to unfollow, try again")
+//                            }
+//                        })
+//                        
+//                        //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+//                    } else {
+//                        self?.tableView.reloadData()
+//                        self?.showAlert("Error", message: "Failed to unfollow, try again")
+//                    }
+//                })
             }
         }
     }
@@ -743,9 +755,8 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         if UserManager().alreadyFollowOnUser(selectedUser!) {
             UserManager().unfollow(selectedUser!, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()
-                
                 if success {
-                    self?.showAlert("", message: "The profile has been removed from Following.")
+                    self?.showAlert("Unfollowed \(self?.selectedUser!.firstName!)", message: "You are no longer following \(self?.selectedUser!.name!)")
                     self?.followButton.setImage(UIImage(named: "follow_button_profile"), forState: .Normal)
                 }
             })
@@ -765,7 +776,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     }
                     else
                     {
-                    self?.showAlert("", message: "The profile has been added.")
+                    self?.showAlert("Following \(self?.selectedUser!.firstName!)", message: "You are now following \(self?.selectedUser!.name!)")
                         let user = UserManager().currentUser().name
                         if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
                             self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID)

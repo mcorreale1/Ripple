@@ -264,15 +264,19 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     
     //Calls auto login from API class
     func autoLogin() {
+        self.showActivityIndicator()
+        self.showWaitView()
         if (API().autoLogin()) {
-            self.showActivityIndicator()
-            print("Auto login worked \(UserManager().currentUser().name)")
             let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
             delegate.loginComplete() { (success) in
+                self.hideActivityIndicator()
+                self.hideWaitView()
                 if(!success) {
                     self.showAlert("Login failed", message: "Login failed, please try again")
                 }
             }
+        } else {
+            self.hideWaitView()
         }
         
     }

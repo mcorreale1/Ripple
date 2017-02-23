@@ -38,19 +38,28 @@ class UserManager: NSObject {
      */
     func initMe(completion: (Bool) -> Void) {
         UserManager.me = Users.userFromBackendlessUser(Backendless.sharedInstance().userService.currentUser)
+        guard let currentUser = UserManager.me else {
+            print("currentUser failed to unwrap")
+            completion(false)
+            return
+        }
         let query = BackendlessDataQuery()
         let queryOptions = QueryOptions()
         queryOptions.related = ["friends", "events", "eventsBlackList", "organizations", "picture"]
         query.queryOptions = queryOptions
-        query.whereClause = "objectId = '\(currentUser().objectId)'"
-        Users().dataStore().find(query, response: { (collection) in
-            let bMe = collection.data!.first as! BackendlessUser
-            if(bMe.objectId == UserManager.me?.objectId) {
-                UserManager.me?.populateFromBackendlessUser(bMe)
+        print("Current user: \(currentUser.name) objId: \(currentUser.objectId)")
+        query.whereClause = "objectId = '\(currentUser.objectId)'"
+        Backendless.sharedInstance().userService.findById(currentUser.objectId, response: {(bUser) in
+            if(bUser != nil && bUser.objectId == currentUser.objectId) {
+                print("Found bUser")
+                UserManager.me?.populateFromBackendlessUser(bUser)
                 completion(true)
-            } else { completion(false) }
-            }, error: { (fault) in
+            } else {
                 completion(false)
+            }
+        }, error: { (fault) in
+            print("Fault in initMe: \(fault)")
+            completion(false)
         })
     }
     
@@ -287,6 +296,7 @@ class UserManager: NSObject {
     }
     
     func followOnOrganization(organization: Organizations, completion: (Bool) -> Void) {
+        
         var organizations = currentUser().organizations
         organizations.append(organization)
         
@@ -329,16 +339,94 @@ class UserManager: NSObject {
                     }
                     
                     completion(true)
-                }, error: { (fault) in
-                    completion(false)
+                    }, error: { (fault) in
+                        print("error in saving: \(fault)")
+                        completion(false)
                 })
             } else {
+                print("no index")
                 completion(false)
             }
             
         }) { (fault) in
+            print("fault in getting current user:\(fault)")
             completion(false)
         }
+        
+        return
+        if let index = currentUser().organizations.indexOf({return $0.objectId == organization.objectId}) {
+            currentUser().organizations.removeAtIndex(index)
+            print("current user orgs: \(currentUser().organizations.description)")
+            if let newUser = Backendless.sharedInstance().userService.update(currentUser()) {
+                print("saved newUser \(newUser.name)")
+                print("new user orgs: \(newUser.getProperty("organizations"))")
+                completion(true)
+            } else {
+                print("User not found")
+                completion(false)
+            }
+        } else {print("cant find org to remove")
+            completion(false)
+        }
+        
+        return
+        
+        
+        if let user = Users().dataStore().findID(currentUser().objectId) as? BackendlessUser {
+            let currUser = Users()
+            currUser.populateFromBackendlessUser(user, friends: false)
+            if let index = currUser.organizations.indexOf({return $0.objectId == organization.objectId}) {
+                currUser.organizations.removeAtIndex(index)
+                currUser.save(){ (success, error) in
+                    if(success) {
+                        print("Successfully removed")
+                        UserManager().currentUser().organizations = currUser.organizations
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            } else {
+                print("cant find org to remove")
+                completion(false)
+            }
+        } else {
+            print("User not found")
+            completion(false)
+        }
+        return
+//        if var user = Users().dataStore().findID(currentUser().objectId) as? BackendlessUser {
+//            let localUser = Users().populateFromBackendlessUser(user, friends: false)
+//            if let index = localUser.indexOf({return $0.objectId == organization.objectId}) {
+//
+//        }
+        var orgs = UserManager().currentUser().organizations
+        if let index = orgs.indexOf({return $0.objectId == organization.objectId}) {
+            print("Found org to unfollow")
+            orgs.removeAtIndex(index)
+            UserManager().currentUser().organizations = orgs
+            UserManager().currentUser().save() { (success, error) in
+                if(success) {
+                    print("successfully removed org from following")
+                    completion(true)
+                } else {
+                    print("Error unfollowing: \(error)")
+                    completion(false)
+                }
+            }
+//            
+//            Backendless.sharedInstance().userService.update(UserManager().currentUser(), response: { (backEndUser) in
+//                print("successfully removed org from following")
+//                completion(true)
+//            }, error: { (fault) in
+//                    print("User update fault in unfollowOrg: \(fault)")
+//                completion(false)
+//            })
+        } else {
+            print("Failed to find org to unfollow")
+            completion(false)
+        }
+
     }
     // Gets the list of following requests to current user, then runs the 
     // completion function on that list. If fails, runs completion with error
@@ -479,7 +567,6 @@ class UserManager: NSObject {
             completion(nil, ErrorHelper().convertFaultToNSError(fault))
         })
     }
-    
     // Used to follow a user
     // Follows is user is public, sends request if user is private
     func followingOnUser(user: Users, completion: (Bool) -> Void) {
@@ -648,21 +735,13 @@ class UserManager: NSObject {
         })
     }
     
-    func findUsersToInviteToOrganization(organization: Organizations, completion: ([Users], NSError?) -> Void) {
+    func findUsersToInviteToOrganization(organization: Organizations, searchString:String, completion: ([Users], NSError?) -> Void) {
         var ignoreUsersIds = [String]()
-        
         if let membersOf = organization.getMembersOfUsers() {
             for user in membersOf {
                 ignoreUsersIds.append(user.objectId)
             }
         }
-//        else {
-//            for user in organization.members!.toBackendlessArray() {
-//                ignoreUsersIds.append(user)
-//            }
-//        }
-//        
-        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()
@@ -681,8 +760,7 @@ class UserManager: NSObject {
                             ignoreUsersIds.append(invatationPeople.objectId)
                         }
                     }
-                    
-                    UserManager().getUsersWithIgnoreList(ignoreUsersIds, completion: completion)
+                    UserManager().getUsersWithIgnoreList(ignoreUsersIds, searchString: searchString, completion: completion)
                 }
             })
         }, error:  { (fault) in
@@ -690,13 +768,18 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersWithIgnoreList(ignores: [String], completion: ([Users], NSError?) -> Void) {
+    func getUsersWithIgnoreList(ignores: [String], searchString:String, completion: ([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
-        query.whereClause = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: ignores, notModifier: true)
+        let notInQuery = BackendlessDataQuery().getFieldInArraySQLQuery(field: "objectId", array: ignores, notModifier: true)
+        query.whereClause = "name LIKE '%" + searchString + "%'"
+        if(notInQuery != "") {
+            query.whereClause = query.whereClause + " and \(notInQuery)"
+        }
         let queryOptions = QueryOptions()
         queryOptions.related = ["picture"]
         queryOptions.sortBy(["name"])
         query.queryOptions = queryOptions
+        print("org where clause: \(query.whereClause)")
         
         Users().dataStore().find(query, response: { (collection) in
             var users = UserManager().backendlessUsersToLocalUsers(collection.data as? [BackendlessUser] ?? [BackendlessUser]())
@@ -712,7 +795,7 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersToInviteToEvent(event: RippleEvent, completion:([Users], NSError?) -> Void) {
+    func getUsersToInviteToEvent(event: RippleEvent, searchString:String, completion:([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
         options.related = ["toUser"]
@@ -732,7 +815,7 @@ class UserManager: NSObject {
                         }
                     }
                     
-                    UserManager().getUsersWithIgnoreListAndNotGoingOnEvent(ignoreIds, event: event, completion: completion)
+                    UserManager().getUsersWithIgnoreListAndNotGoingOnEvent(ignoreIds, searchString: searchString, event: event, completion: completion)
                 }
             })
         }, error:  { (fault) in
@@ -740,14 +823,14 @@ class UserManager: NSObject {
         })
     }
     
-    func getUsersWithIgnoreListAndNotGoingOnEvent(ignoteIds: [String], event: RippleEvent, completion:([Users], NSError?) -> Void) {
+    func getUsersWithIgnoreListAndNotGoingOnEvent(ignoteIds: [String], searchString:String, event: RippleEvent, completion:([Users], NSError?) -> Void) {
         let query = BackendlessDataQuery()
-        
+        query.whereClause = "name LIKE '%" + searchString + "%'"
         let notInIgnoreQuery = query.getFieldInArraySQLQuery(field: "objectId", array: ignoteIds, notModifier: true)
         if notInIgnoreQuery != "" {
-            query.whereClause = "\(notInIgnoreQuery)"
+            query.whereClause = query.whereClause + " and \(notInIgnoreQuery)"
         }
-        
+        print("whereClause: \(query.whereClause)")
         let options = QueryOptions()
         options.related = ["picture", "events"]
         options.sortBy(["name"])

@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func loginComplete( completion:(Bool)->Void) {
         UserManager().initMe { (success) in
+            print("Success: \(success)")
             if(!success) {
                 completion(false)
                 return

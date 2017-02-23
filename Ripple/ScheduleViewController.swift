@@ -201,7 +201,6 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = dateFormat
                 cell.eventDateLabel.text = dateFormatter.stringFromDate(event.startDate!)
-                cell.accessoryImageView.hidden = true
                 return cell
             case Invitation.typeInvitation.organization.rawValue:
                 let organization = invitation.organization!
@@ -397,8 +396,10 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         let invitation = invitations[indexPath.row]
         showActivityIndicator()
         InvitationManager().acceptInvitation(invitation) { (success) in
+        
             self.hideActivityIndicator()
             if success {
+                print("success accepting invite")
                 self.invitations.removeAtIndex(indexPath.row)
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
                 for inv in self.invitations {

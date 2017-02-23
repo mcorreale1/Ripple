@@ -49,7 +49,7 @@ class InvitationParcer : NSObject {
     func fetchBackendlessEntity(fromCDInvitation cdInvitation: CDInvitation) -> Invitation {
         let invitation = Invitation()
         invitation.objectId = cdInvitation.serverID
-        invitation.accept = cdInvitation.accept?.boolValue ?? false
+        invitation.accept = cdInvitation.accept
         
         if let type = cdInvitation.type {
             invitation.type = type

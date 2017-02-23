@@ -318,27 +318,45 @@ class OrganizationManager: NSObject {
         options.related = ["membersOf"]
         query.queryOptions = options
         if let org = Organizations().dataStore().find(query).data.first as? Organizations {
-            for member in org.membersOf {
-                if member.objectId == user.objectId {
-                    print("removing \(member.name)")
-                    if let index = org.membersOf.indexOf(member) {
-                        org.membersOf.removeAtIndex(index)
-                        org.save() { (entity, error) in
-                            if(error == nil) {
-                                print("saved org")
-                                completion(true, org)
-                            } else {
-                                print("error in removeUser: \(error!)")
-                                completion(false, nil)
-                            }
-                        }
+            
+            if let index = org.membersOf.indexOf({ return $0.objectId == user.objectId}) {
+                org.membersOf.removeAtIndex(index)
+                org.save() { (entity, error) in
+                    if(error == nil) {
+                        print("saved org")
+                        completion(true, org)
                     } else {
+                        print("error in removeUser: \(error!)")
                         completion(false, nil)
                     }
-                    break
                 }
+            } else {
+                print("Failed to find user")
+                completion(false, nil)
             }
+//            
+//            for member in org.membersOf {
+//                if member.objectId == user.objectId {
+//                    print("removing \(member.name)")
+//                    if let index = org.membersOf.indexOf(member) {
+//                        org.membersOf.removeAtIndex(index)
+//                        org.save() { (entity, error) in
+//                            if(error == nil) {
+//                                print("saved org")
+//                                completion(true, org)
+//                            } else {
+//                                print("error in removeUser: \(error!)")
+//                                completion(false, nil)
+//                            }
+//                        }
+//                    } else {
+//                        completion(false, nil)
+//                    }
+//                    break
+//                }
+//            }
         } else {
+            print("Couldnt find org")
             completion(false, nil)
         }
     }

@@ -212,6 +212,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         //Fix editing events
         let userRole:TypeRoleUserInOrganization = OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: org!)
+        
+        if(userRole == .Member) {
+            let inviteAction:UIAlertAction = UIAlertAction(title:"Send Invites", style: .Default) { action -> Void in
+                self.sendInvites()
+            }
+            actionSheetController.addAction(inviteAction)
+        }
         if(userRole == .Admin || userRole == .Founder) {
             let editAction:UIAlertAction = UIAlertAction(title: "Edit Event", style: .Default) { action -> Void in
                 self.editEvent()
@@ -244,10 +251,14 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         
     }
+        
+    func sendInvites() {
+        self.showInviteUsersViewController(nil, event: event)
+    }
     
     func editEvent() {
         self.showEditEventViewController(self.org, event: self.event!)
-        print("After edit event")
+
     }
     
     func deleteEvent() {
@@ -312,7 +323,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
             titleMessage = NSLocalizedString("OK", comment: "OK")
             let okAction = UIAlertAction(title: titleMessage, style: UIAlertActionStyle.Default) {[weak self] (result : UIAlertAction) -> Void in
                 if self != nil && self?.event != nil {
-                    self?.showAddressViewController(self!.event!)
+                    self?.showAddressViewController(self!.event!, fromEventVC: true)
                 } else {
                     return
                 }

@@ -20,13 +20,15 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     var localSearchRequest:MKLocalSearchRequest!
     var localSearch:MKLocalSearch!
     var localSearchResponse:MKLocalSearchResponse!
-    var error:NSError!
     var pointAnnotation:MKPointAnnotation!
     var pinAnnotationView:MKPinAnnotationView!
     
     var centerAnnotation:MKPointAnnotation!
     var address: String = ""
     var event: RippleEvent?
+    //Set if coming from eventVC
+    
+    var fromEventVC = false
     
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
@@ -54,11 +56,28 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
             locationManager.requestLocation()
         }
         
+        //self.chooseAddress(address, coordinate: coordinate)
         
-        if(event != nil && coordinate != nil) {
-            //coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+        let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap:"))
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let nav = self.navigationController?.navigationBar
+        nav?.tintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1) //back button color
+        nav?.barTintColor = UIColor.whiteColor()
+        
+        if (event != nil && fromEventVC) {
+            coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+            searchBar.hidden = true
             doneButton.titleLabel?.text = "Back"
-        } else if (coordinate == nil) {
+        }
+        else if(event != nil && coordinate != nil) {
+            doneButton.titleLabel?.text = "Back"
+        }
+        else if (coordinate == nil) {
             coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
             trackingCenter = true
         }
@@ -68,11 +87,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         let span = MKCoordinateSpanMake(0.075, 0.075)
         let region = MKCoordinateRegionMake(coordinate, span)
         self.mapView.setRegion(region, animated: true)
-        //self.chooseAddress(address, coordinate: coordinate)
         
-        let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap:"))
-        tap.delegate = self
-        view.addGestureRecognizer(tap)
     }
     
     
@@ -130,14 +145,6 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         navigationItem.titleView = searchBar
         navigationController?.navigationBar.translucent = false
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-    }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        let nav = self.navigationController?.navigationBar
-        nav?.tintColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1) //back button color
-        nav?.barTintColor = UIColor.whiteColor()
-        
     }
 
     override func didReceiveMemoryWarning() {

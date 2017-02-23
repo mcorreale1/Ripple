@@ -91,11 +91,12 @@ class BaseViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         navigationController?.showViewController(createEventViewController, sender: self)
     }
     
-    func showAddressViewController(event: RippleEvent) {
+    func showAddressViewController(event: RippleEvent, fromEventVC:Bool = false) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let chooseAddressViewController = storyboard.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
         chooseAddressViewController.event = event
         chooseAddressViewController.address = event.address ?? ""
+        chooseAddressViewController.fromEventVC = fromEventVC
         navigationController?.showViewController(chooseAddressViewController, sender: self)
     }
     

@@ -19,7 +19,7 @@ class Invitation: BackendlessEntity {
     
     var fromUser: Users?
     var toUser: Users?
-    var accept: Bool?
+    var accept: String?
     var organization: Organizations?
     var event: RippleEvent?
     var type: String?

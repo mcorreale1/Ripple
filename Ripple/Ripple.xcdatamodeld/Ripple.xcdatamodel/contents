@@ -27,7 +27,7 @@
         <relationship name="toUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="incomingRequests" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Invitation" representedClassName="CDInvitation" syncable="YES">
-        <attribute name="accept" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="accept" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serverID" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="invitations" inverseEntity="Event" syncable="YES"/>

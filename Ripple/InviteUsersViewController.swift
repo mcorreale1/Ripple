@@ -41,32 +41,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     }
     
     func prepareData() {
-        showActivityIndicator()
-        if organization != nil {
-            UserManager().findUsersToInviteToOrganization(organization!, completion: {(users, error) in
-                if error == nil {
-                    self.users = users
-                    if let indexUser = self.users.indexOf(UserManager().currentUser()) {
-                        self.users.removeAtIndex(indexUser)
-                    }
-                    self.tableView.reloadData()
-                }
-                self.hideActivityIndicator()
-            })
-        } else {
-            if let event = event {
-                UserManager().getUsersToInviteToEvent(event, completion: { (users, error) in
-                    if error == nil {
-                        self.users = users
-                        if let indexUser = self.users.indexOf(UserManager().currentUser()) {
-                            self.users.removeAtIndex(indexUser)
-                        }
-                        self.tableView.reloadData()
-                    }
-                    self.hideActivityIndicator()
-                })
-            }
-        }
+        tableView.reloadData()
     }
     
     func prepareTableView() {
@@ -79,29 +54,36 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     // MARK: - UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
-            return searchBar.text == "" ? users.count : filteredUsers.count
-        }
-        return 0
+//        if section == 1 {
+//            return filteredUsers.count
+//        }
+        return users.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
+        let user = users[indexPath.row]
+        cell.titleLabel.text = user.name ?? ""
         cell.descriptionLabel.text = ""
-        
-        if indexPath.section == 1 {
-            let user = searchBar.text == "" ? users[indexPath.row] : filteredUsers[indexPath.row]
-            cell.titleLabel.text = user.name ?? ""
-            if let picture = user.picture {
-                PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
-            } else {
-                cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
-            }
+        if let picture = user.picture {
+            PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
+        } else {
+            cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
         }
+        
+//        if indexPath.section == 1 {
+//            let user = searchBar.text == "" ? users[indexPath.row] : filteredUsers[indexPath.row]
+//            cell.titleLabel.text = user.name ?? ""
+//            if let picture = user.picture {
+//                PictureManager().loadPicture(picture, inImageView: cell.pictureImageView)
+//            } else {
+//                cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
+//            }
+//        }
         
         return cell
     }
@@ -139,7 +121,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
-        header.titleHeader.text = section == 0 ? "Friends on Facebook" : "Following on Pulse"
+        header.titleHeader.text = section == 0 ? "Users to Invite" : "Following on Pulse"
         return header
     }
     
@@ -163,21 +145,47 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     
     // MARK: - UISearchBarDelegate
     
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        if searchBar.text == "" {
+            return
+        }
+        if let searchString = searchBar.text {
+            if event != nil {
+                UserManager().getUsersToInviteToEvent(event!, searchString: searchString) { (result, error) in
+                    self.users.removeAll()
+                    if(error == nil) {
+                        self.users.appendContentsOf(result)
+                        self.tableView.reloadData()
+                    }
+                }
+            } else if organization != nil {
+                UserManager().findUsersToInviteToOrganization(organization!, searchString: searchString) { (result, error) in
+                    self.users.removeAll()
+                    if(error == nil) {
+                        self.users.appendContentsOf(result)
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+        
+    
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchUserPredicate = NSPredicate(format: "name CONTAINS[c] %@", searchText)
-        filteredUsers = (users as NSArray).filteredArrayUsingPredicate(searchUserPredicate) as! [Users]
-        tableView.reloadData()
-        
-        if filteredUsers.count == 0  {
-            label.hidden = false
-        }
-        else {
-            label.hidden = true
-        }
-        if searchBar.text! == "" {
-            label.hidden = true
-        }
-        
+//        let searchUserPredicate = NSPredicate(format: "name CONTAINS[c] %@", searchText)
+//        filteredUsers = (users as NSArray).filteredArrayUsingPredicate(searchUserPredicate) as! [Users]
+//        tableView.reloadData()
+//        
+//        if filteredUsers.count == 0  {
+//            label.hidden = false
+//        }
+//        else {
+//            label.hidden = true
+//        }
+//        if searchBar.text! == "" {
+//            label.hidden = true
+//        }
+//        
     }
     
     // MARK: - UIScrollViewDelegate
@@ -214,23 +222,29 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     }
     
     func sendInvitationTouched(objectIndex: NSIndexPath) {
-        let user = searchBar.text == "" ? users[objectIndex.row] : filteredUsers[objectIndex.row]
+        //let user = searchBar.text == "" ? users[objectIndex.row] : filteredUsers[objectIndex.row]
+        let user = users[objectIndex.row]
         showActivityIndicator()
         if organization != nil {
+            print("sending org invite to \(user.name)")
             InvitationManager().sendInvitationInOrganization(user, organization: organization!) {[weak self] (success) in
                 self?.hideActivityIndicator()
                 if success {
-                    if self?.searchBar.text == "" {
-                        self?.users.removeAtIndex(objectIndex.row)
-                    } else {
-                        self?.filteredUsers.removeAtIndex(objectIndex.row)
-                    }
+                    print("success")
+//                    if self?.searchBar.text == "" {
+//                        self?.users.removeAtIndex(objectIndex.row)
+//                    } else {
+//                        self?.filteredUsers.removeAtIndex(objectIndex.row)
+//                    }
+                    
+                    self?.users.removeAtIndex(objectIndex.row)
                     self?.tableView.deleteRowsAtIndexPaths([objectIndex], withRowAnimation: .Left)
                     
                     if let deviceID = user.getProperty("deviceID") as? String {
+                    
                         self!.publishMessageAsPushNotificationSync(UserManager().currentUser().name! + " Invited you to join " + self!.organization!.name!, deviceId: deviceID)
                     }
-
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -238,20 +252,24 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
         if event != nil {
             InvitationManager().sendInvitationOnEvent(user, event: event!, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()
-                
+                print("in send invite")
                 if success {
-                    if self?.searchBar.text == "" {
-                        self?.users.removeAtIndex(objectIndex.row)
-                    } else {
-                        self?.filteredUsers.removeAtIndex(objectIndex.row)
-                    }
+                    print("send invite successful")
+//                    if self?.searchBar.text == "" {
+//                        self?.users.removeAtIndex(objectIndex.row)
+//                    } else {
+//                        self?.filteredUsers.removeAtIndex(objectIndex.row)
+//                    }
+                    self?.users.removeAtIndex(objectIndex.row)
                     self?.tableView.deleteRowsAtIndexPaths([objectIndex], withRowAnimation: .Left)
                     
                     let selectedUser = UserManager().currentUser().name
                     
                     if let deviceID = user.getProperty("deviceID") as? String {
+                        print("sending to device id: \(deviceID)")
                         self!.publishMessageAsPushNotificationSync(selectedUser! + " invited you to an event", deviceId: deviceID)
                     }
+                    self?.tableView.reloadData()
                 }
             })
         }
