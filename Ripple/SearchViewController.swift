@@ -16,12 +16,17 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     @IBOutlet weak var tableView: UITableView!
     
+    var allEventsPlan = [Dictionary<String, AnyObject>]()
     var users = [Users]()
     var organizations = [Organizations]()
     var filteredUsers = [Users]()
     var filteredOrganizations = [Organizations]()
+    var events = [RippleEvent]()
     var filteredEvents = [RippleEvent]()
-    var label = UILabel()
+    //var label = UILabel()
+    
+    @IBOutlet weak var segmentedController: UISegmentedControl!
+    //@IBOutlet weak var searchBar: UISearchBar!
     
     var searchBar: UISearchBar = UISearchBar()
     
@@ -35,19 +40,20 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     var usersCollection: BackendlessCollection?
     var organizationsCollection: BackendlessCollection?
+    var eventsCollection: BackendlessCollection?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareSearchBar()
         prepareTableView()
-        label.font = label.font.fontWithSize(30)
-        label.textColor = UIColor.whiteColor()
-        label.text = NSLocalizedString("NoResults", comment: "NoResults")
-        label.sizeToFit()
-        label.center.x = (tableView.superview?.center.x)!
-        label.center.y = (tableView.superview?.center.y)!
-        self.view.addSubview(label)
-        label.hidden = true
+//        label.font = label.font.fontWithSize(30)
+//        label.textColor = UIColor.whiteColor()
+//        label.text = NSLocalizedString("NoResults", comment: "NoResults")
+//        label.sizeToFit()
+//        label.center.x = (tableView.superview?.center.x)!
+//        label.center.y = (tableView.superview?.center.y)!
+//        self.view.addSubview(label)
+//        label.hidden = true
         //searchBar.placeholder = NSLocalizedString("Search", comment: "Search")
         
         prepareData()
@@ -99,14 +105,15 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         tableView.registerNib(nibLoadingCell, forCellReuseIdentifier: "LoadingCell")
         let nibFollowingCell = UINib(nibName: "FollowingTableViewCell", bundle: nil)
         tableView.registerNib(nibFollowingCell, forCellReuseIdentifier: "FollowingCell")
-        let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
-        tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
+//        let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
+//        tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
     }
     //added loadunfolloworg and hide activity indicator
     func prepareData() {
         showActivityIndicator()
         loadUnfollowUsers()
         loadUnfollowOrganizations()
+        loadEvents()
         hideActivityIndicator()
         
     }
@@ -116,6 +123,23 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             self.tableView.reloadData()
             return
         }
+        
+        EventManager().allEvents({ (result) in
+            self.events = result
+           // self.events = events
+//            for sectionObject in self.allEventsPlan {
+//                self.events.removeAll()
+//                let event = sectionObject["events"] as! [RippleEvent]
+//                
+//                for ev in event {
+//                    if  ev.isPrivate == false {
+//                        self.events.append(ev)
+//                        }
+//                }
+//        }
+        })
+           self.allEventsLoaded = true
+        self.tableView.reloadData()
     }
     
     //FacebookSDK stuff in here, add more to it later
@@ -127,7 +151,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
         
         let params = ["fields": "name, user_friends, uid", ]
-        let graphRequest = FBSDKGraphRequest(graphPath: "me/taggable_friends", parameters: params)
+        let graphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: params)
         
         UserManager().loadUnfollowUsers(usersCollection) { [weak self] (users, collection, error) in
             if users != nil && users!.count > 0 {
@@ -173,6 +197,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     dispatch_async(dispatch_get_main_queue()) {
                         self?.tableView.reloadData()
                     }
+                    self?.allUsersLoaded = true
+
                 }
                 
             } else {
@@ -228,8 +254,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         searchBar.resignFirstResponder()
         filteredEvents.removeAll()
         searchMode = false
-        tableView.hidden = false
-        label.hidden = true
+        //tableView.hidden = false
+       // label.hidden = true
         tableView.reloadData()
         
     }
@@ -240,6 +266,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         tableView.userInteractionEnabled = false
         filteredUsers.removeAll()
         filteredOrganizations.removeAll()
+        filteredEvents.removeAll()
     
         if (searchBar.text != nil && searchBar.text!.characters.count > 0) {
             UserManager().searchUsers(searchBar.text!, completion: {[weak self] (users, error) in
@@ -254,17 +281,19 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                         self?.filteredOrganizations = organizations!
                     }
                     
-                    self?.tableView.reloadData()
-                    EventManager().searchEventsByName(searchBar.text!) { (events) in
+                  
+                    EventManager().searchEventsByName(searchBar.text!, completion:  { (events) in
                         
                         self?.filteredEvents.appendContentsOf(events)
                         self?.tableView.reloadData()
                         
-                        if (self?.filteredOrganizations.count < 1 && self?.filteredUsers.count < 1 && self?.filteredEvents.count < 1) {
-                            self?.tableView.hidden = true
-                            self?.label.hidden = false
+                        if (events.count != 0) {
+                            self?.filteredEvents = events
+                            //self?.tableView.hidden = true
+                           // self?.label.hidden = false
                         }
-                    }
+                          self?.tableView.reloadData()
+                    })
 
                 })
             })
@@ -274,27 +303,26 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     // MARK: - Table view data source
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3;
-    }
+//    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        return 3;
+//    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if segmentedController.selectedSegmentIndex == 0 {
             if searchMode {
                 return filteredUsers.count
             }
             return users.count == 0 || allUsersLoaded ? users.count : users.count + 1
-        } else if (section == 1) {
+        } else if (segmentedController.selectedSegmentIndex == 1) {
             if searchMode {
                 return filteredOrganizations.count
             }
             return allOrganizationsLoaded || !allUsersLoaded ? organizations.count : organizations.count + 1
         } else {
-            if(filteredEvents.count > 0) {
-                tableView.hidden = false
-                label.hidden = true
+            if(searchMode) {
+               return filteredEvents.count
             }
-            return filteredEvents.count
+            return events.count == 0 || allEventsLoaded ? events.count : events.count + 1
         }
     }
     //Not here
@@ -302,13 +330,13 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
         //Possible memory leak here?
         cell.descriptionLabel.text = ""
-        if indexPath.section == 0 {
-            if (indexPath.row >= users.count) {
-                loadUnfollowUsers()
-                let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
-                cell.activityIndicator.startAnimating()
-                return cell
-            }
+        if (segmentedController.selectedSegmentIndex) == 0 {
+//            if (indexPath.row >= users.count) {
+//                loadUnfollowUsers()
+//                let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
+//                cell.activityIndicator.startAnimating()
+//                return cell
+//            }
             let user = searchMode ? filteredUsers[indexPath.row] : users[indexPath.row]
             cell.titleLabel.text = user.name
             if let picture = user.picture {
@@ -316,13 +344,13 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             } else {
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
             }
-        } else if (indexPath.section == 1) {
-            if (indexPath.row >= organizations.count) {
-                loadUnfollowOrganizations()
-                let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
-                cell.activityIndicator.startAnimating()
-                return cell
-            }
+        } else if (segmentedController.selectedSegmentIndex == 1) {
+//            if (indexPath.row >= organizations.count) {
+//                loadUnfollowOrganizations()
+//                let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
+//                cell.activityIndicator.startAnimating()
+//                return cell
+//            }
             
             let organization = searchMode ? filteredOrganizations[indexPath.row] : organizations[indexPath.row]
             cell.titleLabel.text = organization.name
@@ -333,7 +361,15 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
             }
         } else {
-            let event = filteredEvents[indexPath.row]
+            
+//            if (indexPath.row >= events.count) {
+//                loadEvents()
+//                let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! LoadingTableViewCell
+//                cell.activityIndicator.startAnimating()
+//                return cell
+//            }
+            
+            let event = searchMode ? filteredEvents[indexPath.row] : events[indexPath.row]
             cell.titleLabel.text = event.name
             if let picture = event.picture {
 
@@ -362,33 +398,35 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
-        var headerText:String
-        if(section == 0) {
-            headerText = NSLocalizedString("Suggested Friends", comment: "Suggested Friends")
-        } else if (section == 1) {
-            headerText = NSLocalizedString("Organizations", comment: "Organizations")
-        } else {
-            headerText = "Events"
-        }
-        header.titleHeader.text = headerText
-        return header
-    }
+    //come back to to seperate suggested friends from everyone
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footer = UIView()
-        footer.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
-        return footer
-    }
+//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
+//        var headerText:String
+//        if(segmentedController.selectedSegmentIndex == 0) {
+//            headerText = NSLocalizedString("Suggested Friends", comment: "Suggested Friends")
+//        } else if (segmentedController.selectedSegmentIndex == 1) {
+//            headerText = NSLocalizedString("Organizations", comment: "Organizations")
+//        } else {
+//            headerText = "Events"
+//        }
+//        header.titleHeader.text = headerText
+//        return header
+//    }
+//    
+//    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let footer = UIView()
+//        footer.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 243/255, alpha: 1)
+//        return footer
+//    }
+//    
+//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 14
+//    }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 14
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 32
-    }
+//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 32
+//    }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let cell = tableView.dequeueReusableCellWithIdentifier("FollowingCell") as! FollowingTableViewCell
@@ -398,7 +436,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.view.userInteractionEnabled = false
         
-        if indexPath.section == 1 {
+        if segmentedController.selectedSegmentIndex == 1 {
             if (filteredOrganizations.count != 0) {
                 showOrganizationProfileViewController(filteredOrganizations[indexPath.row], isNewOrg: false, fromInvite: false)
             } else {
@@ -408,7 +446,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                 }
                 showOrganizationProfileViewController(organizations[indexPath.row], isNewOrg: false, fromInvite: false)
             }
-        } else if(indexPath.section == 0) {
+        } else if(segmentedController.selectedSegmentIndex == 0) {
             if (filteredUsers.count != 0) {
                 showProfileViewController(filteredUsers[indexPath.row], delegate: self)
             } else {
@@ -418,6 +456,9 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         } else {
             if(filteredEvents.count != 0) {
                 showEventDescriptionViewController(filteredEvents[indexPath.row])
+            }
+            else {
+                showEventDescriptionViewController(events[indexPath.row])
             }
         }
     }
@@ -452,7 +493,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     func followingOnObject(indexObject: NSIndexPath) {
         showActivityIndicator()
-        if indexObject.section == 0 {
+        if segmentedController.selectedSegmentIndex == 0 {
             let user = searchMode ? filteredUsers[indexObject.row] : users[indexObject.row]
             UserManager().followingOnUser(user, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()
@@ -465,7 +506,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
                     self?.tableView.deleteRowsAtIndexPaths([indexObject], withRowAnimation: .Left)
                 }
             })
-        } else if(indexObject.section == 1){
+        } else if(segmentedController.selectedSegmentIndex == 1){
             let organization = searchMode ? filteredOrganizations[indexObject.row] : organizations[indexObject.row]
             UserManager().followOnOrganization(organization, completion: {[weak self] (success) in
                 self?.hideActivityIndicator()
@@ -483,5 +524,8 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
     
     @IBAction func backTouched(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
+    }
+    @IBAction func segmentedControlValueChaged(sender: AnyObject) {
+        tableView.reloadData()
     }
 }
