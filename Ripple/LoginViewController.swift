@@ -276,6 +276,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                 }
             }
         } else {
+            self.hideActivityIndicator()
             self.hideWaitView()
         }
         
