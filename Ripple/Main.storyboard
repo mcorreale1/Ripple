@@ -230,20 +230,20 @@
             </objects>
             <point key="canvasLocation" x="966" y="-2301"/>
         </scene>
-        <!--Search View Controller-->
+        <!--View Controller-->
         <scene sceneID="r8p-lX-Yeb">
             <objects>
-                <viewController storyboardIdentifier="SearchVC" id="Czh-fo-BX8" customClass="SearchViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Czh-fo-BX8" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="huz-Xq-MdB"/>
                         <viewControllerLayoutGuide type="bottom" id="hzu-yy-icF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Dd9-zJ-MyB">
-                        <rect key="frame" x="0.0" y="64" width="320" height="554"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7tz-JJ-bbs">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="554"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Czh-fo-BX8" id="TzK-Kk-Fvj"/>
@@ -261,29 +261,32 @@
                     <navigationItem key="navigationItem" id="3wR-Ed-gr7"/>
                     <connections>
                         <outlet property="tableView" destination="7tz-JJ-bbs" id="COI-Ug-5Ei"/>
-                        <segue destination="1nO-m9-eZv" kind="show" identifier="ShowSettings" id="7B0-QW-WEi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2wc-49-71C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3046" y="1112"/>
         </scene>
-        <!--View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="wN7-g8-HGs">
             <objects>
-                <viewController id="zHE-bc-nT9" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchVC" id="zHE-bc-nT9" customClass="SearchViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZfS-Og-8wc"/>
                         <viewControllerLayoutGuide type="bottom" id="JwX-ho-f39"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V1g-JJ-Y1o">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5PT-5y-w5o">
                                 <rect key="frame" x="0.0" y="111" width="375" height="556"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="zHE-bc-nT9" id="i6p-vG-X3O"/>
+                                    <outlet property="delegate" destination="zHE-bc-nT9" id="dnq-8R-d5p"/>
+                                </connections>
                             </tableView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPB-x5-RGC">
                                 <rect key="frame" x="0.0" y="20" width="375" height="92"/>
@@ -293,13 +296,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="FL5-C3-fq7">
-                                        <rect key="frame" x="0.0" y="4" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.99215686270000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="barTintColor" red="0.99215686270000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="l08-M2-rPQ">
                                         <rect key="frame" x="8" y="53" width="359" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -309,6 +305,9 @@
                                             <segment title="Events"/>
                                         </segments>
                                         <color key="tintColor" red="0.99215686270000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="segmentedControlValueChaged:" destination="zHE-bc-nT9" eventType="valueChanged" id="6fo-fS-2k9"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -316,10 +315,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="segmentedController" destination="l08-M2-rPQ" id="x63-4p-LS0"/>
+                        <outlet property="tableView" destination="5PT-5y-w5o" id="Tbv-GY-vIm"/>
+                        <segue destination="1nO-m9-eZv" kind="show" id="t4S-Tl-bXq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGA-Do-LX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3724" y="1110.4947526236883"/>
+            <point key="canvasLocation" x="2114" y="1342"/>
         </scene>
         <!--Organization Profile View Controller-->
         <scene sceneID="34K-vU-ILx">
@@ -1795,7 +1799,7 @@ your face off.</string>
                         <outlet property="noEventLabel" destination="K2g-z6-FEK" id="AVD-oZ-PQC"/>
                         <outlet property="segmentedControl" destination="YOb-zb-BEY" id="XLy-Eq-X2Z"/>
                         <outlet property="tableView" destination="Ric-mL-RHz" id="zMU-z4-U47"/>
-                        <segue destination="Czh-fo-BX8" kind="show" identifier="SegueToSearchVC" id="GQM-Hn-fba"/>
+                        <segue destination="zHE-bc-nT9" kind="show" id="DGk-jQ-COQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7U4-Wh-Qwf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4389,9 +4393,9 @@ your face off.</string>
         <image name="user_dafault_picture" width="97" height="97"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="t4S-Tl-bXq"/>
         <segue reference="cqf-Jj-TNa"/>
         <segue reference="2U8-f9-lii"/>
-        <segue reference="7B0-QW-WEi"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.37866530710000001" green="0.075722264969999994" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

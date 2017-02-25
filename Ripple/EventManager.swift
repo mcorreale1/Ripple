@@ -285,7 +285,7 @@ class EventManager: NSObject {
     func allEvents(completion: ([RippleEvent]) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
-        options.related = ["organization"]
+        options.related = ["organization", "picture"]
         query.queryOptions = options
         query.whereClause = "endDate > '\(NSDate())' and isPrivate = 'false'"
         
@@ -306,9 +306,9 @@ class EventManager: NSObject {
     func searchEventsByName(name:String, completion: ([RippleEvent]) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
-        options.related = ["organization"]
+        options.related = ["organization", "picture"]
         query.queryOptions = options
-        query.whereClause = "isPrivate = 'false' and name like '%" + name + "%'"
+        query.whereClause = "isPrivate = 'false' and name like '%" + name + "%' and endDate > '\(NSDate())'"
         RippleEvent().dataStore().find(query, response: { (collection) in
             var events = collection.data as? [RippleEvent] ?? [RippleEvent]()
             collection.loadOtherPages() { (otherPageEvents) -> Void in
