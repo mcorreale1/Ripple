@@ -25,7 +25,8 @@ extension CDOrganization {
     @NSManaged var events: NSSet?
     @NSManaged var invitations: NSSet?
     @NSManaged var leader: CDUser?
-    @NSManaged var members: NSSet?
+    //@NSManaged var members: NSSet?
+    @NSManaged var membersOf: NSSet?
     @NSManaged var picture: CDPicture?
     @NSManaged var reports: NSSet?
 

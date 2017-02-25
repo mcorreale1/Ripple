@@ -47,14 +47,21 @@ class OrganizationParcer : NSObject {
         }
         cdOrganization!.events = cdEvents
         
-        
-        let cdMembers = Set<CDUser>()
+        let cdMembersOf = Set<CDUser>()
+        if let members = organization.getMembersOfUsers() {
+            for member in members {
+                UserParcer().fetchCoreDataEntity(fromUser: member, withContext: context)
+            }
+        }
+        cdOrganization!.membersOf = cdMembersOf
+    
+        //let cdMembers = Set<CDUser>()
 //        for member in organization.members {
 //            if let cdMember = UserParcer().fetchCoreDataEntity(fromUser: member, withContext: context) {
 //                cdMembers.insert(cdMember)
 //            }
 //        }
-        cdOrganization!.members = cdMembers
+//        cdOrganization!.members = cdMembers
         
         let cdAdmins = Set<CDUser>()
 //        for admin in organization.admins {
@@ -95,7 +102,7 @@ class OrganizationParcer : NSObject {
         }
 //        organization.admins = admins
         
-        var members = [Users]()
+        //var members = [Users]()
 //        if let membersSet = cdOrganization.members?.allObjects {
 //            if let cdMembersSet = membersSet as? [CDUser] {
 //                for cdMember in cdMembersSet {
@@ -104,6 +111,14 @@ class OrganizationParcer : NSObject {
 //            }
 //        }
 //        organization.members = members
+        var membersOf = [BackendlessUser]()
+        if let membersSet = cdOrganization.membersOf {
+            if let cdMembersOfSet = membersSet as? [CDUser] {
+                for cdUser in cdMembersOfSet {
+                    membersOf.append(UserParcer().fetchBackendlessEntity(fromCDUser: cdUser))
+                }
+            }
+        }
         
         var events = [RippleEvent]()
         if let eventsSet = cdOrganization.events?.allObjects {

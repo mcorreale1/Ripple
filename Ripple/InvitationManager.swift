@@ -88,7 +88,6 @@ class InvitationManager: NSObject {
     }
     
     func acceptInvitation(invitation: Invitation, completion: (Bool) -> Void) {
-        
         if let typeInvitation = invitation.type {
             switch typeInvitation {
             case Invitation.typeInvitation.organization.rawValue:

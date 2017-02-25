@@ -205,7 +205,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                         let name2 = user2.name
                         return name1?.lowercaseString < name2?.lowercaseString
                     }
-                    self?.organization!.membersOf = result!
+                    //self?.organization!.membersOf = result!
                     self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
                 }
                 self?.tableView.reloadData()
