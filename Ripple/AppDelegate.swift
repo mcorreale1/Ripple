@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
    
-    
+ /* this was origional
     func loginComplete( completion:(Bool)->Void) {
         UserManager().initMe { (success) in
             if(!success) {
@@ -64,8 +64,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    
+   */ // this is new for onboarding
+ func loginComplete( completion:(Bool)->Void) {
+ UserManager().initMe { (success) in
+ if(!success) {
+ completion(false)
+ return
+ }
+ //If fail, stay on loginView
+ let storyboard = UIStoryboard(name: "Main", bundle: nil)
+ let onboardingPagerController = storyboard.instantiateViewControllerWithIdentifier("OnboardingPager")
+ self.window?.rootViewController = onboardingPagerController
+ //self.tabBarSelectIndex(2)
+self.onboardingPagerIndex()
+ //self.subscribe()
+ //MessagesManager.sharedInstance.subscribeToMyChannel()
+ UserManager().followUsersWithConfirmedRequest(withCompletion: {() -> Void in } )
+ //Backendless.sharedInstance().userService.setPersistentUser()
+ self.loginToFacebook()
+ self.registerForRemoteNotifications()
+ print("is regged for remote: \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
+ completion(true)
+ }
+ }
+ 
+ 
+ 
+ 
+ 
+ 
     func loginToFacebook() {
-        
+ 
         if(FBSDKAccessToken.currentAccessToken() == nil) {
             if let authData = UserManager().currentUser().authData {
                 if let token = tokenFromAuthData(authData) {
@@ -97,6 +127,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let mainTabBarController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! BaseTabBarViewController
         window?.rootViewController = mainTabBarController
         mainTabBarController.selectedIndex = index
+    }
+    // jesse
+    func onboardingPagerIndex() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let onboardingPagerController = storyboard.instantiateViewControllerWithIdentifier("OnboardingPager") as! OnboardingPager
+        window?.rootViewController = onboardingPagerController
+    // jesse
+ 
     }
     
     func toLogin() {
