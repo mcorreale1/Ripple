@@ -91,6 +91,12 @@
 		84C655211D953986004640C2 /* ProfilePictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C655201D953986004640C2 /* ProfilePictureButton.swift */; };
 		84DAE64D1D957FF00092A83F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAE64C1D957FF00092A83F /* Extensions.swift */; };
 		84DAE64E1D957FF00092A83F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAE64C1D957FF00092A83F /* Extensions.swift */; };
+		92311B7C1E5F2AB4007E5B77 /* OnboardingPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7B1E5F2AB4007E5B77 /* OnboardingPager.swift */; };
+		92311B7E1E5F355C007E5B77 /* StepZero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7D1E5F355C007E5B77 /* StepZero.swift */; };
+		92311B801E5F3581007E5B77 /* StepOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7F1E5F3581007E5B77 /* StepOne.swift */; };
+		92311B821E5F359B007E5B77 /* StepTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B811E5F359B007E5B77 /* StepTwo.swift */; };
+		92311B841E5F35B6007E5B77 /* StepThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B831E5F35B6007E5B77 /* StepThree.swift */; };
+		92311B861E5F35CD007E5B77 /* StepFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B851E5F35CD007E5B77 /* StepFour.swift */; };
 		A81E41A61DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E41981DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift */; };
 		A81E41A71DF83D58008DBA7A /* CDInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E41991DF83D58008DBA7A /* CDInvitation.swift */; };
 		A81E41A81DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E419A1DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift */; };
@@ -259,6 +265,12 @@
 		8454A2B11DA6BF7D00296EF2 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		84C655201D953986004640C2 /* ProfilePictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureButton.swift; sourceTree = "<group>"; };
 		84DAE64C1D957FF00092A83F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		92311B7B1E5F2AB4007E5B77 /* OnboardingPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPager.swift; path = Ripple/OnboardingPager.swift; sourceTree = "<group>"; };
+		92311B7D1E5F355C007E5B77 /* StepZero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepZero.swift; path = Ripple/StepZero.swift; sourceTree = "<group>"; };
+		92311B7F1E5F3581007E5B77 /* StepOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepOne.swift; path = Ripple/StepOne.swift; sourceTree = "<group>"; };
+		92311B811E5F359B007E5B77 /* StepTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepTwo.swift; path = Ripple/StepTwo.swift; sourceTree = "<group>"; };
+		92311B831E5F35B6007E5B77 /* StepThree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepThree.swift; path = Ripple/StepThree.swift; sourceTree = "<group>"; };
+		92311B851E5F35CD007E5B77 /* StepFour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepFour.swift; path = Ripple/StepFour.swift; sourceTree = "<group>"; };
 		A81E41981DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDInvitation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A81E41991DF83D58008DBA7A /* CDInvitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInvitation.swift; sourceTree = "<group>"; };
 		A81E419A1DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDOrganization+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -526,6 +538,7 @@
 				18E7EB2E1D897CE2002B8278 /* Constants.swift */,
 				7C4CCB431B790E67002C1E2D /* AppDelegate.swift */,
 				5CD10E7F1D2FE11F0004C43C /* Views */,
+				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
 				5CD10E801D2FE1360004C43C /* Controllers */,
 				7C05D0A31D1EF4F50031CE58 /* Main.storyboard */,
 				7C4CCB4F1B790E67002C1E2D /* LaunchScreen.xib */,
@@ -584,6 +597,20 @@
 				84C655201D953986004640C2 /* ProfilePictureButton.swift */,
 			);
 			name = UIButton;
+			sourceTree = "<group>";
+		};
+		92311B7A1E5F2A6D007E5B77 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				92311B7B1E5F2AB4007E5B77 /* OnboardingPager.swift */,
+				92311B7D1E5F355C007E5B77 /* StepZero.swift */,
+				92311B7F1E5F3581007E5B77 /* StepOne.swift */,
+				92311B811E5F359B007E5B77 /* StepTwo.swift */,
+				92311B831E5F35B6007E5B77 /* StepThree.swift */,
+				92311B851E5F35CD007E5B77 /* StepFour.swift */,
+			);
+			name = Onboarding;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		94BB7D441DBA4106004F5E92 /* Messages */ = {
@@ -913,6 +940,7 @@
 				7C78050D1C4AA54E00DE9F53 /* CreateEventViewController.swift in Sources */,
 				5C205A411D476FD10079143B /* EventTableViewCell.swift in Sources */,
 				5CFBD9D41D33FED00018BDA5 /* ProfileFriendsViewController.swift in Sources */,
+				92311B7E1E5F355C007E5B77 /* StepZero.swift in Sources */,
 				5CD10E851D2FE5B80004C43C /* API.swift in Sources */,
 				1118B29B1D7DB52F00BD51CC /* EventParticipantsViewController.swift in Sources */,
 				A81E41A91DF83D58008DBA7A /* CDOrganization.swift in Sources */,
@@ -940,6 +968,7 @@
 				5C81AE551D48EE4C0004D6D7 /* CustomTableHeaderView.swift in Sources */,
 				5C81AE5E1D4905570004D6D7 /* OrganizationManager.swift in Sources */,
 				A81E41AB1DF83D58008DBA7A /* CDEvent.swift in Sources */,
+				92311B801E5F3581007E5B77 /* StepOne.swift in Sources */,
 				7C40C5381C3C42110090AF1E /* SettingsTermofUse.swift in Sources */,
 				A81E41AC1DF83D58008DBA7A /* CDPicture+CoreDataProperties.swift in Sources */,
 				A871630F1DF9A6FA00156D54 /* PictureParcer.swift in Sources */,
@@ -953,6 +982,7 @@
 				5C205A3C1D476A9B0079143B /* ProfilePictureImageView.swift in Sources */,
 				E0C80C061D925CC4005D9B6F /* SettingsChangePasswordViewController.swift in Sources */,
 				5C6F89351D4A0AFE005F177C /* ActionTableViewCell.swift in Sources */,
+				92311B841E5F35B6007E5B77 /* StepThree.swift in Sources */,
 				5C490FE01D3906990009C653 /* SettingsContactUsViewController.swift in Sources */,
 				68578E331DD1C7D5001F124D /* OrganizationProfileViewController.swift in Sources */,
 				A81E41A61DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift in Sources */,
@@ -973,6 +1003,7 @@
 				A89618791E03F19A001508AB /* MessagingSystem.swift in Sources */,
 				7CE873B21B9E0AEA005F7C1B /* RegistrationViewController.swift in Sources */,
 				5CFBD9D21D33F4F90018BDA5 /* ProfileViewController.swift in Sources */,
+				92311B821E5F359B007E5B77 /* StepTwo.swift in Sources */,
 				7C4CCB471B790E67002C1E2D /* Ripple.xcdatamodeld in Sources */,
 				5CA53D7F1D538514005EFFB6 /* EventsInDayViewController.swift in Sources */,
 				18E7EB2F1D897CE2002B8278 /* Constants.swift in Sources */,
@@ -981,6 +1012,7 @@
 				A89618731E03DAD5001508AB /* ChatMessage.swift in Sources */,
 				A87163111DF9A72600156D54 /* EventParcer.swift in Sources */,
 				18E7EB2B1D897796002B8278 /* MessagesContactListViewController.swift in Sources */,
+				92311B7C1E5F2AB4007E5B77 /* OnboardingPager.swift in Sources */,
 				A87163171DF9A7CB00156D54 /* ReportParcer.swift in Sources */,
 				A81E41B01DF83D58008DBA7A /* CDFollowingRequest+CoreDataProperties.swift in Sources */,
 				18A1AF641D7FF19400197BFC /* MessagingViewController.swift in Sources */,
@@ -995,6 +1027,7 @@
 				5C205A3A1D4764420079143B /* BaseTabBarViewController.swift in Sources */,
 				A87C6CD91DF5930900D80898 /* Users.swift in Sources */,
 				7C069B511E578F970064E280 /* ChooseYourOrg.swift in Sources */,
+				92311B861E5F35CD007E5B77 /* StepFour.swift in Sources */,
 				A87C6CE51DF59C5E00D80898 /* FollowingRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
