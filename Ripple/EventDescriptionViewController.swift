@@ -153,7 +153,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     func prepareViews() {
         title = event?.name ?? ""
         //navigationController?.navigationBar.tintColor = titleColor
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: titleColor]
+        //navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: titleColor]
         
         self.eventDescriptionLabel.numberOfLines = 0;
         self.eventDescriptionLabel.text = event!.descr
@@ -164,7 +164,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         self.nameOrganizationLabel.sizeToFit()
         self.eventNameLabel.text = event!.name!
         
-        let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(sendReport))
+        let rightButton = UIBarButtonItem(image: UIImage(named: "report_button"), style: .Plain, target: self, action: #selector(prepareActionSheet))
         rightButton.tintColor = titleColor
         navigationItem.rightBarButtonItem = rightButton
     }
@@ -225,12 +225,12 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         
     }
     
-    func sendReport() {
+    func prepareActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         //Fix editing events
         let userRole:TypeRoleUserInOrganization = OrganizationManager().roleInOrganization(UserManager().currentUser(), organization: org!)
         
-        if(userRole == .Member) {
+        if(userRole == .Admin || userRole == .Member || userRole == .Founder) {
             let inviteAction:UIAlertAction = UIAlertAction(title:"Send Invites", style: .Default) { action -> Void in
                 self.sendInvites()
             }

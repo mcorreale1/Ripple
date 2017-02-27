@@ -18,7 +18,6 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     var organization: Organizations?
     
     var users = [Users]()
-    var filteredUsers = [Users]()
     let label = UILabel()
     
     override func viewDidLoad() {
@@ -41,6 +40,11 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     }
     
     func prepareData() {
+        UserManager().usersFromFacebookFriends() { (result) in
+            if let fbFriends = result {
+                users.appendContentsOf(fbFriends)
+            }
+        }
         tableView.reloadData()
     }
     

@@ -263,6 +263,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         searchBar.resignFirstResponder()
         filteredEvents.removeAll()
         searchMode = false
+        
         //tableView.hidden = false
        // label.hidden = true
         tableView.reloadData()

@@ -776,7 +776,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                     }
                     else
                     {
-                    self?.showAlert("Following \(self?.selectedUser!.firstName!)", message: "You are now following \(self?.selectedUser!.name!)")
+                    self?.showAlert("Following \(self?.selectedUser!.firstName!)", message: "You are now following \(self!.selectedUser!.name!)")
                         let user = UserManager().currentUser().name
                         if let deviceID = self!.selectedUser!.getProperty("deviceID") as? String {
                             self!.publishMessageAsPushNotificationSync(user! + " is following you", deviceId: deviceID)

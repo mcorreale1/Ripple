@@ -97,6 +97,10 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
         
         let nibFollowingCell = UINib(nibName: "FollowingTableViewCell", bundle: nil)
         tableView.registerNib(nibFollowingCell, forCellReuseIdentifier: "FollowingCell")
+        
+        let nibSectionHeader = UINib(nibName: "CustomTableHeaderView", bundle: nil)
+        tableView.registerNib(nibSectionHeader, forHeaderFooterViewReuseIdentifier: "CustomTableHeaderView")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     }
     
     // MARK: - JTCalendarDelegate
@@ -274,6 +278,42 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
+    }
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//            return "Swipe left to view options"
+//        }
+//        return nil
+//    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if(section == 1) {
+            return nil
+        }
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
+        header.titleHeader.text = "Swipe left to view options"
+        header.titleHeader.numberOfLines = 1
+//        let privateUser = selectedUser!.isPrivate
+//        if privateUser && !isMe  && !followingUsers.contains(selectedUser!) {
+//            let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
+//            let myString = "This Account is Private."
+//            let myAttribute = [ NSFontAttributeName : UIFont.boldSystemFontOfSize(25) ]
+//            let myStr = NSMutableAttributedString(string: myString, attributes: myAttribute)
+//            let myAttrString1 = NSAttributedString(string: "\n Follow the user to see their Plans, Events and Organizations")
+//            myStr.appendAttributedString(myAttrString1)
+//            header.titleHeader.attributedText = myStr
+//            header.titleHeader.numberOfLines = 3
+//            return header
+//        }
+//        
+//        if orgsButton.selected || followingButton.selected && isMe && followingArray.count < 1 {
+//            return UIView()
+//        }
+//        
+//        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("CustomTableHeaderView") as! CustomTableHeaderView
+//        let sectionData = plansButton.selected ? plans[section] : followingArray[section]
+//        header.titleHeader.text = sectionData["title"] as? String
+        return header
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

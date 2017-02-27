@@ -29,6 +29,8 @@ class EventManager: NSObject {
         Gets a list of events for the given user coorisponding to the TypeEventsSection enum
         runs completion function on this list
     */
+    
+
     func eventPlansForUser(user: Users, isMe: Bool, completion:([Dictionary<String, AnyObject>]) -> Void)  {
         
         let query = BackendlessDataQuery()
@@ -110,6 +112,10 @@ class EventManager: NSObject {
         let query = BackendlessDataQuery()
         query.whereClause = "objectId = '\(organization.objectId)'"
         query.queryOptions = queryOptions
+        
+        if !(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: organization)) {
+            query.whereClause = query.whereClause + " and isPrivate = 'false'"
+        }
 
         Organizations().dataStore().find(query, response: { (collection) in
             let fetchedOrg = collection.data[0] as! Organizations

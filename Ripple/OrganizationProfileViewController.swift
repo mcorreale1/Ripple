@@ -98,7 +98,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                     let date2 = event2.startDate
                     return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
                 }
-                
                 self?.tableView.reloadData()
             }
         }
@@ -113,8 +112,8 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     // MARK: - Helpers
     
     private func prepareNavigationBar() {
-        navigationController?.navigationBar.tintColor = titleColor
-        navigationController?.navigationBar.barTintColor = .whiteColor()
+//        navigationController?.navigationBar.tintColor = titleColor
+        //navigationController?.navigationBar.barTintColor = .whiteColor()
         
         if editOrganization {
             let rightButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(self.saveTouched(_:)))
@@ -176,41 +175,78 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
                 self?.orgPicture = image
             })
         }
-//        if  orgEvents.isEmpty == true {
-        EventManager().eventsForOrganization(org) {[weak self] (events) in
-            self?.orgEvents.removeAll()
-            for event in events {
-                if event.endDate!.isGreaterOrEqualThen(NSDate()) && self!.orgEvents.contains(event) == false {
-                    if event.isPrivate {
-                        if(self!.isMember() || self!.isAdmin() || self!.isLeader()) {
+        
+        OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
+            self?.hideActivityIndicator()
+            if result != nil {
+                self?.orgMembers = result!
+                self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
+                    let name1 = user1.name
+                    let name2 = user2.name
+                    return name1?.lowercaseString < name2?.lowercaseString
+                }
+                //self?.organization!.membersOf = result!
+                self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
+            }
+            self?.tableView.reloadData()
+            
+            EventManager().eventsForOrganization(org) {[weak self] (events) in
+                self?.orgEvents.removeAll()
+                for event in events {
+                    if event.endDate!.isGreaterOrEqualThen(NSDate()) && self?.orgEvents.contains(event) == false {
+                        if event.isPrivate {
+                            if(self!.isMember() || self!.isAdmin() || self!.isLeader()) {
+                                self?.orgEvents.append(event)
+                            }
+                        } else {
                             self?.orgEvents.append(event)
                         }
-                    } else {
-                        self?.orgEvents.append(event)
                     }
                 }
-            }
-            self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
-                let date1 = event1.startDate
-                let date2 = event2.startDate
-                return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
-            }
-            
-            OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
+                self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
+                    let date1 = event1.startDate
+                    let date2 = event2.startDate
+                    return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
+                }
                 self?.hideActivityIndicator()
-                if result != nil {
-                    self?.orgMembers = result!
-                    self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
-                        let name1 = user1.name
-                        let name2 = user2.name
-                        return name1?.lowercaseString < name2?.lowercaseString
-                    }
-                    //self?.organization!.membersOf = result!
-                    self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
-                }
                 self?.tableView.reloadData()
             }
         }
+//
+//        EventManager().eventsForOrganization(org) {[weak self] (events) in
+//            self?.orgEvents.removeAll()
+//            for event in events {
+//                if event.endDate!.isGreaterOrEqualThen(NSDate()) && self!.orgEvents.contains(event) == false {
+//                    if event.isPrivate {
+//                        if(self!.isMember() || self!.isAdmin() || self!.isLeader()) {
+//                            self?.orgEvents.append(event)
+//                        }
+//                    } else {
+//                        self?.orgEvents.append(event)
+//                    }
+//                }
+//            }
+//            self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
+//                let date1 = event1.startDate
+//                let date2 = event2.startDate
+//                return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
+//            }
+//            
+//            OrganizationManager().membersOfOrganizations(org) { [weak self] (result) in
+//                self?.hideActivityIndicator()
+//                if result != nil {
+//                    self?.orgMembers = result!
+//                    self?.orgMembers.sortInPlace { (user1: Users, user2: Users) -> Bool in
+//                        let name1 = user1.name
+//                        let name2 = user2.name
+//                        return name1?.lowercaseString < name2?.lowercaseString
+//                    }
+//                    //self?.organization!.membersOf = result!
+//                    self?.memberCountLabel.text = String(result!.count) + " " + NSLocalizedString("Members", comment: "Members")
+//                }
+//                self?.tableView.reloadData()
+//            }
+//        }
     }
 
     private func getOrgMembers(org:Organizations) {
