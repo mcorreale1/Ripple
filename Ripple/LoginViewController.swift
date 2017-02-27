@@ -54,6 +54,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
         autoLogin()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         signFBButton.titleLabel?.text = NSLocalizedString("Log in with Facebook", comment: "Log in with Facebook")
+        self.showUserAgree()
         
     }
     
@@ -64,7 +65,6 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
     look at the privacy policy/terms of use
     */
     override func viewWillAppear(animated: Bool) {
-        self.showUserAgree()
     }
     //User is on "wait" i.e. loading screen
     func showWaitView() {
@@ -138,7 +138,7 @@ class LoginViewController: BaseViewController, UITextFieldDelegate, QLPreviewCon
                 self.presentViewController(preview, animated: false, completion: nil)
             }))
             refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default   , handler: { (action: UIAlertAction!) in
-                UserManager().launchedBefore = true
+                //UserManager().launchedBefore = true
             }))
             
             presentViewController(refreshAlert, animated: true, completion: nil)

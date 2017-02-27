@@ -148,67 +148,76 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             self.tableView.reloadData()
             return
         }
-    
-        
-        let params = ["fields": "name, user_friends, uid", ]
-        let graphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: params)
-        
-        UserManager().loadUnfollowUsers(usersCollection) { [weak self] (users, collection, error) in
-            if users != nil && users!.count > 0 {
-                AppDelegate().loginToFacebook()
-                var facebookFriendNames = [String]()
-                _ = graphRequest.startWithCompletionHandler() { [weak self] (connection, result, error) in
-                    if(error != nil) {
-                        print("Error \(error.description)")
-                        return
-                    }
-                    print("Print fbsdk result \(result)")
-                    
-                    if let dictionary = result as? NSDictionary {
-                        if let friendsArray = dictionary["data"] as! [AnyObject]? {
-                            for rawFriend in friendsArray {
-                                let friend = rawFriend as! NSDictionary
-                                let name = friend["name"] as! String
-
-                                facebookFriendNames.append(name)
-                            }
-                        }
-                    }
-                    print("Friends array \(facebookFriendNames)")
-                    
-                    var FBFriends = [Users]()
-                    var otherFriends = [Users]()
-                    for user in users! {
-                        for currentUser in (self?.users)! {
-                            if (user.name == currentUser.name) {
-                                self?.allUsersLoaded = true
-                                return
-                            }
-                        }
-                        if(facebookFriendNames.contains(user.name!)) {
-                            print("Found friend!")
-                        }
-                        (facebookFriendNames.contains(user.name!)) ? FBFriends.append(user) : otherFriends.append(user)
-                    }
-                    FBFriends.appendContentsOf(otherFriends)
-                    
-                    self?.usersCollection = collection
-                    self?.users.appendContentsOf(FBFriends)
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.tableView.reloadData()
-                    }
-                    self?.allUsersLoaded = true
-
-                }
-                
-            } else {
+        UserManager().usersFromFacebookFriends(){ [weak self] (users) in
+            if users != nil {
+                self?.users.appendContentsOf(users!)
                 self?.allUsersLoaded = true
-                self?.usersCollection = nil
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.tableView.reloadData()
-                }
+                self?.tableView.reloadData()
             }
         }
+//
+//        UserManager().loadUnfollowUsers(usersCollection) { (users, collection, error) in
+//            if users != nil && users!.count > 0 {
+//                
+//            }
+//        }
+//        
+//        UserManager().loadUnfollowUsers(usersCollection) { [weak self] (users, collection, error) in
+//            if users != nil && users!.count > 0 {
+//                AppDelegate().loginToFacebook()
+//                var facebookFriendNames = [String]()
+//                _ = graphRequest.startWithCompletionHandler() { [weak self] (connection, result, error) in
+//                    if(error != nil) {
+//                        print("Error \(error.description)")
+//                        return
+//                    }
+//                    print("Print fbsdk result \(result)")
+//                    
+//                    if let dictionary = result as? NSDictionary {
+//                        if let friendsArray = dictionary["data"] as! [AnyObject]? {
+//                            for rawFriend in friendsArray {
+//                                let friend = rawFriend as! NSDictionary
+//                                let name = friend["name"] as! String
+//
+//                                facebookFriendNames.append(name)
+//                            }
+//                        }
+//                    }
+//                    print("Friends array \(facebookFriendNames)")
+//                    
+//                    var FBFriends = [Users]()
+//                    var otherFriends = [Users]()
+//                    for user in users! {
+//                        for currentUser in (self?.users)! {
+//                            if (user.name == currentUser.name) {
+//                                self?.allUsersLoaded = true
+//                                return
+//                            }
+//                        }
+//                        if(facebookFriendNames.contains(user.name!)) {
+//                            print("Found friend!")
+//                        }
+//                        (facebookFriendNames.contains(user.name!)) ? FBFriends.append(user) : otherFriends.append(user)
+//                    }
+//                    FBFriends.appendContentsOf(otherFriends)
+//                    
+//                    self?.usersCollection = collection
+//                    self?.users.appendContentsOf(FBFriends)
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        self?.tableView.reloadData()
+//                    }
+//                    self?.allUsersLoaded = true
+//
+//                }
+//                
+//            } else {
+//                self?.allUsersLoaded = true
+//                self?.usersCollection = nil
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    self?.tableView.reloadData()
+//                }
+//            }
+//        }
     }
     //something is wrong with this method, why is this one weak but not the others?
     private func loadUnfollowOrganizations() {
@@ -314,10 +323,11 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
             }
             return users.count == 0 || allUsersLoaded ? users.count : users.count + 1
         } else if (segmentedController.selectedSegmentIndex == 1) {
-            if searchMode {
-                return filteredOrganizations.count
-            }
-            return allOrganizationsLoaded || !allUsersLoaded ? organizations.count : organizations.count + 1
+            return searchMode ? filteredOrganizations.count : organizations.count
+//            if searchMode {
+//                return filteredOrganizations.count
+//            }
+//            return organizations.count == 0 || allOrganizationsLoaded ? organizations.count : organizations.count + 1
         } else {
             if(searchMode) {
                return filteredEvents.count
@@ -351,6 +361,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
 //                cell.activityIndicator.startAnimating()
 //                return cell
 //            }
+            print("search mode: \(searchMode), filteredOrg: \(filteredOrganizations.count), orgs\(organizations.count), indexPath: \(indexPath)")
             
             let organization = searchMode ? filteredOrganizations[indexPath.row] : organizations[indexPath.row]
             cell.titleLabel.text = organization.name

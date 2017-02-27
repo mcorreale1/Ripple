@@ -53,6 +53,7 @@ class UserManager: NSObject {
             if(bUser != nil && bUser.objectId == currentUser.objectId) {
                 print("Found bUser")
                 UserManager.me?.populateFromBackendlessUser(bUser)
+                self.loginToFacebook()
                 completion(true)
             } else {
                 completion(false)
@@ -247,6 +248,18 @@ class UserManager: NSObject {
                     }
                     completion(following)
                 })
+            }
+        }
+    }
+    
+    func loginToFacebook() {
+        if(FBSDKAccessToken.currentAccessToken() == nil) {
+            if let authData = UserManager().currentUser().authData {
+                if let token = tokenFromAuthData(authData) {
+                    if(FBSDKAccessToken.currentAccessToken() == nil) {
+                        Backendless.sharedInstance().userService.loginWithFacebookSDK(token, permissions: ["public_profile","user_friends"], fieldsMapping: [:], error: nil)
+                    }
+                }
             }
         }
     }
@@ -496,8 +509,55 @@ class UserManager: NSObject {
         }
     }
     
+    
+    func usersFromFacebookFriends(completion: ([Users]?) -> Void) {
+        if (FBSDKAccessToken.currentAccessToken() == nil) {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loginToFacebook()
+            }
+        }
+        var facebookFriendNames = [String]()
+        let params = ["fields": "name, user_friends, uid" ]
+        let graphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: params)
+        
+        _ = graphRequest.startWithCompletionHandler() { [weak self] (connection, result, error) in
+            if(error != nil) {
+                print("Error from facebook: \(error.description)")
+                completion(nil)
+                return
+            }
+            print("result from fb: \(result)")
+            guard let dictionary = result as? NSDictionary else {
+                completion(nil)
+                return
+            }
+            if let friendsArray = dictionary["data"] as! [AnyObject]? {
+                for rawFriend in friendsArray {
+                    let friend = rawFriend as! NSDictionary
+                    let name = friend["name"] as! String
+                    if !(UserManager().currentUser().friends.contains({$0.name == name})) {
+                        print("Adding to name array: \(name)")
+                        facebookFriendNames.append(name)
+                    }
+                }
+            }
+            let query = BackendlessDataQuery()
+            query.whereClause = query.getFieldInArraySQLQuery(field: "name", array: facebookFriendNames)
+            Users().dataStore().find(query, response: { (collection) in
+                let bUsers = collection.data as? [BackendlessUser] ?? [BackendlessUser]()
+                let users = UserManager().backendlessUsersToLocalUsers(bUsers, friends: false)
+                print("Found friends: \(users)")
+                completion(users)
+            }, error: { (error) in
+                print("error in getfbfriends: \(error)")
+                completion(nil)
+            })
+        }
+    }
+    
     // Loads a list of 30 users that are not being followed
     // runs completion on these users
+    // DEPRECATED
     func loadUnfollowUsers(collection: BackendlessCollection?, completion: ([Users]?, BackendlessCollection?, NSError?) -> Void) {
         if collection != nil {
             collection?.nextPageAsync({ (backendlessCollection) in
@@ -908,5 +968,23 @@ class UserManager: NSObject {
             num = num + 1
         }
         return users
+    }
+    
+    func tokenFromAuthData(authData:String) -> FBSDKAccessToken? {
+        var ary = authData.componentsSeparatedByString(",")
+        var tokenString = ary[0].componentsSeparatedByString(":")[2]
+        tokenString = tokenString.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        var rawDate = ary[1].componentsSeparatedByString("\":\"")[1]
+        rawDate = rawDate.stringByReplacingOccurrencesOfString("\"", withString: "")
+        let date = dateFormatter.dateFromString(rawDate)
+        
+        var id = ary[2].componentsSeparatedByString(":")[1]
+        id = id.stringByReplacingOccurrencesOfString("\"", withString: "")
+        id = id.stringByReplacingOccurrencesOfString("}", withString: "")
+        
+        let token = FBSDKAccessToken.init(tokenString: tokenString, permissions: ["public_profile", "user_friends"], declinedPermissions: [], appID: "145754419248122", userID: id, expirationDate: date, refreshDate: NSDate())
+        return token
     }
 }

@@ -285,11 +285,22 @@ class EventManager: NSObject {
     func allEvents(completion: ([RippleEvent]) -> Void) {
         let query = BackendlessDataQuery()
         let options = QueryOptions()
-        options.related = ["organization", "picture"]
+        options.related = ["organization", "picture", "Users[events]"]
         query.queryOptions = options
         query.whereClause = "endDate > '\(NSDate())' and isPrivate = 'false'"
         
+        let eventsBlackList = UserManager().currentUser().eventsBlackList
+        var objectIdEventsBlackList: [String] = []
+        for event in eventsBlackList {
+            objectIdEventsBlackList.append(event.objectId!)
+        }
+        let notInArray = query.getFieldInArraySQLQuery(field: "objectId", array: objectIdEventsBlackList, notModifier: true)
+        if(notInArray != "") {
+            query.whereClause = query.whereClause + notInArray
+        }
+        
         RippleEvent().dataStore().find(query, response: { (collection) in
+            print("allEvents Collection:\(collection)")
             var events = collection.data as? [RippleEvent] ?? [RippleEvent]()
             collection.loadOtherPages({ (otherPageEvents) -> Void in
                 if otherPageEvents != nil {
@@ -366,20 +377,6 @@ class EventManager: NSObject {
     }
     
     func updateEvent(organization: Organizations, event: RippleEvent, name: String, start: NSDate, end: NSDate, isPrivate: Bool, cost: Double, descr: String, address: String, city: String, location: String,  coordinate: CLLocationCoordinate2D, completion: (Bool, RippleEvent?) -> Void) {
-//        event.name = name
-//        event.startDate = start
-//        event.endDate = end
-//        event.isPrivate = isPrivate
-//        event.cost = cost
-//        event.address = address
-//        event.city = city
-//        event.location = location
-//        event.latitude = coordinate.latitude
-//        event.longitude = coordinate.longitude
-//        event.descr = description
-//        event.organization = organization
-//        event.picture = event.organization?.picture
-//        
         let query = BackendlessDataQuery()
         query.whereClause = "objectId = '\(event.objectId)'"
         if let ripEvent = RippleEvent().dataStore().find(query).data.first as? RippleEvent {
@@ -436,27 +433,12 @@ class EventManager: NSObject {
         for event in eventsBlackList {
             objectIdEventsBlackList.append(event.objectId!)
         }
-//        
-//        let query = BackendlessDataQuery()
-//        let options = QueryOptions()
-//        
-//        options.related = ["organization", "picture", "Users.events"]
-//        let whereString = "isPrivate = 'false' and endDate > '\(NSDate())'"
-//        query.queryOptions = options
-//        
-//        RippleEvent().dataStore().find(query, response: { (collection) in
-//            
-//            }, error: {(error) in })
-        
-        
-        
         
         let query = BackendlessDataQuery()
         let options = QueryOptions()
         options.related = ["events", "events.organization", "events.picture"]
-        
-        var whereString = "events is not null and events.startDate > '\(NSDate())' and events.isPrivate = 'false'"
-        let notInArray = query.getFieldInArraySQLQuery(field: "events.objectId", array: objectIdEventsBlackList, notModifier: true)
+        var whereString = "events is not null and events.endDate > '\(NSDate())' and events.isPrivate = 'false'"
+        let notInArray = query.getFieldInArraySQLQuery(field: "objectId", array: objectIdEventsBlackList, notModifier: true)
         if notInArray != "" {
             whereString += "and \(notInArray)"
         }
@@ -494,28 +476,6 @@ class EventManager: NSObject {
                     }
                     
                     var plans = [Dictionary<String, AnyObject>]()
-                    
-//                    let todayEvents = EventManager().eventsInDay(NSDate(), events: pulsingEvents, showPrivate: false)
-//                    if todayEvents.count > 0 {
-//                        let section = ["title" : TypeEventsSection.Today.rawValue,
-//                            "events" : todayEvents]
-//                        plans.append(section as! Dictionary<String, AnyObject>)
-//                    }
-//                    
-//                    let eventsThisWeek = EventManager().eventsThisWeek(pulsingEvents, showPrivate: false)
-//                    if eventsThisWeek.count > 0 {
-//                        let section = ["title" : TypeEventsSection.ThisWeek.rawValue,
-//                            "events" : eventsThisWeek]
-//                        plans.append(section as! Dictionary<String, AnyObject>)
-//                    }
-//                    
-//                    let eventsFuture = EventManager().eventsFuture(pulsingEvents, showPrivate: false)
-//                    if eventsFuture.count > 0 {
-//                        let section = ["title" : TypeEventsSection.Future.rawValue,
-//                            "events" : eventsFuture]
-//                        plans.append(section as! Dictionary<String, AnyObject>)
-//                    }
-//                    
                     let section = ["title": "All", "events": pulsingEvents]
                     plans.append(section as! Dictionary<String, AnyObject>)
                     completion(plans)

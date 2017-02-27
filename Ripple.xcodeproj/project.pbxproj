@@ -439,6 +439,7 @@
 		5CD10E801D2FE1360004C43C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
 				5CD10E811D2FE1430004C43C /* Base */,
 				94BB7D441DBA4106004F5E92 /* Messages */,
 				7C4CCB481B790E67002C1E2D /* LoginViewController.swift */,
@@ -538,7 +539,6 @@
 				18E7EB2E1D897CE2002B8278 /* Constants.swift */,
 				7C4CCB431B790E67002C1E2D /* AppDelegate.swift */,
 				5CD10E7F1D2FE11F0004C43C /* Views */,
-				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
 				5CD10E801D2FE1360004C43C /* Controllers */,
 				7C05D0A31D1EF4F50031CE58 /* Main.storyboard */,
 				7C4CCB4F1B790E67002C1E2D /* LaunchScreen.xib */,

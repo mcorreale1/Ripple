@@ -348,7 +348,11 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     // MARK: - Actions
     
     @IBAction func viewOrgButtonTouched(sender: AnyObject) {
-        showOrganizationProfileViewController(event!.organization, isNewOrg: false, fromInvite: false)
+        if(event?.organization != nil) {
+            showOrganizationProfileViewController(event!.organization, isNewOrg: false, fromInvite: false)
+        } else {
+            showAlert("Error", message: "There was a problem viewing the organization")
+        }
     }
 
     @IBAction func settingsTouched(sender: AnyObject) {
