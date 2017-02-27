@@ -279,12 +279,12 @@ class ScheduleViewController: BaseViewController, JTCalendarDelegate, UITableVie
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if section == 0 {
-//            return "Swipe left to view options"
-//        }
-//        return nil
-//    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Swipe left to view options"
+        }
+        return nil
+    }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if(section == 1) {

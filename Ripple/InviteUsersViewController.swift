@@ -42,7 +42,7 @@ class InviteUsersViewController: BaseViewController, UITableViewDataSource, UITa
     func prepareData() {
         UserManager().usersFromFacebookFriends() { (result) in
             if let fbFriends = result {
-                users.appendContentsOf(fbFriends)
+                self.users.appendContentsOf(fbFriends)
             }
         }
         tableView.reloadData()
