@@ -38,6 +38,11 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if(event!.organization == nil) {
+            getEventOrg()
+        } else {
+            self.org = event!.organization
+        }
         goingText = NSLocalizedString("Going", comment: "Going")
         tempEventInformation = EventManager().eventInformation(event!)
         tempEventInformation.removeAtIndex(0)
@@ -54,7 +59,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         }
         goText = NSLocalizedString("Go", comment: "Go")
         prepareTableView()
-        self.org = event!.organization
+        
         //tableView.allowsSelection = false
     }
     
@@ -76,6 +81,18 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
 //        
 //    }
 //    
+    
+    func getEventOrg() {
+        self.showActivityIndicator()
+        EventManager().eventOrganization(event!) { (result) in
+            self.hideActivityIndicator()
+            if let newEvent = result {
+                self.event?.picture = newEvent.picture
+                self.event?.organization = newEvent.organization
+                self.org = self.event!.organization
+            }
+        }
+    }
     
     func monthNumberToName() -> String {
         let value = event!.startDate?.monthNumber()

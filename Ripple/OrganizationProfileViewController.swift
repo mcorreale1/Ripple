@@ -91,7 +91,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
         self.tableView.reloadData()
         if isEventCreate {
             isEventCreate = false
-            EventManager().eventOrganization(organization!) {[weak self] (events) in
+            EventManager().eventsForOrganization(organization!) {[weak self] (events) in
                 self?.orgEvents = events
                 self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
                     let date1 = event1.startDate
@@ -177,7 +177,7 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
             })
         }
 //        if  orgEvents.isEmpty == true {
-        EventManager().eventOrganization(org) {[weak self] (events) in
+        EventManager().eventsForOrganization(org) {[weak self] (events) in
             self?.orgEvents.removeAll()
             for event in events {
                 if event.endDate!.isGreaterOrEqualThen(NSDate()) && self!.orgEvents.contains(event) == false {

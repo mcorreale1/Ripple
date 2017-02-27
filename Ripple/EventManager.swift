@@ -72,10 +72,34 @@ class EventManager: NSObject {
         })
     }
     
+    func eventOrganization(event: RippleEvent, completion:(RippleEvent?) -> Void) {
+        guard event.objectId != nil else {
+            completion(nil)
+            return
+        }
+        let query = BackendlessDataQuery()
+        let options = QueryOptions()
+        query.whereClause = "objectId = '\(event.objectId)'"
+        options.related = ["organization", "picture"]
+        query.queryOptions = options
+        
+        RippleEvent().dataStore().find(query, response: { (collection) in
+            guard let ripEvent = collection.data.first! as? RippleEvent else {
+                print("guard failed")
+                completion(nil)
+                return
+            }
+            completion(ripEvent)
+        }, error: { (error) in
+            print("erorr getting event org \(error.detail)")
+            completion(nil)
+        })
+    }
+    
     /*
         Gets a list of events for the given organization, then runs completion on them
     */
-    func eventOrganization(organization: Organizations, completion:([RippleEvent]) -> Void) {
+    func eventsForOrganization(organization: Organizations, completion:([RippleEvent]) -> Void) {
         guard organization.objectId != nil else {
             completion([RippleEvent]())
             return
