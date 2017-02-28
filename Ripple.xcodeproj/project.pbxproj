@@ -16,6 +16,7 @@
 		18E7EB2B1D897796002B8278 /* MessagesContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E7EB2A1D897796002B8278 /* MessagesContactListViewController.swift */; };
 		18E7EB2D1D897CD3002B8278 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E7EB2C1D897CD3002B8278 /* AppState.swift */; };
 		18E7EB2F1D897CE2002B8278 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E7EB2E1D897CE2002B8278 /* Constants.swift */; };
+		4C08EBEE1E6523FA00663590 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08EBED1E6523FA00663590 /* LocationSearchTable.swift */; };
 		4CD43DCC1E2BEDF200F67ECB /* FBLoginToken.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CD43DCB1E2BEDF200F67ECB /* FBLoginToken.plist */; };
 		5C029D101D4BAAD60083D3B9 /* PictureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C029D0F1D4BAAD60083D3B9 /* PictureManager.swift */; };
 		5C205A3A1D4764420079143B /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C205A391D4764410079143B /* BaseTabBarViewController.swift */; };
@@ -184,6 +185,7 @@
 		18E7EB2E1D897CE2002B8278 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		18E9E110646E38317257ADE6 /* Pods-Ripple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ripple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ripple/Pods-Ripple.release.xcconfig"; sourceTree = "<group>"; };
 		227F9F485309D5880D8BDD7A /* Pods-Ripple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ripple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ripple/Pods-Ripple.debug.xcconfig"; sourceTree = "<group>"; };
+		4C08EBED1E6523FA00663590 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		4CD43DCB1E2BEDF200F67ECB /* FBLoginToken.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FBLoginToken.plist; path = ../FBLoginToken.plist; sourceTree = "<group>"; };
 		5C029D0F1D4BAAD60083D3B9 /* PictureManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureManager.swift; sourceTree = "<group>"; };
 		5C205A391D4764410079143B /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
@@ -354,6 +356,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C08EBEC1E65239700663590 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				18DE971F1D992C9A00DD3C25 /* ChooseAddressViewController.swift */,
+				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
+				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
+				4C08EBED1E6523FA00663590 /* LocationSearchTable.swift */,
+			);
+			name = Events;
+			sourceTree = "<group>";
+		};
+		4C25C5221E661BF300E0ADB0 /* Depricated */ = {
+			isa = PBXGroup;
+			children = (
+				5CFBD9D51D34DEF10018BDA5 /* AddFriendsViewController.swift */,
+				5CFBD9D31D33FED00018BDA5 /* ProfileFriendsViewController.swift */,
+				7CE873B11B9E0AEA005F7C1B /* RegistrationViewController.swift */,
+			);
+			name = Depricated;
+			sourceTree = "<group>";
+		};
 		5913F0F82882ACBCFE954824 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,11 +462,12 @@
 		5CD10E801D2FE1360004C43C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4C25C5221E661BF300E0ADB0 /* Depricated */,
+				4C08EBEC1E65239700663590 /* Events */,
 				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
 				5CD10E811D2FE1430004C43C /* Base */,
 				94BB7D441DBA4106004F5E92 /* Messages */,
 				7C4CCB481B790E67002C1E2D /* LoginViewController.swift */,
-				7CE873B11B9E0AEA005F7C1B /* RegistrationViewController.swift */,
 				5CFBD9D11D33F4F90018BDA5 /* ProfileViewController.swift */,
 				5CA53D7C1D536F8A005EFFB6 /* ScheduleViewController.swift */,
 				5CA53D7E1D538514005EFFB6 /* EventsInDayViewController.swift */,
@@ -451,15 +475,10 @@
 				5CC5E41D1D59D28D0057EFAB /* WhatsPulsingViewController.swift */,
 				7C069B501E578F970064E280 /* ChooseYourOrg.swift */,
 				5CC5E4211D5A14D00057EFAB /* MapViewController.swift */,
-				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
-				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
-				5CFBD9D31D33FED00018BDA5 /* ProfileFriendsViewController.swift */,
-				5CFBD9D51D34DEF10018BDA5 /* AddFriendsViewController.swift */,
 				7CACF57E1C6CFB620022FE13 /* SearchViewController.swift */,
 				7C40C5391C3C437E0090AF1E /* Settings */,
 				5C18A0CB1D3FCE6900C045D0 /* Organization */,
 				5CF7F37B1D3CF74A006CCC9A /* EventSchedule */,
-				18DE971F1D992C9A00DD3C25 /* ChooseAddressViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1021,6 +1040,7 @@
 				A81E41AF1DF83D58008DBA7A /* CDReport.swift in Sources */,
 				182017831DA81A45005BCE84 /* PulseNotification.swift in Sources */,
 				18E7EB2D1D897CD3002B8278 /* AppState.swift in Sources */,
+				4C08EBEE1E6523FA00663590 /* LocationSearchTable.swift in Sources */,
 				5CA734D31D4B559B005F3832 /* EventDetailTableViewCell.swift in Sources */,
 				A87C6CDD1DF596D400D80898 /* RippleEvent.swift in Sources */,
 				68578E351DD1C7ED001F124D /* ReportManager.swift in Sources */,

@@ -191,7 +191,6 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 UserManager().followingForUser(self.selectedUser!, completion: {[weak self] (followings) in
                     self?.hideActivityIndicator()
                     self?.followingArray = followings
-
                     self?.tableView.reloadData()
                 })
             }

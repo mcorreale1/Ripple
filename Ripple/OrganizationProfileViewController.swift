@@ -64,13 +64,11 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
 
         or_addObserver(self, selector: #selector(onEventIsCreate), name: PulseNotification.PulseNotificationIsEventCreate.rawValue)
         prepareTableView()
-        
         prepareNavigationBar()
-        
+        prepareViews()
         if (editOrganization) {
             followButton.hidden = true
             showAlertEnterOrganizationName()
-            prepareViews()
         }
     }
     
@@ -89,18 +87,6 @@ class OrganizationProfileViewController: BaseViewController, UITableViewDataSour
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView.reloadData()
-        if isEventCreate {
-            isEventCreate = false
-            EventManager().eventsForOrganization(organization!) {[weak self] (events) in
-                self?.orgEvents = events
-                self?.orgEvents.sortInPlace { (event1: RippleEvent, event2: RippleEvent) -> Bool in
-                    let date1 = event1.startDate
-                    let date2 = event2.startDate
-                    return date1?.timeIntervalSince1970 < date2?.timeIntervalSince1970
-                }
-                self?.tableView.reloadData()
-            }
-        }
     }
     
     override func viewWillDisappear(animated: Bool) {

@@ -246,7 +246,7 @@
             <objects>
                 <navigationController storyboardIdentifier="LoginTabBarController" navigationBarHidden="YES" id="Tog-yn-M03" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="X7Y-Xx-E0H">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="X7Y-Xx-E0H">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1829,7 +1829,7 @@ your face off.</string>
                     </tabBarItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ZR5-es-BoN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="ZR5-es-BoN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -2000,7 +2000,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="GhT-aJ-Wwj"/>
                         <viewControllerLayoutGuide type="bottom" id="e4D-YQ-w1N"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XSs-Kd-ftK">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="XSs-Kd-ftK">
                         <rect key="frame" x="0.0" y="64" width="320" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2421,7 +2421,7 @@ your face off.</string>
             <objects>
                 <navigationController id="HxM-hR-mQ0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="GlobalIconMore" id="QlB-YR-Dt8"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="g5N-8x-J9X">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="g5N-8x-J9X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2753,7 +2753,7 @@ your face off.</string>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nGz-Ho-zL3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nGz-Ho-zL3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2808,7 +2808,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="wEX-aX-xRU"/>
                         <viewControllerLayoutGuide type="bottom" id="m4o-Hk-rae"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LRU-NJ-hw8">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="LRU-NJ-hw8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2846,7 +2846,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="mgt-km-EmT"/>
                         <viewControllerLayoutGuide type="bottom" id="22o-eZ-NiZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2N0-Pn-78G">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="2N0-Pn-78G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2975,7 +2975,7 @@ your face off.</string>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bQH-fy-It3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="bQH-fy-It3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2998,7 +2998,7 @@ your face off.</string>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="teR-d4-loZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="teR-d4-loZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -3111,7 +3111,7 @@ your face off.</string>
                         <viewControllerLayoutGuide type="top" id="IOR-8a-ytA"/>
                         <viewControllerLayoutGuide type="bottom" id="PQD-Gd-ltf"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="i6b-Xb-j3d">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="i6b-Xb-j3d">
                         <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

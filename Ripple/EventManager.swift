@@ -29,8 +29,6 @@ class EventManager: NSObject {
         Gets a list of events for the given user coorisponding to the TypeEventsSection enum
         runs completion function on this list
     */
-    
-
     func eventPlansForUser(user: Users, isMe: Bool, completion:([Dictionary<String, AnyObject>]) -> Void)  {
         
         let query = BackendlessDataQuery()
@@ -102,6 +100,7 @@ class EventManager: NSObject {
         Gets a list of events for the given organization, then runs completion on them
     */
     func eventsForOrganization(organization: Organizations, completion:([RippleEvent]) -> Void) {
+        /*
         guard organization.objectId != nil else {
             completion([RippleEvent]())
             return
@@ -114,7 +113,7 @@ class EventManager: NSObject {
         query.queryOptions = queryOptions
         
         if !(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: organization)) {
-            query.whereClause = query.whereClause + " and isPrivate = 'false'"
+            query.whereClause = query.whereClause + " and events.isPrivate = 'false'"
         }
 
         Organizations().dataStore().find(query, response: { (collection) in
@@ -131,6 +130,30 @@ class EventManager: NSObject {
         }, error: { (fault) in
             completion([RippleEvent]())
         })
+        */
+        guard organization.objectId != nil else {
+            completion([RippleEvent]())
+            return
+        }
+        
+        let queryOptions = QueryOptions()
+        queryOptions.related = ["organization", "picture"]
+        let query = BackendlessDataQuery()
+        query.whereClause = "organization.objectId = '\(organization.objectId)'"
+        query.queryOptions = queryOptions
+        
+        if !(OrganizationManager().userIsMemberOfOrganization(UserManager().currentUser(), organization: organization)) {
+            query.whereClause = query.whereClause + " and isPrivate = 'false'"
+        }
+        
+        RippleEvent().dataStore().find(query, response: {(collection) in
+            let events = collection.data as? [RippleEvent] ?? [RippleEvent]()
+            completion(events)  
+        }, error: { (error) in
+            print("Error in eventsForOrg: \(error)")
+            completion([RippleEvent()])
+        })
+        
     }
     
     /*
