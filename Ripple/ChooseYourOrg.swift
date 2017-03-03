@@ -24,6 +24,10 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
         
         self.tableView.registerNib(UINib.init(nibName: "OrganizationTableViewCell", bundle: nil), forCellReuseIdentifier: ChooseYourOrg.cellId)
         
+        let nibActionCell = UINib(nibName: "ActionTableViewCell", bundle: nil)
+        tableView.registerNib(nibActionCell, forCellReuseIdentifier: "ActionTableViewCell")
+        tableView.backgroundColor = UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
         OrganizationManager().organizationsForUser(UserManager().currentUser(), completion: {[weak self] (org) in
             self?.tempOrg = org
             if self?.tempOrg.count != 0{
@@ -47,13 +51,18 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
     
     // MARK: UITableViewDataSource
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return organizationArray?.count ?? 1
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return organizationArray?.count ?? 0
+            return organizationArray?.count ?? 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if organizationArray?.count != 0
+        if organizationArray != nil
         {
+            print("not here")
         let cell = tableView.dequeueReusableCellWithIdentifier(ChooseYourOrg.cellId) as! OrganizationTableViewCell
         let org = organizationArray![indexPath.row]
         
@@ -64,19 +73,31 @@ class ChooseYourOrg : BaseViewController, UITableViewDataSource, UITableViewDele
         
         return cell
         }
+        else
+        {
+        print("got here")
         let cell = tableView.dequeueReusableCellWithIdentifier("ActionTableViewCell") as! ActionTableViewCell
-        cell.titleLabel.text = NSLocalizedString("You must be in an organization to make events!", comment: "You must be in an organization to make events!")
+        cell.titleLabel.text = NSLocalizedString("Make an organization", comment: "Make an organization")
         
         return cell
+        }
     }
     
 
     // MARK: UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if organizationArray != nil
+        {
         if let org = organizationArray?[indexPath.row] {
             showCreateEventViewController(org)
         }
+        }
+        else
+        {
+        showOrganizationProfileViewController(nil, isNewOrg: true, fromInvite: false)
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
