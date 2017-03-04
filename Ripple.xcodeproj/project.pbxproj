@@ -98,7 +98,6 @@
 		92311B821E5F359B007E5B77 /* StepTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B811E5F359B007E5B77 /* StepTwo.swift */; };
 		92311B841E5F35B6007E5B77 /* StepThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B831E5F35B6007E5B77 /* StepThree.swift */; };
 		92311B861E5F35CD007E5B77 /* StepFour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B851E5F35CD007E5B77 /* StepFour.swift */; };
-		92B3F2731E6A627100901D2D /* CreateEventViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B3F2721E6A627100901D2D /* CreateEventViewController2.swift */; };
 		A81E41A61DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E41981DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift */; };
 		A81E41A71DF83D58008DBA7A /* CDInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E41991DF83D58008DBA7A /* CDInvitation.swift */; };
 		A81E41A81DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81E419A1DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift */; };
@@ -274,7 +273,6 @@
 		92311B811E5F359B007E5B77 /* StepTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepTwo.swift; path = Ripple/StepTwo.swift; sourceTree = "<group>"; };
 		92311B831E5F35B6007E5B77 /* StepThree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepThree.swift; path = Ripple/StepThree.swift; sourceTree = "<group>"; };
 		92311B851E5F35CD007E5B77 /* StepFour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepFour.swift; path = Ripple/StepFour.swift; sourceTree = "<group>"; };
-		92B3F2721E6A627100901D2D /* CreateEventViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController2.swift; sourceTree = "<group>"; };
 		A81E41981DF83D58008DBA7A /* CDInvitation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDInvitation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A81E41991DF83D58008DBA7A /* CDInvitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDInvitation.swift; sourceTree = "<group>"; };
 		A81E419A1DF83D58008DBA7A /* CDOrganization+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDOrganization+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -464,7 +462,6 @@
 		5CD10E801D2FE1360004C43C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				92B3F2711E6A624100901D2D /* CreateEvent */,
 				4C25C5221E661BF300E0ADB0 /* Depricated */,
 				4C08EBEC1E65239700663590 /* Events */,
 				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
@@ -633,14 +630,6 @@
 			);
 			name = Onboarding;
 			path = ..;
-			sourceTree = "<group>";
-		};
-		92B3F2711E6A624100901D2D /* CreateEvent */ = {
-			isa = PBXGroup;
-			children = (
-				92B3F2721E6A627100901D2D /* CreateEventViewController2.swift */,
-			);
-			name = CreateEvent;
 			sourceTree = "<group>";
 		};
 		94BB7D441DBA4106004F5E92 /* Messages */ = {
@@ -998,7 +987,6 @@
 				5C81AE551D48EE4C0004D6D7 /* CustomTableHeaderView.swift in Sources */,
 				5C81AE5E1D4905570004D6D7 /* OrganizationManager.swift in Sources */,
 				A81E41AB1DF83D58008DBA7A /* CDEvent.swift in Sources */,
-				92B3F2731E6A627100901D2D /* CreateEventViewController2.swift in Sources */,
 				92311B801E5F3581007E5B77 /* StepOne.swift in Sources */,
 				7C40C5381C3C42110090AF1E /* SettingsTermofUse.swift in Sources */,
 				A81E41AC1DF83D58008DBA7A /* CDPicture+CoreDataProperties.swift in Sources */,
