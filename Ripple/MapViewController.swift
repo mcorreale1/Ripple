@@ -163,13 +163,17 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
         if (roundedValue == 100.0) {
             roundedValue = 1000.0;
             countMilesLabel.text = "100+" + " " + strMiles
+            UserManager().radiusSearch = roundedValue
+            filteredEvents()
+            showPins()
         }
         else {
-        countMilesLabel.text = String(roundedValue) + " " + strMiles
+            countMilesLabel.text = String(roundedValue) + " " + strMiles
+            UserManager().radiusSearch = roundedValue
+            filteredEvents()
+            showPins()
         }
-        UserManager().radiusSearch = roundedValue
-        filteredEvents()
-        showPins()
+        
         print (roundedValue);
     }
     /*
