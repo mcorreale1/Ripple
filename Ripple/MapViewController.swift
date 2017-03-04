@@ -156,13 +156,21 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, MKMapVie
     
     //not connected or called anywhere, supposed to be used whenever the radius is changed the map will update
     @IBAction func sliderMilesValueChanged(sender: UISlider) {
-        let roundedValue = round(sender.value / stepSlider) * stepSlider
+        var roundedValue = round(sender.value / stepSlider) * stepSlider
         sender.value = roundedValue
         let strMiles = NSLocalizedString("miles", comment: "miles")
+    //sets the location radius to 1000 if put to 100+
+        if (roundedValue == 100.0) {
+            roundedValue = 1000.0;
+            countMilesLabel.text = "100+" + " " + strMiles
+        }
+        else {
         countMilesLabel.text = String(roundedValue) + " " + strMiles
+        }
         UserManager().radiusSearch = roundedValue
         filteredEvents()
         showPins()
+        print (roundedValue);
     }
     /*
     // MARK: - Navigation

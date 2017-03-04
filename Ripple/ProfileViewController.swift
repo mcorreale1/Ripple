@@ -144,7 +144,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
         
         if selectedUser!.descr == nil {
             if self.isMe{
-                self.userDescription.text = "Say something about yourself!"
+                self.userDescription.text = "Press edit to add a short description about yourself"
             } else {
                 self.userDescription.text = ""
             }
