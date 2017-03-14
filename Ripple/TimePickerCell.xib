@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="114"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LV7-3C-hDN" id="nt7-yd-Ebq">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="114"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="113"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="H6q-gX-rYP">

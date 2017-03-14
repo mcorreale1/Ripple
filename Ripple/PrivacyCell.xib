@@ -18,25 +18,27 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event is Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8y6-OJ-Pbg">
-                        <rect key="frame" x="8" y="11" width="117" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xul-4g-EM5">
                         <rect key="frame" x="314" y="6" width="51" height="31"/>
                         <color key="onTintColor" red="0.3803921569" green="0.074509803920000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event is Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8y6-OJ-Pbg">
+                        <rect key="frame" x="8" y="9" width="207" height="26"/>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="centerY" secondItem="IvI-XH-jE5" secondAttribute="centerY" id="6A2-vh-83e"/>
-                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="leading" secondItem="IvI-XH-jE5" secondAttribute="leadingMargin" id="daP-2p-BVF"/>
-                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="centerY" secondItem="Xul-4g-EM5" secondAttribute="centerY" id="phv-DD-28L"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Xul-4g-EM5" secondAttribute="trailing" constant="4" id="xD4-dp-aEl"/>
+                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="centerY" secondItem="IvI-XH-jE5" secondAttribute="centerY" id="D9W-Du-ODe"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Xul-4g-EM5" secondAttribute="trailing" constant="4" id="avU-Av-sie"/>
+                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="centerY" secondItem="Xul-4g-EM5" secondAttribute="centerY" id="cHg-51-EfG"/>
+                    <constraint firstItem="Xul-4g-EM5" firstAttribute="leading" secondItem="8y6-OJ-Pbg" secondAttribute="trailing" constant="99" id="dHS-jh-ELR"/>
+                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="bottom" secondItem="IvI-XH-jE5" secondAttribute="bottomMargin" id="hiy-eg-r7L"/>
+                    <constraint firstItem="8y6-OJ-Pbg" firstAttribute="leading" secondItem="IvI-XH-jE5" secondAttribute="leadingMargin" id="zMG-7x-nY6"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-26" y="1"/>
+            <point key="canvasLocation" x="-26.5" y="1"/>
         </tableViewCell>
     </objects>
 </document>
