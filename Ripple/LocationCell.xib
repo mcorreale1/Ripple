@@ -31,6 +31,10 @@
                         <rect key="frame" x="340" y="8" width="27" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="FacebookButton" translatesAutoresizingMaskIntoConstraints="NO" id="QJW-al-TNV">
+                        <rect key="frame" x="8" y="8" width="27" height="27"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="nHq-Xn-x9J" firstAttribute="top" secondItem="si1-gf-4OI" secondAttribute="topMargin" id="4es-iS-801"/>
@@ -43,5 +47,6 @@
     </objects>
     <resources>
         <image name="CompletedCell" width="12" height="12"/>
+        <image name="FacebookButton" width="229" height="45"/>
     </resources>
 </document>
