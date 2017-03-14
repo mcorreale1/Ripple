@@ -91,6 +91,14 @@
 		84C655211D953986004640C2 /* ProfilePictureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C655201D953986004640C2 /* ProfilePictureButton.swift */; };
 		84DAE64D1D957FF00092A83F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAE64C1D957FF00092A83F /* Extensions.swift */; };
 		84DAE64E1D957FF00092A83F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAE64C1D957FF00092A83F /* Extensions.swift */; };
+		921BB8841E78998D0023B63D /* EventTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB8831E78998D0023B63D /* EventTitle.xib */; };
+		921BB8861E789A010023B63D /* EventDiscriptionCollapsed.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB8851E789A010023B63D /* EventDiscriptionCollapsed.xib */; };
+		921BB8881E789A5F0023B63D /* EventDiscriptionExpanded.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB8871E789A5F0023B63D /* EventDiscriptionExpanded.xib */; };
+		921BB88A1E789B250023B63D /* DatePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB8891E789B250023B63D /* DatePickerCell.xib */; };
+		921BB88C1E789C0E0023B63D /* TimePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB88B1E789C0E0023B63D /* TimePickerCell.xib */; };
+		921BB88E1E789D1F0023B63D /* PrivacyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB88D1E789D1F0023B63D /* PrivacyCell.xib */; };
+		921BB8901E789DA80023B63D /* PriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB88F1E789DA80023B63D /* PriceCell.xib */; };
+		921BB8921E78ABE30023B63D /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921BB8911E78ABE30023B63D /* LocationCell.xib */; };
 		92311B7C1E5F2AB4007E5B77 /* OnboardingPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7B1E5F2AB4007E5B77 /* OnboardingPager.swift */; };
 		92311B7E1E5F355C007E5B77 /* StepZero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7D1E5F355C007E5B77 /* StepZero.swift */; };
 		92311B801E5F3581007E5B77 /* StepOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92311B7F1E5F3581007E5B77 /* StepOne.swift */; };
@@ -265,6 +273,14 @@
 		8454A2B11DA6BF7D00296EF2 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		84C655201D953986004640C2 /* ProfilePictureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureButton.swift; sourceTree = "<group>"; };
 		84DAE64C1D957FF00092A83F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		921BB8831E78998D0023B63D /* EventTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTitle.xib; sourceTree = "<group>"; };
+		921BB8851E789A010023B63D /* EventDiscriptionCollapsed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDiscriptionCollapsed.xib; sourceTree = "<group>"; };
+		921BB8871E789A5F0023B63D /* EventDiscriptionExpanded.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDiscriptionExpanded.xib; sourceTree = "<group>"; };
+		921BB8891E789B250023B63D /* DatePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerCell.xib; sourceTree = "<group>"; };
+		921BB88B1E789C0E0023B63D /* TimePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimePickerCell.xib; sourceTree = "<group>"; };
+		921BB88D1E789D1F0023B63D /* PrivacyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivacyCell.xib; sourceTree = "<group>"; };
+		921BB88F1E789DA80023B63D /* PriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceCell.xib; sourceTree = "<group>"; };
+		921BB8911E78ABE30023B63D /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
 		92311B7B1E5F2AB4007E5B77 /* OnboardingPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingPager.swift; path = Ripple/OnboardingPager.swift; sourceTree = "<group>"; };
 		92311B7D1E5F355C007E5B77 /* StepZero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepZero.swift; path = Ripple/StepZero.swift; sourceTree = "<group>"; };
 		92311B7F1E5F3581007E5B77 /* StepOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StepOne.swift; path = Ripple/StepOne.swift; sourceTree = "<group>"; };
@@ -439,6 +455,7 @@
 		5CD10E801D2FE1360004C43C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				921BB8821E7899590023B63D /* CreateEventTableViews */,
 				92311B7A1E5F2A6D007E5B77 /* Onboarding */,
 				5CD10E811D2FE1430004C43C /* Base */,
 				94BB7D441DBA4106004F5E92 /* Messages */,
@@ -597,6 +614,21 @@
 				84C655201D953986004640C2 /* ProfilePictureButton.swift */,
 			);
 			name = UIButton;
+			sourceTree = "<group>";
+		};
+		921BB8821E7899590023B63D /* CreateEventTableViews */ = {
+			isa = PBXGroup;
+			children = (
+				921BB8831E78998D0023B63D /* EventTitle.xib */,
+				921BB8851E789A010023B63D /* EventDiscriptionCollapsed.xib */,
+				921BB8871E789A5F0023B63D /* EventDiscriptionExpanded.xib */,
+				921BB8891E789B250023B63D /* DatePickerCell.xib */,
+				921BB88B1E789C0E0023B63D /* TimePickerCell.xib */,
+				921BB88D1E789D1F0023B63D /* PrivacyCell.xib */,
+				921BB88F1E789DA80023B63D /* PriceCell.xib */,
+				921BB8911E78ABE30023B63D /* LocationCell.xib */,
+			);
+			name = CreateEventTableViews;
 			sourceTree = "<group>";
 		};
 		92311B7A1E5F2A6D007E5B77 /* Onboarding */ = {
@@ -831,8 +863,12 @@
 			files = (
 				E5B549231DF173380063570A /* LoadingTableViewCell.xib in Resources */,
 				5C6F89361D4A0AFE005F177C /* ActionTableViewCell.xib in Resources */,
+				921BB88E1E789D1F0023B63D /* PrivacyCell.xib in Resources */,
 				7C2F7FE71CB7B12E006E0CF5 /* Quicksand Bold Oblique.otf in Resources */,
+				921BB8841E78998D0023B63D /* EventTitle.xib in Resources */,
+				921BB88C1E789C0E0023B63D /* TimePickerCell.xib in Resources */,
 				5C4591C01D477D790072D062 /* OrganizationTableViewCell.xib in Resources */,
+				921BB8921E78ABE30023B63D /* LocationCell.xib in Resources */,
 				5C205A461D477AAB0079143B /* FollowingTableViewCell.xib in Resources */,
 				4CD43DCC1E2BEDF200F67ECB /* FBLoginToken.plist in Resources */,
 				5C81AE571D48EE590004D6D7 /* CustomTableHeaderView.xib in Resources */,
@@ -843,10 +879,14 @@
 				7C2F7FEB1CB7B12F006E0CF5 /* Quicksand Dash.otf in Resources */,
 				7C2F7FEC1CB7B12F006E0CF5 /* Quicksand Light Oblique.otf in Resources */,
 				7C2F7FED1CB7B12F006E0CF5 /* Quicksand Light.otf in Resources */,
+				921BB8901E789DA80023B63D /* PriceCell.xib in Resources */,
 				5C205A421D476FD10079143B /* EventTableViewCell.xib in Resources */,
 				7C4CCB511B790E67002C1E2D /* LaunchScreen.xib in Resources */,
 				E0418CC21D9A6BD700D391D7 /* Localizable.strings in Resources */,
+				921BB88A1E789B250023B63D /* DatePickerCell.xib in Resources */,
+				921BB8881E789A5F0023B63D /* EventDiscriptionExpanded.xib in Resources */,
 				7C05D0A41D1EF4F50031CE58 /* Main.storyboard in Resources */,
+				921BB8861E789A010023B63D /* EventDiscriptionCollapsed.xib in Resources */,
 				E0A272C61DAD3B7A00FE76CC /* Terms of Use.docx in Resources */,
 				7C4CCB4E1B790E67002C1E2D /* Images.xcassets in Resources */,
 				E0A272C41DAD1F8700FE76CC /* Privacy Policy.docx in Resources */,

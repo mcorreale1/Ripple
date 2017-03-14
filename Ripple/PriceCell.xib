@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="47" id="uKs-Kd-5Oq">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uKs-Kd-5Oq" id="w1d-Ru-nVF">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EpC-8k-wFE">
+                        <rect key="frame" x="8" y="8" width="58" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="58" id="0DR-kh-22Y"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Nk-1b-xE5">
+                        <rect key="frame" x="312" y="8" width="51" height="31"/>
+                        <color key="onTintColor" red="0.3803921569" green="0.074509803920000006" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="EpC-8k-wFE" firstAttribute="top" secondItem="w1d-Ru-nVF" secondAttribute="topMargin" id="2so-RV-PCf"/>
+                    <constraint firstItem="EpC-8k-wFE" firstAttribute="leading" secondItem="w1d-Ru-nVF" secondAttribute="leadingMargin" id="Mv8-QT-DDQ"/>
+                    <constraint firstItem="EpC-8k-wFE" firstAttribute="top" secondItem="6Nk-1b-xE5" secondAttribute="top" id="a1K-vt-3dX"/>
+                    <constraint firstItem="EpC-8k-wFE" firstAttribute="centerY" secondItem="w1d-Ru-nVF" secondAttribute="centerY" id="jIV-mv-Q7N"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="6Nk-1b-xE5" secondAttribute="trailing" constant="6" id="wVN-o9-4Sq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="-44.5" y="13.5"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="161" id="iXa-8R-5xP">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="161"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iXa-8R-5xP" id="WNN-2v-MgT">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="161"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="r7L-dC-9UR">
+                        <rect key="frame" x="8" y="8" width="359" height="145"/>
+                        <date key="date" timeIntervalSinceReferenceDate="511220535.54227698">
+                            <!--2017-03-14 21:42:15 +0000-->
+                        </date>
+                        <date key="minimumDate" timeIntervalSinceReferenceDate="510231600">
+                            <!--2017-03-03 11:00:00 +0000-->
+                        </date>
+                    </datePicker>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="r7L-dC-9UR" firstAttribute="top" secondItem="WNN-2v-MgT" secondAttribute="topMargin" id="34o-4P-KPr"/>
+                    <constraint firstItem="r7L-dC-9UR" firstAttribute="centerY" secondItem="WNN-2v-MgT" secondAttribute="centerY" id="Ikz-bA-Q4i"/>
+                    <constraint firstItem="r7L-dC-9UR" firstAttribute="trailing" secondItem="WNN-2v-MgT" secondAttribute="trailingMargin" id="ln0-rG-Ds7"/>
+                    <constraint firstItem="r7L-dC-9UR" firstAttribute="leading" secondItem="WNN-2v-MgT" secondAttribute="leadingMargin" id="rb5-mB-YPF"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="-56.5" y="55.5"/>
+        </tableViewCell>
+    </objects>
+</document>
