@@ -1432,7 +1432,7 @@ label</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYm-xg-NEB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1091.2" y="-1350.224887556222"/>
+            <point key="canvasLocation" x="269" y="-1269"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="HZr-Sq-YCg">
@@ -3259,7 +3259,7 @@ your face off.</string>
         <!--Create Event View Controller-->
         <scene sceneID="988-5h-oBt">
             <objects>
-                <viewController storyboardIdentifier="CreateEventViewController" automaticallyAdjustsScrollViewInsets="NO" id="EE2-q6-v1p" customClass="CreateEventViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" id="EE2-q6-v1p" customClass="CreateEventViewController" customModule="Ripple" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pUm-p2-IKl"/>
                         <viewControllerLayoutGuide type="bottom" id="ZTg-Bh-o9l"/>
@@ -3652,7 +3652,6 @@ your face off.</string>
                             <constraint firstItem="S1D-Hh-kUP" firstAttribute="centerX" secondItem="aPL-Dv-jqt" secondAttribute="centerX" id="meu-Th-fGD"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="900"/>
                     <connections>
@@ -3673,7 +3672,7 @@ your face off.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="92a-P7-DE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2713.5999999999999" y="-1207.1964017991006"/>
+            <point key="canvasLocation" x="1010" y="-1224"/>
         </scene>
         <!--Location Search Table-->
         <scene sceneID="WE6-nS-HVO">
