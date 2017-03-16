@@ -68,11 +68,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     var eventDescription:String?
     
     
-    let heightEventDateView: CGFloat = 180
+    //let heightEventDateView: CGFloat = 180
     let maxLengthEventDescription = 251
     var lengthEventName = 40
-    let maxHeightBottomBar: CGFloat = 126
-    let minHeightBottomBar: CGFloat = 38
+    //let maxHeightBottomBar: CGFloat = 126
+    //let minHeightBottomBar: CGFloat = 38
     let defaultEventDescirption = NSLocalizedString("You can write a description up to 250 characters.", comment: "You can write a description up to 250 characters.")
     
     var bottomBarStartDragging = false
@@ -398,6 +398,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
 //        navigationItem.rightBarButtonItem = rightButton
         
         titleMessage = NSLocalizedString("Event Name", comment: "Event Name")
+        /* jesse
         message = NSLocalizedString("Please, write the event name", comment: "Please, write the event name")
         let alertController = UIAlertController(title: titleMessage, message: message, preferredStyle: .Alert)
         
@@ -418,6 +419,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         presentViewController(alertController, animated: true, completion: nil)
+         jesse
+ */
     }
     
     

@@ -19,7 +19,8 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nameOrganizationLabel: UILabel!
     @IBOutlet weak var countGoingButton: UIButton!
-    @IBOutlet weak var eventDescriptionLabel: UILabel!
+    //@IBOutlet weak var eventDescriptionLabel: UILabel!
+    @IBOutlet weak var eventDescriptionTextView: UITextView!
     @IBOutlet weak var goButton: UIButton!
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var viewOrgButton: UIButton!
@@ -155,11 +156,11 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         //navigationController?.navigationBar.tintColor = titleColor
         //navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: titleColor]
         
-        self.eventDescriptionLabel.numberOfLines = 0;
-        self.eventDescriptionLabel.text = event!.descr
+        //self.eventDescriptionTextView.numberOfLines = 0;
+        self.eventDescriptionTextView.text = event!.descr
         self.startDay.text = event?.startDate?.day()
         self.startDate.text = monthNumberToName()
-        self.eventDescriptionLabel.sizeToFit()
+        self.eventDescriptionTextView.sizeToFit()
         self.nameOrganizationLabel.text = event!.organization?.name!
         self.nameOrganizationLabel.sizeToFit()
         self.eventNameLabel.text = event!.name!
