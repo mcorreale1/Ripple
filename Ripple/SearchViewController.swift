@@ -73,7 +73,7 @@ class SearchViewController: BaseViewController, UISearchBarDelegate, UITableView
         self.view.userInteractionEnabled = false
         let navigationController = self.navigationController?.navigationBar
         navigationController?.barTintColor = UIColor.whiteColor()
-        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)]
+        navigationController?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)]
         hideActivityIndicator()
     }
     
