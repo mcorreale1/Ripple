@@ -319,7 +319,7 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         var value = partInformation["value"] as? String
         if value == nil {
             let buffer = partInformation["value"] as? Int
-            value = String(buffer!) + " $"
+            value = "$" + String(buffer!) 
         }
         cell.nameDetailLabel.text = value
         return cell

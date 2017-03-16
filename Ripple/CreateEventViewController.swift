@@ -45,6 +45,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var postPulsingButton: UIBarButtonItem!
     //@IBOutlet weak var heughtPostPulse: NSLayoutConstraint!
    // @IBOutlet weak var hostedBy: UILabel!
+    @IBOutlet weak var AddressLabel: UILabel!
     
     @IBOutlet weak var addressButton: UIButton!
     let warningColor = UIColor.init(red: 210/255, green: 36/255, blue: 22/255, alpha: 0.7)
@@ -751,6 +752,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         self.location = location
         print("Saved location \(self.location)")
+        
+
     }
      //MARK: - Internal operations
     

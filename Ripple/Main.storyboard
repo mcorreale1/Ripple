@@ -3271,6 +3271,8 @@ your face off.</string>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="InN-zx-5w3">
                                 <rect key="frame" x="0.0" y="428" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem title="Create Event" id="Td3-7g-US7"/>
                                 </items>
@@ -3663,6 +3665,7 @@ your face off.</string>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="900"/>
                     <connections>
+                        <outlet property="AddressLabel" destination="2lu-2h-LrL" id="2ES-av-mhs"/>
                         <outlet property="addressButton" destination="CbG-2n-5r7" id="f7j-bm-h0S"/>
                         <outlet property="datePickerDateEvent" destination="cDz-9Q-329" id="2In-pY-5Z2"/>
                         <outlet property="datePickerFinishTime" destination="Qby-y3-HHf" id="8JJ-DN-8Qu"/>
