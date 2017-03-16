@@ -317,9 +317,13 @@ class EventDescriptionViewController: BaseViewController, UITableViewDataSource,
         let needShowAccessory = partInformation["needShowAccessory"] as! Bool
         cell.needShowAccessory(needShowAccessory)
         var value = partInformation["value"] as? String
+      
         if value == nil {
             let buffer = partInformation["value"] as? Int
-            value = "$" + String(buffer!) 
+            value = "$" + String(buffer!)
+            if String(buffer!) == "0" {
+                value = "Free"
+            }
         }
         cell.nameDetailLabel.text = value
         return cell
