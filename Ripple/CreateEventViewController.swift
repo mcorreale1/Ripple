@@ -36,10 +36,10 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     @IBOutlet weak var eventDescriptionTextView: UITextView!
 //    @IBOutlet weak var buttonSendInvitation: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var startDateEditButton:UIButton!
-    @IBOutlet weak var timeEditButton:UIButton!
-    @IBOutlet weak var dateDoneButton:UIButton!
-    @IBOutlet weak var timeDoneButton:UIButton!
+   // @IBOutlet weak var startDateEditButton:UIButton!
+   // @IBOutlet weak var timeEditButton:UIButton!
+   // @IBOutlet weak var dateDoneButton:UIButton!
+   // @IBOutlet weak var timeDoneButton:UIButton!
     
    // @IBOutlet weak var checkMarkImageView: UIImageView!
     @IBOutlet weak var postPulsingButton: UIBarButtonItem!
@@ -110,8 +110,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
             
         }
         
-        timeDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
-        dateDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
+       // timeDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
+       // dateDoneButton.titleLabel!.text = editDoneButtonEnum.Done.rawValue
         //scrollView.or_enableKeyboardInsetHandling()
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(handleTap(_:)))
         view.addGestureRecognizer(recognizer)
@@ -176,8 +176,8 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         super.viewWillAppear(animated)
         eventPrivacy.on = false
         //buttonSendInvitation.enabled = true
-        timeEditButton.hidden = true
-        startDateEditButton.hidden = true
+       // timeEditButton.hidden = true
+       // startDateEditButton.hidden = true
     }
     
     @IBAction func addressButtonClicked(sender: AnyObject) {
