@@ -184,15 +184,11 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
         let chooseAddressView = self.storyboard?.instantiateViewControllerWithIdentifier("ChooseAddressViewController") as! ChooseAddressViewController
         chooseAddressView.event = self.event
         chooseAddressView.createEventDelegate = self
-        if(editingEvent == true) {
-            chooseAddressView.coordinate = coordinate
-        }
+        chooseAddressView.coordinate = self.coordinate
         self.navigationController?.pushViewController(chooseAddressView, animated: true)
         print("Returned to createEvent")
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    }
 
     func handleTap(recognizer: UITapGestureRecognizer) {
         hideKeyboard()
@@ -751,6 +747,7 @@ class CreateEventViewController: BaseViewController, UITextViewDelegate, UITextF
     func writeBackEventLocation(latitude: Double, longitude:Double, location:String) {
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         self.location = location
+        print("Saved location \(self.location)")
     }
      //MARK: - Internal operations
     

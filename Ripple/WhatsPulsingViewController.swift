@@ -84,6 +84,11 @@ class WhatsPulsingViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // HIDING CREATE EVENT BUTTON FOR NOW
+        
+        createEventButton.hidden = true
+        
         //self.sortedGeolocationAllEvents()
         tableView.reloadData()
         prepareNavigationBar()

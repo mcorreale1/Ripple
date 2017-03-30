@@ -12,6 +12,7 @@ import ORLocalizationSystem
 
 protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
+    func getLocationManager() -> CLLocationManager
 }
 
 class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate,UIGestureRecognizerDelegate {
@@ -38,6 +39,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     let locationManager = CLLocationManager()
     var coordinate:CLLocationCoordinate2D!
+    var eventCoordinate:CLLocationCoordinate2D!
     var createEventDelegate:CreateEventViewDelegate?
     var trackingCenter = false
     var location:String?
@@ -45,8 +47,13 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var doneButton:UIButton!
+<<<<<<< HEAD
    // @IBOutlet weak var searchBar:UISearchBar!
+=======
+    
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
     var addressSearchController : UISearchController? = nil
+    var addressSearchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +61,15 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         let locationSearchTable = storyboard!.instantiateViewControllerWithIdentifier("LocationSearchTable") as! LocationSearchTable
         addressSearchController = UISearchController(searchResultsController: locationSearchTable)
         addressSearchController?.searchResultsUpdater = locationSearchTable
+<<<<<<< HEAD
         let addressSearchBar = addressSearchController?.searchBar
         addressSearchBar!.sizeToFit()
         addressSearchBar!.placeholder = "Search for places"
+=======
+        addressSearchBar = addressSearchController?.searchBar
+//        searchBar.sizeToFit()
+//        searchBar.placeholder = "Search for places"
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
         navigationItem.titleView = addressSearchController?.searchBar
         
         addressSearchController?.hidesNavigationBarDuringPresentation = false
@@ -70,7 +83,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+<<<<<<< HEAD
         addressSearchBar!.delegate = self
+=======
+        //searchBar.delegate = self
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
         mapView.delegate = self
         mapView.showsBuildings = true
         
@@ -95,13 +112,20 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         
         if (event != nil && fromEventVC) {
             coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
+<<<<<<< HEAD
            // searchBar.hidden = true
+=======
+            addressSearchBar.hidden = true
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
             doneButton.titleLabel?.text = "Back"
         }
-        else if(event != nil && coordinate != nil) {
+        else if(coordinate != nil) {
+            print("Has coordinate")
+            self.eventCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
             doneButton.titleLabel?.text = "Back"
         }
         else if (coordinate == nil) {
+            print("No coordinate)")
             coordinate = CLLocationCoordinate2D(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
             trackingCenter = true
         }
@@ -118,18 +142,25 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     @IBAction func doneButtonClicked(sender:AnyObject) {
         if(event != nil && event!.latitude == coordinate.latitude && event!.longitude == coordinate.longitude) {
             self.navigationController?.popViewControllerAnimated(true)
+        } else if (eventCoordinate != nil && eventCoordinate.latitude == coordinate.latitude && eventCoordinate.longitude == coordinate.longitude) {
+            self.navigationController?.popViewControllerAnimated(true)
         }
+        
         let alert = UIAlertController(title: "Name this location", message: message, preferredStyle: .Alert)
         let confirmAction = UIAlertAction(title: "Confirm", style: .Default) { (_) in
             if let field = alert.textFields![0] as? UITextField {
                 self.location = field.text
-                self.createEventDelegate?.writeBackEventLocation(self.mapView.centerCoordinate.latitude, longitude: self.mapView.centerCoordinate.longitude, location: self.location!)
+                self.createEventDelegate?.writeBackEventLocation(self.coordinate.latitude, longitude: self.coordinate.longitude, location: self.location!)
                 self.navigationController?.popViewControllerAnimated(true)
                 
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+<<<<<<< HEAD
            // textField.text = self.searchBar.text
+=======
+            textField.text = self.addressSearchBar.text
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
             textField.clearButtonMode = UITextFieldViewMode.WhileEditing
         })
         alert.addAction(confirmAction)
@@ -145,7 +176,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+<<<<<<< HEAD
           //  textField.text = self.searchBar.text
+=======
+            textField.text = self.addressSearchBar.text
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
         })
         alert.addAction(confirmAction)
         self.presentViewController(alert, animated: true, completion: nil)
@@ -153,9 +188,15 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
 //    func prepareSearchBar() {
 //        //searchBar.sizeToFit()
+<<<<<<< HEAD
 //     //   searchBar.delegate = self
 //        //searchBar.tintColor = UIColor.whiteColor()
 //      //  searchBar.searchBarStyle = .Minimal
+=======
+//        searchBar.delegate = self
+//        //searchBar.tintColor = UIColor.whiteColor()
+//        searchBar.searchBarStyle = .Minimal
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
 //        //searchBar.setImage(UIImage(named: "SearchBarSearchController"), forSearchBarIcon: .Search, state: .Normal)
 //        
 //        if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
@@ -181,58 +222,70 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if(trackingCenter) {
             centerAnnotation.coordinate = mapView.centerCoordinate
+            self.coordinate = centerAnnotation.coordinate
         }
     }
 
     // MARK: - searchbar functions
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        if(searchText == "") {
-            print("empty")
-            trackingCenter = true
-        }
-    }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        guard let text = searchBar.text else {
-            return
-        }
-        
-        trackingCenter = false
-        let localSearch = MKLocalSearchRequest()
-        localSearch.region = mapView.region
-        localSearch.naturalLanguageQuery = text
-        let search = MKLocalSearch(request: localSearch)
-        search.startWithCompletionHandler({ [weak self] (response, _) in
-            guard let response = response else {
-                return
-            }
-            if(response.mapItems.count > 0) {
-                let firstCoordinate:CLLocationCoordinate2D = response.mapItems[0].placemark.coordinate
-                self?.mapView.setCenterCoordinate(firstCoordinate, animated: true)
-                self?.centerAnnotation.coordinate = firstCoordinate
-                for item in response.mapItems {
-                    print("Name: \(item.name) Location: \(item.placemark.coordinate.latitude)")
-                }
-            }
-        })
-        view.endEditing(true)
-        searchBar.endEditing(true)
-    }
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        trackingCenter = true
-    }
-    
+//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+//        guard let text = searchBar.text else {
+//            return
+//        }
+//        
+//        trackingCenter = false
+//        let localSearch = MKLocalSearchRequest()
+//        localSearch.region = mapView.region
+//        localSearch.naturalLanguageQuery = text
+//        let search = MKLocalSearch(request: localSearch)
+//        search.startWithCompletionHandler({ [weak self] (response, _) in
+//            guard let response = response else {
+//                return
+//            }
+//            if(response.mapItems.count > 0) {
+//                let firstCoordinate:CLLocationCoordinate2D = response.mapItems[0].placemark.coordinate
+//                self?.mapView.setCenterCoordinate(firstCoordinate, animated: true)
+//                self?.centerAnnotation.coordinate = firstCoordinate
+//                for item in response.mapItems {
+//                    print("Name: \(item.name) Location: \(item.placemark.coordinate.latitude)")
+//                }
+//            }
+//        })
+//        view.endEditing(true)
+//        searchBar.endEditing(true)
+//    }
+//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+//        trackingCenter = true
+//    }
+//    
     func handleTap(recognizer: UITapGestureRecognizer) {
         hideKeyboard()
     }
     
     func hideKeyboard() {
         view.endEditing(true)
+<<<<<<< HEAD
         //searchBar.endEditing(true)
         
+=======
+        addressSearchBar.endEditing(true)
+>>>>>>> 8bd8dabfe42f9cf0e258d5198a0727fb83696c9e
     }
     
+    func mapView(map: MKMapView, didSelect: MKAnnotationView) {
+        if let anno = didSelect.annotation {
+            let alert = UIAlertController(title: "Remove loctaion", message: "Remove this location and pick a new one?", preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (_) in}
+            let confirmAction = UIAlertAction(title: "Confirm", style: .Default) { (action) in
+                self.mapView.removeAnnotation(anno)
+                self.trackingCenter = true
+            }
+            alert.addAction(cancelAction)
+            alert.addAction(confirmAction)
+            self.presentViewController(alert, animated: true, completion: {})
+        }
+    }
 
 
     /*
@@ -248,10 +301,11 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
 }
 extension ChooseAddressViewController: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
-        // cache the pin
+        trackingCenter = false
         selectedPin = placemark
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
+        self.coordinate = placemark.coordinate
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
@@ -259,9 +313,13 @@ extension ChooseAddressViewController: HandleMapSearch {
             let state = placemark.administrativeArea {
             annotation.subtitle = "(city) (state)"
         }
+        self.centerAnnotation = annotation
         mapView.addAnnotation(annotation)
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
         mapView.setRegion(region, animated: true)
+    }
+    func getLocationManager() -> CLLocationManager {
+        return self.locationManager
     }
 }
