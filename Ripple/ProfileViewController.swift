@@ -429,7 +429,7 @@ class ProfileViewController: BaseViewController, UITableViewDataSource, UITableV
                 cell.descriptionLabel.text = ""
                 cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
 
-                if item.picture! != nil {
+                if item.picture as AnyObject? != nil {
                     PictureManager().loadPicture(item.picture!, inImageView: cell.pictureImageView)
                 } else {
                     cell.pictureImageView.image = UIImage(named: "user_dafault_picture")
