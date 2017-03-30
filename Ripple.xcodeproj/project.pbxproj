@@ -76,6 +76,7 @@
 		7CACF56E1C6BA8920022FE13 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */; };
 		7CACF5721C6BAAE30022FE13 /* Eventpropic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CACF5711C6BAAE30022FE13 /* Eventpropic.swift */; };
 		7CACF57F1C6CFB620022FE13 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CACF57E1C6CFB620022FE13 /* SearchViewController.swift */; };
+		7CD373701E7211B5008D8AEE /* ExpandableCreateEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD3736F1E7211B5008D8AEE /* ExpandableCreateEventCell.swift */; };
 		7CD710BC1CD412A000CCD1C3 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD710BB1CD412A000CCD1C3 /* FBSDKCoreKit.framework */; };
 		7CDDD2B21C2F0D88001B3FA0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CDDD2B11C2F0D88001B3FA0 /* MapKit.framework */; };
 		7CE873981B9E0763005F7C1B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE873971B9E0763005F7C1B /* AudioToolbox.framework */; };
@@ -251,6 +252,7 @@
 		7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
 		7CACF5711C6BAAE30022FE13 /* Eventpropic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eventpropic.swift; sourceTree = "<group>"; };
 		7CACF57E1C6CFB620022FE13 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		7CD3736F1E7211B5008D8AEE /* ExpandableCreateEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableCreateEventCell.swift; sourceTree = "<group>"; };
 		7CD710BB1CD412A000CCD1C3 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "/Users/Library/Developer/Xcode/DerivedData/Ripple-ekpubyqxgxodoahfvjopaerchlwc/Build/Products/Debug-iphoneos/FBSDKCoreKit.framework"; sourceTree = "<absolute>"; };
 		7CDDD2B11C2F0D88001B3FA0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		7CE873971B9E0763005F7C1B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -360,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				18DE971F1D992C9A00DD3C25 /* ChooseAddressViewController.swift */,
+				7CD3736F1E7211B5008D8AEE /* ExpandableCreateEventCell.swift */,
 				7CACF56D1C6BA8920022FE13 /* EventDescriptionViewController.swift */,
 				7C78050C1C4AA54D00DE9F53 /* CreateEventViewController.swift */,
 				4C08EBED1E6523FA00663590 /* LocationSearchTable.swift */,
@@ -1028,6 +1031,7 @@
 				18E7EB2F1D897CE2002B8278 /* Constants.swift in Sources */,
 				5CC5E4221D5A14D00057EFAB /* MapViewController.swift in Sources */,
 				A81E41B11DF83D58008DBA7A /* CDFollowingRequest.swift in Sources */,
+				7CD373701E7211B5008D8AEE /* ExpandableCreateEventCell.swift in Sources */,
 				A89618731E03DAD5001508AB /* ChatMessage.swift in Sources */,
 				A87163111DF9A72600156D54 /* EventParcer.swift in Sources */,
 				18E7EB2B1D897796002B8278 /* MessagesContactListViewController.swift in Sources */,

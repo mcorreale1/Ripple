@@ -45,7 +45,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var doneButton:UIButton!
-    @IBOutlet weak var searchBar:UISearchBar!
+   // @IBOutlet weak var searchBar:UISearchBar!
     var addressSearchController : UISearchController? = nil
     
     override func viewDidLoad() {
@@ -55,8 +55,8 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         addressSearchController = UISearchController(searchResultsController: locationSearchTable)
         addressSearchController?.searchResultsUpdater = locationSearchTable
         let addressSearchBar = addressSearchController?.searchBar
-        searchBar.sizeToFit()
-        searchBar.placeholder = "Search for places"
+        addressSearchBar!.sizeToFit()
+        addressSearchBar!.placeholder = "Search for places"
         navigationItem.titleView = addressSearchController?.searchBar
         
         addressSearchController?.hidesNavigationBarDuringPresentation = false
@@ -70,7 +70,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
-        searchBar.delegate = self
+        addressSearchBar!.delegate = self
         mapView.delegate = self
         mapView.showsBuildings = true
         
@@ -95,7 +95,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
         
         if (event != nil && fromEventVC) {
             coordinate = CLLocationCoordinate2D(latitude: event!.latitude, longitude: event!.longitude)
-            searchBar.hidden = true
+           // searchBar.hidden = true
             doneButton.titleLabel?.text = "Back"
         }
         else if(event != nil && coordinate != nil) {
@@ -129,7 +129,7 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = self.searchBar.text
+           // textField.text = self.searchBar.text
             textField.clearButtonMode = UITextFieldViewMode.WhileEditing
         })
         alert.addAction(confirmAction)
@@ -145,31 +145,31 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
             }
         }
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = self.searchBar.text
+          //  textField.text = self.searchBar.text
         })
         alert.addAction(confirmAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func prepareSearchBar() {
-        //searchBar.sizeToFit()
-        searchBar.delegate = self
-        //searchBar.tintColor = UIColor.whiteColor()
-        searchBar.searchBarStyle = .Minimal
-        //searchBar.setImage(UIImage(named: "SearchBarSearchController"), forSearchBarIcon: .Search, state: .Normal)
-        
-        if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
-            textFieldInsideSearchBar.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
-            //textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
-            textFieldInsideSearchBar.backgroundColor = UIColor.clearColor()
-            //            textFieldInsideSearchBar.layer.borderWidth = 1
-            //            textFieldInsideSearchBar.layer.cornerRadius = 6
-            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search Events, Orgs and Friends!", attributes:[NSForegroundColorAttributeName: UIColor.init(red: 150/255, green: 150/255, blue: 150/255, alpha:1)])
-        }
-        navigationItem.titleView = searchBar
-        navigationController?.navigationBar.translucent = false
-        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-    }
+//    func prepareSearchBar() {
+//        //searchBar.sizeToFit()
+//     //   searchBar.delegate = self
+//        //searchBar.tintColor = UIColor.whiteColor()
+//      //  searchBar.searchBarStyle = .Minimal
+//        //searchBar.setImage(UIImage(named: "SearchBarSearchController"), forSearchBarIcon: .Search, state: .Normal)
+//        
+//        if let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField {
+//            textFieldInsideSearchBar.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+//            //textFieldInsideSearchBar.layer.borderColor = UIColor.whiteColor().CGColor
+//            textFieldInsideSearchBar.backgroundColor = UIColor.clearColor()
+//            //            textFieldInsideSearchBar.layer.borderWidth = 1
+//            //            textFieldInsideSearchBar.layer.cornerRadius = 6
+//            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string:"Search Events, Orgs and Friends!", attributes:[NSForegroundColorAttributeName: UIColor.init(red: 150/255, green: 150/255, blue: 150/255, alpha:1)])
+//        }
+//        navigationItem.titleView = searchBar
+//        navigationController?.navigationBar.translucent = false
+//        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -229,7 +229,8 @@ class ChooseAddressViewController: BaseViewController, UISearchBarDelegate, CLLo
     
     func hideKeyboard() {
         view.endEditing(true)
-        searchBar.endEditing(true)
+        //searchBar.endEditing(true)
+        
     }
     
 
